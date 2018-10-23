@@ -113,7 +113,7 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public  string   GetBrandDetailsForDDl(string BrandId)
         { 
-            DataSet ds =  new CommonDA().GetBrandDetail(BrandId, "", "", "", -1, -1, -1);
+            DataSet ds =  new CommonDA().GetBrandDetail(Convert.ToInt32( BrandId), "", "", "", -1, -1, -1);
             if (ds!=null && ds.Tables[0]!=null && ds.Tables[0].Rows.Count>0)
             {
                 try
