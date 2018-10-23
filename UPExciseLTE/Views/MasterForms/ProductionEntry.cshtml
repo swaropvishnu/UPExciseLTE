@@ -1,0 +1,110 @@
+﻿@model UPExciseLTS.Models.BottelingPlan
+
+@{
+    ViewBag.Title = "Production Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(46); // for .
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+</script>
+@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box purple">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Production Entry
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Date</label>
+                                @Html.TextBoxFor(m => m.DateOfPlan, new { @id = "txtDateofPlan", @class = "form-control", @required = "required", @Value = "", @type = "date",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Brand</label>
+                                @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">For Mapped/ Unmapped Data</label>
+                                @Html.DropDownList("MapUnMaped", new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "Mapped" }, new SelectListItem { Text = "UnMapped", Value = "UnMapped" } }, new { @id = "ddlMaped", @class = "form-control",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Liquor Type</label>
+                                @Html.TextBox("txtLiquorType", "", new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">License Type</label>
+                                @Html.TextBox("txtLicenseType", "", new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">License No</label>
+                                @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Import</label>
+                                @Html.DropDownList("Import", new List<SelectListItem> { new SelectListItem { Text = "For UP", Value = "UP" }, new SelectListItem { Text = "For Outside UP", Value = "Outside" } }, new { @id = "ddlImport", @class = "form-control",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">No of Case</label>
+                                @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Bottels in case</label>
+                                @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required",@readonly="true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Quantity(in ML)</label>
+                                @Html.TextBox("txtQuantity", "", new { @id = "txtQuantity", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Strength</label>
+                                @Html.TextBox("txtStrength", "", new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">BulkLiter</label>
+                                @Html.TextBoxFor(m => m.BulkLiter, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Alcoholic Liter</label>
+                                @Html.TextBoxFor(m => m.AlcoholicLiter, new { @id = "lblAlcoholicLiter", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Total Unit</label>
+                                @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                        <div class="form-actions">
+                           <button type="submit" class="btn green">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Plan Details</button>
+                        </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                             
+}

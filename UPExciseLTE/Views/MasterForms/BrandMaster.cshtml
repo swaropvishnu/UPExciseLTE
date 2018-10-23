@@ -1,0 +1,181 @@
+﻿@model  UPExciseLTS.Models.BrandMaster
+@{
+    ViewBag.Title = "Brand Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewData["Result"] != null && ViewData["Result"].ToString().Trim() != string.Empty)
+    {
+        <script type="text/javascript">
+            var msg = '@ViewData["Result"]';
+            alert(msg);
+        </script>
+    }
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box purple">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Brand Master
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Brewery</label>
+                                <div>
+                                    @*   <i class="fa fa-bell-o"></i>*@
+                                    @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Brand Name</label>
+                                @Html.TextBoxFor(m => m.BrandName, new { @id = "txtBrandName", @class = "form-control", @required = "required" })
+
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Brand Registration Number</label>
+                                <div>
+                                    @*<span class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>*@
+                                    @Html.TextBoxFor(m => m.BrandRegistrationNumber, new { @id = "txtBrandRegistrationNumber", @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group  col-md-4">
+                                <label class="control-label">Strength</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Liquor Type</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.LiquorType, new { @id = "txtLinquorType", @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">License Type</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.LicenceType, new { @id = "txtLicenseType", @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">License No</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.LicenceNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Excise TIN</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.ExiciseTin, new { @id = "txtExiciseTin", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">MRP</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.MRP, new { @id = "txtMRP", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">XFactoryPrice</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Add Duty</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "txtAdditionalDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Quantity (In Case)</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Quantity (In Bottle ML)</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">ExciseDuty</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtQuantityInBottleML", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Export Box-Size</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.ExportBoxSize, new { @id = "txtExportBoxSize", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">Remark</label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.Remark, new { @id = "txtRemarks", @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+    function GetBrandDetail()
+    {
+        var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
+        window.location.href = url;
+    }
+</script>

@@ -1,0 +1,258 @@
+﻿@model UPExciseLTE.Models.LoginModal
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="utf-8" />
+    <title>Metronic Admin Theme #3 | User Login 5</title>
+   
+    <meta content="" name="author" />
+    
+    @Styles.Render("~/Content/cssLog")
+
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="~/scripts/sha256.js"></script>
+    <script type="text/javascript">
+        function HashPwdwithSalt() {
+            var salt = '@Session["salt"]';
+
+            if (document.getElementById("txtUserName").value == "") {
+                alert("Please fill UserName");
+                return false;
+            }
+            else if (document.getElementById("txtPassword").value == "") {
+                alert("Please fill Password");
+                return false;
+            }
+            else if (document.getElementById("txtforcapture").value == "") {
+                alert("Please fill Captcha");
+                return false;
+            }
+            else if (document.getElementById("txtPassword").value != "") {
+
+                document.getElementById("txtPassword").value = sha256(document.getElementById("txtPassword").value);
+
+                document.getElementById("txtPassword").value =
+                  sha256(document.getElementById("txtPassword").value + salt);
+
+            }
+            // return true;
+        }
+
+        function HashPwdwithSalt11(salt) {
+
+            if (document.getElementById("txtPassword").value == "") {
+
+                document.getElementById("txtUserName").value = sha256(document.getElementById("txtPassword").value);
+                //hex_md5(document.getElementById("txtPassword").value + "guest");
+
+                document.getElementById("txtPassword").value = sha256(document.getElementById("txtPassword").value);
+                //hex_md5(document.getElementById("txtPassword").value + salt);
+
+                document.getElementById("txtforcapture").value = sha256(document.getElementById("txtPassword").value);
+                //hex_md5(document.getElementById("txtPassword").value + salt);
+
+                document.getElementById('txtUserName').type = 'password';
+                document.getElementById('txtforcapture').type = 'passwordocp';
+            }
+        }
+
+    </script>
+
+    <script>
+        //function ReloadCaptchaCode() {
+        //    var url = "/Login/ShowCaptchaImage";
+        //    $('#lblCaptcha').html("Loading Captcha....");
+        //    $.ajax({
+        //        url: url,
+        //        contentType: "image/jpeg",
+        //        cache: false,
+        //        success: function (data) {
+        //            var imag = "<img src='" + "data:image/jpg;base64,"
+        //            + data + "'/>";
+
+        //            $('#lblCaptcha').html(imag);
+        //        },
+        //        error: function (reponse) {
+        //            alert("Error while generating captcha. Pleae refresh page and try again.");
+        //        }
+
+        //    });
+
+        //}
+        function ReloadCaptchaCode() {
+            var xmlHTTP = new XMLHttpRequest();
+            xmlHTTP.open('GET', '/Login/ShowCaptchaImage', true);
+
+            // Must include this line - specifies the response type we want
+            xmlHTTP.responseType = 'arraybuffer';
+
+            xmlHTTP.onload = function (e) {
+
+                var arr = new Uint8Array(this.response);
+
+
+                // Convert the int array to a binary string
+                // We have to use apply() as we are converting an *array*
+                // and String.fromCharCode() takes one or more single values, not
+                // an array.
+                var raw = String.fromCharCode.apply(null, arr);
+
+                // This works!!!
+                var b64 = btoa(raw);
+                var dataURL = "data:image/jpeg;base64," + b64;
+                document.getElementById("image").src = dataURL;
+            };
+
+            xmlHTTP.send();
+        }
+    </script>
+    <script>
+
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            return false;
+        }
+    }
+    </script>
+</head>
+<!-- END HEAD -->
+
+<body class=" login">
+    <!-- BEGIN : LOGIN PAGE 5-1 -->
+    <div class="user-login-5">
+        <div class="row bs-reset">
+            <div class="col-md-6 bs-reset mt-login-5-bsfix">
+                <div class="login-bg" style="background-image:url(~/Content/assets/pages/img/login/bg1.jpg)">
+                    <img class="login-logo" src="~/Content/assets/pages/img/login/logo.png" />
+                </div>
+            </div>
+            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
+                <div class="login-content">
+                    <h1>Metronic Admin Login</h1>
+                    <p> Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing. </p>
+                    @using (Html.BeginForm("Login", "Login",
+              //new { ReturnUrl = ViewBag.ReturnUrl },
+              FormMethod.Post, new { @class = "login-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            <span>Enter any username and password. </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.TextBoxFor(a => a.UserName, new { @id = "txtUserName", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "User Name" })
+                                @Html.ValidationMessageFor(a => a.UserName)
+                            </div>
+                            <div class="col-xs-6">
+                                @Html.PasswordFor(a => a.Password, new { @id = "txtPassword", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(a => a.Password)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-lg-3">
+                                    <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                                </div>
+                                <div class="col-lg-3" style="font-weight:bolder; margin-top: 18px;">
+                                    <a href="#" onclick="javascript:ReloadCaptchaCode();">Refresh</a>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                               @Html.TextBoxFor(a => a.CaptchaText, new { @id = "txtforcapture", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="rem-password">
+                                    <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                        <input type="checkbox" name="remember" value="1" /> Remember me
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8 text-right">
+                                <div class="forgot-password">
+                                    <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                                </div>
+                                <button type="submit" class="btn green" onclick="HashPwdwithSalt();">Login</button>
+                            </div>
+                        </div>
+
+                        @*<h3 class="font-green">Forgot Password ?</h3>
+                        <p> Enter your e-mail address below to reset your password. </p>
+                        <div class="form-group">
+                            <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Email" name="email" />
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
+                            <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
+                        </div>*@
+                    }
+                    <!-- END FORGOT PASSWORD FORM -->
+                </div>
+                <div class="login-footer">
+                    <div class="row bs-reset">
+                        <div class="col-xs-5 bs-reset">
+                            <ul class="login-social">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-dribbble"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-7 bs-reset">
+                            <div class="login-copyright text-right">
+                                <p>Copyright &copy; Keenthemes 2015</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Scripts.Render("~/bundles/bootstrapLog1")
+    @Scripts.Render("~/bundles/bootstrapLog2")
+</body>
+
+</html>
