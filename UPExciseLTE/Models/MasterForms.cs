@@ -112,6 +112,7 @@ namespace UPExciseLTS.Models
         public string Brand { get; set; }
         public string Capacity { get; set; }
         public string PlanNoofBottling { get; set; }
+        public string Quantity { get; set; }
     }
 
 }

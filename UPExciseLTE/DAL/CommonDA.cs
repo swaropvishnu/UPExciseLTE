@@ -932,7 +932,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.ExecuteNonQuery();
-                result = cmd.Parameters["Msg"].ToString().Trim();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
                 tran.Commit();
             }
             catch (Exception exp)
@@ -946,6 +946,27 @@ namespace UPExciseLTE.DAL
                 con.Dispose();
             }
             return result;
+        }
+        public DataSet GetBottelingPlanDetail(DateTime FromDate,DateTime ToDate,short BreweryId,int BrandId,string Status,string Mapped,string Import)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", ToDate));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("BrandId", BrandId));
+                parameters.Add(new SqlParameter("Status", Status));
+                parameters.Add(new SqlParameter("Mapped", Mapped));
+                parameters.Add(new SqlParameter("Import", Import));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBottelingPlanDetail", parameters.ToArray());
+            }
+            catch (Exception exp)
+            {
+                ds = null;
+            }
+            return ds;
         }
         #endregion
 
