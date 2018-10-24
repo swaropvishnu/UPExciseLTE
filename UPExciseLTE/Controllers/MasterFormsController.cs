@@ -99,6 +99,7 @@ namespace UPExciseLTE.Controllers
             ViewBag.Brand = BrandList;
             BP.dbName = "be_unnao1";
             string str = new CommonDA().InsertUpdatePlan(BP);
+            ViewBag.Msg = str;
             return View(Plan);
         }
         [HttpGet]
@@ -108,33 +109,56 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> BrandList = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", "", "");
             ViewBag.Brand = BrandList;
+            DataSet ds = new CommonDA().GetBottelingPlanDetail(DateTime.Now,DateTime.Now,-1,-1,"Z","Z","Z");
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                try
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        BottelingPlan Plan = new BottelingPlan();
+                        Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+                        Plan.DateOfPlan = DateTime.Parse(dr["DateOfPlan"].ToString().Trim());
+                        Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+                        Plan.LicenceType = dr["LiquorType"].ToString().Trim();
+                        Plan.Brand = dr["BrandName"].ToString().Trim();
+                        Plan.Capacity = dr["Capacity"].ToString().Trim();
+                        Plan.QunatityInCaseExport = int.Parse(dr["QuantityInCase"].ToString().Trim());
+                        Plan.Quantity = dr["TotalUnitQuantity"].ToString().Trim();
+                        Plan.PlanNoofBottling = dr["ExportBoxSize"].ToString().Trim();
+                        Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+                        BPList.Add(Plan);
+                    }
+                }
+                catch (Exception exp) { }
+            }
             return View(BPList);
         }
         [HttpGet]
         public  string   GetBrandDetailsForDDl(string BrandId)
-        { 
-            DataSet ds =  new CommonDA().GetBrandDetail(Convert.ToInt32( BrandId), "", "", "", -1, -1, -1);
+        {
+            string str = "";
+            DataSet ds =  new CommonDA().GetBrandDetail(int.Parse(BrandId), "", "", "", -1, -1, -1);
             if (ds!=null && ds.Tables[0]!=null && ds.Tables[0].Rows.Count>0)
             {
                 try
                 {
-                    ViewData["LiquorType"] = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim();
+                    /*ViewData["LiquorType"] = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim();
                     ViewData["LicenseType"] = ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim();
                     ViewData["LicenceNo"] = ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim();
                     ViewData["QuantityInCase"] = ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim();
                     ViewData["QuantityInBottleML"] = ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim();
                     ViewData["Strength"] = ds.Tables[0].Rows[0]["Strength"].ToString().Trim();
+                    */
+
+
+                    str = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim()+","+ ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["Strength"].ToString().Trim();
                 } 
                 catch{
-                    ViewData["LiquorType"] = "";
-                    ViewData["LicenseType"]= "";
-                    ViewData["LicenceNo"] = "";
-                    ViewData["QuantityInCase"]= "";
-                    ViewData["QuantityInBottleML"]= "";
-                    ViewData["Strength"]= "";
+                    str = "";
                 }
                  }
-            return "true";
+            return str;
         }
         public ActionResult ProductionEntry()
         {

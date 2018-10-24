@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Botteling Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg='@ViewBag.Msg';  alert(msg); Reset();</script> 
+    }
 }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
@@ -22,6 +26,37 @@
         }
         return ret;
     }
+    function Reset()
+    {
+        document.getElementById("txtDateofPlan").value = "";
+        document.getElementById("txtBatchNo").value = "";
+        var ddlBrand = document.getElementById("ddlBrand");
+        setSelectedValue(ddlBrand, -1)
+        var ddlMaped = document.getElementById("ddlMaped");
+        setSelectedValue(ddlMaped, 1)
+        document.getElementById("ddlImport").value = "1";
+        var ddlImport = document.getElementById("ddlImport");
+        setSelectedValue(ddlImport, 1)
+        document.getElementById("txtLiquorType").value = "";
+        document.getElementById("txtLicenseType").value = "";
+        document.getElementById("txtLicenseNo").value = "";
+        
+        document.getElementById("txtNoOfCase").value = "";
+        document.getElementById("txtBottleInCase").value = "";
+        document.getElementById("txtQuantityInBottle").value = "";
+        document.getElementById("txtStrength").value = "";
+        document.getElementById("lblBulkLitre").value = "";
+        document.getElementById("lblAlcoholicLiter").value = "";
+        document.getElementById("lblTotalUnitQuantity").value = "";
+    }
+    function setSelectedValue(selectObj, valueToSet) {
+        for (var i = 0; i < selectObj.options.length; i++) {
+            if (selectObj.options[i].text == valueToSet) {
+                selectObj.options[i].selected = true;
+                return;
+            }
+        }
+    }
 </script>
 @using (Html.BeginForm("BottelingPlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
@@ -30,7 +65,7 @@
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
-                <div class="portlet box green ">
+                <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-gift"></i>Botteling Plan
@@ -137,16 +172,15 @@
             url: '/MasterForms/GetBrandDetailsForDDl',
             data: { 'BrandId': BrandId },
             datatype: "json",
-            type: "GET",      
+            type: "GET",
             success: function (data) {
-                document.getElementById("txtLiquorType").value = '@ViewData["LiquorType"]';
-                document.getElementById("txtLicenseType").value = '@ViewData["LicenseType"]';
-                document.getElementById("txtLicenseNo").value = '@ViewData["LicenceNo"]';
-                document.getElementById("txtBottleInCase").value = '@ViewData["QuantityInCase"]';
-                //document.getElementById("txtBottleInCase").readOnly = true;
-                document.getElementById("txtQuantityInBottle").value = '@ViewData["QuantityInBottleML"]';
-                //document.getElementById("txtQuantityInBottle").readOnly =true;
-                document.getElementById("txtStrength").value = '@ViewData["Strength"]';
+                var res = data.split(",");
+                document.getElementById("txtLiquorType").value = res[0];
+                document.getElementById("txtLicenseType").value =  res[1];
+                document.getElementById("txtLicenseNo").value = res[2];
+                document.getElementById("txtBottleInCase").value = res[3];
+                document.getElementById("txtQuantityInBottle").value = res[4];
+                document.getElementById("txtStrength").value = res[5];
             },
             error: function (data) {
                 alert("Error in ModelShop Loading");
