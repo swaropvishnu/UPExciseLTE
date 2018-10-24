@@ -5198,10 +5198,16 @@
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Content\assets\pages\img\login\bckministers.png" />
     <Content Include="Content\assets\pages\img\login\bg1.jpg" />
+    <Content Include="Content\assets\pages\img\login\bg5.jpg" />
     <Content Include="Content\assets\pages\img\login\bg2.jpg" />
-    <Content Include="Content\assets\pages\img\login\bg3.jpg" />
     <Content Include="Content\assets\pages\img\login\bg4.jpg" />
+    <Content Include="Content\assets\pages\img\login\exciseheader.png" />
+    <Content Include="Content\assets\pages\img\login\bg3.jpg" />
+    <Content Include="Content\assets\pages\img\login\bg6.jpg" />
+    <Content Include="Content\assets\pages\img\login\bg7.jpg" />
+    <Content Include="Content\assets\pages\img\login\bg8.jpg" />
     <Content Include="Content\assets\pages\img\login\login-invert.png" />
     <Content Include="Content\assets\pages\img\login\logo.png" />
     <Content Include="Content\assets\pages\img\logo-big-white.png" />

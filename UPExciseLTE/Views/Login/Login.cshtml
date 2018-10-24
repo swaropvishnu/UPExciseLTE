@@ -143,78 +143,103 @@
 <body class=" login">
     <!-- BEGIN : LOGIN PAGE 5-1 -->
     <div class="user-login-5">
-        <div class="row bs-reset">
+        <div class="row bs-reset" style="background-color:#ddebf6">
             <div class="col-md-6 bs-reset mt-login-5-bsfix">
                 <div class="login-bg" style="background-image:url(~/Content/assets/pages/img/login/bg1.jpg)">
                     @*<img class="login-logo" src="~/Content/assets/pages/img/login/logo.png" />*@
                 </div>
             </div>
-            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
-                <div class="login-content" style = "margin-top:15% ">
-                    <h1>Excise Department Login</h1>
-                    <p> प्रदेश में अवैध शराब बनाने एवं अवैध शराब के व्यापार की रोकथाम हेतु समय-समय पर प्रवर्तन अभियान चलाये जाते हैं, परन्तु अभियान की समाप्ति उपरान्त प्राय: उक्त कार्य पुन: प्रारम्भ हो जाता है | इससे एक तरफ जहां प्रदेश सरकार का राजस्व प्रभावित होता है, वहीं दूसरी ओर जनहानि की सम्भावनाएं भी बनी रहती है | अतः इसकी रोकथाम हेतु जन सामान्य से सहभागिता एवं सहयोग निवेदित है। इस क्रम में सर्वसाधारण को सूचित किया जाता है कि यदि किसी को भी अवैध शराब बनाने एवं अवैध शराब के व्यापार की जानकारी है,अथवा मिलती है,तो वह मोबाइल नम्बर 9554482300 पर व्हाटस अप के माध्यम से अथवा ई-मेल upexcise17@gmail.com पर निःसंकोच भेज सकते हैं। आपका नाम व पता पूर्णतः गुप्त रखा जायेगा। सूचना भेजते समय कृपया निम्नवत् जानकारी अवश्य देंः-
-<br />
-                    <p>*   जनपद, तहसील, ग्राम एवं स्थान का नाम जहां अवैध निष्कर्षण / व्यापार हो रहा है |</p>
-                        
-*  व्यक्ति/ व्यक्तियों के नाम जो अवैध कार्य में शामिल हैं |
-                    <br />
-*   मकान/ वाहन संख्या आदि |
-प्रदेश को आबकारी अपराधों से मुक्त करने के उद्देश्य एवं जिम्मेदार नागरिक होने के नाते अनुरोध है की कृपया सही सूचनाएं देने का कष्ट करें | कृपया द्वेषवश झूठी सूचनाएं न भेजें | </p>
-                    @using (Html.BeginForm("Login", "Login",
-              //new { ReturnUrl = ViewBag.ReturnUrl },
-              FormMethod.Post, new { @class = "login-form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="alert alert-danger display-hide">
-                            <button class="close" data-close="alert"></button>
-                            <span>Enter any username and password. </span>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                @Html.TextBoxFor(a => a.UserName, new { @id = "txtUserName", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "User Name" })
-                                @Html.ValidationMessageFor(a => a.UserName)
-                            </div>
-                            <div class="col-xs-6">
-                                @Html.PasswordFor(a => a.Password, new { @id = "txtPassword", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Password" })
-                                @Html.ValidationMessageFor(a => a.Password)
-                            </div>
-                        </div>
+            <div class="row " align="left" style="position: absolute; width: 100%; z-index: 1;margin-top: -4px;">
+                <div class="col-md-12">
+                <div class="col-md-4"></div>
+                  
+                <div class="col-md-4"><img src="~/Content/assets/pages/img/login/bckministers.png"  width="53%"  class="img-responsive"></div>
+                    <div class="col-md-4"></div>  
+            </div>
+                </div>
+            @*<img src="~/Content/assets/pages/img/login/bckministers.png" />*@
 
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <div class="col-lg-3">
-                                    <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+
+
+
+                <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
+                    <div class="login-content" style="margin-top:15% ">
+                        <img class="login-logo" src="~/Content/assets/pages/img/login/exciseheader.png" style="width:92%" />
+                        @*<h1>Excise Department Login</h1>*@
+                        <h1></h1>
+                        <br />
+                        <br />
+                        <br />
+                        @*<p>*@
+                            @*प्रदेश में अवैध शराब बनाने एवं अवैध शराब के व्यापार की रोकथाम हेतु समय-समय पर प्रवर्तन अभियान चलाये जाते हैं | अतः इसकी रोकथाम हेतु जन सामान्य से सहभागिता एवं सहयोग निवेदित है। इस क्रम में सर्वसाधारण को सूचित किया जाता है कि यदि किसी को भी अवैध शराब बनाने एवं अवैध शराब के व्यापार की जानकारी है,अथवा मिलती है,तो वह मोबाइल नम्बर 9554482300 पर व्हाटस अप के माध्यम से अथवा ई-मेल upexcise17@gmail.com पर निःसंकोच भेज सकते हैं। आपका नाम व पता पूर्णतः गुप्त रखा जायेगा। सूचना भेजते समय कृपया निम्नवत् जानकारी अवश्य देंः-*@
+                            <br />
+                        @*<p>*   जनपद, तहसील, ग्राम एवं स्थान का नाम जहां अवैध निष्कर्षण / व्यापार हो रहा है |</p>
+
+                        *  व्यक्ति/ व्यक्तियों के नाम जो अवैध कार्य में शामिल हैं |*@
+                        <br />
+                        @**   मकान/ वाहन संख्या आदि |
+                        प्रदेश को आबकारी अपराधों से मुक्त करने के उद्देश्य एवं जिम्मेदार नागरिक होने के नाते अनुरोध है की कृपया सही सूचनाएं देने का कष्ट करें | कृपया द्वेषवश झूठी सूचनाएं न भेजें | </p>*@
+                        @using (Html.BeginForm("Login", "Login",
+  //new { ReturnUrl = ViewBag.ReturnUrl },
+  FormMethod.Post, new { @class = "login-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                <span>Enter any username and password. </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(a => a.UserName, new { @id = "txtUserName", @required = "required", @class = "form-control", @placeholder = "User Name" })
+                                    @Html.ValidationMessageFor(a => a.UserName)
                                 </div>
-                                <div class="col-lg-3" style="font-weight:bolder; margin-top: 18px;">
-                                    <a href="#" onclick="javascript:ReloadCaptchaCode();">Refresh</a>
-
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                               @Html.TextBoxFor(a => a.CaptchaText, new { @id = "txtforcapture", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="rem-password">
-                                    <label class="rememberme mt-checkbox mt-checkbox-outline">
-                                        <input type="checkbox" name="remember" value="1" /> Remember me
-                                        <span></span>
-                                    </label>
+                                <div class="col-xs-6">
+                                    @Html.PasswordFor(a => a.Password, new { @id = "txtPassword", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Password" })
+                                    @Html.ValidationMessageFor(a => a.Password)
                                 </div>
                             </div>
-                            <div class="col-sm-8 text-right">
-                                <div class="forgot-password">
-                                    <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
-                                </div>
-                                <button type="submit" class="btn green" onclick="HashPwdwithSalt();">Login</button>
-                            </div>
-                        </div>
+                            
 
-                        @*<h3 class="font-green">Forgot Password ?</h3>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="col-lg-3">
+                                        <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                                    </div>
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-3" style="font-weight:bolder; margin-top: 15px; width:150px">
+                                        <a href="#" onclick="javascript:ReloadCaptchaCode();" class="btn btn-primary ">Refresh</a>
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(a => a.CaptchaText, new { @id = "txtforcapture", @required = "required", @class = "form-control placeholder-no-fix", @placeholder = "Captcha" })
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="rem-password">
+                                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                            <input type="checkbox" name="remember" value="1" /> Remember me
+                                            <span></span>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="forgot-password">
+                                        <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+
+                                        <button type="submit" class="btn btn-primary green" onclick="HashPwdwithSalt();">Login</button>
+                                    </div>
+                                </div>
+
+                            @*<h3 class="font-green">Forgot Password ?</h3>
                         <p> Enter your e-mail address below to reset your password. </p>
                         <div class="form-group">
                             <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Email" name="email" />
@@ -223,39 +248,40 @@
                             <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
                             <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
                         </div>*@
-                    }
-                    <!-- END FORGOT PASSWORD FORM -->
-                </div>
-                <div class="login-footer">
-                    <div class="row bs-reset">
-                        <div class="col-xs-5 bs-reset">
-                            <ul class="login-social">
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="icon-social-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="icon-social-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="icon-social-dribbble"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-7 bs-reset">
-                            <div class="login-copyright text-right">
-                                <p>Copyright &copy; NIC Uttar Pradesh 2018</p>
+                        }
+                        <!-- END FORGOT PASSWORD FORM -->
+                    </div>
+                    <div class="login-footer">
+                        <div class="row bs-reset">
+                            <div class="col-xs-5 bs-reset">
+                                <ul class="login-social">
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-7 bs-reset">
+                                <div class="login-copyright text-right">
+                                    <p>Copyright &copy; NIC Uttar Pradesh 2018</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
     </div>
     
     @Scripts.Render("~/bundles/bootstrapLog1")
