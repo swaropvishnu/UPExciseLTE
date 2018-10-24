@@ -217,6 +217,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomErrorHandler.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuHandler.ashx.cs">
+      <DependentUpon>MenuHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
@@ -5958,6 +5962,7 @@
     <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.table_editing.min.map" />
     <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.toolbar.min.map" />
     <Content Include="Content\assets\layouts\layout7\img\Thumbs.db" />
+    <Content Include="MenuHandler.ashx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

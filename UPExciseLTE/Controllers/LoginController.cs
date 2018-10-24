@@ -23,16 +23,11 @@ namespace UPExciseLTE.Controllers
         // GET: Login
         public ActionResult Login()
         {
-
             string salt = CreateSalt(5);
-
             Session["salt"] = salt.ToString();
             return View();
         }
-        public ActionResult TestView()
-        {
-            return View();
-        }
+        
         public ActionResult LogOut()
         {
             try
@@ -78,9 +73,10 @@ namespace UPExciseLTE.Controllers
                 ds = UserDtl.VerifyUser(usrname);
                 if (ds != null)
                 {
-                    string psw = ds.Tables[0].Rows[0]["Password"].ToString();
+                    
                     if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
                     {
+                        string psw = ds.Tables[0].Rows[0]["Password"].ToString();
 
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))

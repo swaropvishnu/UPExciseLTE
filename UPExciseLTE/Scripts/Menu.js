@@ -33,9 +33,9 @@ $(document).ready(function () {
             li.appendTo(parent);
             if (this.List && this.List.length > 0) {
                 //li.removeClass("active");
-                li.addClass("nav-item start");
+                li.addClass("menu-dropdown classic-menu-dropdown");
                 //$("#li i").remove()
-                var ul = $('<ul class="sub-menu"></ul>');
+                var ul = $('<ul class="dropdown-menu pull-left"></ul>');
                 ul.appendTo(li);
                 buildMenu(ul, this.List);
             }
