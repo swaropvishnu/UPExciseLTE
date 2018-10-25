@@ -6007,6 +6007,7 @@
     <Content Include="Views\MasterForms\Index.cshtml" />
     <Content Include="Views\MasterForms\ProductionEntry.cshtml" />
     <Content Include="Views\Login\ChangePassword.cshtml" />
+    <Content Include="Views\Login\ProfileUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -683,65 +683,65 @@ var Dashboard = function() {
             var chartData = [{
                 "date": "2012-01-05",
                 "distance": 480,
-                "townName": "Miami",
-                "townName2": "Miami",
+                "townName": "Unnao",
+                "townName2": "Unnao",
                 "townSize": 10,
                 "latitude": 25.83,
                 "duration": 501
             }, {
                 "date": "2012-01-06",
                 "distance": 386,
-                "townName": "Tallahassee",
+                "townName": "Rampur",
                 "townSize": 7,
                 "latitude": 30.46,
                 "duration": 443
             }, {
                 "date": "2012-01-07",
                 "distance": 348,
-                "townName": "New Orleans",
+                "townName": "Ghaziabad",
                 "townSize": 10,
                 "latitude": 29.94,
                 "duration": 405
             }, {
                 "date": "2012-01-08",
                 "distance": 238,
-                "townName": "Houston",
-                "townName2": "Houston",
+                "townName": "Lucknow",
+                "townName2": "Lucknow",
                 "townSize": 16,
                 "latitude": 29.76,
                 "duration": 309
             }, {
                 "date": "2012-01-09",
                 "distance": 218,
-                "townName": "Dalas",
+                "townName": "Aligarh",
                 "townSize": 17,
                 "latitude": 32.8,
                 "duration": 287
             }, {
                 "date": "2012-01-10",
                 "distance": 349,
-                "townName": "Oklahoma City",
+                "townName": "Merrut",
                 "townSize": 11,
                 "latitude": 35.49,
                 "duration": 485
             }, {
                 "date": "2012-01-11",
                 "distance": 603,
-                "townName": "Kansas City",
+                "townName": "Kanpur",
                 "townSize": 10,
                 "latitude": 39.1,
                 "duration": 890
             }, {
                 "date": "2012-01-12",
                 "distance": 534,
-                "townName": "Denver",
-                "townName2": "Denver",
+                "townName": "Lucknow",
+                "townName2": "Lucknow",
                 "townSize": 18,
                 "latitude": 39.74,
                 "duration": 810
             }, {
                 "date": "2012-01-13",
-                "townName": "Salt Lake City",
+                "townName": "Lakhimpur",
                 "townSize": 12,
                 "distance": 425,
                 "duration": 670,
@@ -751,8 +751,8 @@ var Dashboard = function() {
                 "date": "2012-01-14",
                 "latitude": 36.1,
                 "duration": 470,
-                "townName": "Las Vegas",
-                "townName2": "Las Vegas",
+                "townName": "Ghazipur",
+                "townName2": "Ghazipur",
                 "bulletClass": "lastBullet"
             }, {
                 "date": "2012-01-15"
@@ -795,7 +795,7 @@ var Dashboard = function() {
 
                 valueAxes: [{
                     id: "a1",
-                    title: "distance",
+                    title: "rupees (in crores)",
                     gridAlpha: 0,
                     axisAlpha: 0
                 }, {
@@ -806,7 +806,7 @@ var Dashboard = function() {
                     labelsEnabled: false
                 }, {
                     id: "a3",
-                    title: "duration",
+                    title: "revenue",
                     position: "right",
                     gridAlpha: 0,
                     axisAlpha: 0,
@@ -822,7 +822,7 @@ var Dashboard = function() {
                 graphs: [{
                     id: "g1",
                     valueField: "distance",
-                    title: "distance",
+                    title: "rupees (crores)",
                     type: "column",
                     fillAlphas: 0.7,
                     valueAxis: "a1",
@@ -835,7 +835,7 @@ var Dashboard = function() {
                     id: "g2",
                     valueField: "latitude",
                     classNameField: "bulletClass",
-                    title: "latitude/city",
+                    title: "City (Brewery/Distillary)",
                     type: "line",
                     valueAxis: "a2",
                     lineColor: "#786c56",
@@ -855,7 +855,7 @@ var Dashboard = function() {
                     animationPlayed: true,
                 }, {
                     id: "g3",
-                    title: "duration",
+                    title: "diffrence",
                     valueField: "duration",
                     type: "line",
                     valueAxis: "a3",
@@ -1175,7 +1175,7 @@ var Dashboard = function() {
                 "type": "serial",
                 "addClassNames": true,
                 "theme": "light",
-                "path": "../assets/global/plugins/amcharts/ammap/images/",
+                "path": "../content/assets/global/plugins/amcharts/ammap/images/",
                 "autoMargins": false,
                 "marginLeft": 30,
                 "marginRight": 8,
@@ -1189,27 +1189,27 @@ var Dashboard = function() {
                 },
 
                 "dataProvider": [{
-                    "year": 2009,
+                    "year": 2012,
                     "income": 23.5,
                     "expenses": 21.1
                 }, {
-                    "year": 2010,
+                    "year": 2013,
                     "income": 26.2,
                     "expenses": 30.5
                 }, {
-                    "year": 2011,
+                    "year": 2014,
                     "income": 30.1,
                     "expenses": 34.9
                 }, {
-                    "year": 2012,
+                    "year": 2015,
                     "income": 29.5,
                     "expenses": 31.1
                 }, {
-                    "year": 2013,
+                    "year": 2016,
                     "income": 30.6,
                     "expenses": 28.2,
                 }, {
-                    "year": 2014,
+                    "year": 2017,
                     "income": 34.1,
                     "expenses": 32.9,
                     "dashLengthColumn": 5,

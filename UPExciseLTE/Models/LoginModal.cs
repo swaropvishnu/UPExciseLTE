@@ -10,6 +10,8 @@ namespace UPExciseLTE.Models
 
     public class LoginModal
     {
+        
+
         [Required]
         [Display(Name = "Username")]
         public string UserName
@@ -107,5 +109,6 @@ namespace UPExciseLTE.Models
         public string UserAddress { get; set; }
         public short yojana_code { get; set; }
         public byte[] UserImage { get; set; }
+        public string Designation { get; set; }
     }
 }

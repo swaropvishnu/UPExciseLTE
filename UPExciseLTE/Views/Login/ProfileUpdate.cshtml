@@ -1,0 +1,227 @@
+﻿
+
+@model UPExciseLTE.Models.LoginModal
+@{
+    ViewBag.Title = "ProfileUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    if (ViewBag.AlertUpdate != null)
+    {
+        <script>
+            alert('@ViewBag.AlertUpdate');
+        </script>
+    }
+}
+
+<!-- BEGIN SAMPLE FORM PORTLET-->
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption font-green">
+            <i class="icon-pin font-green"></i>
+            <span class="caption-subject bold uppercase"> User Profile Updation </span>
+        </div>
+        <div class="actions">
+            <div class="btn-group">
+                <a class="btn btn-sm default dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                    Settings
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-trash-o"></i> Delete
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-ban"></i> Ban
+                        </a>
+                    </li>
+                    <li class="divider"> </li>
+                    <li>
+                        <a href="javascript:;"> Make admin </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        @using (Html.BeginForm("ProfileUpdate", "Login",
+                                               //new { ReturnUrl = ViewBag.ReturnUrl },
+                                               FormMethod.Post, new { @class = "", enctype = "multipart/form-data" }))
+
+        {
+            @Html.AntiForgeryToken()
+            <form method="post">
+                <div class="form-body">
+
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-lg", @id = "txtname" })
+
+                                <label for="form_control_1">Name</label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @Html.TextBoxFor(m => m.Designation, new { @class = "form-control input-lg", @id = "txtDesignation" })
+                                <label for="form_control_1"> Designation </label>
+                                @*@Html.LabelFor(m => m.UserNameHindi, "", new { @id = "txtnamehindi", @class = "form-control" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @Html.TextBoxFor(m => m.UserMobile, new { @class = "form-control input-lg", @id = "mask_phone" })
+                                <label for="form_control_1">Mobile No.</label>
+                                @*@Html.LabelFor(m => m.UserMobile, "", new { @id = "txtusermobile", @class = "form-control" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @*<select class="form-control edited input-lg" id="form_control_1">
+                                        <option value=""></option>
+                                        <option value="1" selected>Option 1</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                        <option value="4">Option 4</option>
+                                    </select>
+                                    <label for="form_control_1">Dropdown sample</label>*@
+                                <input type="text" class="form-control input-lg" id="form_control_1">
+                                <label for="form_control_1">Designation</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control input-lg", @id = "txtemail" })
+                                <label for="form_control_1">Official eMail</label>
+                                @*@Html.LabelFor(m => m.UserEmail, "", new { @id = "txtuseremail", @class = "form-control" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                @Html.TextBoxFor(m => m.UserAddress, new { @class = "form-control input-lg", @id = "txtaddress" })
+                                <label for="form_control_1">Office Address</label>
+                                @*@Html.LabelFor(m => m.UserAddress, "", new { @id = "txtuseraddress", @class = "form-control" })*@
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 ">
+
+                            <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                <label for="form_control_1">Profile Photo</label>
+                                <img id="blah" class="img-responsive" src="@ViewBag.Base64String" />
+                                <br />
+                                <input type="file" class="btn btn-success" name="pimg" id="pimg" accept=".jpg,.jpeg" onchange="validate_fileupload(this);" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-5 ">
+
+                        </div>
+                        <div class="col-md-5 ">
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-actions noborder">
+                        <button type="submit" onclick="valid_form();" class="btn blue">Update</button>
+                        <button type="reset" class="btn default">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+<!-- END SAMPLE FORM PORTLET-->
+<!-- BEGIN SAMPLE FORM PORTLET-->
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+
+
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function validate_fileupload(input_element) {
+        debugger;
+        var fileName = input_element.value;
+        var allowed_extensions = new Array("jpg", "jpeg");
+        var file_extension = fileName.split('.').pop();
+        for (var i = 0; i < allowed_extensions.length; i++) {
+            if (allowed_extensions[i] == file_extension) {
+                readURL(input_element);
+                valid = true; // valid file extension
+                return valid;
+            }
+        }
+        alert('Invalid file');
+        event.preventDefault();
+        valid = false;
+        return valid;
+    }
+
+    function valid_form() {
+
+        var txtname = $('#txtname').val();
+        var txtnamehindi = $('#txtnamehindi').val();
+        var txtmobile = $('#mask_phone').val();
+        var txtemail = $('#txtemail').val();
+        var txtaddress = $('#txtaddress').val();
+
+        if (txtname == "") {
+            alert('Please Enter Your Name.');
+            valid = false;
+            event.preventDefault();
+        }
+        else if (txtnamehindi == "") {
+            alert('Please Enter Name In hindi.');
+            valid = false;
+            event.preventDefault();
+        }
+        else if (txtmobile == "") {
+            alert('Please Enter Mobile Number.');
+            valid = false;
+            event.preventDefault();
+        }
+
+        else if (txtemail == "") {
+            alert('Please Enter EmailID.');
+            valid = false;
+            event.preventDefault();
+        }
+        else if (txtaddress == "") {
+            alert('Please Enter Your Address.');
+            valid = false;
+            event.preventDefault();
+        }
+
+        else { valid = true; }
+        return valid;
+    }
+
+</script>
+

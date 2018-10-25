@@ -9,7 +9,7 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.Models;
 using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
-using UPExciseLTS.Models;
+using UPExciseLTE.Models;
 
 namespace UPExciseLTE.DAL
 {
@@ -39,7 +39,8 @@ namespace UPExciseLTE.DAL
                         fm.UserId = objUserData.UserId;
                         fm.UserName = dt.Rows[i]["Name"].ToString();
                         fm.UserMobile = dt.Rows[i]["MobileNo"].ToString();
-                        fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
+                        fm.Designation = dt.Rows[i]["Designation"].ToString();
+                        //fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
                         fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
                         fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
                         fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"];
@@ -50,7 +51,7 @@ namespace UPExciseLTE.DAL
                 return fm;
 
             }
-            catch
+            catch(Exception e)
             {
                 throw;
             }

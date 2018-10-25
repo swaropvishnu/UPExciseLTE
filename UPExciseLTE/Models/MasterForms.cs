@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-namespace UPExciseLTS.Models
+namespace UPExciseLTE.Models
 {
     public class BrandMaster
     {
