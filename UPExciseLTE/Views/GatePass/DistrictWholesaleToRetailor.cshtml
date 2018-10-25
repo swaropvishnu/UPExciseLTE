@@ -15,20 +15,20 @@
             <div class="portlet box purple">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Manufacturer Wholesale To District Wholesale
+                        <i class="fa fa-gift"></i> District Wholesale to Retailer
                     </div>
                 </div>
                 <div class="portlet-body form" style="background-color:#f5f5f5">
                     <div class="form-body">
 
                         <div class="form-group col-md-6">
-                            <label class="control-label">From Licence No</label>
+                            <label class="control-label"> Licence No </label>
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtFromLicenceNo", @class = "form-control ", @placeholder = "From Licence No", @required = "required" })
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">To Shop Id</label>
+                            <label class="control-label">Shop Id</label>
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtToShopId", @class = "form-control ", @placeholder = "To Shop Id", @required = "required" })
                             </div>
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Licensee License No</label>
+                            <label class="control-label"> License No</label>
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtLicenseeLicenseNo", @class = "form-control ", @placeholder = "Licensee License No", @required = "required" })
                             </div>
@@ -72,12 +72,18 @@
 
                      
                         <div class="form-group   col-md-6">
-                            <label class="control-label">Licensee Name & Address</label>
+                            <label class="control-label">Licensee Name</label>
                             <div>
                                 @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Licensee Name & Address", @required = "required" })
                             </div>
                         </div>
                     
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Licensee Address</label>
+                            <div>
+                                @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Licensee Name & Address", @required = "required" })
+                            </div>
+                        </div>
 
                         <div class="form-group   col-md-6">
                             <label class="control-label">Route Details</label>
@@ -97,7 +103,7 @@
 
 
                         <div class="form-group   col-md-6">
-                            <label class="control-label">Vehicle Driver Name</label>
+                            <label class="control-label">Vehicle (Driver Name)</label>
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vahicle Driver Name", @required = "required" })
 
@@ -105,7 +111,7 @@
                         </div>
 
                         <div class="form-group   col-md-6">
-                            <label class="control-label">Vehicle Agency Name And Address</label>
+                            <label class="control-label">Vehicle (Agency Name And Address)</label>
                             <div>
                                 @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
                             </div>
