@@ -39,8 +39,7 @@ namespace UPExciseLTE.DAL
                         fm.UserId = objUserData.UserId;
                         fm.UserName = dt.Rows[i]["Name"].ToString();
                         fm.UserMobile = dt.Rows[i]["MobileNo"].ToString();
-                        fm.Designation = dt.Rows[i]["Designation"].ToString();
-                        //fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
+                        fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
                         fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
                         fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
                         fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"];
@@ -51,7 +50,7 @@ namespace UPExciseLTE.DAL
                 return fm;
 
             }
-            catch(Exception e)
+            catch
             {
                 throw;
             }
@@ -883,6 +882,57 @@ namespace UPExciseLTE.DAL
 
         #endregion
         #region Gaurav
+        public string InsertUpdateBrand(BrandMaster brand)
+        { 
+            string str="";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("Proc_InsertUpdate_Brand", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", brand.dbName));
+                cmd.Parameters.Add(new SqlParameter("BrandId", brand.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BreweryId", brand.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("BrandName", brand.BrandName));
+                cmd.Parameters.Add(new SqlParameter("BrandRegistrationNumber", brand.BrandRegistrationNumber));
+                cmd.Parameters.Add(new SqlParameter("Strength", brand.Strength));
+                cmd.Parameters.Add(new SqlParameter("LiquorType", brand.LiquorType));
+                cmd.Parameters.Add(new SqlParameter("LicenceType", brand.LicenceType));
+                cmd.Parameters.Add(new SqlParameter("LicenceNo", brand.LicenceNo));
+                cmd.Parameters.Add(new SqlParameter("ExiciseTin", brand.ExiciseTin));
+                cmd.Parameters.Add(new SqlParameter("MRP", brand.MRP));
+                cmd.Parameters.Add(new SqlParameter("XFactoryPrice", brand.XFactoryPrice));
+                cmd.Parameters.Add(new SqlParameter("AdditionalDuty", brand.AdditionalDuty));
+                cmd.Parameters.Add(new SqlParameter("QuantityInCase", brand.QuantityInCase));
+                cmd.Parameters.Add(new SqlParameter("QuantityInBottleML", brand.QuantityInBottleML));
+                cmd.Parameters.Add(new SqlParameter("ExciseDuty", brand.ExciseDuty));
+                cmd.Parameters.Add(new SqlParameter("ExportBoxSize", brand.ExportBoxSize));
+                cmd.Parameters.Add(new SqlParameter("Remark", brand.Remark));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", ""));
+                cmd.Parameters.Add(new SqlParameter("c_time_stamp", ""));
+                cmd.Parameters.Add(new SqlParameter("c_mac", ""));
+                cmd.Parameters.Add(new SqlParameter("sp_type", brand.SPType));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
         public DataSet GetBrandDetail(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int TehsilCode)
         {
             DataSet ds = new DataSet();
@@ -948,7 +998,48 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetBottelingPlanDetail(DateTime FromDate,DateTime ToDate,short BreweryId,int BrandId,string Status,string Mapped,string Import)
+
+        internal string InsertUpdateProductionPlan(BottelingPlan BP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateProductionPlan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", BP.dbName));
+                cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
+                cmd.Parameters.Add(new SqlParameter("ProducedNumberOfCases", BP.ProducedNumberOfCases));
+                cmd.Parameters.Add(new SqlParameter("ProducedQunatityInCaseExport", BP.ProducedQunatityInCaseExport));
+                cmd.Parameters.Add(new SqlParameter("ProducedBulkLitre", BP.ProducedBulkLiter));
+                cmd.Parameters.Add(new SqlParameter("ProducedAlcoholicLitre", BP.ProducedAlcoholicLiter));
+                cmd.Parameters.Add(new SqlParameter("ProducedTotalUnitQuantity", BP.ProducedTotalUnitQuantity));
+                cmd.Parameters.Add(new SqlParameter("WastageInNumber", BP.WastageInNumber));
+                cmd.Parameters.Add(new SqlParameter("WastageBL", BP.WastageBL));
+                cmd.Parameters.Add(new SqlParameter("IsProductionFinal", BP.IsProductionFinal));
+                cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public DataSet GetBottelingPlanDetail(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
         {
             DataSet ds = new DataSet();
             try
@@ -961,7 +1052,30 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Status", Status));
                 parameters.Add(new SqlParameter("Mapped", Mapped));
                 parameters.Add(new SqlParameter("Import", Import));
+                parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBottelingPlanDetail", parameters.ToArray());
+            }
+            catch (Exception exp)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public DataSet GetProducePlanDetail(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", ToDate));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("BrandId", BrandId));
+                parameters.Add(new SqlParameter("Status", Status));
+                parameters.Add(new SqlParameter("Mapped", Mapped));
+                parameters.Add(new SqlParameter("Import", Import));
+                parameters.Add(new SqlParameter("PlanId", PlanId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetProducePlanDetail", parameters.ToArray());
             }
             catch (Exception exp)
             {

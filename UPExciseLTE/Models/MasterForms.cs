@@ -42,6 +42,8 @@ namespace UPExciseLTE.Models
         public int ExportBoxSize { get; set; }
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+        public int SPType { get; set; }
+        public string dbName { get; set; }
     }
     public class Brewery
     {
@@ -65,6 +67,7 @@ namespace UPExciseLTE.Models
         public int Type { get; set; }
         [Display (Name="Plan Id")]
         public int PlanId { get; set; }
+        public string EncPlanId { get; set; }
         [Display(Name = "Brewery Id")]
         public short BreweryId { get; set; }
         [Display(Name = "Production for State Code")]
@@ -85,14 +88,31 @@ namespace UPExciseLTE.Models
         public int TotalUnitQuantity { get; set; }
         [Display(Name = "Plan Date")]
         public DateTime DateOfPlan { get; set; }
+        [Display(Name = "Plan Date")]
+        public string DateOfPlan1 { get; set; }
         [Display(Name = "Batch No")]
         public string BatchNo { get; set; }
         [Display(Name = "Mapped Unmapped")]
         public short MappedOrNot { get; set; }
         [Display(Name = "Is Plan Final")]
         public short IsPlanFinal { get; set; }
+        
+        [Display(Name = "Liquor Type")]  
+        public string LiquorType { get; set; }
+        [Display(Name = "Licence Type")]   
+        public string LicenceType { get; set; }
+        public string Brand { get; set; }
+        public string Capacity { get; set; }
+        [Display(Name = "Plan No of Bottling")]        
+        public string PlanNoofBottling { get; set; }
+        public string Quantity { get; set; }
+        public string LicenseNo { get; set; }
+        public string Status { get; set; }
+        public string QuantityInBottleML { get; set; }
+        public string Strength { get; set; }
+        // Production Plan Data
         [Display(Name = "Produced Number of cases")]
-        public int ProducedNumberOfCases{ get; set; }
+        public int ProducedNumberOfCases { get; set; }
         [Display(Name = "Produced Quantity in case Export")]
         public float ProducedQunatityInCaseExport { get; set; }
         [Display(Name = "Produced Bulk Liter")]
@@ -105,14 +125,8 @@ namespace UPExciseLTE.Models
         public int WastageInNumber { get; set; }
         [Display(Name = "Wastage BL")]
         public float WastageBL { get; set; }
-        [Display(Name = "Is Production Final")]        
+        [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
-        public string LiquorType { get; set; }
-        public string LicenceType { get; set; }
-        public string Brand { get; set; }
-        public string Capacity { get; set; }
-        public string PlanNoofBottling { get; set; }
-        public string Quantity { get; set; }
     }
 
 }
