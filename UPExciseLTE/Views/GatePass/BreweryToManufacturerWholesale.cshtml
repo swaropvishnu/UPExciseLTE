@@ -14,7 +14,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Manufacturer Wholesale To District Wholesale
+                        <i class="fa fa-gift"></i>Brewery To Manufacturer Wholesale
                     </div>
                 </div>
                 <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -55,9 +55,27 @@
                                 @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL1
                                 @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A")FL1A
                                 @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL2A
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") Export
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") EPORT OUT SIDE INDIA
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") EXPORT
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") EXPORT OUT SIDE INDIA
                                 @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
+                            </div>
+                        </div>
+
+                     
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Vehicle Driver Name</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Vehicle No</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
+
                             </div>
                         </div>
 
@@ -68,23 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Vehicle No</label>
-                            <div>
-                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vahicle No", @required = "required" })
-
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Vehicle Driver Name</label>
-                            <div>
-                                @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vahicle Driver Name", @required = "required" })
-
-                            </div>
-                        </div>
+                       
 
                         <div class="form-group   col-md-6">
                             <label class="control-label">Vehicle Agency Name And Address</label>

@@ -12,7 +12,7 @@
 <div class="page-content-inner">
     <div class="row ">
         <div class="col-md-12">
-            <div class="portlet box purple">
+            <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-gift"></i> District Wholesale to Retailer
@@ -85,12 +85,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Route Details</label>
-                            <div>
-                                @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
-                            </div>
-                        </div>
 
                         <div class="form-group   col-md-6">
                             <label class="control-label">Vehicle No</label>
@@ -107,6 +101,14 @@
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vahicle Driver Name", @required = "required" })
 
+                            </div>
+                        </div>
+
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Route Details</label>
+                            <div>
+                                @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                             </div>
                         </div>
 
