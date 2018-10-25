@@ -1,0 +1,111 @@
+﻿@model UPExciseLTE.Models.BreweryToManufacturerWholesaleModel
+@{
+    ViewBag.Title = "BreweryToManufacturerWholesale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()*@
+  <div class="page-content-inner">
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="portlet box purple">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Manufacturer Wholesale To District Wholesale
+                    </div>
+                </div>
+                <div class="portlet-body form" style="background-color:#f5f5f5">
+                    <div class="form-body">
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Date</label>
+                            <div>
+                                @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required" } })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Valid Till</label>
+                            <div>
+                                @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" } })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">From</label>
+                            <div>
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL3
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
+                            </div>
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label class="control-label">License No.</label>
+                            <div>
+                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="form-group   col-md-12">
+                            <label class="control-label">To</label>
+                            <div>
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL1
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A")FL1A
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL2A
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") Export
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") EPORT OUT SIDE INDIA
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
+                            </div>
+                        </div>
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Route Details</label>
+                            <div>
+                                @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Vehicle No</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vahicle No", @required = "required" })
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Vehicle Driver Name</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vahicle Driver Name", @required = "required" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group   col-md-6">
+                            <label class="control-label">Vehicle Agency Name And Address</label>
+                            <div>
+                                @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    @*<center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>
+                            </div>
+                        </center>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*}*@
+

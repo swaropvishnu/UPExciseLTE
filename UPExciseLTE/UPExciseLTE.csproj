@@ -209,6 +209,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\CommonBL.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\GatePassController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MasterFormsController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="MenuHandler.ashx.cs">
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BreweryToManufacturerWholesaleModel.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
@@ -6017,6 +6019,7 @@
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Content\sass\" />
+    <Folder Include="Views\GatePass\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
