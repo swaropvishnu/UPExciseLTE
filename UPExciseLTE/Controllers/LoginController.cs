@@ -81,17 +81,17 @@ namespace UPExciseLTE.Controllers
                         string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
                         if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
                         {
-                            if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "6" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "3" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "5")
-                            {
+                            //if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "6" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "3" || ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "5")
+                            //{
                                 Session["tbl_Session"] = ds.Tables[0];
                                 FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
                                 return RedirectToAction("Dashboard", "Dashboard");
-                            }
-                            else
-                            {
-                                ViewBag.ErrMessage = "Invalid Username or Password.";
-                                return RedirectToAction("Login", "Login");
-                            }
+                            //}
+                            //else
+                            //{
+                            //    ViewBag.ErrMessage = "Invalid Username or Password.";
+                            //    return RedirectToAction("Login", "Login");
+                            //}
 
                         }
                         else
