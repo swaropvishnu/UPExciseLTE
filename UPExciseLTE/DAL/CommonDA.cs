@@ -10,6 +10,7 @@ using UPExciseLTE.Models;
 using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
 using UPExciseLTE.Models;
+using Dapper;
 
 namespace UPExciseLTE.DAL
 {
@@ -1156,5 +1157,27 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+
+        #region DistrictWholesaleToRetailor
+
+        public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
+        {
+            var para = new DynamicParameters();
+            para.Add("@SpType", 1);
+            try
+            {
+                return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        #endregion
+
+
     }
 }

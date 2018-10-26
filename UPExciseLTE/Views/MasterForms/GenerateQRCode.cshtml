@@ -4,6 +4,10 @@
     ViewBag.Title = "Generate And Download QR Code";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using (Html.BeginForm("Export", "MasterForms", FormMethod.Post))
+{
+    <input type="submit" value="Export" style="display:none" id="btnDownload" />
+}
 @using (Html.BeginForm("GenerateQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -19,27 +23,31 @@
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <div class="form-body">
-                            <div class="form-group col-md-4">
-                                <label class="control-label">From Date</label>
-                                @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @Value = "", @type = "date" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">From Date</label>
+                                    @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @Value = "", @type = "date" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">To Date</label>
+                                    @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @Value = "", @type = "date" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand</label>
+                                    @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrewery", @class = "form-control" })
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">To Date</label>
-                                @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @Value = "", @type = "date" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label"> Mapped/ Unmapped</label>
+                                    @Html.DropDownList("MapUnMaped", new List<SelectListItem> { new SelectListItem { Text = "--Both--", Value = "B" }, new SelectListItem { Text = "Mapped", Value = "Mapped" }, new SelectListItem { Text = "UnMapped", Value = "UnMapped" } }, new { @id = "ddlMaped", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Import/Export</label>
+                                    @Html.DropDownList("Import", new List<SelectListItem> { new SelectListItem { Text = "--Both--", Value = "B" }, new SelectListItem { Text = "For UP", Value = "UP" }, new SelectListItem { Text = "For Outside UP", Value = "Outside" } }, new { @id = "ddlImport", @class = "form-control" })
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Brand</label>
-                                @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrewery", @class = "form-control" })
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label"> Mapped/ Unmapped</label>
-                                @Html.DropDownList("MapUnMaped", new List<SelectListItem> { new SelectListItem { Text = "--Both--", Value = "B" }, new SelectListItem { Text = "Mapped", Value = "Mapped" }, new SelectListItem { Text = "UnMapped", Value = "UnMapped" } }, new { @id = "ddlMaped", @class = "form-control" })
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Import/Export</label>
-                                @Html.DropDownList("Import", new List<SelectListItem> { new SelectListItem { Text = "--Both--", Value = "B" }, new SelectListItem { Text = "For UP", Value = "UP" }, new SelectListItem { Text = "For Outside UP", Value = "Outside" } }, new { @id = "ddlImport", @class = "form-control" })
-                            </div>
-                        </div>
                         <div class="clearfix"></div>
                         <center>
                             <div class="form-actions">
@@ -131,7 +139,10 @@
                                             }
                                             else
                                             {
-                                                <button type="button" class="btn green"  onclick="DownloadExcel('@item.EncPlanId')">Download QR Code</button>
+
+                                                <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>
+                                                <input type="hidden" id="hfid" value="@item.EncPlanId"/>
+                                                <button type="button" class="btn green"  onclick="Click('@item.EncPlanId')">Download QR Code</button>
                                             }
                                         </td>
                                     </tr>
@@ -143,9 +154,24 @@
             </div>
         </div>
     </div>
+    
 }
  
 <script type="text/javascript">
+
+    function Click(PlanId) {
+        document.getElementById('hrefDownload').click();
+    }
+    function DownloadExcel(PlanId) {
+        //$("#hfname").val(name);
+        //$("#hfyojana").val(yojana);
+        $("#hfid").val(PlanId);
+        $("#btnDownload")[0].click();
+    };
+
+
+
+
     function Confirm(EncPlanId) {
         var r = confirm("Are You sure to generate QRCode");
         if (r == true) {
@@ -167,19 +193,19 @@
             }
         });
     }
-    function DownloadExcel(PlanId) {
-        $.ajax({
-            url: '/MasterForms/DownloadExcel',
-            data: { 'PlanId': PlanId },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                alert(data);
-                window.location = "../MasterForms/GenerateQRCode";
-            },
-            error: function (data) {
-                alert("Error in Finalize Plan Loading");
-            }
-        });
-    }
+    //function DownloadExcel(PlanId) {
+    //    $.ajax({
+    //        url: '/MasterForms/DownloadExcel',
+    //        data: { 'PlanId': PlanId },
+    //        datatype: "json",
+    //        type: "GET",
+    //        success: function (data) {
+    //            alert(data);
+    //            window.location = "../MasterForms/GenerateQRCode";
+    //        },
+    //        error: function (data) {
+    //            alert("Error in Finalize Plan Loading");
+    //        }
+    //    });
+    //}
 </script>

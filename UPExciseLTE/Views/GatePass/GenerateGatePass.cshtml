@@ -1,0 +1,372 @@
+﻿
+@{
+    ViewBag.Title = "GenerateGatePass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("GenerateGatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Generate Gatepass
+                        </div>
+                    </div>
+
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Consignor Name
+                                    </th>
+                                    <th>
+                                        TotalBox
+                                    </th>
+                                    <th>
+                                        Total Bottels/Can
+                                    </th>
+                                    <th>
+                                        TotalLitres
+                                    </th>
+                                    <th>
+                                        ConsiderationFees
+                                    </th>
+                                    <th>
+                                        Vehicle Number
+                                    </th>
+                                    <th>
+                                        Vehicle Agency Details
+                                    </th>
+
+
+                                    <th></th>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        2
+                                    </td>
+
+                                    <td>
+                                        Kingfisher
+                                    </td>
+                                    <td>
+                                        K1
+                                    </td>
+                                    <td>
+                                        30
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FLA
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        300
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        1
+                                    </td>
+
+                                    <td>
+                                        Tuborg Classic Black Super Strong Beer
+                                    </td>
+                                    <td>
+                                        1(6)/2132018
+                                    </td>
+                                    <td>
+                                        5.4
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL1A
+                                    </td>
+                                    <td>
+                                        012345
+                                    </td>
+                                    <td>
+                                        150
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        3
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        5
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        15
+                                    </td>
+
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        4
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        5
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        7
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        4.3
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        12
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        6
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        8
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        4.3
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        12
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        9
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        1.2
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        1212
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

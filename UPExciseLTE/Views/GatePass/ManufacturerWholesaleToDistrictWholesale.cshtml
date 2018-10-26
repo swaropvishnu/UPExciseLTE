@@ -19,14 +19,51 @@
                 </div>
                 <div class="portlet-body form" style="background-color:#f5f5f5">
                     <div class="form-body">
+
+                        <div class="form-group col-md-4">
+                            <label class="control-label">From</label>
+                            <div>
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1") FL1
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A
+                            </div>
+                        </div>
+                        @*<div class="form-group   col-md-4">
+            <label class="control-label">To</label>
+            <div>
+                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2") FL2
+                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2B")FL2B
+                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control col-md-2" })
+            </div>
+        </div>*@
+
+                        <div class="form-group   col-md-4">
+                            <div class="col-md-12">
+                                <label class="control-label">To</label>
+                            </div>
+                            <div class="col-md-6">
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2") FL2
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2B")FL2B
+                            </div>
+                            <div class="col-md-6">
+                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">License No.</label>
+                            <div>
+                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
+
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group col-md-4">
                             <label class="control-label">Date</label>
                             <div>
-                                @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required" } })
+                                @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @disabled = "disbled" } })
                             </div>
-                        </div>
-                        <div class="form-group col-md-4">
-
                         </div>
 
                         <div class="form-group col-md-4">
@@ -35,80 +72,8 @@
                                 @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" } })
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">From</label>
-                            <div>
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1") FL1
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A
-                            </div>
-                        </div>
-                        <div class="form-group  col-md-6">
-                            <label class="control-label">License No.</label>
-                            <div>
-                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
 
-                            </div>
-                        </div>
-
-                        @*<div class="form-group   col-md-6">
-                                <label class="control-label">To</label>
-                            <div >
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2") FL2
-                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2B")FL2B
-                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control col-md-2" })
-                            </div>
-
-                        </div>*@
-
-
-
-                        <div class="form-group   col-md-6">
-                                <div class="col-md-12">
-                                    <label class="control-label">To</label>
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2") FL2
-                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2B")FL2B
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
-                                </div>
-                            </div>
-
-
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Licence No</label>
-                            <div>
-                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtLicenceNo", @class = "form-control ", @placeholder = "Licence No", @required = "required" })
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Licence Name</label>
-                            <div>
-                                @Html.TextBoxFor(m => m.LicenceName, new { @id = "txtLicenceName", @class = "form-control ", @placeholder = "Licence Name", @required = "required" })
-
-                            </div>
-                        </div>
-
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Address</label>
-                            <div>
-                                @Html.TextAreaFor(m => m.Address, new { @id = "txtAreaAddress", @class = "form-control ", @placeholder = "Address", @required = "required" })
-                            </div>
-                        </div>
-
-                        <div class="form-group   col-md-6">
-                            <label class="control-label">Vehicle No</label>
-                            <div>
-                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
-
-                            </div>
-                        </div>
-
-                        <div class="form-group   col-md-6">
+                        <div class="form-group   col-md-4">
                             <label class="control-label">Vehicle Driver Name</label>
                             <div>
                                 @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
@@ -117,14 +82,45 @@
                         </div>
 
 
-                        <div class="form-group   col-md-6">
+
+                        <div class="form-group   col-md-4">
+                            <label class="control-label">Licence No</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtLicenceNo", @class = "form-control ", @placeholder = "Licence No", @required = "required" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group   col-md-4">
+                            <label class="control-label">Licence Name</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.LicenceName, new { @id = "txtLicenceName", @class = "form-control ", @placeholder = "Licence Name", @required = "required", @disabled = "disbled" })
+
+                            </div>
+                        </div>
+                        <div class="form-group   col-md-4">
+                            <label class="control-label">Vehicle No</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="form-group   col-md-4">
+                            <label class="control-label">Address</label>
+                            <div>
+                                @Html.TextAreaFor(m => m.Address, new { @id = "txtAreaAddress", @class = "form-control ", @placeholder = "Address", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group   col-md-4">
                             <label class="control-label">Route Details</label>
                             <div>
                                 @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                             </div>
                         </div>
 
-                        <div class="form-group   col-md-6">
+                        <div class="form-group   col-md-4">
                             <label class="control-label">Vehicle Agency Name And Address</label>
                             <div>
                                 @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
@@ -168,7 +164,7 @@
                         <div class="form-group   col-md-4">
                             <label class="control-label">Net Weight</label>
                             <div>
-                                @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required" })
+                                @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required", @disabled = "disbled" })
 
                             </div>
                         </div>

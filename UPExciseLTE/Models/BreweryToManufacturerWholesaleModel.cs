@@ -63,8 +63,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "S.No")]
         public int SerialNo { get; set; }
 
-        [Display(Name = "Kind Of Liquor")]
-        public string KindOfLiquor { get; set; }
+        //[Display(Name = "Kind Of Liquor")]
+        //public string KindOfLiquor { get; set; }
 
         [Display(Name = "Batch No.")]
         public string BatchNo { get; set; }
@@ -95,6 +95,15 @@ namespace UPExciseLTE.Models
         public decimal TotalLitresAL { get; set; }
 
         public decimal AlcoholicStrength { get; set; }
+
+        public string BrewaryName { get; set; }
+        public string Revenue { get; set; }
+     
+        public string Date { get; set; }
+        public string VehicleNo { get; set; }
+        public string Receiver { get; set; }
+
+        public string Brand { get; set; }
 
     }
 

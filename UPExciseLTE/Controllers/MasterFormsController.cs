@@ -114,7 +114,45 @@ namespace UPExciseLTE.Controllers
             }
             return View(lstBrand);
         }
-         
+        //[HttpGet]
+        //public ActionResult EditBrandDetails(string BrandId)
+        //{
+        //    List<SelectListItem> breweryList = new List<SelectListItem>();
+        //    string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
+        //    CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
+        //    ViewBag.Brewery = breweryList;
+        //    List<SelectListItem> DistrictList = new List<SelectListItem>();
+        //    ViewBag.District = DistrictList;
+        //    List<SelectListItem> TehsilList = new List<SelectListItem>();
+        //    ViewBag.Tehsil = TehsilList;
+        //    BrandMaster brand = new BrandMaster();
+        //    DataSet ds = new CommonDA().GetBrandDetail(-1, "", "", "", -1, -1, -1);
+        //    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+        //    {
+        //        try
+        //        {
+        //            brand.AdditionalDuty = float.Parse(dr["AdditionalDuty"].ToString().Trim());
+        //            brand.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+        //            brand.BrandName = dr["BrandName"].ToString().Trim();
+        //            brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
+        //            brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+        //            brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
+        //            brand.ExiciseTin = dr["ExiciseTin"].ToString().Trim();
+        //            brand.ExportBoxSize = int.Parse(dr["ExportBoxSize"].ToString().Trim());
+        //            brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
+        //            brand.LicenceType = dr["LicenceType"].ToString().Trim();
+        //            brand.LiquorType = dr["LiquorType"].ToString().Trim();
+        //            brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
+        //            brand.QuantityInBottleML = int.Parse(dr["QuantityInBottleML"].ToString().Trim());
+        //            brand.QuantityInCase = int.Parse(dr["QuantityInCase"].ToString().Trim());
+        //            brand.Remark = dr["Remark"].ToString().Trim();
+        //            brand.Strength = float.Parse(dr["Strength"].ToString().Trim());
+        //            brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
+        //        }
+        //        catch (Exception exp) { }
+        //    }
+        //        return View(brand);
+        //}
         [HttpGet]
         public ActionResult BottelingPlan()
         {
@@ -518,36 +556,55 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        public ActionResult DownloadExcel(string PlanId)
+        ////public ActionResult DownloadExcel(string PlanId)
+        ////{
+        ////    try
+        ////    {
+        ////        PlanId = new Crypto().Decrypt(PlanId);
+        ////        DataSet ds = new DataSet();
+        ////        ds = new CommonDA().GetQRCOde(int.Parse(PlanId));
+        ////        using (XLWorkbook wb = new XLWorkbook())
+        ////        {
+        ////            wb.Worksheets.Add(ds.Tables[0]);
+        ////            wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+        ////            wb.Style.Font.Bold = true;
+
+        ////            Response.Clear();
+        ////            Response.Buffer = true;
+        ////            Response.Charset = "";
+        ////            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        ////            Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
+
+        ////            using (MemoryStream MyMemoryStream = new MemoryStream())
+        ////            {
+        ////                wb.SaveAs(MyMemoryStream);
+        ////                MyMemoryStream.WriteTo(Response.OutputStream);
+        ////                Response.Flush();
+        ////                Response.End();
+        ////            }
+        ////        }
+        ////    }
+        ////    catch { }
+        ////    return RedirectToAction("GenerateQRCode", "MasterFormsController");
+        ////}
+
+
+        [HttpPost]
+        public FileResult Export(string PlanId )
         {
-            try
+           
+            DataSet ds = new DataSet();
+            ds = new CommonDA().GetQRCOde(int.Parse("1"));
+
+            using (XLWorkbook wb = new XLWorkbook())
             {
-                PlanId = new Crypto().Decrypt(PlanId);
-                DataSet ds = new DataSet();
-                ds = new CommonDA().GetQRCOde(int.Parse(PlanId));
-                using (XLWorkbook wb = new XLWorkbook())
+                wb.Worksheets.Add(ds.Tables[0]);
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    wb.Worksheets.Add(ds.Tables[0]);
-                    wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                    wb.Style.Font.Bold = true;
-
-                    Response.Clear();
-                    Response.Buffer = true;
-                    Response.Charset = "";
-                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
-
-                    using (MemoryStream MyMemoryStream = new MemoryStream())
-                    {
-                        wb.SaveAs(MyMemoryStream);
-                        MyMemoryStream.WriteTo(Response.OutputStream);
-                        Response.Flush();
-                        Response.End();
-                    }
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "QRCodeList.xlsx");
                 }
             }
-            catch { }
-            return RedirectToAction("GenerateQRCode", "MasterFormsController");
         }
     }
 }

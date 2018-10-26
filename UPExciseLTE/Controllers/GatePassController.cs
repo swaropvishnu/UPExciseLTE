@@ -25,6 +25,9 @@ namespace UPExciseLTE.Controllers
         public ActionResult ManufacturerWholesaleToDistrictWholesale()
         {
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
+            BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
+            breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+   
             ViewBag.LicenceNo = LicenceNos;
             return View();
         }
@@ -43,10 +46,27 @@ namespace UPExciseLTE.Controllers
         #endregion
 
 
-   
+
+        #region ReceivedGatePass
+
+        public ActionResult ReceivedGatePass()
+        {
 
 
+            return View();
+        }
 
+        #endregion
+
+        #region GenerateGatePass
+        public ActionResult GenerateGatePass()
+        {
+
+
+            return View();
+        }
+
+#endregion
 
     }
 }
