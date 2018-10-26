@@ -1,0 +1,420 @@
+﻿
+@{
+    ViewBag.Title = "ReceivedGatePass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .GatePassReceived {
+      
+    }
+ 
+
+</style>
+
+@using (Html.BeginForm("ReceivedGatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>View/Recieve Gatepass 
+                        </div>
+                    </div>
+                    
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th> 
+                                        Consignor Name
+                                    </th>
+                                    <th>
+                                        TotalBox
+                                    </th>
+                                    <th>
+                                        Total Bottels/Can
+                                    </th>
+                                    <th>
+                                        TotalLitres
+                                    </th>
+                                    <th>
+                                        ConsiderationFees
+                                    </th>
+                                    <th>
+                                        Vehicle Number
+                                    </th>
+                                    <th>
+                                        Vehicle Agency Details
+                                    </th>
+                                    
+                                    
+                                    <th></th>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        2
+                                    </td>
+
+                                    <td>
+                                        Kingfisher
+                                    </td>
+                                    <td>
+                                        K1
+                                    </td>
+                                    <td>
+                                        30
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FLA
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        300
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass1">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        1
+                                    </td>
+
+                                    <td>
+                                        Tuborg Classic Black Super Strong Beer
+                                    </td>
+                                    <td>
+                                        1(6)/2132018
+                                    </td>
+                                    <td>
+                                        5.4
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL1A
+                                    </td>
+                                    <td>
+                                        012345
+                                    </td>
+                                    <td>
+                                        150
+                                    </td>
+                                  
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass2">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        3
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        5
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        15
+                                    </td>
+                                   
+                                  
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass3">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        4
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass4">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        5
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass5">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        7
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        4.3
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        12
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass6">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        6
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        40
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        55
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass7">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        8
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        4.3
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        12
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass8">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        9
+                                    </td>
+
+                                    <td>
+                                        Test Brand
+                                    </td>
+                                    <td>
+                                        Brand Reg 1
+                                    </td>
+                                    <td>
+                                        1.2
+                                    </td>
+                                    <td>
+                                        BE
+                                    </td>
+                                    <td>
+                                        FL3
+                                    </td>
+                                    <td>
+                                        LK1
+                                    </td>
+                                    <td>
+                                        1212
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn green GatePassReceived" id="ReceivedGatePass9">Recieve Gatepass</button>
+
+                                    </td>
+                                    
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+    $("#ReceivedGatePass1").click(function () {
+        $("#ReceivedGatePass1").text("GatePass Received");
+        $("#ReceivedGatePass1").css("color","red");
+    });
+    $("#ReceivedGatePass2").click(function () {
+        $("#ReceivedGatePass2").text("GatePass Received");
+        $("#ReceivedGatePass2").css("color", "red");
+    });
+    $("#ReceivedGatePass3").click(function () {
+        $("#ReceivedGatePass3").text("GatePass Received");
+        $("#ReceivedGatePass3").css("color", "red");
+    });
+    $("#ReceivedGatePass4").click(function () {
+        $("#ReceivedGatePass4").text("GatePass Received");
+        $("#ReceivedGatePass4").css("color", "red");
+    });
+    $("#ReceivedGatePass5").click(function () {
+        $("#ReceivedGatePass5").text("GatePass Received");
+        $("#ReceivedGatePass5").css("color", "red");
+    });
+    $("#ReceivedGatePass6").click(function () {
+        $("#ReceivedGatePass6").text("GatePass Received");
+        $("#ReceivedGatePass6").css("backgroud-color", "red");
+    });
+    $("#ReceivedGatePass7").click(function () {
+        $("#ReceivedGatePass7").text("GatePass Received");
+        $("#ReceivedGatePass7").css("color", "red");
+    });
+    $("#ReceivedGatePass8").click(function () {
+        $("#ReceivedGatePass8").text("GatePass Received");
+        $("#ReceivedGatePass8").css("color", "red");
+    });
+    $("#ReceivedGatePass9").click(function () {
+        $("#ReceivedGatePass9").text("GatePass Received");
+        $("#ReceivedGatePass9").css("color", "red");
+    });
+
+</script>

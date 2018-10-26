@@ -42,8 +42,11 @@
                             </div>
                             <div class="col-md-6">
                                 @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2") FL2
+                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2B")FL2B
                             </div>
-                            
+                            <div class="col-md-6">
+                                @Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })
+                            </div>
                         </div>
 
                         <div class="form-group  col-md-4">

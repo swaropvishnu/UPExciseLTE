@@ -25,5 +25,12 @@ namespace UPExciseLTE.Controllers
             return Json(new { data = applicationAllotmentShopList }, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult FLB11Report()
+        {
+            return View();
+        }
+
+
     }
 }

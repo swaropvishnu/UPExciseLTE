@@ -46,10 +46,27 @@ namespace UPExciseLTE.Controllers
         #endregion
 
 
-   
+
+        #region ReceivedGatePass
+
+        public ActionResult ReceivedGatePass()
+        {
 
 
+            return View();
+        }
 
+        #endregion
+
+        #region GenerateGatePass
+        public ActionResult GenerateGatePass()
+        {
+
+
+            return View();
+        }
+
+#endregion
 
     }
 }

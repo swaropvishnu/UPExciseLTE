@@ -5,8 +5,11 @@
 }
 
 <link href="~/Content/CommonStyle.css" rel="stylesheet" />
-
-<div class="page-content-inner">
+<div class="form-actions" style="text-align:right">
+    <button style="text-align:right" type="button" onclick="javascript: printDiv('Report')" class="btn green">Print</button>
+</div>
+<br />
+<div id="Report" class="page-content-inner">
     <div class="row ">
         <div class="col-md-12">
             <div class="portlet box green">
@@ -15,22 +18,28 @@
                         <i class="fa fa-gift"></i>Report Of District Wholesale to Retailer
                     </div>
                 </div>
+                @*<center>*@
+                  
+                @*</center>*@
                 <div class="portlet-body form" style="background-color:#f5f5f5">
                     <div class="form-body">
-
+                       
                         <table id="myDatatable">
                             <thead>
                                 <tr>
                                     <th>S.N</th>
-                                    <th>Kind Of Liquor</th>
+                                    <th>Brewary Name</th>
+                                    <th>Revenue</th>
+                                    <th>Brand</th>
                                     <th>Batch No</th>
-                                    <th>Bottle Quantity</th>
-                                    <th>BL</th>
-                                    <th>AL</th>
-                                    <th>Alcohalic Strength</th>
+                                    <th>Total Bottle</th>
+                                    <th>Date</th>
+                                    <th>Vehicle No</th>
+                                    <th>Receiver</th>
                                 </tr>
                             </thead>
                         </table>
+
 
                     </div>
                 </div>
@@ -48,12 +57,14 @@
             var oTable = $('#myDatatable').DataTable({
                 "columns": [
                     { "data": "RowNum", "autoWidth": true },
-                    { "data": "KindOfLiquor", "autoWidth": true },
+                    { "data": "BrewaryName", "autoWidth": true },
+                       { "data": "Revenue", "autoWidth": true },
+                          { "data": "Brand", "autoWidth": true },
                     { "data": "BatchNo", "autoWidth": true },
-                    { "data": "BottleQuantity", "autoWidth": true },
-                    { "data": "TotalLitresBL", "autoWidth": true },
-                    { "data": "TotalLitresAL", "autoWidth": true },
-                    { "data": "AlcoholicStrength", "autoWidth": true },
+                    { "data": "TotalBottle", "autoWidth": true },
+                    { "data": "Date", "autoWidth": true },
+                    { "data": "VehicleNo", "autoWidth": true },
+                    { "data": "Receiver", "autoWidth": true },
                 ]
             })
             callThis();
@@ -70,19 +81,39 @@
                     "datatype": "json"
                 },
                 "columns": [
-                   { "data": "RowNum", "autoWidth": true },
-                    { "data": "KindOfLiquor", "autoWidth": true },
+                    { "data": "RowNum", "autoWidth": true },
+                    { "data": "BrewaryName", "autoWidth": true },
+                       { "data": "Revenue", "autoWidth": true },
+                          { "data": "Brand", "autoWidth": true },
                     { "data": "BatchNo", "autoWidth": true },
-                    { "data": "BottleQuantity", "autoWidth": true },
-                    { "data": "TotalLitresBL", "autoWidth": true },
-                    { "data": "TotalLitresAL", "autoWidth": true },
-                    { "data": "AlcoholicStrength", "autoWidth": true },
+                    { "data": "TotalBottle", "autoWidth": true },
+                    { "data": "Date", "autoWidth": true },
+                    { "data": "VehicleNo", "autoWidth": true },
+                    { "data": "Receiver", "autoWidth": true },
                 ]
             })
 
         }
 
-       
+        function printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+              "<html><head><title></title></head><body>" +
+              divElements + "</body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+
+
+        }
 
 
 </script>
