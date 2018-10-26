@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/CommonStyle.css" rel="stylesheet" />
+
+<div class="page-content-inner">
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Report Of District Wholesale to Retailer
+                    </div>
+                </div>
+                <div class="portlet-body form" style="background-color:#f5f5f5">
+                    <div class="form-body">
+
+                        <table id="myDatatable">
+                            <thead>
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Kind Of Liquor</th>
+                                    <th>Batch No</th>
+                                    <th>Bottle Quantity</th>
+                                    <th>BL</th>
+                                    <th>AL</th>
+                                    <th>Alcohalic Strength</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        window.onload = L;
+        function L() {
+            debugger
+            var oTable = $('#myDatatable').DataTable({
+                "columns": [
+                    { "data": "RowNum", "autoWidth": true },
+                    { "data": "KindOfLiquor", "autoWidth": true },
+                    { "data": "BatchNo", "autoWidth": true },
+                    { "data": "BottleQuantity", "autoWidth": true },
+                    { "data": "TotalLitresBL", "autoWidth": true },
+                    { "data": "TotalLitresAL", "autoWidth": true },
+                    { "data": "AlcoholicStrength", "autoWidth": true },
+                ]
+            })
+            callThis();
+        }
+
+
+        function callThis() {
+            debugger
+            $('#myDatatable').DataTable().destroy();
+            var oTable = $('#myDatatable').DataTable({
+                "ajax": {
+                    "url": '/Report/GetGatePassForDistrictWholesaleToRetailor1',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                   { "data": "RowNum", "autoWidth": true },
+                    { "data": "KindOfLiquor", "autoWidth": true },
+                    { "data": "BatchNo", "autoWidth": true },
+                    { "data": "BottleQuantity", "autoWidth": true },
+                    { "data": "TotalLitresBL", "autoWidth": true },
+                    { "data": "TotalLitresAL", "autoWidth": true },
+                    { "data": "AlcoholicStrength", "autoWidth": true },
+                ]
+            })
+
+        }
+
+       
+
+
+</script>
+

@@ -60,27 +60,42 @@ namespace UPExciseLTE.Models
 
     public class DistrictWholeSaleToRetailorModel
     {
-        [Display(Name ="S.No")]
+        [Display(Name = "S.No")]
         public int SerialNo { get; set; }
 
         [Display(Name = "Kind Of Liquor")]
-        public DateTime KindOfLiquor { get; set; }
+        public string KindOfLiquor { get; set; }
 
-        [Display(Name ="Batch No.")]
+        [Display(Name = "Batch No.")]
         public string BatchNo { get; set; }
 
-        [Display(Name ="Bottles,Flask Quantity Contained in each")]
+        [Display(Name = "Bottles,Flask Quantity Contained in each")]
         public decimal Quantity { get; set; }
 
-        [Display(Name ="BL")]
+        [Display(Name = "BL")]
         public decimal TotalLitresOfBL { get; set; }
         [Display(Name = "AL")]
         public decimal TotalLitresOfAL { get; set; }
 
-        [Display(Name ="Alcoholic Strength")]
+        [Display(Name = "Alcoholic Strength")]
         public string AlcohalicStrength { get; set; }
 
-       
+
+        public int RowNum { get; set; }
+
+        public long TransitGatePassID { get; set; }
+
+
+        public string BottleQuantity { get; set; }
+
+        public string TotalBottle { get; set; }
+
+        public decimal TotalLitresBL { get; set; }
+
+        public decimal TotalLitresAL { get; set; }
+
+        public decimal AlcoholicStrength { get; set; }
+
     }
 
 }

@@ -33,9 +33,10 @@
 
     <link href="../Content/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components2" type="text/css" />
    
+    <link href="~/Content/CommonStyle.css" rel="stylesheet" />
 
-   
-
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" />
     @*@Styles.Render("~/Content/cssBlank")
     @Styles.Render("~/Content/cssDash")
     @Styles.Render("~/Content/ReportCss")*@
@@ -401,7 +402,8 @@
     
     <div class="quick-nav-overlay"></div>
     
-
+    <script src="~/Scripts/jquey.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
     @*@RenderSection("scripts", required: false)*@
 </body>
 
