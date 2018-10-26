@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
-        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../MasterForms/ProductionEntry';</script>
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../MasterForms/ProductionPlanList';</script>
     }
 }
 <script type="text/javascript">
@@ -25,7 +25,7 @@
     }
 
 </script>
-@using (Html.BeginForm("UpdateBottelingPlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ProductionEntry", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(true)
