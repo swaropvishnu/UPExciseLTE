@@ -10,6 +10,7 @@ using UPExciseLTE.Models;
 using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
 using UPExciseLTE.Models;
+using Dapper;
 
 namespace UPExciseLTE.DAL
 {
@@ -898,6 +899,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("BrandName", brand.BrandName));
                 cmd.Parameters.Add(new SqlParameter("BrandRegistrationNumber", brand.BrandRegistrationNumber));
                 cmd.Parameters.Add(new SqlParameter("Strength", brand.Strength));
+                cmd.Parameters.Add(new SqlParameter("AlcoholType", brand.AlcoholType));
                 cmd.Parameters.Add(new SqlParameter("LiquorType", brand.LiquorType));
                 cmd.Parameters.Add(new SqlParameter("LicenceType", brand.LicenceType));
                 cmd.Parameters.Add(new SqlParameter("LicenceNo", brand.LicenceNo));
@@ -907,9 +909,13 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("AdditionalDuty", brand.AdditionalDuty));
                 cmd.Parameters.Add(new SqlParameter("QuantityInCase", brand.QuantityInCase));
                 cmd.Parameters.Add(new SqlParameter("QuantityInBottleML", brand.QuantityInBottleML));
+                cmd.Parameters.Add(new SqlParameter("PackagingType", brand.PackagingType));
                 cmd.Parameters.Add(new SqlParameter("ExciseDuty", brand.ExciseDuty));
                 cmd.Parameters.Add(new SqlParameter("ExportBoxSize", brand.ExportBoxSize));
                 cmd.Parameters.Add(new SqlParameter("Remark", brand.Remark));
+               
+               
+                cmd.Parameters.Add(new SqlParameter("StateId", brand.StateId));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", ""));
                 cmd.Parameters.Add(new SqlParameter("c_time_stamp", ""));
@@ -946,7 +952,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conndb2(), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
             }
             catch (Exception exp)
             {
@@ -1156,5 +1162,27 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+
+        #region DistrictWholesaleToRetailor
+
+        public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
+        {
+            var para = new DynamicParameters();
+            para.Add("@SpType", 1);
+            try
+            {
+                return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        #endregion
+
+
     }
 }

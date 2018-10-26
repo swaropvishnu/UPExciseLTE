@@ -984,7 +984,10 @@ namespace UPExciseLTE
             {
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
             }
-            distNames.Insert(0, new SelectListItem { Text = "--चयन करे--", Value = "-1" });
+            if (parm3!="Z")
+            {
+                distNames.Insert(0, new SelectListItem { Text = "--Select--", Value = "-1" });
+            }
             while (sdr.Read())
             {
                 distNames.Add(new SelectListItem

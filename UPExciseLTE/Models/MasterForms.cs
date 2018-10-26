@@ -44,6 +44,9 @@ namespace UPExciseLTE.Models
         public string Remark { get; set; }
         public int SPType { get; set; }
         public string dbName { get; set; }
+        public string AlcoholType { get; set; }
+        public string PackagingType { get; set; }
+        public int StateId { get; set; }
     }
     public class Brewery
     {
@@ -127,6 +130,8 @@ namespace UPExciseLTE.Models
         public float WastageBL { get; set; }
         [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
+        public int StateId { get; set; }
+        public string TotalRevenue { get; set; }
     }
 
 }

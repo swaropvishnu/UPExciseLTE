@@ -9,6 +9,7 @@ using UPExciseLTE.Models;
 using ClosedXML;
 using ClosedXML.Excel;
 using System.IO;
+using UPExciseLTE.BLL;
 
 namespace UPExciseLTE.Controllers
 {
@@ -25,13 +26,19 @@ namespace UPExciseLTE.Controllers
         public ActionResult BrandMaster()
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
+            List<SelectListItem> StateList = new List<SelectListItem>();
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
             BrandMaster Brand = new BrandMaster();
             ViewBag.Brewery = breweryList;
+            ViewBag.StateList = StateList;
             Brand.BrandId = -1;
             Brand.SPType = 1;
             Brand.LiquorType = "BE";
+            Brand.LicenceType = "FL3";
+            Brand.QuantityInBottleML = 650;
+            Brand.StateId = -1;
             return View(Brand);
         }
         public ActionResult BrandMaster(int BrandId)
@@ -59,16 +66,23 @@ namespace UPExciseLTE.Controllers
                 B.Remark = "";
             }
             string str = new CommonDA().InsertUpdateBrand(B);
-            /*Save Record In Database*/
-            ViewData["Result"] = str;
+            ViewBag.Msg=str;
             List<SelectListItem> breweryList = new List<SelectListItem>();
+            List<SelectListItem> StateList = new List<SelectListItem>();
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
             BrandMaster Brand = new BrandMaster();
+            ViewBag.Brewery = breweryList;
+            ViewBag.StateList = StateList;
             Brand.BrandId = -1;
             Brand.SPType = 1;
-            ViewBag.Brewery = breweryList;
+            Brand.LiquorType = "BE";
+            Brand.LicenceType = "FL3";
+            Brand.QuantityInBottleML = 650;
+            Brand.StateId = -1;
             return View(Brand);
+
         }
         [HttpGet]
         public ActionResult GetBrandDetails()
@@ -114,17 +128,59 @@ namespace UPExciseLTE.Controllers
             }
             return View(lstBrand);
         }
-         
+        //[HttpGet]
+        //public ActionResult EditBrandDetails(string BrandId)
+        //{
+        //    List<SelectListItem> breweryList = new List<SelectListItem>();
+        //    string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
+        //    CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
+        //    ViewBag.Brewery = breweryList;
+        //    List<SelectListItem> DistrictList = new List<SelectListItem>();
+        //    ViewBag.District = DistrictList;
+        //    List<SelectListItem> TehsilList = new List<SelectListItem>();
+        //    ViewBag.Tehsil = TehsilList;
+        //    BrandMaster brand = new BrandMaster();
+        //    DataSet ds = new CommonDA().GetBrandDetail(-1, "", "", "", -1, -1, -1);
+        //    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+        //    {
+        //        try
+        //        {
+        //            brand.AdditionalDuty = float.Parse(dr["AdditionalDuty"].ToString().Trim());
+        //            brand.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+        //            brand.BrandName = dr["BrandName"].ToString().Trim();
+        //            brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
+        //            brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+        //            brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
+        //            brand.ExiciseTin = dr["ExiciseTin"].ToString().Trim();
+        //            brand.ExportBoxSize = int.Parse(dr["ExportBoxSize"].ToString().Trim());
+        //            brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
+        //            brand.LicenceType = dr["LicenceType"].ToString().Trim();
+        //            brand.LiquorType = dr["LiquorType"].ToString().Trim();
+        //            brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
+        //            brand.QuantityInBottleML = int.Parse(dr["QuantityInBottleML"].ToString().Trim());
+        //            brand.QuantityInCase = int.Parse(dr["QuantityInCase"].ToString().Trim());
+        //            brand.Remark = dr["Remark"].ToString().Trim();
+        //            brand.Strength = float.Parse(dr["Strength"].ToString().Trim());
+        //            brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
+        //        }
+        //        catch (Exception exp) { }
+        //    }
+        //        return View(brand);
+        //}
         [HttpGet]
         public ActionResult BottelingPlan()
         {
             BottelingPlan Plan = new BottelingPlan();
             List<SelectListItem> BrandList = new List<SelectListItem>();
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            ViewBag.StateList = StateList;
             Plan.PlanId = -1;
             Plan.Type = 1;
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
             ViewBag.Brand = BrandList;
+            
             return View(Plan);
         }
        
@@ -135,10 +191,17 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> BrandList = new List<SelectListItem>();
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            ViewBag.StateList = StateList;
             ViewBag.Brand = BrandList;
             BP.dbName = "be_unnao1";
+            BP.AlcoholicLiter = 0;
+            BP.DateOfPlan =   CommonBL.Setdate(BP.DateOfPlan1);
             string str = new CommonDA().InsertUpdatePlan(BP);
             ViewBag.Msg = str;
+            Plan.PlanId = -1;
+            Plan.Type = 1;
             return View(Plan);
         }
         [HttpGet]
@@ -150,6 +213,9 @@ namespace UPExciseLTE.Controllers
             int Planid = int.Parse(A);
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            ViewBag.StateList = StateList;
             DataSet ds = new CommonDA().GetBottelingPlanDetail(Convert.ToDateTime(String.Format("{0:dd/MM/yyyy}", "01/01/1900"), CultureInfo.CurrentCulture), DateTime.Now, -1, -1, "", "", "", Planid);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
@@ -168,10 +234,11 @@ namespace UPExciseLTE.Controllers
                 Plan.QunatityInCaseExport = int.Parse(ds.Tables[0].Rows[0]["QunatityInCaseExport"].ToString().Trim());
                 Plan.PlanNoofBottling = ds.Tables[0].Rows[0]["PlanNoofBottling"].ToString().Trim();
                 Plan.QuantityInBottleML = ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim();
-                Plan.Strength = ds.Tables[0].Rows[0]["Strength"].ToString().Trim();
+                Plan.Strength = ds.Tables[0].Rows[0]["AlcoholType"].ToString().Trim();
                 Plan.BulkLiter = float.Parse(ds.Tables[0].Rows[0]["BulkLitre"].ToString().Trim());
                 Plan.AlcoholicLiter = float.Parse(ds.Tables[0].Rows[0]["AlcoholicLiter"].ToString().Trim());
                 Plan.TotalUnitQuantity = int.Parse(ds.Tables[0].Rows[0]["TotalUnitQuantity"].ToString().Trim());
+                Plan.StateId = int.Parse(ds.Tables[0].Rows[0]["stateId"].ToString().Trim());
             }
             ViewBag.Brand = BrandList;
             return View(Plan);
@@ -324,7 +391,7 @@ namespace UPExciseLTE.Controllers
             {
                 try
                 {
-                    str = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim()+","+ ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["Strength"].ToString().Trim();
+                    str = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim()+","+ ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["AlcoholType"].ToString().Trim()+","+ ds.Tables[0].Rows[0]["stateId"].ToString().Trim();
                 } 
                 catch{
                     str = "";
@@ -362,15 +429,20 @@ namespace UPExciseLTE.Controllers
                 Plan.BulkLiter = float.Parse(ds.Tables[0].Rows[0]["BulkLitre"].ToString().Trim());
                 Plan.AlcoholicLiter = float.Parse(ds.Tables[0].Rows[0]["AlcoholicLiter"].ToString().Trim());
                 Plan.TotalUnitQuantity = int.Parse(ds.Tables[0].Rows[0]["TotalUnitQuantity"].ToString().Trim());
-                Plan.ProducedQunatityInCaseExport= Plan.QunatityInCaseExport;
-                Plan.ProducedNumberOfCases = int.Parse(ds.Tables[0].Rows[0]["ProducedNumberOfCases"].ToString().Trim());
                 Plan.ProducedQunatityInCaseExport = int.Parse(ds.Tables[0].Rows[0]["ProducedQunatityInCaseExport"].ToString().Trim());
+                if (Plan.ProducedQunatityInCaseExport==0)
+                {
+                    Plan.ProducedQunatityInCaseExport = Plan.QunatityInCaseExport;
+                }
+                Plan.ProducedNumberOfCases = int.Parse(ds.Tables[0].Rows[0]["ProducedNumberOfCases"].ToString().Trim());
+                
                 Plan.ProducedBulkLiter = float.Parse(ds.Tables[0].Rows[0]["ProducedBulkLitre"].ToString().Trim());
                 Plan.ProducedAlcoholicLiter = int.Parse(ds.Tables[0].Rows[0]["ProducedAlcoholicLitre"].ToString().Trim());
                 Plan.ProducedTotalUnitQuantity = int.Parse(ds.Tables[0].Rows[0]["ProducedTotalUnitQuantity"].ToString().Trim());
                 Plan.WastageInNumber = int.Parse(ds.Tables[0].Rows[0]["WastageInNumber"].ToString().Trim());
                 Plan.WastageBL = int.Parse(ds.Tables[0].Rows[0]["WastageBL"].ToString().Trim());
                 Plan.IsProductionFinal = short.Parse(ds.Tables[0].Rows[0]["IsProductionFinal"].ToString().Trim());
+                Plan.TotalRevenue = ds.Tables[0].Rows[0]["TotalRevenue"].ToString().Trim();
             }
             ViewBag.Brand = BrandList;
             return View(Plan);
@@ -429,7 +501,50 @@ namespace UPExciseLTE.Controllers
             BP.Type = 1;
             string str = new CommonDA().InsertUpdateProductionPlan(BP);
             ViewBag.Msg = str;
-            return View(BP);
+            BottelingPlan Plan = new BottelingPlan();
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            int Planid = BP.PlanId;
+            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            DataSet ds = new CommonDA().GetProducePlanDetail(Convert.ToDateTime(String.Format("{0:dd/MM/yyyy}", "01/01/1900"), CultureInfo.CurrentCulture), DateTime.Now, -1, -1, "", "", "", Planid);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                Plan.PlanId = int.Parse(ds.Tables[0].Rows[0]["PlanId"].ToString().Trim());
+                Plan.Type = 4;
+                //Plan.DateOfPlan = Convert.ToDateTime(ds.Tables[0].Rows[0]["DateofPlan1"].ToString().Trim());
+                Plan.DateOfPlan1 = ds.Tables[0].Rows[0]["DateofPlan"].ToString().Trim();
+                Plan.BatchNo = ds.Tables[0].Rows[0]["BatchNo"].ToString().Trim();
+                Plan.BrandId = int.Parse(ds.Tables[0].Rows[0]["BrandId"].ToString().Trim());
+                Plan.MappedOrNot = short.Parse(ds.Tables[0].Rows[0]["MappedOrNot"].ToString().Trim());
+                Plan.LiquorType = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim();
+                Plan.LicenceType = ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim();
+                Plan.LicenseNo = ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim();
+                Plan.IsStateSame = bool.Parse(ds.Tables[0].Rows[0]["IsStateSame"].ToString().Trim());
+                Plan.NumberOfCases = int.Parse(ds.Tables[0].Rows[0]["NumberOfCases"].ToString().Trim());
+                Plan.QunatityInCaseExport = int.Parse(ds.Tables[0].Rows[0]["QunatityInCaseExport"].ToString().Trim());
+                Plan.PlanNoofBottling = ds.Tables[0].Rows[0]["PlanNoofBottling"].ToString().Trim();
+                Plan.QuantityInBottleML = ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim();
+                Plan.Strength = ds.Tables[0].Rows[0]["Strength"].ToString().Trim();
+                Plan.BulkLiter = float.Parse(ds.Tables[0].Rows[0]["BulkLitre"].ToString().Trim());
+                Plan.AlcoholicLiter = float.Parse(ds.Tables[0].Rows[0]["AlcoholicLiter"].ToString().Trim());
+                Plan.TotalUnitQuantity = int.Parse(ds.Tables[0].Rows[0]["TotalUnitQuantity"].ToString().Trim());
+                Plan.ProducedQunatityInCaseExport = int.Parse(ds.Tables[0].Rows[0]["ProducedQunatityInCaseExport"].ToString().Trim());
+                if (Plan.ProducedQunatityInCaseExport == 0)
+                {
+                    Plan.ProducedQunatityInCaseExport = Plan.QunatityInCaseExport;
+                }
+                Plan.ProducedNumberOfCases = int.Parse(ds.Tables[0].Rows[0]["ProducedNumberOfCases"].ToString().Trim());
+
+                Plan.ProducedBulkLiter = float.Parse(ds.Tables[0].Rows[0]["ProducedBulkLitre"].ToString().Trim());
+                Plan.ProducedAlcoholicLiter = int.Parse(ds.Tables[0].Rows[0]["ProducedAlcoholicLitre"].ToString().Trim());
+                Plan.ProducedTotalUnitQuantity = int.Parse(ds.Tables[0].Rows[0]["ProducedTotalUnitQuantity"].ToString().Trim());
+                Plan.WastageInNumber = int.Parse(ds.Tables[0].Rows[0]["WastageInNumber"].ToString().Trim());
+                Plan.WastageBL = int.Parse(ds.Tables[0].Rows[0]["WastageBL"].ToString().Trim());
+                Plan.IsProductionFinal = short.Parse(ds.Tables[0].Rows[0]["IsProductionFinal"].ToString().Trim());
+                Plan.TotalRevenue = ds.Tables[0].Rows[0]["TotalRevenue"].ToString().Trim();
+            }
+            ViewBag.Brand = BrandList;
+            return View(Plan);
+            
         }
         public string FreezePlanSuccess(string PlanId)
         {
@@ -518,36 +633,137 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        public ActionResult DownloadExcel(string PlanId)
+        ////public ActionResult DownloadExcel(string PlanId)
+        ////{
+        ////    try
+        ////    {
+        ////        PlanId = new Crypto().Decrypt(PlanId);
+        ////        DataSet ds = new DataSet();
+        ////        ds = new CommonDA().GetQRCOde(int.Parse(PlanId));
+        ////        using (XLWorkbook wb = new XLWorkbook())
+        ////        {
+        ////            wb.Worksheets.Add(ds.Tables[0]);
+        ////            wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+        ////            wb.Style.Font.Bold = true;
+
+        ////            Response.Clear();
+        ////            Response.Buffer = true;
+        ////            Response.Charset = "";
+        ////            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        ////            Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
+
+        ////            using (MemoryStream MyMemoryStream = new MemoryStream())
+        ////            {
+        ////                wb.SaveAs(MyMemoryStream);
+        ////                MyMemoryStream.WriteTo(Response.OutputStream);
+        ////                Response.Flush();
+        ////                Response.End();
+        ////            }
+        ////        }
+        ////    }
+        ////    catch { }
+        ////    return RedirectToAction("GenerateQRCode", "MasterFormsController");
+        ////}
+
+
+        [HttpPost]
+        public FileResult Export(string PlanId )
         {
-            try
+           
+            DataSet ds = new DataSet();
+            ds = new CommonDA().GetQRCOde(int.Parse("1"));
+
+            using (XLWorkbook wb = new XLWorkbook())
             {
-                PlanId = new Crypto().Decrypt(PlanId);
-                DataSet ds = new DataSet();
-                ds = new CommonDA().GetQRCOde(int.Parse(PlanId));
-                using (XLWorkbook wb = new XLWorkbook())
+                wb.Worksheets.Add(ds.Tables[0]);
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    wb.Worksheets.Add(ds.Tables[0]);
-                    wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                    wb.Style.Font.Bold = true;
-
-                    Response.Clear();
-                    Response.Buffer = true;
-                    Response.Charset = "";
-                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
-
-                    using (MemoryStream MyMemoryStream = new MemoryStream())
-                    {
-                        wb.SaveAs(MyMemoryStream);
-                        MyMemoryStream.WriteTo(Response.OutputStream);
-                        Response.Flush();
-                        Response.End();
-                    }
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "QRCodeList.xlsx");
                 }
             }
-            catch { }
-            return RedirectToAction("GenerateQRCode", "MasterFormsController");
         }
+        [HttpGet]
+        public ActionResult Searchplan()
+        {
+            List<BottelingPlan> BPList = new List<BottelingPlan>();
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
+            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            ViewBag.Brand = BrandList;
+            DataSet ds = new CommonDA().GetBottelingPlanDetail(DateTime.Now, DateTime.Now, -1, -1, "Z", "Z", "Z", -1);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                try
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        BottelingPlan Plan = new BottelingPlan();
+                        Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+                        Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
+                        Plan.DateOfPlan1 = (dr["DateOfPlan"].ToString().Trim());
+                        Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+                        Plan.LicenceType = dr["LiquorType"].ToString().Trim();
+                        Plan.Brand = dr["BrandName"].ToString().Trim();
+                        Plan.Capacity = dr["Capacity"].ToString().Trim();
+                        Plan.QunatityInCaseExport = int.Parse(dr["QuantityInCase"].ToString().Trim());
+                        Plan.Quantity = dr["TotalUnitQuantity"].ToString().Trim();
+                        Plan.PlanNoofBottling = dr["PlanNoofBottling"].ToString().Trim();
+                        Plan.Status = dr["Status"].ToString().Trim();
+                        Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+                        BPList.Add(Plan);
+                    }
+                }
+                catch (Exception exp) { }
+            }
+            return View(BPList);
+        }
+        [HttpGet]
+        public ActionResult SearchProduction()
+        {
+            List<BottelingPlan> BPList = new List<BottelingPlan>();
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
+            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            ViewBag.Brand = BrandList;
+            DataSet ds = new CommonDA().GetProducePlanDetail(DateTime.Now, DateTime.Now, -1, -1, "Z", "Z", "Z", -1);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                try
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        BottelingPlan Plan = new BottelingPlan();
+                        Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+                        Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
+                        Plan.DateOfPlan1 = (dr["DateOfPlan"].ToString().Trim());
+                        Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+                        Plan.LicenceType = dr["LiquorType"].ToString().Trim();
+                        Plan.Brand = dr["BrandName"].ToString().Trim();
+                        Plan.Capacity = dr["Capacity"].ToString().Trim();
+                        Plan.QunatityInCaseExport = int.Parse(dr["QuantityInCase"].ToString().Trim());
+                        Plan.Quantity = dr["TotalUnitQuantity"].ToString().Trim();
+                        Plan.PlanNoofBottling = dr["PlanNoofBottling"].ToString().Trim();
+                        Plan.Status = dr["Status"].ToString().Trim();
+                        Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+                        Plan.ProducedQunatityInCaseExport = Plan.QunatityInCaseExport;
+                        Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
+                        Plan.ProducedQunatityInCaseExport = int.Parse(dr["ProducedQunatityInCaseExport"].ToString().Trim());
+                        Plan.ProducedBulkLiter = float.Parse(dr["ProducedBulkLitre"].ToString().Trim());
+                        Plan.ProducedAlcoholicLiter = int.Parse(dr["ProducedAlcoholicLitre"].ToString().Trim());
+                        Plan.ProducedTotalUnitQuantity = int.Parse(dr["ProducedTotalUnitQuantity"].ToString().Trim());
+                        Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
+                        Plan.WastageBL = int.Parse(dr["WastageBL"].ToString().Trim());
+                        Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
+                        Plan.TotalUnitQuantity = int.Parse(dr["TotalUnitQuantity"].ToString().Trim());
+                        BPList.Add(Plan);
+                    }
+                }
+                catch (Exception exp) { }
+            }
+            return View(BPList);
+        }
+        //SearchProduction
     }
+
 }
