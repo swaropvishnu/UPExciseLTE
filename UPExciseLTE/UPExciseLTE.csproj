@@ -6050,6 +6050,8 @@
     <Content Include="Views\Report\FLB11Report.cshtml" />
     <Content Include="Views\GatePass\ReceivedGatePass.cshtml" />
     <Content Include="Views\GatePass\GenerateGatePass.cshtml" />
+    <Content Include="Views\MasterForms\Searchplan.cshtml" />
+    <Content Include="Views\MasterForms\SearchProduction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
