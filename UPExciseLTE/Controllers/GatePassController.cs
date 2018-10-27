@@ -1,9 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.Models;
+using System.Data;
+using UPExciseLTE.DAL;
 
 namespace UPExciseLTE.Controllers
 {
@@ -16,6 +19,7 @@ namespace UPExciseLTE.Controllers
         {
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             ViewBag.LicenceNo = LicenceNos;
+            ViewBag.Brands = GetBrandList();
             return View();
         }
         #endregion
@@ -27,7 +31,7 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
-   
+            ViewBag.Brands = GetBrandList();
             ViewBag.LicenceNo = LicenceNos;
             return View();
         }
@@ -37,6 +41,7 @@ namespace UPExciseLTE.Controllers
         #region DistrictWholesaleToRetailor
         public ActionResult DistrictWholesaleToRetailor()
         {
+            ViewBag.Brands = GetBrandList();
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
@@ -51,8 +56,6 @@ namespace UPExciseLTE.Controllers
 
         public ActionResult ReceivedGatePass()
         {
-
-
             return View();
         }
 
@@ -61,12 +64,26 @@ namespace UPExciseLTE.Controllers
         #region GenerateGatePass
         public ActionResult GenerateGatePass()
         {
-
-
+            return View();
+        }
+        public ActionResult UploadGatePass()
+        {
             return View();
         }
 
-#endregion
+        #endregion
+
+        #region BrandList
+
+        public List<SelectListItem> GetBrandList()
+        {
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
+            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+            return BrandList;
+        }
+
+        #endregion
 
     }
 }

@@ -5999,6 +5999,7 @@
     <Content Include="MenuHandler.ashx" />
     <None Include="Properties\PublishProfiles\LTE.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CommonScript.js" />
     <Content Include="Scripts\dataTables.buttons.min.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -6050,6 +6051,7 @@
     <Content Include="Views\Report\FLB11Report.cshtml" />
     <Content Include="Views\GatePass\ReceivedGatePass.cshtml" />
     <Content Include="Views\GatePass\GenerateGatePass.cshtml" />
+    <Content Include="Views\GatePass\UploadGatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

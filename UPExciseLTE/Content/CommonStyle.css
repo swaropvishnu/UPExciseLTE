@@ -48,5 +48,5 @@ body {
 }
 
 select.form-control:not([size]):not([multiple]) {
-    height: calc(2.25rem + 6px);
+    height: calc(2.80rem + 6px);
 }

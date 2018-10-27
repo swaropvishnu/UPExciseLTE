@@ -51,6 +51,19 @@ namespace UPExciseLTE.Models
 
         public decimal NetWeight { get; set; }
 
+        public string ShopName { get; set; }
+
+        public int ShopId { get; set; }
+
+        public string GatePassNo { get; set; }
+
+        public string LicenseeLicenseNo { get; set; }
+
+        public string LicenseeName { get; set; }
+
+        public string LicenseeAddress { get; set; }
+
+        public int BrandId { get; set; }
 
         public IEnumerable<DistrictWholeSaleToRetailorModel> DistrictWholeSaleToRetailorList { get; set; }
 
@@ -63,8 +76,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "S.No")]
         public int SerialNo { get; set; }
 
-        //[Display(Name = "Kind Of Liquor")]
-        //public string KindOfLiquor { get; set; }
+        [Display(Name = "Kind Of Liquor")]
+        public string KindOfLiquor { get; set; }
 
         [Display(Name = "Batch No.")]
         public string BatchNo { get; set; }

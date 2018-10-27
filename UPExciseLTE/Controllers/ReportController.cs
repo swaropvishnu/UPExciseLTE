@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.DAL;
+using UPExciseLTE.App_Code;
+using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
@@ -28,6 +30,44 @@ namespace UPExciseLTE.Controllers
 
         public ActionResult FLB11Report()
         {
+            string passtype;
+            string reciever;
+            if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 45)
+            {
+                passtype = "FL-B11";
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 35)
+            {
+                passtype = "FL-36";
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 15)
+            {
+                passtype = "B-12";
+            }
+            else
+                passtype = "FL-B11";
+
+
+            if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 45)
+            {
+                reciever = "Lucknow Warehouse";
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 35)
+            {
+                reciever = "Sahu & Sons Kanpur Road";
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 15)
+            {
+                reciever = "M/s Mohan Goldwater Breweries Ltd. Warehouse";
+            }
+            else
+                reciever = "FL-B11";
+
+
+            ViewBag.Reciever = reciever;
+            ViewBag.PassType = passtype;
+
+
             return View();
         }
 

@@ -1168,7 +1168,7 @@ namespace UPExciseLTE.DAL
         public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
         {
             var para = new DynamicParameters();
-            para.Add("@SpType", 1);
+            para.Add("@SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId));
             try
             {
                 return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);

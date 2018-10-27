@@ -1,10 +1,23 @@
 ﻿
 @{
-    ViewBag.Title = "GenerateGatePass";
+    ViewBag.Title = "UploadGatePass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("GenerateGatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+<style>
+    .displayNone{
+        display:block;
+    }
+
+    /*#docs {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;*/
+}
+</style>
+
+@using (Html.BeginForm("UploadGatePass", "GatePass", FormMethod.Post, new { @id= "UploadGatePassform", @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -14,7 +27,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Generate Gatepass
+                            <i class="fa fa-gift"></i>Upload CSV After Receiving Stock
                         </div>
                     </div>
 
@@ -77,13 +90,10 @@
                                     <td>
                                         SATKAR TRANSPORT COMPANY
                                     </td>
-
-
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
-
+                                        <input type="file" id="file1" name="field1"  class="btn btn-primary required"  value="Upload Gatepass" ><br />
+                                        <button type="submit" id="UploadGatePass1" value="Upload Gate Pass" class="btn green displayNone" >Upload Gate Pass</button>
                                     </td>
-
                                 </tr>
                                 <tr>
 
@@ -110,9 +120,10 @@
                                     <td>
                                         SATKAR TRANSPORT COMPANY
                                     </td>
-                                    <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
 
+                                    <td>
+                                       <input type="file" id="file2"  class="btn btn-primary" accept=".csv"   value="Upload Gatepass"><br />
+                                       <button type="button" id="UploadGatePass2" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
@@ -141,16 +152,13 @@
                                         SATKAR TRANSPORT COMPANY
                                     </td>
 
-
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
-
+                                       <input type="file"  id="file3"   class="btn btn-primary" accept=".csv"  value="Upload Gatepass"><br />
+                                       <button type="button" id="UploadGatePass3" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
                                 <tr>
-
-
                                     <td>10/10/2018 </td>
                                     <td>
                                         Wave Distillers & Breweries Limited
@@ -175,8 +183,8 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
-
+                                       <input type="file"  id="file4"  class="btn btn-primary" accept=".csv"  value="Upload Gatepass"><br />
+                                        <button type="button" id="UploadGatePass4" value="" class="btn green">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
@@ -209,7 +217,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+                                       <input type="file" class="btn green" value="Upload Gatepass">
 
                                     </td>
 
@@ -243,7 +251,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+                                       <input type="file" class="btn green" value="Upload Gatepass">
 
                                     </td>
 
@@ -277,7 +285,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+                                       <input type="file" class="btn green" value="Upload Gatepass">
 
                                     </td>
 
@@ -311,7 +319,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+                                       <input type="file" class="btn green" value="Upload Gatepass">
 
                                     </td>
 
@@ -345,15 +353,59 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green"><a href="/Report/FLB11Report">Generate Gatepass</a></button>
+                                        <input type="file" class="btn green" value="Upload Gatepass">
+
                                     </td>
+
                                 </tr>*@
+
                             </table>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 }
+
+<script>
+
+    //$(document).ready(function () {
+
+    //    $('#UploadGatePassform').validate({ // initialize the plugin
+    //        rules: {
+    //            field1: {
+    //                required: true,
+    //                extension: "csv"
+    //            }
+    //        },
+    //        submitHandler: function (form) { // for demo
+    //            alert('valid form submitted'); // for demo
+    //            return false; // for demo
+    //        }
+    //    });
+
+    //});
+
+    $("#UploadGatePass1").click(function () {
+        alert("CSV File Uploaded Successfully");
+    });
+    $("#UploadGatePass2").click(function () {
+        alert("CSV File Uploaded Successfully");
+    });
+    $("#UploadGatePass3").click(function () {
+        alert("CSV File Uploaded Successfully");
+    });
+    $("#UploadGatePass4").click(function () {
+        alert("CSV File Uploaded Successfully");
+    });
+
+</script>
+
+
+
 

@@ -13,7 +13,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>F.L.B 11 Report
+                        <i class="fa fa-gift"></i>@ViewBag.PassType Report
                     </div>
                 </div>
                 <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -28,7 +28,7 @@
                                         <h1><strong>Uttar Pradesh Excise Department</strong></h1>
                                     </div>
                                     <div class="row" style="margin-left:29%">
-                    <centre><b>F.L.B 11</b></centre>
+                    <centre><b>@ViewBag.PassType</b></centre>
                 </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                             <div>
                                 <label class="control-label">1. Name of Consignor : M/s</label>
                                 @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                Wave Distilleries & Breweries Limited Aligarh.
+                                M/s Mohan Goldwater Breweries Ltd.
                             </div>
                         </div>
 
@@ -75,7 +75,7 @@
                             <div>
                                 <label class="control-label">2. Name of Consignee : M/s</label>
                                 @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                A. B Sugars Limited.
+                                @ViewBag.Reciever
                             </div>
                         </div>
 
