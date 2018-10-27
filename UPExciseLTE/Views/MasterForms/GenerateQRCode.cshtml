@@ -155,12 +155,12 @@
 <script type="text/javascript">
 
     function Click(PlanId) {
+        $("#hfid").val(PlanId);
         document.getElementById('hrefDownload').click();
     }
     function DownloadExcel(PlanId) {
         //$("#hfname").val(name);
         //$("#hfyojana").val(yojana);
-        $("#hfid").val(PlanId);
         $("#btnDownload")[0].click();
     };
 

@@ -299,8 +299,12 @@ namespace UPExciseLTE.Controllers
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
             ViewBag.Brand = BrandList;
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            ViewBag.StateList = StateList;
             BP.dbName = "be_unnao1";
             BP.Type = 2;
+            BP.AlcoholicLiter = 0;
             BP.DateOfPlan = Convert.ToDateTime(String.Format("{0:dd/MM/yyyy}", BP.DateOfPlan1));
             string str = new CommonDA().InsertUpdatePlan(BP);
             ViewBag.Msg = str;

@@ -478,6 +478,11 @@ namespace UPExciseLTE.Controllers
         //        return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
         //    }  
         //}
-        
+
+        public ActionResult Track_staus()
+        {
+            return View();
+        }
+
     }
 }

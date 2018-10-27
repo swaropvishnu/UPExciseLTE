@@ -4,7 +4,7 @@
     ViewBag.Title = "Freeze Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FreezePlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -137,7 +137,7 @@
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../MasterForms/ProductionPlanList";
+                window.location = "../MasterForms/FreezePlan";
             },
             error: function (data) {
                 alert("Error in Finalize Plan Loading");
