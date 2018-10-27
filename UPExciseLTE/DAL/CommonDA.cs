@@ -28,7 +28,11 @@ namespace UPExciseLTE.DAL
                 con.Open();
                 cmd = new SqlCommand("proc_GetUserMaster", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@UID", SqlDbType.Int).Value = objUserData.UserId);
+                //cmd.Parameters.Add(new SqlParameter("@UID", SqlDbType.Int).Value =Convert.ToInt32(objUserData.UserId));
+                cmd.Parameters.Add(new SqlParameter("UID", Convert.ToInt32(objUserData.UserId)));
+
+
+
                 adap = new SqlDataAdapter(cmd);
                 dt = new DataTable();
                 adap.Fill(dt);
@@ -40,13 +44,11 @@ namespace UPExciseLTE.DAL
                         fm.UserId = objUserData.UserId;
                         fm.UserName = dt.Rows[i]["Name"].ToString();
                         fm.UserMobile = dt.Rows[i]["MobileNo"].ToString();
-                        fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
+                        //fm.UserNameHindi = dt.Rows[i]["NameHindi"].ToString();
                         fm.UserEmail = dt.Rows[i]["EmailId"].ToString();
-                        fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
+                        //fm.UserAddress = dt.Rows[i]["Office_Add"].ToString();
                         fm.UserImage = (Byte[])dt.Rows[i]["PhotoContent"];
                     }
-
-
                 }
                 return fm;
 
