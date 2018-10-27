@@ -14,7 +14,7 @@ namespace UPExciseLTE.Models
         public short BreweryId { get; set; }
         [Display(Name = "Brand Name")]
         public string BrandName { get; set; }
-        [Display(Name = "Brand Reg No")]
+        [Display(Name = "Brand Reg Number")]
         public string BrandRegistrationNumber { get; set; }
         [Display(Name = "Strength")]
         public float Strength { get; set; }
@@ -47,6 +47,8 @@ namespace UPExciseLTE.Models
         public string AlcoholType { get; set; }
         public string PackagingType { get; set; }
         public int StateId { get; set; }
+        public bool IsFinal { get; set; }
+        public string brandID_incrpt { get; set; }
     }
     public class Brewery
     {

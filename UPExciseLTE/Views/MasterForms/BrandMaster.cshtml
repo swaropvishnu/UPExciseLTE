@@ -99,7 +99,7 @@
                                             @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", })
                                             </div>
                                             <div class="form-group  col-md-6">
-                                                @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", onkeypress ="return isfloatNumber(this, event);", @readonly="true", @onkeyUp = "AlcoholCal();", @onblur = "AlcoholCal();" }) @*4.9 Mild And above Strong*@
+                                                @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", onkeypress ="return isfloatNumber(this, event);", @readonly="true",   @onblur = "AlcoholCal();" }) @*4.9 Mild And above Strong*@
                                             </div>
                                         </div>
                                 </div>
@@ -156,9 +156,9 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Quantity (In Bottle, In ml.)</label>
                                     <div>
-                                        @Html.TextBoxFor(m=>m.QuantityInBottleML,new { @id= "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required",visiblity=false })
+                                        @Html.TextBoxFor(m=>m.QuantityInBottleML,new { @id= "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
 
-                                        @Html.DropDownList("ddQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "QuantityInBottleML", @class = "form-control" })
+                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Excise Duty</label>
+                                    <label class="control-label">Excise Duty (Total) </label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
                                     </div>
@@ -216,6 +216,35 @@
         var LiquorType = $('#ddlLiquorType').val();
         document.getElementById("txtLinquorType").value = LiquorType;
     });
+    $('#ddlQuantityInBottleML').change(function () {
+        var LiquorType = $('#ddlQuantityInBottleML').val();
+        document.getElementById("txtQuantityInBottleML").value = LiquorType;
+    });
+    $('#ddlQuantityInBottleML').change(function () {
+        var LiquorType = $('#ddlQuantityInBottleML').val();
+        document.getElementById("txtQuantityInBottleML").value = LiquorType;
+    });
+    $('#txtStrength').change(function () {
+        AlcoholCal();
+    });
+    
+    $('#ddlState').change(function () {
+        var LiquorType = $('#ddlState').val();
+        if (LiquorType == "27") {
+            document.getElementById("txtQuantityInBottleML").value = 650;
+            document.getElementById("txtQuantityInBottleML").style.display = "none";
+            document.getElementById("ddlQuantityInBottleML").style.display = "";
+        }
+        else
+        {
+            document.getElementById("ddlQuantityInBottleML").style.display = "none";
+            document.getElementById("txtQuantityInBottleML").style.display = "";
+            document.getElementById("txtQuantityInBottleML").value = "0";
+
+        }
+         
+    });
+    
     function AlcoholCal()
     {
         var AlcoPer = document.getElementById("txtStrength").value;

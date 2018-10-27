@@ -22,7 +22,7 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Liquor Type</label>
                                 @*@Html.TextBox("LiquorType", "", new { @id = "txtLiquorType", @class = "form-control", @Value = "" })*@
-                                @Html.DropDownList("ddlLiquorType", new List<SelectListItem> { new SelectListItem { Text = "-All-", Value = "A" },new SelectListItem { Text = "Beer", Value = "BE" }, new SelectListItem { Text = "Country Liquor", Value = "CL" }, new SelectListItem { Text = "Foreign Liquor", Value = "FL" } }, new { @id = "ddlLiquorType", @class = "form-control" })
+                                @Html.DropDownList("ddlLiquorType", new List<SelectListItem> { new SelectListItem { Text = "Beer", Value = "BE" }}, new { @id = "ddlLiquorType", @class = "form-control" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Licence Type</label>
@@ -98,6 +98,7 @@
                         @Html.DisplayNameFor(model => model.ExciseDuty)
                     </th>
                     
+                    
                     <th></th>
                     <th></th>
                 </tr>
@@ -147,12 +148,18 @@
                         </td>
                        
                         <td>
-                            <button type="button" class="btn green">Edit</button>
-                            @*@Html.ActionLink("Edit", "BrandMaster", new { id = item.BrandId })*@
+                            @if (item.IsFinal == false)
+                            {
+                                <a href="@Url.Action("editbrand","MasterForms", new {Code = item.brandID_incrpt })"><label class="btn blue">Edit</label></a>
+                            }
+                          
                         </td>
                         <td>
-                            @*@Html.ActionLink("Delete", "Delete", new { id = item.BrandId })*@
-                            <button type="button" class="btn default" style="background-color:crimson; color:white">Delete</button>
+                            @if (item.IsFinal == false)
+                            {
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId')">Delete</button>
+                            }
+                            @*@Html.ActionLink("Edit", "BrandMaster", new { id = item.BrandId })*@
                         </td>
                     </tr>
                 }
@@ -172,6 +179,21 @@
     function BrandMaster() {
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
+    }
+    function FinalBrand(BrandId) {
+        $.ajax({
+            url: '/MasterForms/DeleteBrand',
+            data: { 'BrandId': BrandId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                window.location = "../MasterForms/GetBrandDetails";
+            },
+            error: function (data) {
+                alert("Error in final brand Loading");
+            }
+        });
     }
 </script>
 

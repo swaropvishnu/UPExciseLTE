@@ -50,15 +50,13 @@
                                         @Html.DisplayNameFor(model => model.WastageBL)
                                     </th>
                                     <th scope="col"></th>
-                                   <th scope="col"></th>
+                                 
 
                                 </tr>
 
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-
-
                                         <td>
                                             @Html.DisplayFor(modelItem => item.PlanId)
                                         </td>
@@ -96,7 +94,7 @@
                                                 <button type="button" class="btn default" style="background-color: crimson;color:white" disabled="disabled">Freeze Plan</button>
                                             }
                                         </td>
-                                        <td><button type="button" class="btn green">Upload CSV</button></td>
+                                        
                                     </tr>
                                 }
                             </table>
