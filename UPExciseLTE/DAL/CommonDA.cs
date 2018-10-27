@@ -939,7 +939,38 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-        public DataSet GetBrandDetail(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int TehsilCode)
+        public string UpdateBrand(string dbName, int BrandId,int TypeId)
+        {
+            string str = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("Proc_Update_Brand", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", dbName));
+                cmd.Parameters.Add(new SqlParameter("BrandId",BrandId));
+                cmd.Parameters.Add(new SqlParameter("TypeId", TypeId));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
+        public DataSet GetBrandDetail(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int TehsilCode,string Status)
         {
             DataSet ds = new DataSet();
             try
@@ -952,6 +983,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
+                parameters.Add(new SqlParameter("Status", Status));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
             }
             catch (Exception exp)
@@ -1082,6 +1114,28 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Import", Import));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetProducePlanDetail", parameters.ToArray());
+            }
+            catch (Exception exp)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public DataSet GetFinalizedPlan(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", ToDate));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("BrandId", BrandId));
+                parameters.Add(new SqlParameter("Status", Status));
+                parameters.Add(new SqlParameter("Mapped", Mapped));
+                parameters.Add(new SqlParameter("Import", Import));
+                parameters.Add(new SqlParameter("PlanId", PlanId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetFinalizedPlan", parameters.ToArray());
             }
             catch (Exception exp)
             {
