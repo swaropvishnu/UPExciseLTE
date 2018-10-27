@@ -305,7 +305,8 @@ namespace UPExciseLTE.Controllers
             BP.dbName = "be_unnao1";
             BP.Type = 2;
             BP.AlcoholicLiter = 0;
-            BP.DateOfPlan = Convert.ToDateTime(String.Format("{0:dd/MM/yyyy}", BP.DateOfPlan1));
+            BP.DateOfPlan = BLL.CommonBL.Setdate(BP.DateOfPlan1);
+            
             string str = new CommonDA().InsertUpdatePlan(BP);
             ViewBag.Msg = str;
             return View(BP);

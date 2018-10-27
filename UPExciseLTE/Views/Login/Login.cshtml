@@ -190,17 +190,18 @@
                         @Html.ValidationMessageFor(a => a.Password)
                         <span class="focus-input100"></span>
                     </div>
-                    <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                    <div class="wrap-input100 rs3-wrap-input100 validate-input m-b-20" data-validate="Type user name">
                         <label id="lblCaptcha"><img id="image" src="~/Login/ShowCaptchaImage" style="margin-top: 8px;" /></label>
+                        <label style="color:white">space</label>
                         @*<img src="images/Captcha.PNG" style=" width 115px;" />&nbsp
                         <img src="images/refresh.PNG" />*@
                         @*<div>
                             <a href="#" onclick="javascript:ReloadCaptchaCode();" class="btn btn-primary ">Refresh</a>
 
                         </div>*@
-                        <img src="../Content/images/refresh.PNG" onclick="javascript:ReloadCaptchaCode();" style="cursor:pointer" />
+                        <img src="../Content/images/refresh.PNG" onclick="javascript:ReloadCaptchaCode();" style="cursor:pointer ;margin-top: 8px;" />
                     </div>
-                    <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Chaptcha">
+                    <div class="wrap-input100 rs3-wrap-input100 validate-input m-b-20" data-validate="Chaptcha">
                         @Html.TextBoxFor(a => a.CaptchaText, new { @id = "txtforcapture", @required = "required", @class = "input100", @placeholder = "Captcha" })
                         @*<input class="input100" type="password" name="pass" placeholder="Chaptcha">*@
                         <span class="focus-input100"></span>

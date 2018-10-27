@@ -87,6 +87,9 @@
     .shop-tracking-status .form-horizontal {
         margin-bottom: 50px;
     }
+    .hide {
+      display: hide;
+    }
 
     .shop-tracking-status .order-status {
         margin-top: 150px;
@@ -267,7 +270,24 @@
             }
 </style>
 
-
+<script>
+    function myfunction() {
+        if (document.getElementById('inputOrderTrackingID').value == "")
+        {
+            alert('Please enter code');
+            return;
+        }
+        $('#sp_Brewery').html('M/s Mohan Goldwater Breweries Ltd.');
+        $('#sp_Brand').html('Tuborg Classic Black Super Strong Beer');
+       
+        $('#sp_Batch').html('HJL80NJLK9908I');
+        $('#sp_Quantity').html('500ml');
+        $('#sp_Packeging').html('Can');
+        $('#sp_Packeging_date').html('27/10/2018');
+        $('#sp_Retailer').html('Hazrat Ganj');
+        $('#divord').removeClass('hide');
+    }
+</script>
 
 <!------ Include the above in your HEAD tag ---------->
 <div class="row shop-tracking-status">
@@ -304,7 +324,7 @@
 
 
                                     <div class="col-sm-2">
-                                        <button type="button" id="shopGetOrderStatusID" class="btn btn-success">Submit</button>
+                                        <button type="button" id="shopGetOrderStatusID" class="btn btn-success" onclick="myfunction()">Submit</button>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -316,27 +336,37 @@
                                 <h4>Status:</h4>
                                 <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="prefix">Brewery Name:</span>
-                                        <span class="label label-success">Brewery</span>
+                                        <span class="prefix">Brewery: </span>
+                                        <span class="label label-success" id="sp_Brewery"></span>
                                     </li>
                                     <li class="list-group-item">
-                                        <span class="prefix">Dist Name:</span>
-                                        <span class="label label-success">Distict Name</span>
+                                        <span class="prefix">Brand: </span>
+                                        <span class="label label-success" id="sp_Brand"> </span>
                                     </li>
                                     <li class="list-group-item">
-                                        <span class="prefix">Brand:</span>
-                                        <span class="label label-success">Brand Name</span>
+                                        <span class="prefix">Batch No.:</span>
+                                        <span class="label label-success" id="sp_Batch"> </span>
                                     </li>
                                     <li class="list-group-item">
-                                        <span class="prefix">Retailor:</span>
-                                        <span class="label label-success">Retailor Name</span>
+                                        <span class="prefix">Quantity: </span>
+                                        <span class="label label-success" id="sp_Quantity"></span>
                                     </li>
-
-
+                                    <li class="list-group-item">
+                                        <span class="prefix">Packeging Type : </span>
+                                        <span class="label label-success" id="sp_Packeging"> </span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="prefix">Packeging Date : </span>
+                                        <span class="label label-success" id="sp_Packeging_date"></span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="prefix">Retailer:  </span>
+                                        <span class="label label-success" id="sp_Retailer"></span>
+                                    </li>
                                     @*<li class="list-group-item">You can find out latest status of your order with the following link:</li>
                 <li class="list-group-item"><a href="//tracking/link/goes/here">//tracking/link/goes/here</a></li>*@
                                 </ul>
-                                <div class="order-status">
+                                <div class="order-status hide" id="divord">
                                     <div class="order-status-timeline">
                                         <!-- class names: c0 c1 c2 c3 and c4 -->
                                         <div class="order-status-timeline-completion c3"></div>

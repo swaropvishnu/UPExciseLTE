@@ -207,7 +207,7 @@ iframe {
 [ login more ]*/
 .login100-more {
   width: 415px;
-  height:450px;
+  height:550px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -292,8 +292,12 @@ iframe {
 
 .rs1-wrap-input100,
 .rs2-wrap-input100 {
-  width: 50%;
+  /*width: 50%;*/
 }
+.rs3-wrap-input100 {
+    width:50%;
+}
+
 
 .rs2-wrap-input100 {
   border-left: none;

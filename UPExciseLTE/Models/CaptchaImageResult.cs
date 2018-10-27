@@ -51,7 +51,7 @@ namespace UPExciseLTE.Models
             //bmp.Dispose();
             
             //myRgbColor = Color.FromRgb(3, 2, 5);
-            Bitmap bmp = new Bitmap(70, 30);
+            Bitmap bmp = new Bitmap(100, 30);
             Graphics g = Graphics.FromImage(bmp);
             g.Clear(Color.FromArgb(255, 255, 255));
             //bmp.MakeTransparent(Color.blank);
