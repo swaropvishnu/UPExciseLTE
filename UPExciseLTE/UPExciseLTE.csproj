@@ -6048,7 +6048,7 @@
     <Content Include="Views\GatePass\ManufacturerWholesaleToDistrictWholesale.cshtml" />
     <Content Include="Views\MasterForms\GenerateQRCode.cshtml" />
     <Content Include="Views\Report\GetGatePassForDistrictWholesaleToRetailor.cshtml" />
-    <Content Include="Views\Report\FLB11Report.cshtml" />
+    <Content Include="Views\Report\GatePassReport.cshtml" />
     <Content Include="Views\GatePass\ReceivedGatePass.cshtml" />
     <Content Include="Views\GatePass\GenerateGatePass.cshtml" />
     <Content Include="Views\GatePass\UploadGatePass.cshtml" />

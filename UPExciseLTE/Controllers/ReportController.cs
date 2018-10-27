@@ -28,7 +28,7 @@ namespace UPExciseLTE.Controllers
         }
 
 
-        public ActionResult FLB11Report()
+        public ActionResult GatePassReport()
         {
             string passtype;
             string reciever;
