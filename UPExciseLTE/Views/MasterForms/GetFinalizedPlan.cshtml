@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
 
 @{
-    ViewBag.Title = "Freeze Plan";
+    ViewBag.Title = "Upload CSV File";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-@using (Html.BeginForm("SearchProduction", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -17,33 +14,8 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Freeze Plan
+                            <i class="fa fa-gift"></i>Upload CSV File
                         </div>
-                    </div>
-                    <div class="portlet-body form" style="background-color: #f5f5f5">
-                        <div class="form-body">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">From Date</label>
-                                    @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">To Date</label>
-                                    @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Brand</label>
-                                    @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrewery", @class = "form-control" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <center>
-                            <div class="form-actions">
-                                <button type="submit" class="btn green">Search</button>
-                                <button type="button" class="btn default" style="background-color: crimson;color:white">Reset</button>
-                            </div>
-                        </center>
                     </div>
                     <div class="portlet-body">
                         <div>
@@ -78,14 +50,13 @@
                                         @Html.DisplayNameFor(model => model.WastageBL)
                                     </th>
                                    
+                                    <th scope="col">Upload CSV After Scanning Barcode on Box</th>
 
                                 </tr>
 
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-
-
                                         <td>
                                             @Html.DisplayFor(modelItem => item.PlanId)
                                         </td>
@@ -113,7 +84,8 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
- 
+                                         
+                                        <td><input type="file" name="impCSVUpload" /> <button type="button" class="btn green" onclick="">Upload CSV</button></td>
                                     </tr>
                                 }
                             </table>
@@ -169,18 +141,5 @@
             FreezePlan(EncPlanId);
         }
     }
-    $("#txtFromDate").datepicker({
-
-        dateFormat: "dd/mm/yy",
-        changeMonth: true,
-        changeYear: true
-    });
-    $("#txtToDate").datepicker({
-
-        dateFormat: "dd/mm/yy",
-        changeMonth: true,
-        changeYear: true
-    });
 </script>
-
 

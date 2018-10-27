@@ -6052,6 +6052,10 @@
     <Content Include="Views\GatePass\ReceivedGatePass.cshtml" />
     <Content Include="Views\GatePass\GenerateGatePass.cshtml" />
     <Content Include="Views\GatePass\UploadGatePass.cshtml" />
+    <Content Include="Views\Login\Track_staus.cshtml" />
+    <Content Include="Views\MasterForms\EditBrand.cshtml" />
+    <Content Include="Views\MasterForms\FinalizeBrand.cshtml" />
+    <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

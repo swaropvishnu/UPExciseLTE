@@ -1,10 +1,15 @@
 ﻿@model  UPExciseLTE.Models.BrandMaster
 @{
+    ViewBag.Title = "EditBrand";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
     ViewBag.Title = "Brand Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
-        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../MasterForms/BrandMaster';</script>
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
 <script type="text/javascript">
@@ -38,7 +43,7 @@
         }
         return true;
     }
-    
+
     function setSelectedValue(selectObj, valueToSet) {
         for (var i = 0; i < selectObj.options.length; i++) {
             if (selectObj.options[i].text == valueToSet) {
@@ -48,7 +53,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditBrand", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -63,7 +68,7 @@
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             @Html.HiddenFor(m => m.BrandId)
-                            @Html.HiddenFor(m =>m.SPType)
+                            @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">State</label>
@@ -74,7 +79,7 @@
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control",@readonly="true" })
+                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -85,47 +90,47 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand Registration Number</label>
                                     <div>
-                                        
+
                                         @Html.TextBoxFor(m => m.BrandRegistrationNumber, new { @id = "txtBrandRegistrationNumber", @class = "form-control", @required = "required" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                
+
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Strength of Alcohal</label>
                                     <div class="row">
                                         <div class="form-group  col-md-6">
                                             @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", })
-                                            </div>
-                                            <div class="form-group  col-md-6">
-                                                @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", onkeypress ="return isfloatNumber(this, event);", @readonly="true",   @onblur = "AlcoholCal();" }) @*4.9 Mild And above Strong*@
-                                            </div>
                                         </div>
+                                        <div class="form-group  col-md-6">
+                                            @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly = "true", @onkeyUp = "AlcoholCal();", @onblur = "AlcoholCal();" }) @*4.9 Mild And above Strong*@
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Liquor Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LiquorType, new List<SelectListItem> { new SelectListItem { Text = "Beer", Value = "BE" }}, new { @id = "ddlLiquorType", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LiquorType, new List<SelectListItem> { new SelectListItem { Text = "Beer", Value = "BE" } }, new { @id = "ddlLiquorType", @class = "form-control" })
 
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">License Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LicenceType,new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLiquorType", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LicenceType, new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLiquorType", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                
+
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">License No</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.LicenceNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required" })
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">MRP</label>
                                     <div>
@@ -140,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                               
+
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Additional Duty</label>
                                     <div>
@@ -156,9 +161,10 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Quantity (In Bottle, In ml.)</label>
                                     <div>
-                                        @Html.TextBoxFor(m=>m.QuantityInBottleML,new { @id= "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
+                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
 
-                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" }) 
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -166,11 +172,11 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Packaging Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })  
+                                        @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Excise Duty (Total) </label>
+                                    <label class="control-label">Excise Duty</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
                                     </div>
@@ -188,7 +194,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div style="clear:both"></div>
                         <center>
@@ -216,35 +222,6 @@
         var LiquorType = $('#ddlLiquorType').val();
         document.getElementById("txtLinquorType").value = LiquorType;
     });
-    $('#ddlQuantityInBottleML').change(function () {
-        var LiquorType = $('#ddlQuantityInBottleML').val();
-        document.getElementById("txtQuantityInBottleML").value = LiquorType;
-    });
-    $('#ddlQuantityInBottleML').change(function () {
-        var LiquorType = $('#ddlQuantityInBottleML').val();
-        document.getElementById("txtQuantityInBottleML").value = LiquorType;
-    });
-    $('#txtStrength').change(function () {
-        AlcoholCal();
-    });
-    
-    $('#ddlState').change(function () {
-        var LiquorType = $('#ddlState').val();
-        if (LiquorType == "27") {
-            document.getElementById("txtQuantityInBottleML").value = 650;
-            document.getElementById("txtQuantityInBottleML").style.display = "none";
-            document.getElementById("ddlQuantityInBottleML").style.display = "";
-        }
-        else
-        {
-            document.getElementById("ddlQuantityInBottleML").style.display = "none";
-            document.getElementById("txtQuantityInBottleML").style.display = "";
-            document.getElementById("txtQuantityInBottleML").value = "0";
-
-        }
-         
-    });
-    
     function AlcoholCal()
     {
         var AlcoPer = document.getElementById("txtStrength").value;
@@ -253,4 +230,20 @@
         }
         else { document.getElementById("txtAlcoholType").value = "Mild"; }
     }
+    $('#ddlState').change(function () {
+        var LiquorType = $('#ddlState').val();
+        if (LiquorType == "27") {
+            document.getElementById("txtQuantityInBottleML").value = 650;
+            document.getElementById("txtQuantityInBottleML").style.display = "none";
+            document.getElementById("ddlQuantityInBottleML").style.display = "";
+        }
+        else {
+            document.getElementById("ddlQuantityInBottleML").style.display = "none";
+            document.getElementById("txtQuantityInBottleML").style.display = "";
+            document.getElementById("txtQuantityInBottleML").value = "0";
+
+        }
+
+    });
 </script>
+
