@@ -6175,6 +6175,7 @@
     <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
     <Content Include="Views\MasterForms\Searchplan.cshtml" />
     <Content Include="Views\MasterForms\SearchProduction.cshtml" />
+    <Content Include="Views\Shared\_ErrorMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

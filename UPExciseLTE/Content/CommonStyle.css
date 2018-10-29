@@ -50,3 +50,7 @@ body {
 select.form-control:not([size]):not([multiple]) {
     height: calc(2.80rem + 6px);
 }
+
+.displayNone{
+    display:none;
+}

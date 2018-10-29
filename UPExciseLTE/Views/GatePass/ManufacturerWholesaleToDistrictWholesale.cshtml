@@ -8,6 +8,7 @@
 @using (Html.BeginForm("ManufacturerWholesaleToDistrictWholesale", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -34,7 +35,7 @@
                                                 <label class="control-label">To</label>
                                             </div>
                                             <div class="col-md-6">
-                                                @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL2", new { @checked = "checked" }) FL2
+                                                @Html.RadioButtonFor(m => m.SelectedToRdo, "FL2", new { @checked = "checked" }) FL2
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +81,7 @@
 
                             </div>
                             <div class="row">
-                              
+
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Licencee No</label>
                                     <div>
@@ -108,7 +109,7 @@
 
                             </div>
                             <div class="row">
-                              
+
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Address</label>
                                     <div>
@@ -131,7 +132,7 @@
                                 </div>
 
                             </div>
-                          
+
                             <div class="row">
                                 <div class="form-group  ">
                                     <div class="col-md-12">
@@ -198,36 +199,36 @@
 
 <script>
 
-    //$('#ddlBrand').change(function () {
-    //    var BrandId = $('#ddlBrand').val();
-    //    if (BrandId != "-1") {
-    //        BrandChange(BrandId);
-    //    }
-    //});
+        //$('#ddlBrand').change(function () {
+        //    var BrandId = $('#ddlBrand').val();
+        //    if (BrandId != "-1") {
+        //        BrandChange(BrandId);
+        //    }
+        //});
 
-    //function BrandChange(BrandId) {
-    //    $.ajax({
-    //        url: '/MasterForms/GetBrandDetailsForDDl',
-    //        data: { 'BrandId': BrandId },
-    //        datatype: "json",
-    //        type: "GET",
-    //        success: function (data) {
-    //            var res = data.split(",");
-    //            //document.getElementById("txtLiquorType").value = res[0];
-    //            //document.getElementById("txtLicenseType").value = res[1];
-    //            document.getElementById("txtLicenseNo").value = res[2];
-    //            //document.getElementById("txtBottleInCase").value = res[3];
-    //            //document.getElementById("txtQuantityInBottle").value = res[4];
-    //            //document.getElementById("txtStrength").value = res[5];
-    //            //var element = document.getElementById("ddlState");
-    //            //element.value = res[6];
-    //            //$('#ddlState').attr('disabled', true);
-    //        },
-    //        error: function (data) {
-    //            alert("Error in ModelShop Loading");
-    //        }
-    //    });
-    //}
+        //function BrandChange(BrandId) {
+        //    $.ajax({
+        //        url: '/MasterForms/GetBrandDetailsForDDl',
+        //        data: { 'BrandId': BrandId },
+        //        datatype: "json",
+        //        type: "GET",
+        //        success: function (data) {
+        //            var res = data.split(",");
+        //            //document.getElementById("txtLiquorType").value = res[0];
+        //            //document.getElementById("txtLicenseType").value = res[1];
+        //            document.getElementById("txtLicenseNo").value = res[2];
+        //            //document.getElementById("txtBottleInCase").value = res[3];
+        //            //document.getElementById("txtQuantityInBottle").value = res[4];
+        //            //document.getElementById("txtStrength").value = res[5];
+        //            //var element = document.getElementById("ddlState");
+        //            //element.value = res[6];
+        //            //$('#ddlState').attr('disabled', true);
+        //        },
+        //        error: function (data) {
+        //            alert("Error in ModelShop Loading");
+        //        }
+        //    });
+        //}
 </script>
 
 

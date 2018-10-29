@@ -8,6 +8,8 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+
+    @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml")
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -49,7 +51,7 @@
                                     <th scope="col">
                                         @Html.DisplayNameFor(model => model.WastageBL)
                                     </th>
-                                   
+
                                     <th scope="col">Upload CSV After Scanning Barcode on Box</th>
 
                                 </tr>
@@ -62,6 +64,7 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.DateOfPlan1)
+
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Brand)
@@ -84,8 +87,8 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
-                                         
-                                        <td><input type="file" name="impCSVUpload" /> <button type="button" class="btn green" onclick="alert('Upload Successfully')">Upload CSV</button></td>
+
+                                        <td><input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" /><br /> <button type="submit" class="btn green" onclick="return ValidateExtension(this)">Upload CSV</button></td>
                                     </tr>
                                 }
                             </table>
@@ -96,13 +99,13 @@
         </div>
     </div>
 }
+
+
 <script type="text/javascript">
-    function load(PlanId)
-    {
+    function load(PlanId) {
         window.location = "../MasterForms/UpdateBottelingPlan?A=" + PlanId;
     }
-    function Production(PlanId)
-    {
+    function Production(PlanId) {
         window.location = "../MasterForms/ProductionEntry?A=" + PlanId;
     }
     function FinalizePlan(PlanId) {
