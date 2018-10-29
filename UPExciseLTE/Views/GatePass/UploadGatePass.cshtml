@@ -1,26 +1,33 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "UploadGatePass";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-    .displayNone{
-        display:block;
-    }
+    /*.displayNone {
+        display: block;
+    }*/
 
     /*#docs {
     display: block;
     position: fixed;
     bottom: 0;
     right: 0;*/
-}
+    }
 </style>
 
-@using (Html.BeginForm("UploadGatePass", "GatePass", FormMethod.Post, new { @id= "UploadGatePassform", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadGatePass", "GatePass", FormMethod.Post, new { @id = "UploadGatePassform", @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+   
+
+
+    @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml")
+
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -91,8 +98,9 @@
                                         SATKAR TRANSPORT COMPANY
                                     </td>
                                     <td>
-                                        <input type="file" id="file1" name="field1"  class="btn btn-primary required"  value="Upload Gatepass" ><br />
-                                        <button type="submit" id="UploadGatePass1" value="Upload Gate Pass" class="btn green displayNone" >Upload Gate Pass</button>
+                                        <input type="file" id="UploadGatePassCsv" name="field1" class="btn btn-primary required" value="Upload Gatepass"><br />
+                                        @*<button type="submit" id="UploadGatePass1" value="Upload Gate Pass" class="btn green displayNone" >Upload Gate Pass</button>*@
+                                        <button type="submit" value="" class="btn green" id="btnUpload" onclick="return ValidateExtension(this)">Upload Gate Pass</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -122,8 +130,9 @@
                                     </td>
 
                                     <td>
-                                       <input type="file" id="file2"  class="btn btn-primary" accept=".csv"   value="Upload Gatepass"><br />
-                                       <button type="button" id="UploadGatePass2" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>
+                                        <input type="file" id="UploadGatePassCsv" class="btn btn-primary" accept=".csv" value="Upload Gatepass"><br />
+                                        @*<button type="button" id="UploadGatePass2" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>*@
+                                        <button type="submit" value="" class="btn green" id="btnUpload" onclick="return ValidateExtension()">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
@@ -153,8 +162,9 @@
                                     </td>
 
                                     <td>
-                                       <input type="file"  id="file3"   class="btn btn-primary" accept=".csv"  value="Upload Gatepass"><br />
-                                       <button type="button" id="UploadGatePass3" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>
+                                        <input type="file" id="UploadGatePassCsv" class="btn btn-primary" accept=".csv" value="Upload Gatepass"><br />
+                                        @*<button type="button" id="UploadGatePass3" value="Upload Gate Pass" class="btn green">Upload Gate Pass</button>*@
+                                        <button type="submit" value="" class="btn green" id="btnUpload" onclick="return ValidateExtension()">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
@@ -183,181 +193,181 @@
                                     </td>
 
                                     <td>
-                                       <input type="file"  id="file4"  class="btn btn-primary" accept=".csv"  value="Upload Gatepass"><br />
-                                        <button type="button" id="UploadGatePass4" value="" class="btn green">Upload Gate Pass</button>
+                                        <input type="file" id="UploadGatePassCsv" class="btn btn-primary" accept=".csv" value="Upload Gatepass"><br />
+                                        <button type="submit" value="" class="btn green" id="btnUpload" onclick="return ValidateExtension()">Upload Gate Pass</button>
                                     </td>
 
                                 </tr>
                                 @*<tr>
 
-                                    <td>
-                                        5
-                                    </td>
+                                        <td>
+                                            5
+                                        </td>
 
-                                    <td>
-                                        Test Brand
-                                    </td>
-                                    <td>
-                                        Brand Reg 1
-                                    </td>
-                                    <td>
-                                        40
-                                    </td>
-                                    <td>
-                                        BE
-                                    </td>
-                                    <td>
-                                        FL3
-                                    </td>
-                                    <td>
-                                        LK1
-                                    </td>
-                                    <td>
-                                        55
-                                    </td>
+                                        <td>
+                                            Test Brand
+                                        </td>
+                                        <td>
+                                            Brand Reg 1
+                                        </td>
+                                        <td>
+                                            40
+                                        </td>
+                                        <td>
+                                            BE
+                                        </td>
+                                        <td>
+                                            FL3
+                                        </td>
+                                        <td>
+                                            LK1
+                                        </td>
+                                        <td>
+                                            55
+                                        </td>
 
-                                    <td>
-                                       <input type="file" class="btn green" value="Upload Gatepass">
+                                        <td>
+                                           <input type="file" class="btn green" value="Upload Gatepass">
 
-                                    </td>
+                                        </td>
 
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
 
-                                    <td>
-                                        7
-                                    </td>
+                                        <td>
+                                            7
+                                        </td>
 
-                                    <td>
-                                        Test Brand
-                                    </td>
-                                    <td>
-                                        Brand Reg 1
-                                    </td>
-                                    <td>
-                                        4.3
-                                    </td>
-                                    <td>
-                                        BE
-                                    </td>
-                                    <td>
-                                        FL3
-                                    </td>
-                                    <td>
-                                        LK1
-                                    </td>
-                                    <td>
-                                        12
-                                    </td>
+                                        <td>
+                                            Test Brand
+                                        </td>
+                                        <td>
+                                            Brand Reg 1
+                                        </td>
+                                        <td>
+                                            4.3
+                                        </td>
+                                        <td>
+                                            BE
+                                        </td>
+                                        <td>
+                                            FL3
+                                        </td>
+                                        <td>
+                                            LK1
+                                        </td>
+                                        <td>
+                                            12
+                                        </td>
 
-                                    <td>
-                                       <input type="file" class="btn green" value="Upload Gatepass">
+                                        <td>
+                                           <input type="file" class="btn green" value="Upload Gatepass">
 
-                                    </td>
+                                        </td>
 
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
 
-                                    <td>
-                                        6
-                                    </td>
+                                        <td>
+                                            6
+                                        </td>
 
-                                    <td>
-                                        Test Brand
-                                    </td>
-                                    <td>
-                                        Brand Reg 1
-                                    </td>
-                                    <td>
-                                        40
-                                    </td>
-                                    <td>
-                                        BE
-                                    </td>
-                                    <td>
-                                        FL3
-                                    </td>
-                                    <td>
-                                        LK1
-                                    </td>
-                                    <td>
-                                        55
-                                    </td>
+                                        <td>
+                                            Test Brand
+                                        </td>
+                                        <td>
+                                            Brand Reg 1
+                                        </td>
+                                        <td>
+                                            40
+                                        </td>
+                                        <td>
+                                            BE
+                                        </td>
+                                        <td>
+                                            FL3
+                                        </td>
+                                        <td>
+                                            LK1
+                                        </td>
+                                        <td>
+                                            55
+                                        </td>
 
-                                    <td>
-                                       <input type="file" class="btn green" value="Upload Gatepass">
+                                        <td>
+                                           <input type="file" class="btn green" value="Upload Gatepass">
 
-                                    </td>
+                                        </td>
 
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
 
-                                    <td>
-                                        8
-                                    </td>
+                                        <td>
+                                            8
+                                        </td>
 
-                                    <td>
-                                        Test Brand
-                                    </td>
-                                    <td>
-                                        Brand Reg 1
-                                    </td>
-                                    <td>
-                                        4.3
-                                    </td>
-                                    <td>
-                                        BE
-                                    </td>
-                                    <td>
-                                        FL3
-                                    </td>
-                                    <td>
-                                        LK1
-                                    </td>
-                                    <td>
-                                        12
-                                    </td>
+                                        <td>
+                                            Test Brand
+                                        </td>
+                                        <td>
+                                            Brand Reg 1
+                                        </td>
+                                        <td>
+                                            4.3
+                                        </td>
+                                        <td>
+                                            BE
+                                        </td>
+                                        <td>
+                                            FL3
+                                        </td>
+                                        <td>
+                                            LK1
+                                        </td>
+                                        <td>
+                                            12
+                                        </td>
 
-                                    <td>
-                                       <input type="file" class="btn green" value="Upload Gatepass">
+                                        <td>
+                                           <input type="file" class="btn green" value="Upload Gatepass">
 
-                                    </td>
+                                        </td>
 
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
 
-                                    <td>
-                                        9
-                                    </td>
+                                        <td>
+                                            9
+                                        </td>
 
-                                    <td>
-                                        Test Brand
-                                    </td>
-                                    <td>
-                                        Brand Reg 1
-                                    </td>
-                                    <td>
-                                        1.2
-                                    </td>
-                                    <td>
-                                        BE
-                                    </td>
-                                    <td>
-                                        FL3
-                                    </td>
-                                    <td>
-                                        LK1
-                                    </td>
-                                    <td>
-                                        1212
-                                    </td>
+                                        <td>
+                                            Test Brand
+                                        </td>
+                                        <td>
+                                            Brand Reg 1
+                                        </td>
+                                        <td>
+                                            1.2
+                                        </td>
+                                        <td>
+                                            BE
+                                        </td>
+                                        <td>
+                                            FL3
+                                        </td>
+                                        <td>
+                                            LK1
+                                        </td>
+                                        <td>
+                                            1212
+                                        </td>
 
-                                    <td>
-                                        <input type="file" class="btn green" value="Upload Gatepass">
+                                        <td>
+                                            <input type="file" class="btn green" value="Upload Gatepass">
 
-                                    </td>
+                                        </td>
 
-                                </tr>*@
+                                    </tr>*@
 
                             </table>
 
@@ -372,6 +382,8 @@
 
 }
 
+
+<script src="~/Scripts/CommonScript.js"></script>
 <script>
 
     //$(document).ready(function () {

@@ -49,7 +49,14 @@ namespace UPExciseLTE.Controllers
         //    ViewBag.Brewery = breweryList;
         //    return View(Brand);
         //}
-        
+
+        public ActionResult UploadCSVFile()
+        {
+            return RedirectToAction("GetFinalizedPlan");
+        }
+
+
+
         [HttpPost]
         public ActionResult BrandMaster(BrandMaster B)
         {
