@@ -19,72 +19,43 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public ActionResult BrandMaster()
+        public List<SelectListItem> fillBrewery()
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserSession.LoggedInUserId.ToString().Trim(), "Z");
+            return breweryList;
+        }
+        public List<SelectListItem> fillState()
+        {
             List<SelectListItem> StateList = new List<SelectListItem>();
-            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            return StateList;
+        }
+        [HttpGet]
+        public ActionResult BrandMaster()
+        {  
+            string UserId = UserSession.LoggedInUserId.ToString().Trim();   
             BrandMaster Brand = new BrandMaster();
-            ViewBag.Brewery = breweryList;
-            ViewBag.StateList = StateList;
-            Brand.BrandId = -1;
+            ViewBag.Brewery = fillBrewery();
+            ViewBag.StateList = fillState();
             Brand.SPType = 1;
-            Brand.LiquorType = "BE";
-            Brand.LicenceType = "FL3";
-            Brand.QuantityInBottleML = 0;
-            Brand.StateId = 27;
             return View(Brand);
         }
-        //public ActionResult BrandMaster(int BrandId)
-        //{
-        //    List<SelectListItem> breweryList = new List<SelectListItem>();
-        //    string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-        //    CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
-        //    BrandMaster Brand = new BrandMaster();
-        //    Brand.BrandId = -1;
-        //    Brand.SPType = 1;
-        //    ViewBag.Brewery = breweryList;
-        //    return View(Brand);
-        //}
-
-        public ActionResult UploadCSVFile()
-        {
-            return RedirectToAction("GetFinalizedPlan");
-        }
-
-
-
+        
         [HttpPost]
         public ActionResult BrandMaster(BrandMaster B)
-        {
-            B.dbName = "be_unnao1";
-            if (B.ExiciseTin==null)
-            {
-                B.ExiciseTin = "";
-            }
+         {
+
             if (B.Remark==null)
             {
                 B.Remark = "";
             }
             string str = new CommonDA().InsertUpdateBrand(B);
             ViewBag.Msg=str;
-            List<SelectListItem> breweryList = new List<SelectListItem>();
-            List<SelectListItem> StateList = new List<SelectListItem>();
-            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserId, "Z");
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
-            BrandMaster Brand = new BrandMaster();
-            ViewBag.Brewery = breweryList;
-            ViewBag.StateList = StateList;
-            Brand.BrandId = -1;
+             BrandMaster Brand = new BrandMaster();
+            ViewBag.Brewery = fillBrewery();
+            ViewBag.StateList = fillState();
             Brand.SPType = 1;
-            Brand.LiquorType = "BE";
-            Brand.LicenceType = "FL3";
-            Brand.QuantityInBottleML = 650;
-            Brand.StateId = -1;
             return View(Brand);
 
         }
@@ -115,8 +86,6 @@ namespace UPExciseLTE.Controllers
                         brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
                         brand.BreweryId =short.Parse(dr["BreweryId"].ToString().Trim());
                         brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
-                        brand.ExiciseTin = dr["ExiciseTin"].ToString().Trim();
-                        brand.ExportBoxSize = int.Parse(dr["ExportBoxSize"].ToString().Trim());
                         brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
                         brand.LicenceType = dr["LicenceType"].ToString().Trim();
                         brand.LiquorType = dr["LiquorType"].ToString().Trim();
@@ -160,8 +129,6 @@ namespace UPExciseLTE.Controllers
                         brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
                         brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
                         brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
-                        brand.ExiciseTin = dr["ExiciseTin"].ToString().Trim();
-                        brand.ExportBoxSize = int.Parse(dr["ExportBoxSize"].ToString().Trim());
                         brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
                         brand.LicenceType = dr["LicenceType"].ToString().Trim();
                         brand.LiquorType = dr["LiquorType"].ToString().Trim();
@@ -205,9 +172,7 @@ namespace UPExciseLTE.Controllers
                         brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
                         brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
                         brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
-                        brand.ExiciseTin = dr["ExiciseTin"].ToString().Trim();
-                        brand.ExportBoxSize = int.Parse(dr["ExportBoxSize"].ToString().Trim());
-                        brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
+                         brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
                         brand.LicenceType = dr["LicenceType"].ToString().Trim();
                         brand.LiquorType = dr["LiquorType"].ToString().Trim();
                         brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
@@ -839,6 +804,17 @@ namespace UPExciseLTE.Controllers
             }
             return View(BPList);
         }
+
+        [ActionName("GetFinalizedPlan")]
+        [HttpPost]
+        public ActionResult UploadExcel()
+        {
+            if (Request.Files["FileUpload1"].ContentLength > 0)
+            {
+
+            }
+           return View();
+        }
         public string FinalBrand(string BrandId)
         {
             string str = "";
@@ -899,8 +875,6 @@ namespace UPExciseLTE.Controllers
                 Brand.BreweryId = short.Parse(ds.Tables[0].Rows[0]["BreweryId"].ToString().Trim());
                 //Brand.dbName = float.Parse( ds.Tables[0].Rows[0]["AdditionalDuty"].ToString().Trim());
                 Brand.ExciseDuty = float.Parse(ds.Tables[0].Rows[0]["ExciseDuty"].ToString().Trim());
-                Brand.ExiciseTin = (ds.Tables[0].Rows[0]["ExciseDuty"].ToString().Trim());
-                Brand.ExportBoxSize = int.Parse(ds.Tables[0].Rows[0]["ExportBoxSize"].ToString().Trim());
                 Brand.LicenceNo = ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim();
                 Brand.LicenceType = ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim();
                 Brand.LiquorType = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim();
@@ -922,7 +896,7 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult EditBrand(BrandMaster B)
         {
-            B.dbName = "be_unnao1";
+            /*B.dbName = "be_unnao1";
             if (B.ExiciseTin == null)
             {
                 B.ExiciseTin = "";
@@ -930,7 +904,7 @@ namespace UPExciseLTE.Controllers
             if (B.Remark == null)
             {
                 B.Remark = "";
-            }
+            }*/
             string str = new CommonDA().InsertUpdateBrand(B);
             ViewBag.Msg = str;
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -954,8 +928,6 @@ namespace UPExciseLTE.Controllers
                 Brand.BreweryId = short.Parse(ds.Tables[0].Rows[0]["BreweryId"].ToString().Trim());
                 //Brand.dbName = float.Parse( ds.Tables[0].Rows[0]["AdditionalDuty"].ToString().Trim());
                 Brand.ExciseDuty = float.Parse(ds.Tables[0].Rows[0]["ExciseDuty"].ToString().Trim());
-                Brand.ExiciseTin = (ds.Tables[0].Rows[0]["ExciseDuty"].ToString().Trim());
-                Brand.ExportBoxSize = int.Parse(ds.Tables[0].Rows[0]["ExportBoxSize"].ToString().Trim());
                 Brand.LicenceNo = ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim();
                 Brand.LicenceType = ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim();
                 Brand.LiquorType = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim();

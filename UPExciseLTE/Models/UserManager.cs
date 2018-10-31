@@ -264,7 +264,17 @@ namespace UPExciseLTE.Models
                 tbl_Session.Rows[0]["LastloginDate"] = value;
             }
         }
-
+        public string PushName
+        {
+            get
+            {
+                return tbl_Session.Rows[0]["PushName"].ToString();
+            }
+            set
+            {
+                tbl_Session.Rows[0]["PushName"] = value;
+            }
+        }
         //public string Sec_Code
         //{
         //    get
@@ -301,7 +311,7 @@ namespace UPExciseLTE.Models
         //        tbl_Session.Rows[0]["OfficeID"] = value;
         //    }
         //}
-      //profile pic
+        //profile pic
         //public string profilephoto
         //{
         //    get

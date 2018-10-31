@@ -82,7 +82,7 @@ namespace UPExciseLTE.Filters
                 {
                     if (ChkValidRequest())
                     {
-                        res = UserDtl.GetMenuValid(UserSession.LoggedInUser.UserId, PageName, IPAddress);
+                        res = UserDtl.GetMenuValid(UserSession.LoggedInUserId, PageName, IPAddress);
                         if (res == 0)
                         {
 
@@ -91,16 +91,16 @@ namespace UPExciseLTE.Filters
                         }
                     }
                     //if (!HttpContext.Current.User.Identity.IsAuthenticated || CRMSession.LoggedInUser == null)
-                    if (UserSession.LoggedInUser.UserName == null)
+                    if (UserSession.LoggedInUserName == null)
                     {
                         // this.RequestLogin();
                         filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Logout", controller = "Login" }));
                         return;
                     }
 
-                    else if (UserSession.LoggedInUser.UserName != null)
+                    else if (UserSession.LoggedInUserName != null)
                     {
-                        res = UserDtl.GetMenuValid(UserSession.LoggedInUser.UserId, PageName, IPAddress);
+                        res = UserDtl.GetMenuValid(UserSession.LoggedInUserId, PageName, IPAddress);
                         if (res == 0)
                         {
 

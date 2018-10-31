@@ -6,7 +6,7 @@ namespace UPExciseLTE.Models
 {
     public class UserSession
     {
-        public static UserManager LoggedInUser
+        protected static UserManager LoggedInUser
         {
             get
             {
@@ -232,7 +232,17 @@ namespace UPExciseLTE.Models
                 LoggedInUser.Lastlogin = value;
             }
         }
-
+        public static string PushName
+        {
+            get
+            {
+                return LoggedInUser.PushName;
+            }
+            set
+            {
+                LoggedInUser.PushName = value;
+            }
+        }
 
         public static string LoggedInUserAccess
         {

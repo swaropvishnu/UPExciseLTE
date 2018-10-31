@@ -4,6 +4,7 @@
     ViewBag.Title = "Upload CSV File";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -88,7 +89,9 @@
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
 
-                                        <td><input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" /><br /> <button type="submit" class="btn green" onclick="return ValidateExtension(this)">Upload CSV</button></td>
+                                        <td>
+                                        <input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload"  /><br /> 
+                                        <button type="submit" class="btn green" onclick="return ValidateExtension(this)">Upload CSV</button></td>
                                     </tr>
                                 }
                             </table>

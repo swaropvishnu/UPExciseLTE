@@ -9,46 +9,44 @@ namespace UPExciseLTE.Models
     public class BrandMaster
     {
         [Display(Name = "Brand Id")]
-        public int BrandId { get; set; }
+        public int BrandId { get; set; } = -1;
+        public string brandID_incrpt { get; set; } = "";
         [Display(Name = "Brewery Id")]
-        public short BreweryId { get; set; }
+        public short BreweryId { get; set; } = -1;
+        public int StateId { get; set; } = 27;
         [Display(Name = "Brand Name")]
-        public string BrandName { get; set; }
-        [Display(Name = "Brand Reg Number")]
-        public string BrandRegistrationNumber { get; set; }
-        [Display(Name = "Strength")]
-        public float Strength { get; set; }
+        public string BrandName { get; set; } = "";
+        [Display(Name = "Brand Registration Number")]
+        public string BrandRegistrationNumber { get; set; } = "";
+        [Display(Name = "Strength of Alcohal(%)")]
+        public float Strength { get; set; } = 0;
+        [Display(Name = "Strength of Alcohal")]
+        public string AlcoholType { get; set; } = "";
         [Display(Name = "Liquor Type")]
-        public string LiquorType { get; set; }
+        public string LiquorType { get; set; } = "";
         [Display(Name = "Licence Type")]
-        public string LicenceType { get; set; }
+        public string LicenceType { get; set; } = "";
         [Display(Name = "Licence No")]
-        public string LicenceNo { get; set; }
-        [Display(Name = "Exicise Tin")]
-        public string ExiciseTin { get; set; }
+        public string LicenceNo { get; set; } = "";
         [Display(Name = "MRP")]
-        public float MRP { get; set; }
+        public float MRP { get; set; } = 0;
         [Display(Name = "XFactory Price")]
-        public float XFactoryPrice { get; set; }
+        public float XFactoryPrice { get; set; } = 0;
         [Display(Name = "Additional Duty")]
-        public float AdditionalDuty { get; set; }
-        [Display(Name = "Quantity (In Case)")]
-        public int QuantityInCase { get; set; }
-        [Display(Name = "Quantity (In Bottle ML)")]
-        public int QuantityInBottleML { get; set; }
+        public float AdditionalDuty { get; set; } = 0;
+        [Display(Name = "Box-Size (Number of Bottles)")]
+        public int QuantityInCase { get; set; } = 0;
+        [Display(Name = "Quantity (In Bottle, In ml.)")]
+        public int QuantityInBottleML { get; set; } = 0;
+        [Display(Name = "Packaging Type")]
+        public string PackagingType { get; set; } = "";
         [Display(Name = "Excise Duty")]
-        public float ExciseDuty { get; set; }
-        [Display(Name = "Export Box Size")]
-        public int ExportBoxSize { get; set; }
+        public float ExciseDuty { get; set; } = 0;
         [Display(Name = "Remark")]
-        public string Remark { get; set; }
-        public int SPType { get; set; }
-        public string dbName { get; set; }
-        public string AlcoholType { get; set; }
-        public string PackagingType { get; set; }
-        public int StateId { get; set; }
-        public bool IsFinal { get; set; }
-        public string brandID_incrpt { get; set; }
+        public string Remark { get; set; } = "";
+        public int SPType { get; set; } = -1;
+        public bool IsFinal { get; set; } = false;
+        
     }
     public class Brewery
     {
