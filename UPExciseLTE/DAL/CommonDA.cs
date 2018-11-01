@@ -116,7 +116,7 @@ namespace UPExciseLTE.DAL
             "&",
             "*"
         };
-            int er = 0;
+           
             int sL_Char_Length = sL_Char.Length - 1;
             while (sL_Char_Length >= 0)
             {
@@ -139,7 +139,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("proc_UpdateUserProfile", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@UID", SqlDbType.Int).Value = objUserData.UserId);
-                cmd.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar).Value = objUserData.UserName);
+                cmd.Parameters.Add(new SqlParameter("@UserName", SqlDbType.VarChar).Value = filter_bad_chars_rep(objUserData.UserName));
                 cmd.Parameters.Add(new SqlParameter("@UserHindiName", SqlDbType.NVarChar).Value = objUserData.UserNameHindi);
                 cmd.Parameters.Add(new SqlParameter("@UserMobile", SqlDbType.VarChar).Value = objUserData.UserMobile);
                 cmd.Parameters.Add(new SqlParameter("@UserEmail", SqlDbType.VarChar).Value = objUserData.UserEmail);
