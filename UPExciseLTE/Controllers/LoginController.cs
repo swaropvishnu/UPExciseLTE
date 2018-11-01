@@ -438,47 +438,25 @@ namespace UPExciseLTE.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Getsponsoring_office(int @district_code_census)
-        {
-            DataTable dt = new DAL.CommonDA().Getsponsoring_office(@district_code_census);
-            List<sponsoring_office> SL = new List<sponsoring_office>();
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                sponsoring_office s1 = new sponsoring_office();
-                s1.sponsoring_office_code = int.Parse(dt.Rows[i]["sponsoring_office_code"].ToString().Trim());
-                s1.address = dt.Rows[i]["address"].ToString().Trim();
-                SL.Add(s1);
-            }
-            return Json(SL, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult Getsponsoring_office(int @district_code_census)
+        //{
+        //    DataTable dt = new DAL.CommonDA().Getsponsoring_office(@district_code_census);
+        //    List<sponsoring_office> SL = new List<sponsoring_office>();
+        //    for (int i = 0; i < dt.Rows.Count; i++)
+        //    {
+        //        sponsoring_office s1 = new sponsoring_office();
+        //        s1.sponsoring_office_code = int.Parse(dt.Rows[i]["sponsoring_office_code"].ToString().Trim());
+        //        s1.address = dt.Rows[i]["address"].ToString().Trim();
+        //        SL.Add(s1);
+        //    }
+        //    return Json(SL, JsonRequestBehavior.AllowGet);
+        //}
 
         class sponsoring_office
         {
             public int sponsoring_office_code { get; set; }
             public string address { get; set; }
         }
-        //public JsonResult FirstApplicantlogin(string username,short yojana_code)
-        //{
-        //    DataSet ds = new DataSet();
-        //    ds = UserDtl.VerifyApplicant(username, yojana_code);
-        //    if (ds != null)
-        //    {
-        //        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
-        //        {
-        //            string s1 = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
-        //            return Json(s1, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json("/login/Registration_Login", JsonRequestBehavior.AllowGet);
-        //    }  
-        //}
-
         public ActionResult Track_staus()
         {
             return View();

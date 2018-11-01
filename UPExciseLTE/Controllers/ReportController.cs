@@ -23,7 +23,7 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult GetGatePassForDistrictWholesaleToRetailor1()
         {
-            var applicationAllotmentShopList = new CommonDA().GetGatePassForDistrictWholesaleToRetailor();
+            var applicationAllotmentShopList = "";//new CommonDA().GetGatePassForDistrictWholesaleToRetailor();
             return Json(new { data = applicationAllotmentShopList }, JsonRequestBehavior.AllowGet);
         }
 

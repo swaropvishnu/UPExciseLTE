@@ -17,7 +17,7 @@ namespace UPExciseLTE
         {  
             
             var list = new List<Menu>();  
-            var dr = UserDtl.GetMenuData2(UserSession.LoggedInUser.UserId);
+            var dr = UserDtl.GetMenuData2(UserSession.LoggedInUserId);
                 while (dr.Read())  
                 {  
                     var menu = new Menu  

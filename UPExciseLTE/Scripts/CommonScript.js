@@ -33,7 +33,7 @@ function BrandChange(BrandId) {
 
 function ValidateExtension(eve) {
     debugger;
-    //var allowedFiles = [".csv", ".doc", ".docx", ".pdf"];
+    //var allowedFiles = [".csv", ".xls", ".xlsx"];
     var allowedFiles = [".csv"];
     var fileUpload = document.getElementById($(eve).prev().prev().attr('id'));
     var lblError = document.getElementById("lblError");
@@ -47,7 +47,7 @@ function ValidateExtension(eve) {
         return false;
     }
     lblError.innerHTML = "";
-    alert("File Uploaded Successfully.");
+    //alert("File Uploaded Successfully.");
     return true;
 }
 
