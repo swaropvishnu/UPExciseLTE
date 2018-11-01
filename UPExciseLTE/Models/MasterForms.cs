@@ -44,64 +44,46 @@ namespace UPExciseLTE.Models
         public float ExciseDuty { get; set; } = 0;
         [Display(Name = "Remark")]
         public string Remark { get; set; } = "";
-        public int SPType { get; set; } = -1;
+        public int SPType { get; set; } = 1;
         public bool IsFinal { get; set; } = false;
         
     }
-    public class Brewery
-    {
-        public short BreweryId { get; set; }
-        public short DistrictCode { get; set; }
-        public int TehsilCode { get; set; }
-        public string BreweryName { get; set; }
-        public string BreweryLicenseno { get; set; }
-        public string BreweryAddress { get; set; }
-        public string BreweryContactPerson { get; set; }
-        public string BreweryContactPersonMobile { get; set; }
-        public float BreweryCapacity { get; set; }
-        public string BreweryPhone { get; set; }
-        public string BreweryFax { get; set; }
-        public string BreweryEmail { get; set; }
-        public string Remark { get; set; }
-    }
     public class BottelingPlan
     {
-        public string dbName { get; set; }
-        public int Type { get; set; }
-        [Display (Name="Plan Id")]
-        public int PlanId { get; set; }
-        public string EncPlanId { get; set; }
+        public int Type { get; set; } = 1;
+        [Display(Name = "Plan Id")]
+        public int PlanId { get; set; } = -1;
+        public string EncPlanId { get; set; } = "";
         [Display(Name = "Brewery Id")]
-        public short BreweryId { get; set; }
+        public short BreweryId { get; set; } = -1;
         [Display(Name = "Production for State Code")]
-        public short ProductionforStateCode { get; set; }
+        public short ProductionforStateCode { get; set; } = -1;
         [Display(Name = "Is State Same")]
-        public bool IsStateSame { get; set; }
+        public bool IsStateSame { get; set; } = true;
         [Display(Name = "Brand Id")]
-        public int BrandId { get; set; }
+        public int BrandId { get; set; } = -1;
         [Display(Name = "Number Of Cases")]
-        public int NumberOfCases { get; set; }
+        public int NumberOfCases { get; set; } = 0;
         [Display(Name = "Qunatity In Case Export")]
-        public int QunatityInCaseExport { get; set; }
+        public int QunatityInCaseExport { get; set; } = 0;
         [Display(Name = "Bulk Liter")]
-        public float BulkLiter { get; set; }
+        public float BulkLiter { get; set; } = 0;
         [Display(Name = "Alcoholic Liter")]
-        public float AlcoholicLiter { get; set; }
+        public float AlcoholicLiter { get; set; } = 0;
         [Display(Name = "Total Unit Quantity")]
-        public int TotalUnitQuantity { get; set; }
+        public int TotalUnitQuantity { get; set; } = 0;
         [Display(Name = "Plan Date")]
-        public DateTime DateOfPlan { get; set; }
+        public DateTime DateOfPlan { get; set; } 
         [Display(Name = "Plan Date")]
         public string DateOfPlan1 { get; set; }
         [Display(Name = "Batch No")]
-        public string BatchNo { get; set; }
+        public string BatchNo { get; set; } = "";
         [Display(Name = "Mapped Unmapped")]
-        public short MappedOrNot { get; set; }
+        public short MappedOrNot { get; set; } = 0;
         [Display(Name = "Is Plan Final")]
-        public short IsPlanFinal { get; set; }
-        
-        [Display(Name = "Liquor Type")]  
-        public string LiquorType { get; set; }
+        public short IsPlanFinal { get; set; } = 0;
+        [Display(Name = "Liquor Type")]
+        public string LiquorType { get; set; } = "";
         [Display(Name = "Licence Type")]   
         public string LicenceType { get; set; }
         public string Brand { get; set; }
@@ -128,7 +110,7 @@ namespace UPExciseLTE.Models
         public int WastageInNumber { get; set; }
         [Display(Name = "Wastage BL")]
         public float WastageBL { get; set; }
-        [Display(Name = "Is Production Final")]
+        [Display(Name = "Is Production Final")]  
         public short IsProductionFinal { get; set; }
         public int StateId { get; set; }
         public string TotalRevenue { get; set; }

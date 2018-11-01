@@ -111,7 +111,7 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">License Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LicenceType,new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLiquorType", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LicenceType,new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLicense", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -201,18 +201,12 @@
         var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
         window.location.href = url;
     }
-    $('#ddlLiquorType').change(function () {
-        var LiquorType = $('#ddlLiquorType').val();
-        document.getElementById("txtLinquorType").value = LiquorType;
-    });
+    
     $('#ddlQuantityInBottleML').change(function () {
         var LiquorType = $('#ddlQuantityInBottleML').val();
         document.getElementById("txtQuantityInBottleML").value = LiquorType;
     });
-    $('#ddlQuantityInBottleML').change(function () {
-        var LiquorType = $('#ddlQuantityInBottleML').val();
-        document.getElementById("txtQuantityInBottleML").value = LiquorType;
-    });
+  
     $('#txtStrength').change(function () {
         AlcoholCal();
     });

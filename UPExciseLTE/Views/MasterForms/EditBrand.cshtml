@@ -52,6 +52,19 @@
             }
         }
     }
+    window.onload = function () {
+        var LiquorType = $('#ddlState').val();
+        if (LiquorType == "27") {
+            document.getElementById("txtQuantityInBottleML").style.display = "none";
+            $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
+            document.getElementById("ddlQuantityInBottleML").style.display = "";
+        }
+        else
+        {
+            document.getElementById("txtQuantityInBottleML").style.display = "";
+            document.getElementById("ddlQuantityInBottleML").style.display = "none";
+        }
+    }
 </script>
 @using (Html.BeginForm("EditBrand", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
@@ -190,12 +203,6 @@
                                         @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
                                     </div>
                                 </div>
-                                <div class="form-group   col-md-4" style="display:none">
-                                    <label class="control-label">Box-Quantity (In Case of Export)</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.ExportBoxSize, new { @id = "txtExportBoxSize", @class = "form-control", @onkeyPress = "return IsNumeric(event);" })
-                                    </div>
-                                </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Remark</label>
                                     <div>
@@ -227,9 +234,9 @@
         var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
         window.location.href = url;
     }
-    $('#ddlLiquorType').change(function () {
-        var LiquorType = $('#ddlLiquorType').val();
-        document.getElementById("txtLinquorType").value = LiquorType;
+    $('#ddlQuantityInBottleML').change(function () {
+        var LiquorType = $('#ddlQuantityInBottleML').val();
+        document.getElementById("txtQuantityInBottleML").value = LiquorType;
     });
     function AlcoholCal()
     {
@@ -242,7 +249,6 @@
     $('#ddlState').change(function () {
         var LiquorType = $('#ddlState').val();
         if (LiquorType == "27") {
-            document.getElementById("txtQuantityInBottleML").value = 650;
             document.getElementById("txtQuantityInBottleML").style.display = "none";
             document.getElementById("ddlQuantityInBottleML").style.display = "";
         }
@@ -250,9 +256,7 @@
             document.getElementById("ddlQuantityInBottleML").style.display = "none";
             document.getElementById("txtQuantityInBottleML").style.display = "";
             document.getElementById("txtQuantityInBottleML").value = "0";
-
         }
-
     });
 </script>
 

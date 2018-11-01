@@ -190,15 +190,12 @@ namespace UPExciseLTE.DAL
 
             return result;
         }
-
         #region Gaurav
         public string InsertUpdateBrand(BrandMaster brand)
         { 
             string str="";
             con.Open();
             SqlTransaction tran = con.BeginTransaction();
-
-      
             try
             {
                 cmd = new SqlCommand("Proc_InsertUpdate_Brand", con);
@@ -223,14 +220,13 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("ExciseDuty", brand.ExciseDuty));
                 cmd.Parameters.Add(new SqlParameter("Remark", brand.Remark));
                 cmd.Parameters.Add(new SqlParameter("StateId", brand.StateId));
-                cmd.Parameters.Add(new SqlParameter("c_user_id", ""));
-                cmd.Parameters.Add(new SqlParameter("c_user_ip", ""));
-                cmd.Parameters.Add(new SqlParameter("c_time_stamp", ""));
-                cmd.Parameters.Add(new SqlParameter("c_mac", ""));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));                
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("sp_type", brand.SPType));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
-                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["Msg"].Size = 32676;
                 cmd.ExecuteNonQuery();
                 str = cmd.Parameters["Msg"].Value.ToString().Trim();
                 tran.Commit();
@@ -293,7 +289,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Status", Status));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
             }
-            catch (Exception exp)
+            catch
             {
                 ds = null;
             }
@@ -310,7 +306,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("Proc_InsertUpdatePlan", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                cmd.Parameters.Add(new SqlParameter("dbName", BP.dbName));
+                cmd.Parameters.Add(new SqlParameter("dbName", ""));
                 cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
                 cmd.Parameters.Add(new SqlParameter("IsStateSame", BP.IsStateSame));
                 cmd.Parameters.Add(new SqlParameter("BrandId", BP.BrandId));
@@ -354,7 +350,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("PROC_InsertUpdateProductionPlan", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                cmd.Parameters.Add(new SqlParameter("dbName", BP.dbName));
+                cmd.Parameters.Add(new SqlParameter("dbName", ""));
                 cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
                 cmd.Parameters.Add(new SqlParameter("ProducedNumberOfCases", BP.ProducedNumberOfCases));
                 cmd.Parameters.Add(new SqlParameter("ProducedQunatityInCaseExport", BP.ProducedQunatityInCaseExport));
@@ -526,24 +522,63 @@ namespace UPExciseLTE.DAL
 
         #region DistrictWholesaleToRetailor
 
-      /*  public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
-        {
-            var para = new DynamicParameters();
-            para.Add("@SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId));
-            try
-            {
-                return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception ex)
-            {
+        /*  public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
+          {
+              var para = new DynamicParameters();
+              para.Add("@SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId));
+              try
+              {
+                  return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
+              }
+              catch (Exception ex)
+              {
 
-                throw;
-            }
+                  throw;
+              }
 
-        }*/
+          }*/
 
         #endregion
 
+        public void UploadCSV(string objdoc)
+        {
+            con.Open();
+
+            try
+            {
+                //if (objdoc != null)
+                //{
+                //    if (objdoc.Rows.Count > 0)
+                //    {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "Proc_Tbl_UploadProductionCSC";
+
+                cmd.Parameters.Add(new SqlParameter("@tbl_UploadProductionCSV", objdoc));
+                cmd.Parameters.Add(new SqlParameter("@SpType", 1));
+                //cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
+                //cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
+                //cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
+                //cmd.Parameters.Add(new SqlParameter("Msg", ""));
+
+                cmd.ExecuteNonQuery();
+
+                //    }
+                //}
+
+            }
+            catch (Exception ex1)
+            {
+
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+
+        }
 
     }
 }
