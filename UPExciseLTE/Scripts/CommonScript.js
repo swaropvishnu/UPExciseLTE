@@ -34,10 +34,10 @@ function BrandChange(BrandId) {
 function ValidateExtension(eve) {
     debugger;
     //var allowedFiles = [".csv", ".xls", ".xlsx"];
-    var allowedFiles = [".csv"];
+    var allowedFiles = [".csv"];ss
     var fileUpload = document.getElementById($(eve).prev().prev().attr('id'));
     var lblError = document.getElementById("lblError");
-    var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+    var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+" + allowedFiles.join('|') + "$");
     if (!regex.test(fileUpload.value.toLowerCase())) {
         lblError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
         $("#danger-alert").show();

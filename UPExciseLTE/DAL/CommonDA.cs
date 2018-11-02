@@ -541,7 +541,7 @@ namespace UPExciseLTE.DAL
         #endregion
 
         public void UploadCSV(string objdoc)
-        {
+       {
             con.Open();
 
             try
@@ -553,9 +553,9 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "Proc_Tbl_UploadProductionCSC";
-
-                cmd.Parameters.Add(new SqlParameter("@tbl_UploadProductionCSV", objdoc));
+                cmd.CommandText = "Proc_Tbl_UploadProductionCSV";
+                cmd.CommandTimeout = 3000;
+                cmd.Parameters.Add(new SqlParameter("@tags", objdoc));
                 cmd.Parameters.Add(new SqlParameter("@SpType", 1));
                 //cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
                 //cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
@@ -567,10 +567,13 @@ namespace UPExciseLTE.DAL
                 //    }
                 //}
 
+                
+
+
             }
             catch (Exception ex1)
             {
-
+                
             }
             finally
             {

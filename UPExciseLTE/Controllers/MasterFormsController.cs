@@ -818,19 +818,22 @@ namespace UPExciseLTE.Controllers
                     {
                         if (count == 0)
                         {
-                            sb.Append("'");
+                            //sb.Append("'");
                             sb.Append(line);
-                            sb.Append("'");
+                            //sb.Append("'");
                             count++;
                         }
                         else
                         {
                             sb.Append(",");
-                            sb.Append("'");
+                            //sb.Append("'");
                             sb.Append(line);
-                            sb.Append("'");
+                            //sb.Append("'");
                         }
                     }
+
+                    var uploadCSV = new CommonDA();
+                    uploadCSV.UploadCSV(sb.ToString());
                     ViewBag.Error = "File Upload Successfully";
 
                 }
