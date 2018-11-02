@@ -1,0 +1,131 @@
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
+
+@{
+    ViewBag.Title = "Edit/Finalize Botteling Plan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Edit/Finalize Botteling Plan
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.PlanId)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.DateOfPlan1)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.LiquorType)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.LicenceType)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.Brand)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.NumberOfCases)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.QunatityInCaseExport)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.BulkLiter)
+                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PlanId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateOfPlan1)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LiquorType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LicenceType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Brand)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumberOfCases)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.QunatityInCaseExport)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BulkLiter)
+                                        </td>
+                                        <td>
+                                            @if (item.Status == "PB")
+                                            {
+                                                <button type="button" class="btn green" onclick="load('@item.EncPlanId')">Edit</button>
+                                            }
+                                            
+                                        </td>
+                                        <td>
+                                            @if (item.Status == "PB")
+                                            {
+                                                <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Finalize</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function load(PlanId)
+    {
+        window.location = "../MasterForms/BottelingPlan?A=" + PlanId;
+    }
+    function FinalizePlan(PlanId) {
+        $.ajax({
+            url: '/MasterForms/FinalizePlan',
+            data: { 'PlanId': PlanId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                window.location = "../MasterForms/EditFinalBottelingPlan";
+            },
+            error: function (data) {
+                alert("Error in Finalize Plan Loading");
+            }
+        });
+    }
+    function Confirm(EncPlanId) {
+        var r = confirm("Are You sure to finalize this plan. Once its final you cannot edit this plan.");
+        if (r == true) {
+            FinalizePlan(EncPlanId);
+        }
+    }
+</script>

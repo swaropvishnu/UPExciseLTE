@@ -25,11 +25,17 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserSession.LoggedInUserId.ToString().Trim(), "Z");
             return breweryList;
         }
-        public static List<SelectListItem> fillState()
+        public static List<SelectListItem> fillState(string SelectType)
         {
             List<SelectListItem> StateList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", "S");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", SelectType);
             return StateList;
+        }
+        public static List<SelectListItem> fillBrand(string SelectType)
+        {
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.PushName.ToString(), "S");
+            return BrandList;
         }
         public static LoginModal GetUserDetail(LoginModal objUserData)
         {
@@ -56,10 +62,10 @@ namespace UPExciseLTE.BLL
             }
         }
         #region MasterForm_Gaurav
-        public List<BrandMaster> GetBrandList(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int TehsilCode, string Status)
+        public List<BrandMaster> GetBrandList(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int StateId, string Status)
         {
             List<BrandMaster> lstBrand = new List<BrandMaster>();
-            DataSet ds = new CommonDA().GetBrandDetail(BrandId, LiquorType, LicenceType, LicenseNo, BreweryId, DistrictCode, TehsilCode, Status);
+            DataSet ds = new CommonDA().GetBrandDetail(BrandId, LiquorType, LicenceType, LicenseNo, BreweryId, DistrictCode, StateId, Status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             { 
                foreach (DataRow dr in ds.Tables[0].Rows)
@@ -69,6 +75,7 @@ namespace UPExciseLTE.BLL
             }
             return lstBrand;
         }
+        
         public BrandMaster GetBrand(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int TehsilCode, string Status)
         {
             DataSet ds = new CommonDA().GetBrandDetail(BrandId, LiquorType, LicenceType, LicenseNo, BreweryId, DistrictCode, TehsilCode, Status);
@@ -101,9 +108,72 @@ namespace UPExciseLTE.BLL
             brand.Strength = float.Parse(dr["Strength"].ToString().Trim());
             brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
             brand.IsFinal = bool.Parse(dr["IsFinal"].ToString().Trim());
-            brand.AlcoholType = "";
+            brand.AlcoholType = dr["AlcoholType"].ToString().Trim();
+            brand.PackagingType = dr["PackagingType"].ToString().Trim();
+            brand.StateId =int.Parse(dr["StateId"].ToString().Trim());
             brand.SPType = 2;
             return brand;
+        }
+        public List<BottelingPlan> GetBottelingPlanList(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+            List<BottelingPlan> lstPlan = new List<BottelingPlan>();
+            DataSet ds = new CommonDA().GetBottelingPlanDetail(FromDate,ToDate,BreweryId,BrandId,Mapped,BatchNo,PlanId,Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstPlan.Add(FillBottlingPlan(dr));
+                }
+            }
+            return lstPlan;
+        }
+        private BottelingPlan FillBottlingPlan(DataRow dr)
+        {
+            BottelingPlan Plan = new BottelingPlan();
+            Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+            Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
+            Plan.DateOfPlan1 = (dr["DateOfPlan1"].ToString().Trim());
+            Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+            Plan.LicenceType = dr["LicenceType"].ToString().Trim();
+            Plan.Brand = dr["BrandName"].ToString().Trim();
+            Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+            Plan.BulkLiter = float.Parse(dr["BulkLiter"].ToString().Trim());
+            Plan.Status = dr["Status"].ToString().Trim();
+            Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+            Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
+            Plan.BatchNo =  (dr["BatchNo"].ToString().Trim());
+            Plan.LiquorType =  (dr["Liquor"].ToString().Trim());
+            Plan.LicenceType =  (dr["LicenceType"].ToString().Trim());
+            Plan.LicenseNo =  (dr["LicenceNo"].ToString().Trim());
+            Plan.State =  (dr["state_name_u"].ToString().Trim());
+            Plan.BottleCapacity =  (dr["QuantityInBottle"].ToString().Trim());
+            Plan.Strength =  (dr["Strength"].ToString().Trim());
+            Plan.TotalUnitQuantity =  int.Parse((dr["TotalUnit"].ToString().Trim()));
+            Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
+            Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
+            Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
+            Plan.ProducedBoxQuantity = int.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+            Plan.ProducedBulkLiter = int.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+            Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
+            Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
+            Plan.WastageBL = int.Parse(dr["WastageBL"].ToString().Trim());
+            Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
+            Plan.TotalRevenue =dr["TotalRevenue"].ToString().Trim();
+            Plan.Type = 2;
+            return Plan;
+        }
+        public BottelingPlan GetBottelingPlan(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+             
+            DataSet ds = new CommonDA().GetBottelingPlanDetail(FromDate, ToDate, BreweryId, BrandId, Mapped, BatchNo, PlanId, Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottlingPlan(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottelingPlan();
+            }
         }
         #endregion
     }

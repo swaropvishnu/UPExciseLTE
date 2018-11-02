@@ -79,7 +79,7 @@ namespace UPExciseLTE.Controllers
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
+           // CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
             return BrandList;
         }
 
