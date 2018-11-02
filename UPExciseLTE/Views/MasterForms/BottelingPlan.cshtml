@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
-        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../MasterForms/BottelingPlan';</script> 
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script> 
     }
 }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -31,7 +31,6 @@
 </script>
 @using (Html.BeginForm("BottelingPlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
-
     @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
@@ -39,21 +38,30 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Botteling Plan Entry (Daily Botteling Plan)
+                            @if (Model.Type == 1)
+                            {
+                            <span> <i class="fa fa-gift"></i>&nbsp;Botteling Plan Entry&nbsp;(Daily Botteling Plan)</span>
+                            }
+                            else
+                            {
+                                <span> <i class="fa fa-gift"></i>&nbsp;Update Botteling Plan (Daily Botteling Plan)</span>
+                            }
+
                         </div>
                     </div>
                     @Html.HiddenFor(m => m.PlanId)
+                    @Html.HiddenFor(m => m.EncPlanId)
                     @Html.HiddenFor(m =>m.Type)
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <div class="form-body">
 						<div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Date of Plan</label>
-                                @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan", @class = "form-control", @required = "required", @Value = "",@placeholder="dd/MM/yyyy" })
+                                @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan", @class = "form-control", @required = "required",@placeholder="dd/MM/yyyy" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Batch No</label>
-                                @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required", @Value = "" })
+                                @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Brand</label>
@@ -63,31 +71,27 @@
 						<div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label">For Mapped/ Unmapped Data</label>
-                                @Html.DropDownList("MapUnMaped", new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1" }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
+                                @Html.DropDownListFor(m =>m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1" }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Liquor Type</label>
-                                @Html.TextBox("txtLiquorType", "", new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
+                                @Html.TextBoxFor(m=>m.LiquorType,  new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">License Type</label>
-                                @Html.TextBox("txtLicenseType", "", new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
+                                @Html.TextBoxFor(m =>m.LicenceType, new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
                             </div>
 							</div>
 						<div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label">License No</label>
-                                @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
+                                @Html.TextBoxFor(m=>m.LicenseNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">State</label>
                                 <div>
-                                    @Html.DropDownListFor(m => m.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control",@readonly=true })
+                                    @Html.TextBoxFor(m=>m.State,  new { @id = "txtState", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
-                            </div>
-                            <div class="form-group col-md-4" style="display:none">
-                                <label class="control-label">Import</label>
-                                @Html.DropDownList("Import", new List<SelectListItem> { new SelectListItem { Text = "For UP", Value = "1" }, new SelectListItem { Text = "For Outside UP", Value = "0" } }, new { @id = "ddlImport", @class = "form-control" })
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Number of Case</label>
@@ -100,13 +104,13 @@
                                 @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="control-label">Quantity In Bottle  (in ml.)</label>
-                                @Html.TextBox("txtQuantityInBottle","", new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);",@readonly="true" })
+                                <label class="control-label">Bottle/ Can Capacity</label>
+                                @Html.TextBoxFor(m=>m.BottleCapacity, new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);",@readonly="true" })
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label class="control-label">Strength of Alcohal</label>
-                                @Html.TextBox("txtStrength", "", new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" }) @*Mild or Strong not show percent*@
+                                <label class="control-label">Strength of Alcohol</label>
+                                @Html.TextBoxFor(m=>m.Strength, new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" }) @*Mild or Strong not show percent*@
                             </div>
 							</div>
 						<div class="row">
@@ -114,11 +118,7 @@
                                 <label class="control-label">Bulk Liter</label>
                                 @Html.TextBoxFor(m => m.BulkLiter, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
                             </div>
-                            <div class="form-group col-md-4" style="display:none">
-                                <label class="control-label">Alcoholic Liter</label>
-                                @Html.TextBoxFor(m => m.AlcoholicLiter, new { @id = "lblAlcoholicLiter", @class = "form-control", @required = "required", @readonly = "true" })
-                            </div>
-                            <div class="form-group col-md-4">
+                             <div class="form-group col-md-4">
                                 <label class="control-label">Total Unit (Cans/Bottles)</label>
                                 @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
                             </div>
@@ -142,14 +142,13 @@
 }
 <script type="text/javascript">
     function GetBrandDetail() {
-        var url = '@Url.Action("BottelingPlanList", "MasterForms", null)';
+        var url = '@Url.Action("EditFinalBottelingPlan", "MasterForms", null)';
         window.location.href = url;
     }
 </script>
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $('#ddlState').attr('disabled', true);
         $("#txtDateofPlan").datepicker({
 
             dateFormat: "dd/mm/yy",
@@ -178,30 +177,15 @@
                 document.getElementById("txtBottleInCase").value = res[3];
                 document.getElementById("txtQuantityInBottle").value = res[4];
                 document.getElementById("txtStrength").value = res[5];
-                var element = document.getElementById("ddlState");
-                element.value = res[6];
-                $('#ddlState').attr('disabled', true);
+                document.getElementById("txtState").value = res[6];
+                 
             },
             error: function (data) {
-                alert("Error in ModelShop Loading");
+                alert("Error in GetBrandDetailsForDDl Loading");
             }
         });
     }
-    $('#ddlImport').change(function () {
-        var BrandId = $('#ddlImport').val();
-        if (BrandId == "0") {
-            document.getElementById("txtBottleInCase").value = "";
-            document.getElementById("txtBottleInCase").readOnly = false;
-            document.getElementById("txtNoOfCase").value = "";
-            document.getElementById("lblBoxQuantity").innerHTML = "Box-Quantity (In Case of Export)";
-        }
-        else
-        {
-            document.getElementById("txtBottleInCase").value = document.getElementById("lblBottleInCase").value;
-            document.getElementById("txtBottleInCase").readOnly = true;
-            document.getElementById("lblBoxQuantity").innerHTML = "Box-Quantity (In Case)";
-        }
-    });
+   
     function Calculation()
     {
         var NoofCase = document.getElementById("txtNoOfCase").value;
@@ -210,11 +194,8 @@
             var Quantity = document.getElementById("txtQuantityInBottle").value;
 
             var lblBulkLitre = (parseFloat(NoofCase) * parseFloat(txtBottleInCase) * parseFloat(Quantity))/1000;
-            var Strength = document.getElementById("txtStrength").value;
-            var AL = lblBulkLitre * Strength / 100;
             var TotalUnit = NoofCase * txtBottleInCase;
             document.getElementById("lblBulkLitre").value = lblBulkLitre;
-            document.getElementById("lblAlcoholicLiter").value = AL;
             document.getElementById("lblTotalUnitQuantity").value = TotalUnit;
         }
     }

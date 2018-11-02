@@ -14,7 +14,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Freeze Plan
+                            <i class="fa fa-gift"></i>Freeze Production
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -41,16 +41,13 @@
                                         @Html.DisplayNameFor(model => model.TotalUnitQuantity)
                                     </th>
                                     <th scope="col">
-                                        @Html.DisplayNameFor(model => model.ProducedTotalUnitQuantity)
+                                        @Html.DisplayNameFor(model => model.ProducedTotalUnit)
                                     </th>
-                                    <th scope="col">
-                                        @Html.DisplayNameFor(model => model.WastageInNumber)
-                                    </th>
+                                   
                                     <th scope="col">
                                         @Html.DisplayNameFor(model => model.WastageBL)
                                     </th>
                                     <th scope="col"></th>
-                                 
 
                                 </tr>
 
@@ -76,27 +73,21 @@
                                             @Html.DisplayFor(modelItem => item.TotalUnitQuantity)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ProducedTotalUnitQuantity)
+                                            @Html.DisplayFor(modelItem => item.ProducedTotalUnit)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WastageInNumber)
-                                        </td>
+                                        
                                         <td>
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
                                         <td>
-                                            @if (item.Status == "FIP" && item.ProducedNumberOfCases!=0)
+                                            @if (item.Status == "FB")
                                             {
-                                                <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Freeze Plan</button>
-                                            }
-                                            else
-                                            {
-                                                <button type="button" class="btn default" style="background-color: crimson;color:white" disabled="disabled">Freeze Plan</button>
+                                                <button type="button"  class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="Confirm('@item.EncPlanId')">Freeze Production</button>
                                             }
                                         </td>
-                                        
                                     </tr>
                                 }
+
                             </table>
                         </div>
                     </div>
@@ -106,29 +97,6 @@
     </div>
 }
 <script type="text/javascript">
-    function load(PlanId)
-    {
-        window.location = "../MasterForms/UpdateBottelingPlan?A=" + PlanId;
-    }
-    function Production(PlanId)
-    {
-        window.location = "../MasterForms/ProductionEntry?A=" + PlanId;
-    }
-    function FinalizePlan(PlanId) {
-        $.ajax({
-            url: '/MasterForms/FinalizePlan',
-            data: { 'PlanId': PlanId },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                alert(data);
-                window.location = "../MasterForms/BottelingPlanList";
-            },
-            error: function (data) {
-                alert("Error in Finalize Plan Loading");
-            }
-        });
-    }
     function FreezePlan(PlanId) {
         $.ajax({
             url: '/MasterForms/FreezePlanSuccess',

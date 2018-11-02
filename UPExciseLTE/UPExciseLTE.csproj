@@ -6157,7 +6157,6 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\MasterForms\BottelingPlan.cshtml" />
-    <Content Include="Views\MasterForms\BottelingPlanList.cshtml" />
     <Content Include="Views\MasterForms\BrandMaster.cshtml" />
     <Content Include="Views\MasterForms\GetBrandDetails.cshtml" />
     <Content Include="Views\MasterForms\Index.cshtml" />
@@ -6166,7 +6165,6 @@
     <Content Include="Views\Login\ProfileUpdate.cshtml" />
     <Content Include="Views\MasterForms\FreezePlan.cshtml" />
     <Content Include="Views\MasterForms\ProductionPlanList.cshtml" />
-    <Content Include="Views\MasterForms\UpdateBottelingPlan.cshtml" />
     <Content Include="Views\GatePass\BreweryToManufacturerWholesale.cshtml" />
     <Content Include="Views\GatePass\DistrictWholesaleToRetailor.cshtml" />
     <Content Include="Views\GatePass\ManufacturerWholesaleToDistrictWholesale.cshtml" />
@@ -6177,12 +6175,13 @@
     <Content Include="Views\GatePass\GenerateGatePass.cshtml" />
     <Content Include="Views\GatePass\UploadGatePass.cshtml" />
     <Content Include="Views\Login\Track_staus.cshtml" />
-    <Content Include="Views\MasterForms\EditBrand.cshtml" />
     <Content Include="Views\MasterForms\FinalizeBrand.cshtml" />
-    <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
     <Content Include="Views\MasterForms\Searchplan.cshtml" />
     <Content Include="Views\MasterForms\SearchProduction.cshtml" />
     <Content Include="Views\Shared\_ErrorMessage.cshtml" />
+    <Content Include="Views\MasterForms\EditFinalBottelingPlan.cshtml" />
+    <Content Include="Views\MasterForms\UploadCSV.cshtml" />
+    <Content Include="Views\MasterForms\UnitTank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

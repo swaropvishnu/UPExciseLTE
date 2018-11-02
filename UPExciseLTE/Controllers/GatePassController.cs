@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using UPExciseLTE.Models;
 using System.Data;
 using UPExciseLTE.DAL;
+using UPExciseLTE.BLL;
 
 namespace UPExciseLTE.Controllers
 {
@@ -77,10 +78,8 @@ namespace UPExciseLTE.Controllers
 
         public List<SelectListItem> GetBrandList()
         {
-            List<SelectListItem> BrandList = new List<SelectListItem>();
-            string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-            CMODataEntryBLL.bindDropDownHnGrid_db2("proc_ddlDetail", BrandList, "BR", UserId, "Z");
-            return BrandList;
+            
+            return CommonBL.fillBrand("S");
         }
 
         #endregion

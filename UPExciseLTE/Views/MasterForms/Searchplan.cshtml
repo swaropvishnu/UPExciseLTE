@@ -27,11 +27,11 @@
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">From Date</label>
-                                        @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+                                        @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @Value = "", @type = "text" })
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">To Date</label>
-                                        @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+                                        @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @Value = "", @type = "text" })
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Brand</label>
@@ -70,16 +70,13 @@
                                         @Html.DisplayNameFor(model => model.Brand)
                                     </th>
                                     <th scope="col">
-                                        @Html.DisplayNameFor(model => model.Capacity)
-                                    </th>
-                                    <th scope="col">
-                                        @Html.DisplayNameFor(model => model.Quantity)
-                                    </th>
-                                    <th scope="col">
-                                        @Html.DisplayNameFor(model => model.PlanNoofBottling)
-                                    </th>
-                                    <th scope="col">
                                         @Html.DisplayNameFor(model => model.NumberOfCases)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.QunatityInCaseExport)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.BulkLiter)
                                     </th>
                                 </tr>
 
@@ -102,17 +99,15 @@
                                             @Html.DisplayFor(modelItem => item.Brand)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Capacity)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Quantity)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PlanNoofBottling)
-                                        </td>
-                                        <td>
                                             @Html.DisplayFor(modelItem => item.NumberOfCases)
                                         </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.QunatityInCaseExport)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BulkLiter)
+                                        </td>
+                                       
                                     </tr>
                                 }
 

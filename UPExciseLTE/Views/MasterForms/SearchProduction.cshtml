@@ -69,23 +69,18 @@
                                         @Html.DisplayNameFor(model => model.TotalUnitQuantity)
                                     </th>
                                     <th scope="col">
-                                        @Html.DisplayNameFor(model => model.ProducedTotalUnitQuantity)
+                                        @Html.DisplayNameFor(model => model.ProducedTotalUnit)
                                     </th>
-                                    <th scope="col">
-                                        @Html.DisplayNameFor(model => model.WastageInNumber)
-                                    </th>
+
                                     <th scope="col">
                                         @Html.DisplayNameFor(model => model.WastageBL)
                                     </th>
-                                   
-
+                                    
                                 </tr>
 
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-
-
                                         <td>
                                             @Html.DisplayFor(modelItem => item.PlanId)
                                         </td>
@@ -105,15 +100,13 @@
                                             @Html.DisplayFor(modelItem => item.TotalUnitQuantity)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ProducedTotalUnitQuantity)
+                                            @Html.DisplayFor(modelItem => item.ProducedTotalUnit)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WastageInNumber)
-                                        </td>
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
- 
+                                         
                                     </tr>
                                 }
                             </table>
