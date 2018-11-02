@@ -16,6 +16,7 @@ namespace UPExciseLTE.Controllers
 {
     public class MasterFormsController : Controller
     {
+       
         public ActionResult Index()
         {
             return View();
@@ -28,10 +29,10 @@ namespace UPExciseLTE.Controllers
             {
                 Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
             }
-            string UserId = UserSession.LoggedInUserId.ToString().Trim();   
-            
+            string UserId = UserSession.LoggedInUserId.ToString().Trim();      
             ViewBag.Brewery =CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("S");
+            ViewBag.Msg = TempData["Message"]; 
             return View(Brand);
         }
         [HttpPost]
@@ -42,7 +43,7 @@ namespace UPExciseLTE.Controllers
                 B.Remark = "";
             }
             string str = new CommonDA().InsertUpdateBrand(B);
-            ViewBag.Msg = str;
+            TempData["Message"] = str;
             if (B.SPType==1)
             {
                 return RedirectToAction("BrandMaster");
@@ -63,13 +64,20 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult GetBrandDetails(FormCollection frm)
         {
-            int StateId = int.Parse(frm["ddlState"].Trim());
-            string LicenseType = frm["ddlLicenseType"].Trim();
-            string LicenseNo = frm["txtLicenseNo"].Trim();
-
+            int StateId = -1;// int.Parse(frm["ddlState"].Trim());
+            string LicenseType = "";// frm["ddlLicenseType"].Trim();
+            string LicenseNo = "";// frm["txtLicenseNo"].Trim();
             List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1,  "", LicenseType, LicenseNo, -1, -1, StateId, "Z");
             ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("A");
+            return View(lstBrand);
+        }
+        [HttpGet]
+        public ActionResult FinalizeBrand()
+        {
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            ViewBag.District = CommonBL.fillState("S");
+            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
             return View(lstBrand);
         }
         public string FinalBrand(string BrandId)
@@ -99,9 +107,9 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpGet]
-        public ActionResult BottelingPlan(string Msg)
+        public ActionResult BottelingPlan()
         {
-            ViewBag.Msg = Msg;
+            ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
             
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
@@ -135,7 +143,6 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult BottelingPlan(BottelingPlan BP)
         {
-            
             try
             {
                 BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);
@@ -146,14 +153,14 @@ namespace UPExciseLTE.Controllers
             }
             
             string str = new CommonDA().InsertUpdatePlan(BP);
-           
+            TempData["Message"] = str;
             if (BP.Type == 1)
             {
-                return RedirectToAction("BottelingPlan",new { Msg = str });
+                return RedirectToAction("BottelingPlan");
             }
             else
             {
-                return RedirectToAction("BottelingPlan", new { Msg = str,Code = BP.EncPlanId });
+                return RedirectToAction("BottelingPlan", new { A = BP.EncPlanId });
             }
         }
         [HttpGet]
@@ -190,7 +197,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult GenerateQRCode()
         {
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "FB"));
+            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "Z"));
         }
         public string GenreateQR(string PlanId)
         {
@@ -335,22 +342,21 @@ namespace UPExciseLTE.Controllers
 
             return RedirectToAction("UploadCSV");
         }
-       /* [HttpGet]
-        public ActionResult FinalizeBrand()
+        /*
+         [HttpGet]
+         public ActionResult FreezeBrand()
+         {
+             ViewBag.Brewery = CommonBL.fillBrewery();
+             ViewBag.District = CommonBL.fillState("S");
+             List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
+             return View(lstBrand);
+         }*/
+        //New Work
+        public ActionResult UnitTank()
         {
-            ViewBag.Brewery = CommonBL.fillBrewery();
-            ViewBag.District = CommonBL.fillState("S");
-            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "Z");
-            return View(lstBrand);
+            UnitTank UT = new UnitTank();
+            return View(UT);
         }
-        [HttpGet]
-        public ActionResult FreezeBrand()
-        {
-            ViewBag.Brewery = CommonBL.fillBrewery();
-            ViewBag.District = CommonBL.fillState("S");
-            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
-            return View(lstBrand);
-        }*/
     }
 
 }

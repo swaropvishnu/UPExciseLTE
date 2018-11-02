@@ -6181,6 +6181,7 @@
     <Content Include="Views\Shared\_ErrorMessage.cshtml" />
     <Content Include="Views\MasterForms\EditFinalBottelingPlan.cshtml" />
     <Content Include="Views\MasterForms\UploadCSV.cshtml" />
+    <Content Include="Views\MasterForms\UnitTank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

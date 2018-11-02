@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
-        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../MasterForms/BottelingPlan';</script> 
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script> 
     }
 }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -50,6 +50,7 @@
                         </div>
                     </div>
                     @Html.HiddenFor(m => m.PlanId)
+                    @Html.HiddenFor(m => m.EncPlanId)
                     @Html.HiddenFor(m =>m.Type)
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <div class="form-body">

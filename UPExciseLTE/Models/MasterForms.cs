@@ -106,7 +106,16 @@ namespace UPExciseLTE.Models
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
     }
-
+    public class UnitTank
+    {
+        public int UnitTankId { get; set; } = -1;
+        public short BreweryId { get; set; } = -1;
+        public string UnitTankName { get; set; } = "";
+        public float UnitTankCapacity { get; set; } = 0;
+        public float UnitTankBulkLiter { get; set; } = 0;
+        public float UnitTankStrength { get; set; } = 0;
+        public string Status { get; set; } = "";
+    }
 }
 
 

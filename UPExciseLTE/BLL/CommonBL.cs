@@ -152,11 +152,11 @@ namespace UPExciseLTE.BLL
             Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
             Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
             Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
-            Plan.ProducedBoxQuantity = int.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
-            Plan.ProducedBulkLiter = int.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+            Plan.ProducedBoxQuantity = float.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+            Plan.ProducedBulkLiter = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
             Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
             Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
-            Plan.WastageBL = int.Parse(dr["WastageBL"].ToString().Trim());
+            Plan.WastageBL = float.Parse(dr["WastageBL"].ToString().Trim());
             Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
             Plan.TotalRevenue =dr["TotalRevenue"].ToString().Trim();
             Plan.Type = 2;

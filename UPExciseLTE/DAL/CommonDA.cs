@@ -397,72 +397,6 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public DataSet GetProducePlanDetail(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("FromDate", FromDate));
-                parameters.Add(new SqlParameter("ToDate", ToDate));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
-                parameters.Add(new SqlParameter("BrandId", BrandId));
-                parameters.Add(new SqlParameter("Status", Status));
-                parameters.Add(new SqlParameter("Mapped", Mapped));
-                parameters.Add(new SqlParameter("Import", Import));
-                parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetProducePlanDetail", parameters.ToArray());
-            }
-            catch (Exception exp)
-            {
-                ds = null;
-            }
-            return ds;
-        }
-        public DataSet GetFinalizedPlan(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("FromDate", FromDate));
-                parameters.Add(new SqlParameter("ToDate", ToDate));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
-                parameters.Add(new SqlParameter("BrandId", BrandId));
-                parameters.Add(new SqlParameter("Status", Status));
-                parameters.Add(new SqlParameter("Mapped", Mapped));
-                parameters.Add(new SqlParameter("Import", Import));
-                parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetFinalizedPlan", parameters.ToArray());
-            }
-            catch (Exception exp)
-            {
-                ds = null;
-            }
-            return ds;
-        }
-        public DataSet GetQRCodeDetails(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Status, string Mapped, string Import, int PlanId)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("FromDate", FromDate));
-                parameters.Add(new SqlParameter("ToDate", ToDate));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
-                parameters.Add(new SqlParameter("BrandId", BrandId));
-                parameters.Add(new SqlParameter("Status", Status));
-                parameters.Add(new SqlParameter("Mapped", Mapped));
-                parameters.Add(new SqlParameter("Import", Import));
-                parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetQRCodeDetails", parameters.ToArray());
-            }
-            catch (Exception exp)
-            {
-                ds = null;
-            }
-            return ds;
-        }
         public DataSet GetQRCOde(int PlanId)
         {
             DataSet ds = new DataSet();
@@ -472,7 +406,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetQRCOde", parameters.ToArray());
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 ds = null;
             }
@@ -563,7 +497,7 @@ namespace UPExciseLTE.DAL
                 //}
 
             }
-            catch (Exception ex1)
+            catch (Exception)
             {
 
             }
