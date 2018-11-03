@@ -142,26 +142,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">MRP</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.MRP, new { @id = "txtMRP", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">XFactoryPrice</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Additional Duty</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "txtAdditionalDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
                                     <label class="control-label">Box-Size (Number of Bottles)</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required" })
@@ -170,9 +150,30 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Quantity (In Bottle, In ml.)</label>
                                     <div>
-                                        @Html.TextBoxFor(m=>m.QuantityInBottleML,new { @id= "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
+                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
 
                                         @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">XFactoryPrice</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);" })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Consideration Fees</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "txtAdditionalDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly=true })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">MRP</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.MRP, new { @id = "txtMRP", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly = true })
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +187,7 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Excise Duty (Total) </label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                        @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly = true })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -215,8 +216,7 @@
 
 }
 <script type="text/javascript">
-    function GetBrandDetail()
-    {
+    function GetBrandDetail() {
         var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
         window.location.href = url;
     }
@@ -224,7 +224,7 @@
         var LiquorType = $('#ddlQuantityInBottleML').val();
         document.getElementById("txtQuantityInBottleML").value = LiquorType;
     });
-  
+
     $('#txtStrength').change(function () {
         AlcoholCal();
     });
@@ -249,5 +249,35 @@
             document.getElementById("txtAlcoholType").value = "Strong";
         }
         else { document.getElementById("txtAlcoholType").value = "Mild"; }
+        MRPCal();
+    }
+    $('#txtXFactoryPrice').change(function () {
+        MRPCal();
+    });
+    function MRPCal()
+    {
+        var MRP = 0, ConsidrationFees=0,FMRP=0;
+        var MConsidrationFees = '@ViewBag.MConsidrationFees';
+        var SConsidrationFees = '@ViewBag.SConsidrationFees';
+        var MWholeSaleMargin = '@ViewBag.MWholeSaleMargin';
+        var SWholeSaleMargin = '@ViewBag.SWholeSaleMargin';
+        var MRetailerMargin = '@ViewBag.MRetailerMargin';
+        var SRetailerMargin = '@ViewBag.SRetailerMargin';
+        var txtXFactoryPrice = document.getElementById("txtXFactoryPrice").value;
+        var AlcoPer = document.getElementById("txtStrength").value;
+        if (txtXFactoryPrice != null && txtStrength != null && txtStrength != "" && txtXFactoryPrice != "" && txtXFactoryPrice != "0") {
+            if (AlcoPer > 4.9) {
+                ConsidrationFees = (txtXFactoryPrice *  SConsidrationFees / 100).toFixed(2);
+                MRP = (parseFloat(txtXFactoryPrice) + parseFloat(ConsidrationFees) + parseFloat(SWholeSaleMargin) + parseFloat(SRetailerMargin)).toFixed(2);
+            }
+            else {
+                ConsidrationFees = (txtXFactoryPrice * MConsidrationFees / 100).toFixed(2);
+                MRP = (parseFloat(txtXFactoryPrice) + parseFloat(ConsidrationFees) + parseFloat(MWholeSaleMargin) + parseFloat(MRetailerMargin)).toFixed(2);
+            }
+            FMRP = (Math.round(MRP / 10) * 10);
+            document.getElementById("txtAdditionalDuty").value = ConsidrationFees;
+            document.getElementById("txtMRP").value = FMRP;
+            document.getElementById("txtExciseDuty").value = (parseFloat(ConsidrationFees) + (parseFloat(FMRP) - parseFloat(MRP))).toFixed(2);
+        }
     }
 </script>

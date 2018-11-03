@@ -295,7 +295,22 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-
+        public DataSet GetDutyCalculation(string Year,string LiquorType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("YEAR", Year));
+                parameters.Add(new SqlParameter("LiquorType", LiquorType));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
+            }
+            catch(Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
         internal string InsertUpdatePlan(BottelingPlan BP)
         {
             string result = "";
@@ -466,9 +481,7 @@ namespace UPExciseLTE.DAL
               }
 
           }*/
-
         #endregion
-
         public void UploadCSV(string objdoc)
         {
             con.Open();
@@ -508,6 +521,46 @@ namespace UPExciseLTE.DAL
             }
 
         }
-
+        public string InsertUpdateUnitTank(UnitTank UT)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("Proc_InsertUpdateUnitTank", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("UnitTankId", UT.UnitTankId));
+                cmd.Parameters.Add(new SqlParameter("BreweryId", UT.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("UnitTankName", UT.UnitTankName));
+                cmd.Parameters.Add(new SqlParameter("UnitTankCapacity", UT.UnitTankCapacity));
+                cmd.Parameters.Add(new SqlParameter("UnitTankBulkLiter", UT.UnitTankBulkLiter));
+                cmd.Parameters.Add(new SqlParameter("UnitTankStrength", UT.UnitTankStrength));
+                cmd.Parameters.Add(new SqlParameter("Status", UT.Status));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Type", UT.Type));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
     }
 }

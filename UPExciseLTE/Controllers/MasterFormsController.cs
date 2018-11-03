@@ -29,6 +29,16 @@ namespace UPExciseLTE.Controllers
             {
                 Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
             }
+            DataSet ds= new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(),"BE");
+            if (ds !=null && ds.Tables[0]!=null && ds.Tables[0].Rows.Count>0)
+            {
+                ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
+                ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
+                ViewBag.MWholeSaleMargin  = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
+                ViewBag.SWholeSaleMargin  = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
+                ViewBag.MRetailerMargin   = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
+                ViewBag.SRetailerMargin   = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+            }
             string UserId = UserSession.LoggedInUserId.ToString().Trim();      
             ViewBag.Brewery =CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("S");
@@ -352,10 +362,18 @@ namespace UPExciseLTE.Controllers
              return View(lstBrand);
          }*/
         //New Work
+        [HttpGet]
         public ActionResult UnitTank()
         {
             UnitTank UT = new UnitTank();
+            ViewBag.Brewery = CommonBL.fillBrewery();
             return View(UT);
+        }
+        [HttpPost]
+        public ActionResult UnitTank(UnitTank UT)
+        {
+            string str = new CommonDA().InsertUpdateUnitTank(UT);
+            return RedirectToAction("UnitTank");
         }
     }
 

@@ -32,7 +32,7 @@ namespace UPExciseLTE.Models
         public float MRP { get; set; } = 0;
         [Display(Name = "XFactory Price")]
         public float XFactoryPrice { get; set; } = 0;
-        [Display(Name = "Additional Duty")]
+        [Display(Name = "Consideration Fees")]
         public float AdditionalDuty { get; set; } = 0;
         [Display(Name = "Box-Size (Number of Bottles)")]
         public int QuantityInCase { get; set; } = 0;
@@ -108,13 +108,23 @@ namespace UPExciseLTE.Models
     }
     public class UnitTank
     {
+        [Display (Name ="Unit Tank Id")]
         public int UnitTankId { get; set; } = -1;
-        public short BreweryId { get; set; } = -1;
+        [Display(Name = "Brewery Id")]
+        public short BreweryId { get; set; }   
+        [Display(Name = "Brewery")]
+        public string Brewery { get; set; }
+        [Display(Name = "Unit Tank Name")]
         public string UnitTankName { get; set; } = "";
+        [Display(Name = "Unit Tank Capacity")]
         public float UnitTankCapacity { get; set; } = 0;
+        [Display(Name = "Unit Tank Open Balance")]
         public float UnitTankBulkLiter { get; set; } = 0;
+        [Display(Name = "Unit Tank Strength")]
         public float UnitTankStrength { get; set; } = 0;
+        [Display(Name = "Unit Tank Status")]
         public string Status { get; set; } = "";
+        public int Type { get; set; } = 1;
     }
 }
 

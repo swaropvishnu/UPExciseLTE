@@ -83,7 +83,10 @@
                                     @Html.DisplayNameFor(model => model.LicenceNo)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.MRP)
+                                    @Html.DisplayNameFor(model => model.QuantityInCase)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.QuantityInBottleML)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.XFactoryPrice)
@@ -91,16 +94,13 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.AdditionalDuty)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInCase)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInBottleML)
-                                </th>
+                              
                                 <th>
                                     @Html.DisplayNameFor(model => model.ExciseDuty)
                                 </th>
-
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MRP)
+                                </th>
 
                                 <th></th>
                                 <th></th>
@@ -131,15 +131,7 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.LicenceNo)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MRP)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.XFactoryPrice)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.AdditionalDuty)
-                                    </td>
+                                    
                                     <td>
                                         @Html.DisplayFor(modelItem => item.QuantityInCase)
                                     </td>
@@ -147,9 +139,18 @@
                                         @Html.DisplayFor(modelItem => item.QuantityInBottleML)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.XFactoryPrice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AdditionalDuty)
+                                    </td>
+                                   
+                                    <td>
                                         @Html.DisplayFor(modelItem => item.ExciseDuty)
                                     </td>
-
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MRP)
+                                    </td>
                                     <td>
                                         @if (item.IsFinal == false)
                                         {

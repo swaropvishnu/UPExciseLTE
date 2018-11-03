@@ -50,7 +50,7 @@
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new {  @class = "form-control", @id = "txtUnitTankCapacity" } )
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">UnitTankBulkLiter</label>
+                                    <label class="control-label">Unit Tank Bulk Liter</label>
                                     @Html.TextBoxFor(model => model.UnitTankBulkLiter, new {  @class = "form-control", @id = "txtUnitTankBulkLiter" } )
                                 </div>
                              </div>
@@ -59,16 +59,21 @@
                                     <label class="control-label">Unit Tank Strength</label>
                                     @Html.TextBoxFor(model => model.UnitTankStrength, new {   @class = "form-control", @id = "txtUnitTankStrength" } )
                                 </div>
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <label class="control-label">Brewery</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                    </div>
+                                </div>
                             </div>
+                            <center>
+                                <div>
+                                    <button type="submit" class="btn green">Save</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                </div>
+                            </center>
                         </div>
-                        <div style="clear:both"></div>
-                        <center>
-                            <div class="form-actions">
-                                <button type="submit" class="btn green">Submit</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-
-                            </div>
-                        </center>
+                       
                     </div>
                 </div>
             </div>
