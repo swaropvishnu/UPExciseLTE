@@ -54,3 +54,10 @@ select.form-control:not([size]):not([multiple]) {
 .displayNone{
     display:none;
 }
+
+.QRCodeImg{
+    width:100%;
+   
+    margin-top  :20%;
+
+}

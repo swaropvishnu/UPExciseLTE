@@ -5655,6 +5655,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\QRCode.jpg" />
+    <Content Include="Img\QRCode1.jpg" />
     <Content Include="Img\uttar_pradesh_government.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
@@ -6182,6 +6184,7 @@
     <Content Include="Views\MasterForms\EditFinalBottelingPlan.cshtml" />
     <Content Include="Views\MasterForms\UploadCSV.cshtml" />
     <Content Include="Views\MasterForms\UnitTank.cshtml" />
+    <Content Include="Views\Report\BarCodeProducution.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

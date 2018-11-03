@@ -175,6 +175,41 @@ namespace UPExciseLTE.BLL
                 return new BottelingPlan();
             }
         }
+
         #endregion
+
+        #region Report
+
+        public List<DistrictWholeSaleToRetailorModel> GetGatePassReport()
+        {
+            var reportModels = new List<DistrictWholeSaleToRetailorModel>();
+            DataSet ds = new CommonDA().GetGatePassReport();
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    reportModels.Add(GetDistrictWholeSaleToRetailorModel(dr));
+                }
+            }
+            return reportModels;
+        }
+
+        private DistrictWholeSaleToRetailorModel GetDistrictWholeSaleToRetailorModel(DataRow dr)
+        {
+            DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.BrewaryName = dr["BrewaryName"].ToString().Trim();
+            model.Revenue = dr["Revenue"].ToString().Trim();
+            model.Brand = dr["Brand"].ToString().Trim();
+            model.BatchNo = dr["BatchNo"].ToString().Trim();
+            model.TotalBottle = dr["TotalBottle"].ToString().Trim();
+            model.Date = dr["Date"].ToString().Trim();
+            model.VehicleNo = dr["VehicleNo"].ToString().Trim();
+            model.Receiver = dr["Receiver"].ToString().Trim();
+            return model;
+        }
+
+        #endregion
+
     }
 }

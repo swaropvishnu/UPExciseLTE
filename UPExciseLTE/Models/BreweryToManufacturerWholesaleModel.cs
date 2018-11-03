@@ -93,12 +93,9 @@ namespace UPExciseLTE.Models
         [Display(Name = "Alcoholic Strength")]
         public string AlcohalicStrength { get; set; }
 
-
         public int RowNum { get; set; }
 
         public long TransitGatePassID { get; set; }
-
-
         public string BottleQuantity { get; set; }
 
         public string TotalBottle { get; set; }
@@ -117,6 +114,11 @@ namespace UPExciseLTE.Models
         public string Receiver { get; set; }
 
         public string Brand { get; set; }
+
+        public string PassType { get; set; }
+
+        public string PassTypeInformation { get; set; }
+
 
     }
 

@@ -451,21 +451,21 @@ namespace UPExciseLTE.DAL
 
         #region DistrictWholesaleToRetailor
 
-        /*  public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
-          {
-              var para = new DynamicParameters();
-              para.Add("@SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId));
-              try
-              {
-                  return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
-              }
-              catch (Exception ex)
-              {
-
-                  throw;
-              }
-
-          }*/
+        public DataSet GetGatePassReport()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassForDistrictWholesaleToRetailor", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
 
         #endregion
 
