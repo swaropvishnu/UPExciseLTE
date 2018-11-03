@@ -466,24 +466,27 @@ namespace UPExciseLTE.DAL
 
         #region DistrictWholesaleToRetailor
 
-        /*  public IEnumerable<DistrictWholeSaleToRetailorModel> GetGatePassForDistrictWholesaleToRetailor()
-          {
-              var para = new DynamicParameters();
-              para.Add("@SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId));
-              try
-              {
-                  return con.Query<DistrictWholeSaleToRetailorModel>("Proc_GetGatePassForDistrictWholesaleToRetailor", para, null, true, 0, commandType: CommandType.StoredProcedure);
-              }
-              catch (Exception ex)
-              {
-
-                  throw;
-              }
+        public DataSet GetGatePassReport()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassForDistrictWholesaleToRetailor", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
 
           }*/
+
         #endregion
         public void UploadCSV(string objdoc)
-        {
+       {
             con.Open();
 
             try
@@ -495,9 +498,9 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "Proc_Tbl_UploadProductionCSC";
-
-                cmd.Parameters.Add(new SqlParameter("@tbl_UploadProductionCSV", objdoc));
+                cmd.CommandText = "Proc_Tbl_UploadProductionCSV";
+                cmd.CommandTimeout = 3000;
+                cmd.Parameters.Add(new SqlParameter("@tags", objdoc));
                 cmd.Parameters.Add(new SqlParameter("@SpType", 1));
                 //cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
                 //cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
@@ -509,10 +512,13 @@ namespace UPExciseLTE.DAL
                 //    }
                 //}
 
+                
+
+
             }
             catch (Exception)
             {
-
+                
             }
             finally
             {
