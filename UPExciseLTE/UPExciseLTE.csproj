@@ -237,6 +237,7 @@
     <Compile Include="Controllers\GatePassController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MasterFormsController.cs" />
+    <Compile Include="Controllers\ProductionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="MenuHandler.ashx.cs">
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BBTFormation.cs" />
     <Compile Include="Models\BreweryToManufacturerWholesaleModel.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\LoginModal.cs" />
@@ -6185,6 +6187,7 @@
     <Content Include="Views\MasterForms\UploadCSV.cshtml" />
     <Content Include="Views\MasterForms\UnitTank.cshtml" />
     <Content Include="Views\Report\BarCodeProducution.cshtml" />
+    <Content Include="Views\Production\BBTFormation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
