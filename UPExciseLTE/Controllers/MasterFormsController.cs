@@ -369,15 +369,17 @@ namespace UPExciseLTE.Controllers
         public ActionResult UnitTank()
         {
             UnitTank UT = new UnitTank();
+            ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
+            //ViewBag.UnitTank=new CommonDA().GetUnitTank(CommonBL.fillBrewery()[0]["ID"]., -1,"Z" )
             return View(UT);
         }
         [HttpPost]
         public ActionResult UnitTank(UnitTank UT)
         {
             string str = new CommonDA().InsertUpdateUnitTank(UT);
+            TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
         }
     }
-
 }

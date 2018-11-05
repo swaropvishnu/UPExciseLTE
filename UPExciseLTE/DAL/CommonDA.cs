@@ -115,7 +115,7 @@ namespace UPExciseLTE.DAL
             "&",
             "*"
         };
-           
+
             int sL_Char_Length = sL_Char.Length - 1;
             while (sL_Char_Length >= 0)
             {
@@ -152,9 +152,9 @@ namespace UPExciseLTE.DAL
 
                 ipaddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             return ipaddress;
-        }   
+        }
         string IpAddress = GetIpAddress();
-         string MacAddress = GetMACAddress();
+        string MacAddress = GetMACAddress();
         #endregion
         internal String UpdateUserDetail(LoginModal objUserData)
         {
@@ -192,8 +192,8 @@ namespace UPExciseLTE.DAL
         }
         #region Gaurav
         public string InsertUpdateBrand(BrandMaster brand)
-        { 
-            string str="";
+        {
+            string str = "";
             con.Open();
             SqlTransaction tran = con.BeginTransaction();
             try
@@ -221,7 +221,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("Remark", brand.Remark));
                 cmd.Parameters.Add(new SqlParameter("StateId", brand.StateId));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
-                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));                
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("sp_type", brand.SPType));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
@@ -242,7 +242,7 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-        public string UpdateBrand(string dbName, int BrandId,int TypeId)
+        public string UpdateBrand(string dbName, int BrandId, int TypeId)
         {
             string str = "";
             con.Open();
@@ -253,7 +253,7 @@ namespace UPExciseLTE.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", dbName));
-                cmd.Parameters.Add(new SqlParameter("BrandId",BrandId));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
                 cmd.Parameters.Add(new SqlParameter("TypeId", TypeId));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -273,7 +273,7 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-        public DataSet GetBrandDetail(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int StateId,string Status)
+        public DataSet GetBrandDetail(int BrandId, string LiquorType, string LicenceType, string LicenseNo, short BreweryId, short DistrictCode, int StateId, string Status)
         {
             DataSet ds = new DataSet();
             try
@@ -295,7 +295,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public DataSet GetDutyCalculation(string Year,string LiquorType)
+        public DataSet GetDutyCalculation(string Year, string LiquorType)
         {
             DataSet ds = new DataSet();
             try
@@ -305,7 +305,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("LiquorType", LiquorType));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
             }
-            catch(Exception)
+            catch (Exception)
             {
                 ds = null;
             }
@@ -330,7 +330,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("MappedOrNot", BP.MappedOrNot));
                 cmd.Parameters.Add(new SqlParameter("IsPlanFinal", BP.IsPlanFinal));
                 cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
-                cmd.Parameters.Add(new SqlParameter("c_user_id",UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
@@ -368,7 +368,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("ProducedNumberOfCases", BP.ProducedNumberOfCases));
                 cmd.Parameters.Add(new SqlParameter("IsProductionFinal", BP.IsProductionFinal));
                 cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
-                cmd.Parameters.Add(new SqlParameter("c_user_id_production",UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_id_production", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip_production", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac_production", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
@@ -406,7 +406,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBottelingPlanDetail", parameters.ToArray());
             }
-            catch(Exception)
+            catch (Exception)
             {
                 ds = null;
             }
@@ -429,7 +429,7 @@ namespace UPExciseLTE.DAL
         }
         #endregion
 
-        internal string GenerateQRCode(int PlanId,string UserId,string dbName)
+        internal string GenerateQRCode(int PlanId, string UserId, string dbName)
         {
             string result = "";
             con.Open();
@@ -484,7 +484,7 @@ namespace UPExciseLTE.DAL
 
         #endregion
         public void UploadCSV(string objdoc)
-       {
+        {
             con.Open();
 
             try
@@ -510,13 +510,13 @@ namespace UPExciseLTE.DAL
                 //    }
                 //}
 
-                
+
 
 
             }
             catch (Exception)
             {
-                
+
             }
             finally
             {
@@ -565,6 +565,23 @@ namespace UPExciseLTE.DAL
                 con.Dispose();
             }
             return result;
+        }
+        public DataSet GetUnitTank(short BreweryId,short UnitTankId,string status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("UnitTankId", UnitTankId));
+                parameters.Add(new SqlParameter("status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitTank", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
         }
     }
 }
