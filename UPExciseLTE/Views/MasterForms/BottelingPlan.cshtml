@@ -1,7 +1,7 @@
 ﻿@model UPExciseLTE.Models.BottelingPlan
 
 @{
-    ViewBag.Title = "Botteling Plan";
+    ViewBag.Title = "Bottling Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
@@ -40,11 +40,11 @@
                         <div class="caption">
                             @if (Model.Type == 1)
                             {
-                            <span> <i class="fa fa-gift"></i>&nbsp;Botteling Plan Entry&nbsp;(Daily Botteling Plan)</span>
+                            <span> <i class="fa fa-gift"></i>&nbsp;Bottling Plan Entry&nbsp;(Daily Bottling Plan)</span>
                             }
                             else
                             {
-                                <span> <i class="fa fa-gift"></i>&nbsp;Update Botteling Plan (Daily Botteling Plan)</span>
+                                <span> <i class="fa fa-gift"></i>&nbsp;Update Bottling Plan (Daily Bottling Plan)</span>
                             }
 
                         </div>
@@ -100,11 +100,11 @@
 							</div>
 						<div class="row">
                             <div class="form-group col-md-4">
-                                <label class="control-label" id="lblBoxQuantity">Box-Quantity (In Case)</label>
+                                <label class="control-label" id="lblBoxQuantity">Box-Size (Number of Bottles)</label>
                                 @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="control-label">Bottle/ Can Capacity</label>
+                                <label class="control-label">Bottle/ Can Capacity (in ml.)</label>
                                 @Html.TextBoxFor(m=>m.BottleCapacity, new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);",@readonly="true" })
                             </div>
 
@@ -130,7 +130,7 @@
                         <div class="form-actions">
                            <button type="submit" class="btn green">Submit</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Edit/Finalize Botteling Plan</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Edit/Finalize Bottling Plan</button>
                         </div>
                         </center>
                     </div>
