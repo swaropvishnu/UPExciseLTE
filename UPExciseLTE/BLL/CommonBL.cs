@@ -34,7 +34,7 @@ namespace UPExciseLTE.BLL
         public static List<SelectListItem> fillBrand(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.PushName.ToString(), "S");
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.PushName.ToString(), SelectType);
             return BrandList;
         }
         public static LoginModal GetUserDetail(LoginModal objUserData)

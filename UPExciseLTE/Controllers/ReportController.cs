@@ -27,7 +27,6 @@ namespace UPExciseLTE.Controllers
         public ActionResult GetGatePassForDistrictWholesaleToRetailor1()
         {
             var applicationAllotmentShopList = new CommonBL().GetGatePassReport();
-          
             return Json(new { data = applicationAllotmentShopList }, JsonRequestBehavior.AllowGet);
         }
 

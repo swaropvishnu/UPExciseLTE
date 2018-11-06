@@ -254,6 +254,7 @@
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\UserManager.cs" />
     <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Utility.cs" />
@@ -6188,6 +6189,10 @@
     <Content Include="Views\MasterForms\UnitTank.cshtml" />
     <Content Include="Views\Report\BarCodeProducution.cshtml" />
     <Content Include="Views\Production\BBTFormation.cshtml" />
+    <Content Include="Views\MasterForms\EditBrand.cshtml" />
+    <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
+    <Content Include="Views\MasterForms\UpdateBottelingPlan.cshtml" />
+    <Content Include="Views\Production\EditBBTFormation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,7 +20,7 @@ namespace UPExciseLTE.Controllers
         {
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             ViewBag.LicenceNo = LicenceNos;
-            ViewBag.Brands = GetBrandList();
+            ViewBag.Brands = CommonBL.fillBrand("S");
             return View();
         }
         #endregion
@@ -32,7 +32,7 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
-            ViewBag.Brands = GetBrandList();
+            ViewBag.Brands = CommonBL.fillBrand("S");
             ViewBag.LicenceNo = LicenceNos;
             return View();
         }
@@ -42,7 +42,7 @@ namespace UPExciseLTE.Controllers
         #region DistrictWholesaleToRetailor
         public ActionResult DistrictWholesaleToRetailor()
         {
-            ViewBag.Brands = GetBrandList();
+            ViewBag.Brands = CommonBL.fillBrand("S");
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
@@ -74,15 +74,14 @@ namespace UPExciseLTE.Controllers
 
         #endregion
 
-        #region BrandList
+        //#region BrandList
 
-        public List<SelectListItem> GetBrandList()
-        {
-            
-            return CommonBL.fillBrand("S");
-        }
+        //public List<SelectListItem> GetBrandList()
+        //{
+        //    return CommonBL.fillBrand("S");
+        //}
 
-        #endregion
+        //#endregion
 
     }
 }
