@@ -175,7 +175,44 @@ namespace UPExciseLTE.BLL
                 return new BottelingPlan();
             }
         }
-
+        public List<UnitTank> GetUnitTankDetails(short BreweryId, short UnitTankId, string status)
+        {
+            List<UnitTank> lstUnitTank = new List<UnitTank>();
+            DataSet ds = new CommonDA().GetUnitTank(BreweryId, UnitTankId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstUnitTank.Add(FillUnitTank(dr));
+                }
+            }
+            return lstUnitTank;
+        }
+        public UnitTank GetUnitTank(short BreweryId, short UnitTankId, string status)
+        {
+            DataSet ds = new CommonDA().GetUnitTank(BreweryId, UnitTankId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillUnitTank(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new UnitTank();
+            }
+        }
+        private UnitTank FillUnitTank(DataRow dr)
+        {
+            UnitTank UT = new UnitTank();
+            UT.UnitTankId = int.Parse(dr["UnitTankId"].ToString().Trim());
+            UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+            UT.UnitTankName = (dr["UnitTankName"].ToString().Trim());
+            UT.UnitTankCapacity =float.Parse (dr["UnitTankCapacity"].ToString().Trim());
+            UT.UnitTankBulkLiter = float.Parse(dr["UnitTankBulkLiter"].ToString().Trim());
+            UT.UnitTankStrength = float.Parse(dr["UnitTankStrength"].ToString().Trim());
+            UT.Enc_UnitTankId = new Crypto().Encrypt(dr["UnitTankId"].ToString().Trim());
+            UT.Status =(dr["Status"].ToString().Trim());
+            return UT;
+        }
         #endregion
 
         #region Report

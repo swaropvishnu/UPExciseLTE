@@ -1,5 +1,4 @@
-﻿
-using UPExciseLTE.BLL;
+﻿using UPExciseLTE.BLL;
 using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
 using System;

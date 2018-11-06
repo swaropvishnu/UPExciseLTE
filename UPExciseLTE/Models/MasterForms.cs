@@ -110,6 +110,7 @@ namespace UPExciseLTE.Models
     {
         [Display (Name ="Unit Tank Id")]
         public int UnitTankId { get; set; } = -1;
+        public string Enc_UnitTankId { get; set; } = "";
         [Display(Name = "Brewery Id")]
         public short BreweryId { get; set; }   
         [Display(Name = "Brewery")]

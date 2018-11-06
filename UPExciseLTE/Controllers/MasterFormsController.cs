@@ -369,9 +369,14 @@ namespace UPExciseLTE.Controllers
         public ActionResult UnitTank()
         {
             UnitTank UT = new UnitTank();
+            if (Request.QueryString["A"]!=null && Request.QueryString["A"].Trim()!=string.Empty)
+            {
+
+                UT = new CommonBL().GetUnitTank(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+            }
             ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
-            //ViewBag.UnitTank=new CommonDA().GetUnitTank(CommonBL.fillBrewery()[0]["ID"]., -1,"Z" )
+            ViewBag.UnitTank = new CommonBL().GetUnitTankDetails(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
             return View(UT);
         }
         [HttpPost]

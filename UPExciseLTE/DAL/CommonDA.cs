@@ -572,6 +572,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name",UserSession.PushName));
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("UnitTankId", UnitTankId));
                 parameters.Add(new SqlParameter("status", status));
