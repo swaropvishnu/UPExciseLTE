@@ -1,5 +1,19 @@
-﻿<div class="alert alert-danger displayNone" id="danger-alert">
-    <button type="button" class="close" data-dismiss="alert">x</button>
-    <strong>Error ! </strong>
-    <span id="lblError"></span>
-</div>
+﻿@model UPExciseLTE.Models.Message
+
+@*@if (Model.MStatus== "Error")
+{
+    <div class="alert alert-danger displayNone" id="danger-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Error ! </strong>
+        <span id="lblError">@Model.TextMessage</span>
+    </div>
+}
+else
+{*@
+    <div class="alert alert-@Model.MStatus displayNone" id="danger-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>@Model.MStatus ! </strong>
+        <span id="lblError">@Model.TextMessage</span>
+    </div>
+@*}*@
+

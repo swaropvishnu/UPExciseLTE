@@ -9,7 +9,7 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.Models;
 using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
- 
+
 namespace UPExciseLTE.DAL
 {
     public class CommonDA
@@ -482,6 +482,8 @@ namespace UPExciseLTE.DAL
             return ds;
         }
 
+
+
         #endregion
         public void UploadCSV(string objdoc)
         {
@@ -504,15 +506,9 @@ namespace UPExciseLTE.DAL
                 //cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
                 //cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
                 //cmd.Parameters.Add(new SqlParameter("Msg", ""));
-
                 cmd.ExecuteNonQuery();
-
                 //    }
                 //}
-
-
-
-
             }
             catch (Exception)
             {
@@ -566,7 +562,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetUnitTank(short BreweryId,short UnitTankId,string status)
+        public DataSet GetUnitTank(short BreweryId, short UnitTankId, string status)
         {
             DataSet ds = new DataSet();
             try
@@ -584,5 +580,86 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+
+        public string InsertUpdateBBT(BBTFormation bbtFormation)
+        {
+            con.Open();
+            string str = "";
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("Proc_InsertUpdateBBT", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("BBTId", bbtFormation.BBTId));
+                cmd.Parameters.Add(new SqlParameter("BBTName", bbtFormation.BBTName));
+                cmd.Parameters.Add(new SqlParameter("BBTCapacity", bbtFormation.BBTCapacity));
+                cmd.Parameters.Add(new SqlParameter("BBTBulkLiter", bbtFormation.BBTBulkLiter));
+                cmd.Parameters.Add(new SqlParameter("BrandId", bbtFormation.BrandID));
+                cmd.Parameters.Add(new SqlParameter("Status", bbtFormation.Status));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("user_id",UserSession.LoggedInUserId.ToString()));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("sp_Type", bbtFormation.SP_Type));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 32676;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex){
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
+
+
+        //public string GetBBTMaster(BBTFormation bbtFormation)
+        //{
+        //    con.Open();
+        //    string str = "";
+        //    SqlTransaction tran = con.BeginTransaction();
+        //    try
+        //    {
+        //        cmd = new SqlCommand("Proc_InsertUpdateBBT", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Transaction = tran;
+        //        cmd.Parameters.Add(new SqlParameter("BBTId", bbtFormation.BBTId));
+        //        cmd.Parameters.Add(new SqlParameter("BBTName", bbtFormation.BBTName));
+        //        cmd.Parameters.Add(new SqlParameter("BBTCapacity", bbtFormation.BBTCapacity));
+        //        cmd.Parameters.Add(new SqlParameter("BBTBulkLiter", bbtFormation.BBTBulkLiter));
+        //        cmd.Parameters.Add(new SqlParameter("BrandId", bbtFormation.BrandID));
+        //        cmd.Parameters.Add(new SqlParameter("Status", bbtFormation.Status));
+        //        cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+        //        cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId.ToString()));
+        //        cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+        //        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+        //        cmd.Parameters.Add(new SqlParameter("sp_Type", bbtFormation.SP_Type));
+        //        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+        //        cmd.Parameters["Msg"].Size = 32676;
+        //        cmd.ExecuteNonQuery();
+        //        str = cmd.Parameters["Msg"].Value.ToString().Trim();
+        //        tran.Commit();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        str = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        con.Close();
+        //        con.Dispose();
+        //    }
+        //    return str;
+        //}
+
+
+
     }
 }
