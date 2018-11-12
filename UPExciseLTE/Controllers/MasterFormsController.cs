@@ -399,9 +399,9 @@ namespace UPExciseLTE.Controllers
         {
             UnitTankBLDetail UTBL = new UnitTankBLDetail();
             ViewBag.UnitTank = CommonBL.fillUnitTank("S");
-            if (ViewData["Message"] !=null)
+            if (TempData["Message"] !=null)
             {
-                var str = ViewData["Message"].ToString();
+                var str = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
                     UTBL.Message.MStatus = "success";
@@ -419,7 +419,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult ReceiveUnitTank(UnitTankBLDetail UTBL)
         {
             string str = new CommonDA().InsertUnitTankBLDetail(UTBL);
-            ViewData["Message"] = str;
+            TempData["Message"] = str;
             return RedirectToAction("ReceiveUnitTank");
         }
 

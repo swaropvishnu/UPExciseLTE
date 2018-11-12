@@ -620,28 +620,61 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-
-
-
-            public DataSet GetBBTMaster(int bbtId,int brandId,string status)
+        public DataSet GetBBTMaster(int bbtId,int brandId,string status)
+        {
+            DataSet ds = new DataSet();
+            try
             {
-                DataSet ds = new DataSet();
-                try
-                {
-                    List<SqlParameter> parameters = new List<SqlParameter>();
-                    parameters.Add(new SqlParameter("BBTId", bbtId));
-                    parameters.Add(new SqlParameter("BrandId", brandId));
-                    parameters.Add(new SqlParameter("BreweryId", 1));
-                    parameters.Add(new SqlParameter("Status", status));
-                    ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
-                }
-                catch (Exception)
-                {
-                    ds = null;
-                }
-                return ds;
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("BBTId", bbtId));
+                parameters.Add(new SqlParameter("BrandId", brandId));
+                parameters.Add(new SqlParameter("BreweryId", 1));
+                parameters.Add(new SqlParameter("Status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
             }
-
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public string InsertUnitTankBLDetail(UnitTankBLDetail UTBL)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUnitTankBLDetail", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("UTBLDetailId", UTBL.UTBLDetailId));
+                cmd.Parameters.Add(new SqlParameter("UnitTankId", UTBL.UnitTankId));
+                cmd.Parameters.Add(new SqlParameter("EntryDate", UTBL.EntryDate));
+                cmd.Parameters.Add(new SqlParameter("Receive", UTBL.Receive));
+                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip",IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         public string InsertUpdateGatePass(GatePass gatePass)
         {
             con.Open();
@@ -697,22 +730,5 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-
-
-        public DataSet GetDistrictList()
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetDistrictList");
-            }
-            catch (Exception)
-            {
-                ds = null;
-            }
-            return ds;
-        }
-
-
     }
 }

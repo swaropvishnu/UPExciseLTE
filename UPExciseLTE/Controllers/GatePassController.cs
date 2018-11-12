@@ -35,7 +35,7 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
             gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
             ViewBag.LicenceNo = LicenceNos;
-            ViewBag.Districts = new CommonBL().GetDistrictList();
+            ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
 
@@ -55,7 +55,7 @@ namespace UPExciseLTE.Controllers
             }
             List<SelectListItem> LicenceNos = new List<SelectListItem>(); gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
             ViewBag.LicenceNo = LicenceNos;
-            ViewBag.Districts = new CommonBL().GetDistrictList();
+            ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
 
@@ -122,14 +122,7 @@ namespace UPExciseLTE.Controllers
 
         #endregion
 
-        //#region BrandList
-
-        //public List<SelectListItem> GetBrandList()
-        //{
-        //    return CommonBL.fillBrand("S");
-        //}
-
-        //#endregion
+        
 
     }
 }

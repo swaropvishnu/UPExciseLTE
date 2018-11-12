@@ -113,7 +113,7 @@ namespace UPExciseLTE.Filters
 
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     HttpContext.Current.Session.Abandon();
                     //HttpContext.Current.Response.Redirect("~/logout.aspx?Info=Sorry you unauthorized", true);

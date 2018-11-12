@@ -4,7 +4,9 @@
     ViewBag.Title = "ReceiveUnitTank";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @using (Html.BeginForm("ReceiveUnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -28,6 +30,10 @@
                         <div class="form-body">
                             <div class="row">
                                 <div class="form-group col-md-4">
+                                    <label class="control-label">Entry Date</label>
+                                    @Html.TextBoxFor(model => model.EntryDate, new { @class = "form-control", @id = "txtEntryDate", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank</label>
                                     @Html.DropDownListFor(m => m.UnitTankId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
                                 </div>
@@ -35,12 +41,12 @@
                                     <label class="control-label">Unit Tank Capacity (in Liter)</label>
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity",@readonly="true" })
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Strength</label>
                                     @Html.TextBoxFor(m => m.Strength, new { @class = "form-control", @id = "txtUnitTankStrength", @readonly = "true" })
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Balance (in Liter)</label>
                                     @Html.TextBoxFor(model => model.Balance, new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
@@ -72,6 +78,13 @@
         if (UnitTankId != "-1") {
             UnitTankChange(UnitTankId);
         }
+    });
+   $(document).ready(function () {
+       $("#txtEntryDate").datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true
+            });
     });
     function UnitTankChange(UnitTankId) {
         $.ajax({

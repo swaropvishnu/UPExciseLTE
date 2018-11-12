@@ -200,7 +200,7 @@ namespace UPExciseLTE
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;
             }
@@ -425,7 +425,7 @@ namespace UPExciseLTE
                 arReturnParms[1] = arParms[4].Value.ToString();
                 return arParms[4].Value.ToString();
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return null;
             }
@@ -461,7 +461,7 @@ namespace UPExciseLTE
                 arReturnParms[1] = arParms[4].Value.ToString();
                 return arParms[4].Value.ToString();
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return null;
             }
@@ -1448,7 +1448,7 @@ namespace UPExciseLTE
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return null;
             }
@@ -1539,7 +1539,7 @@ namespace UPExciseLTE
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return null;
             }

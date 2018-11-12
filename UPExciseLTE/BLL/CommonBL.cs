@@ -31,6 +31,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", SelectType);
             return StateList;
         }
+        public static List<SelectListItem> fillDistict(string SelectType)
+        {
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "DIST", "", SelectType);
+            return StateList;
+        }
         public static List<SelectListItem> fillBrand(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
@@ -286,22 +292,6 @@ namespace UPExciseLTE.BLL
             bbtFormation.Status = dr["Status"].ToString().Trim();
             return bbtFormation;
         }
-
-
-        public List<SelectListItem> GetDistrictList()
-        {
-            DataSet ds = new CommonDA().GetDistrictList();
-            var districtList = new List<SelectListItem>();
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    districtList.Add(new SelectListItem { Text= dr["dist_name"].ToString().Trim(),Value= dr["district_code_census"].ToString().Trim() });
-                }
-            }
-            return districtList;
-        }
-
         #endregion
 
 
