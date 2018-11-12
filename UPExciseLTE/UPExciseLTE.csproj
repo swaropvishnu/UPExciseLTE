@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -250,8 +251,9 @@
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\BBTFormation.cs" />
-    <Compile Include="Models\BreweryToManufacturerWholesaleModel.cs" />
+    <Compile Include="Models\GatePass.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
+    <Compile Include="Models\GatePass1.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
     <Compile Include="Models\Message.cs" />
@@ -6193,6 +6195,8 @@
     <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
     <Content Include="Views\MasterForms\UpdateBottelingPlan.cshtml" />
     <Content Include="Views\Production\EditBBTFormation.cshtml" />
+    <Content Include="Views\Production\GetBBTDetails.cshtml" />
+    <Content Include="Views\GatePass\GatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

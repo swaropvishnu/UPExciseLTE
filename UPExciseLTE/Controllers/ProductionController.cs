@@ -12,20 +12,34 @@ namespace UPExciseLTE.Controllers
     public class ProductionController : Controller
     {
         // GET: Production
+
+        #region BBTFormation
+
         [HttpGet]
         public ActionResult BBTFormation()
         {
+            var bbtFormation = new Models.BBTFormation();
+            var MasterFormsController = new MasterFormsController();
+            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
+            {
+                bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), -1,"Z").FirstOrDefault();
+                var str = MasterFormsController.GetBrandDetailsForDDl(bbtFormation.BrandID.ToString()).Split(',');
+                bbtFormation.LiquorType = str[0];
+                bbtFormation.LicenseType = str[1];
+            }
             ViewBag.Brands = CommonBL.fillBrand("S");
-            return View();
+            return View(bbtFormation);
         }
 
         [HttpPost]
         public ActionResult BBTFormation(BBTFormation bbtFormation)
         {
+            //Get BBTFormation List
+            //
             ViewBag.Brands = CommonBL.fillBrand("S");
             bbtFormation.Status ="A";
             var str = new CommonDA().InsertUpdateBBT(bbtFormation);
-            bbtFormation = new Models.BBTFormation();
+            bbtFormation = new BBTFormation();
             if(!string.IsNullOrEmpty(str))
             {
                 bbtFormation.Message = new Message();
@@ -36,30 +50,34 @@ namespace UPExciseLTE.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditBBTFormation(int bbtId)
+        public ActionResult GetBBTDetails( int brandId=1)
         {
+            var bbtFormations = new List<BBTFormation>();
             ViewBag.Brands = CommonBL.fillBrand("S");
-            return View();
+            bbtFormations = new CommonBL().GetBBTMasterList(-1,brandId,"Z");
+            return View(bbtFormations);
         }
 
-
-
-        [HttpPut]
-        public ActionResult EditBBTFormation(BBTFormation bbtFormation)
+        [HttpGet]
+        public ActionResult DeleteBBT(int bbtId)
         {
-            ViewBag.Brands = CommonBL.fillBrand("S");
-            bbtFormation.Status = "A";
+            var bbtFormation = new Models.BBTFormation();
+            bbtFormation.BBTId = bbtId;
+            bbtFormation.SP_Type = 3;
             var str = new CommonDA().InsertUpdateBBT(bbtFormation);
-            bbtFormation = new Models.BBTFormation();
+            bbtFormation = new BBTFormation();
             if (!string.IsNullOrEmpty(str))
             {
                 bbtFormation.Message = new Message();
-                bbtFormation.Message.MStatus = "success";
+                bbtFormation.Message.MStatus = "info";
                 bbtFormation.Message.TextMessage = str;
             }
-            return View(bbtFormation);
+            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", bbtFormation.Message);
         }
 
+        #endregion
+
+   
 
 
     }

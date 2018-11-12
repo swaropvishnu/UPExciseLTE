@@ -1,4 +1,4 @@
-﻿
+﻿@model UPExciseLTE.Models.Message
 @{
     /**/
 
@@ -7,9 +7,9 @@
 }
 
 <style>
-    /*.displayNone {
-        display: block;
-    }*/
+    .displayNone {
+        display: none;
+    }
 
     /*#docs {
     display: block;
@@ -26,7 +26,7 @@
    
 
 
-    @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml")
+    @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml",Model)
 
     <div class="page-content-inner">
         <div class="row ">
@@ -385,23 +385,6 @@
 
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
-
-    //$(document).ready(function () {
-
-    //    $('#UploadGatePassform').validate({ // initialize the plugin
-    //        rules: {
-    //            field1: {
-    //                required: true,
-    //                extension: "csv"
-    //            }
-    //        },
-    //        submitHandler: function (form) { // for demo
-    //            alert('valid form submitted'); // for demo
-    //            return false; // for demo
-    //        }
-    //    });
-
-    //});
 
     $("#UploadGatePass1").click(function () {
         alert("CSV File Uploaded Successfully");

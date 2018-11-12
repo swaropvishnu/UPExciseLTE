@@ -6,16 +6,16 @@ using System.Web;
 
 namespace UPExciseLTE.Models
 {
-    public class BreweryToManufacturerWholesaleModel
+    public class GatePass
     {
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ValidTill { get; set; }
+        public DateTime ValidTill { get; set; }= DateTime.Now.AddDays(7);
 
         public string FromRdoList { get; set; }
 
@@ -25,7 +25,7 @@ namespace UPExciseLTE.Models
 
         public string SelectedToRdo { get; set; }
 
-        public string    RouteDetails { get; set; }
+        public string RouteDetails { get; set; }
 
         public string VehicleNo { get; set; }
 
@@ -66,6 +66,20 @@ namespace UPExciseLTE.Models
         public int BrandId { get; set; }
 
         public IEnumerable<DistrictWholeSaleToRetailorModel> DistrictWholeSaleToRetailorList { get; set; }
+
+        public string PassTypeInformation { get; set; }
+        public Message Message { get; set; }
+
+        public decimal MDistrictId1 { get; set; }
+        public decimal MDistrictId2 { get; set; }
+        public decimal MDistrictId3 { get; set; }
+
+        public long GatePassId { get; set; }
+        public DateTime FromDate { get; set; } = DateTime.Now;
+        public DateTime ToDate { get; set; } = DateTime.Now.AddDays(7);
+        public string To { get; set; } = "";
+        public string From { get; set; } = "";
+        public int SP_Type { get; set; } = 1;
 
     }
 
@@ -122,4 +136,16 @@ namespace UPExciseLTE.Models
 
     }
 
+
+
+    public class InformationByLoggedInUserLevel
+    {
+        public string Receiver { get; set; }
+
+        public string PassType { get; set; }
+
+        public string PassTypeInformation { get; set; }
+
+    }
+     
 }

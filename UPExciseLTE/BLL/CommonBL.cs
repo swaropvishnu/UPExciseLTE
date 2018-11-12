@@ -248,5 +248,57 @@ namespace UPExciseLTE.BLL
 
         #endregion
 
+        #region BBTFormation
+
+        public List<BBTFormation> GetBBTMasterList(int bbtId,int brandId,string status)
+        {
+            var bbtFormationList = new List<BBTFormation>();
+            DataSet ds = new CommonDA().GetBBTMaster(bbtId,brandId,status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    bbtFormationList.Add(GetBBTMaster(dr));
+                }
+            }
+            return bbtFormationList;
+        }
+
+        private BBTFormation GetBBTMaster(DataRow dr)
+        {
+            var bbtFormation=new BBTFormation();
+            bbtFormation.RowNum = int.Parse(dr["RowNum"].ToString());
+            bbtFormation.BBTId = int.Parse(dr["BBTId"].ToString());
+            bbtFormation.BrandID = int.Parse(dr["BrandID"].ToString());
+            bbtFormation.BrandName = dr["BrandName"].ToString().Trim();
+            bbtFormation.BBTName = dr["BBTName"].ToString().Trim();
+            bbtFormation.BBTBulkLiter = decimal.Parse(dr["BBTBulkLiter"].ToString().Trim());
+            bbtFormation.BBTCapacity = decimal.Parse(dr["BBTCapacity"].ToString().Trim());
+            bbtFormation.BBTId_Encript = new Crypto().Encrypt(dr["BBTId"].ToString().Trim());
+            bbtFormation.SP_Type = 2;
+            bbtFormation.Status = dr["Status"].ToString().Trim();
+            return bbtFormation;
+        }
+
+
+        public List<SelectListItem> GetDistrictList()
+        {
+            DataSet ds = new CommonDA().GetDistrictList();
+            var districtList = new List<SelectListItem>();
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    districtList.Add(new SelectListItem { Text= dr["dist_name"].ToString().Trim(),Value= dr["district_code_census"].ToString().Trim() });
+                }
+            }
+            return districtList;
+        }
+
+        #endregion
+
+
+
+
     }
 }
