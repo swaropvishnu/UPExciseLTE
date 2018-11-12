@@ -41,24 +41,23 @@
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             @Html.HiddenFor(model =>model.UnitTankId,new { @id="hfUnitTankId" } )
+                            @Html.HiddenFor(model =>model.Type,new { @id="hfUnitTankType" } )
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Name</label>
                                     @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank" } )
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Capacity</label>
+                                    <label class="control-label">Unit Tank Capacity (in Liter)</label>
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new {  @class = "form-control", @id = "txtUnitTankCapacity" } )
                                 </div>
-                                <div class="form-group col-md-4">
+                                @*<div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Bulk Liter</label>
                                     @Html.TextBoxFor(model => model.UnitTankBulkLiter, new {  @class = "form-control", @id = "txtUnitTankBulkLiter" } )
-                                </div>
-                            </div>
-                            <div class="row">
+                                </div>*@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Strength</label>
-                                    @Html.TextBoxFor(model => model.UnitTankStrength, new {   @class = "form-control", @id = "txtUnitTankStrength" } )
+                                    @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength" })
                                 </div>
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
@@ -79,8 +78,8 @@
                                 <tr>
                                     <th>Unit Tank Id</th>
                                     <th>Unit Tank Name</th>
-                                    <th>Unit Tank Capacity</th>
-                                    <th>Unit Tank Bulk Liter</th>
+                                    <th>Unit Tank Capacity (in Liter)</th>
+                                    @*<th>Unit Tank Bulk Liter</th>*@
                                     <th>Unit Tank Strength</th>  
                                     <th></th>
                                     <th></th>
@@ -93,12 +92,19 @@
                                         <td>@dr.UnitTankId</td>
                                         <td>@dr.UnitTankName</td>
                                         <td>@dr.UnitTankCapacity</td>
-                                        <td>@dr.UnitTankBulkLiter</td>
+                                        @*<td>@dr.UnitTankBulkLiter</td>*@
                                         <td>@dr.UnitTankStrength</td>
                                         <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
-                                        <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Delete</button></td>
+                                        @if (dr.Status == "A")
+                                        {
+                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Deactive</button></td>
+                                        }
+                                        else
+                                        {
+                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','A')">Active</button></td>
+                                        }
                                     </tr>
-                                    }
+                                    } 
                                 }
                             </table>
                         </div>
@@ -111,10 +117,24 @@
 <script type="text/javascript">
     function UnitTankDetails(UTId, Status)
     {
-        if (Status = 'E') {
-            
+        if (Status == 'E') {
             window.location.assign("../masterforms/UnitTank?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
+        }
+        else {
+            $.ajax({
+                url: '/MasterForms/UpdateUnitTank',
+                data: { 'UTId': UTId, 'Status': Status },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    alert(data);
+                    window.location = "../MasterForms/UnitTank";
+                },
+                error: function (data) {
+                    alert("Error in Unit Tank Loading"); 
+                }
+            });
         }
     }
 </script>

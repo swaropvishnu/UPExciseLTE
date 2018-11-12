@@ -16,7 +16,6 @@ namespace UPExciseLTE.Controllers
 {
     public class MasterFormsController : Controller
     {
-       
         public ActionResult Index()
         {
             return View();
@@ -386,5 +385,43 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
         }
+        public string UpdateUnitTank(string UTId,string Status)
+         {
+            UnitTank UT = new UnitTank();
+            UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+            UT.Type = 3;
+            string str = new CommonDA().InsertUpdateUnitTank(UT);
+            return str;
+        }
+        [HttpGet]
+        public ActionResult ReceiveUnitTank()
+        {
+            UnitTankBLDetail UTBL = new UnitTankBLDetail();
+            ViewBag.UnitTank = CommonBL.fillUnitTank("S");
+            if (ViewData["Message"] !=null)
+            {
+                var str = ViewData["Message"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    UTBL.Message.MStatus = "success";
+                    UTBL.Message.TextMessage = str;
+                }
+            }
+            return View();
+        }
+        public string GetUnitTankForDDl(string UnitTankId)
+        {
+            UnitTank Ut = new CommonBL().GetUnitTank(-1, short.Parse(UnitTankId.Trim()), "A");
+            return Ut.UnitTankCapacity.ToString()+","+Ut.UnitTankStrength.ToString()+","+Ut.UnitTankBulkLiter.ToString();
+        }
+        [HttpPost]
+        public ActionResult ReceiveUnitTank(UnitTankBLDetail UTBL)
+        {
+            string str = new CommonDA().InsertUnitTankBLDetail(UTBL);
+            ViewData["Message"] = str;
+            return RedirectToAction("ReceiveUnitTank");
+        }
+
     }
 }

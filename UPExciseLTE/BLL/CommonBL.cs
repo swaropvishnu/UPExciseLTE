@@ -211,7 +211,14 @@ namespace UPExciseLTE.BLL
             UT.UnitTankStrength = float.Parse(dr["UnitTankStrength"].ToString().Trim());
             UT.Enc_UnitTankId = new Crypto().Encrypt(dr["UnitTankId"].ToString().Trim());
             UT.Status =(dr["Status"].ToString().Trim());
+            UT.Type = 2; 
             return UT;
+        }
+        public static List<SelectListItem> fillUnitTank(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "UT", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
         }
         #endregion
 

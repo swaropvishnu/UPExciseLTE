@@ -127,6 +127,20 @@ namespace UPExciseLTE.Models
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
     }
+    public class UnitTankBLDetail
+    {
+        public int UTBLDetailId { get; set; } = -1;
+        public int UnitTankId { get; set; } = -1;
+        public float Balance { get; set; } = 0;
+        public float Receive { get; set; } = 0;
+        public float Transferred { get; set; } = 0;
+        public float Wastage { get; set; } = 0;
+        public string Narration { get; set; } = "";
+        public string UnitTankCapacity { get; set; } = "";
+        public string Strength { get; set; } = "";
+        public DateTime EntryDate { get; set; }
+        public Message Message { get; set; }
+    }
 }
 
 

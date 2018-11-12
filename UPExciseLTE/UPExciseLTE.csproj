@@ -6193,6 +6193,7 @@
     <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
     <Content Include="Views\MasterForms\UpdateBottelingPlan.cshtml" />
     <Content Include="Views\Production\EditBBTFormation.cshtml" />
+    <Content Include="Views\MasterForms\ReceiveUnitTank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
