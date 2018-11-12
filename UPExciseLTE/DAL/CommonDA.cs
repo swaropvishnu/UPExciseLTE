@@ -562,6 +562,8 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+
+
         public DataSet GetUnitTank(short BreweryId, short UnitTankId, string status)
         {
             DataSet ds = new DataSet();
@@ -618,25 +620,66 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-        public string InsertUnitTankBLDetail(UnitTankBLDetail  UTBL)
+
+
+
+            public DataSet GetBBTMaster(int bbtId,int brandId,string status)
+            {
+                DataSet ds = new DataSet();
+                try
+                {
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    parameters.Add(new SqlParameter("BBTId", bbtId));
+                    parameters.Add(new SqlParameter("BrandId", brandId));
+                    parameters.Add(new SqlParameter("BreweryId", 1));
+                    parameters.Add(new SqlParameter("Status", status));
+                    ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
+                }
+                catch (Exception)
+                {
+                    ds = null;
+                }
+                return ds;
+            }
+
+        public string InsertUpdateGatePass(GatePass gatePass)
         {
             con.Open();
             string str = "";
             SqlTransaction tran = con.BeginTransaction();
             try
             {
-                cmd = new SqlCommand("PROC_InsertUnitTankBLDetail", con);
+                cmd = new SqlCommand("Proc_InsertUpdateGatePass", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
-                cmd.Parameters.Add(new SqlParameter("UTBLDetailId", UTBL.UTBLDetailId));
-                cmd.Parameters.Add(new SqlParameter("UnitTankId", UTBL.UnitTankId));
-                cmd.Parameters.Add(new SqlParameter("EntryDate", UTBL.EntryDate));
-                cmd.Parameters.Add(new SqlParameter("Receive ", UTBL.Receive));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", gatePass.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("FromDate", gatePass.Date));
+                cmd.Parameters.Add(new SqlParameter("ToDate", gatePass.ValidTill));
+                cmd.Parameters.Add(new SqlParameter("To", gatePass.SelectedToRdo));
+                cmd.Parameters.Add(new SqlParameter("From", gatePass.SelectedFromRdo));
+                cmd.Parameters.Add(new SqlParameter("BrandId", gatePass.BrandId));
+                cmd.Parameters.Add(new SqlParameter("ShopName", gatePass.ShopName));
+                cmd.Parameters.Add(new SqlParameter("ShopId", gatePass.ShopId));
+                cmd.Parameters.Add(new SqlParameter("GatePassNo", gatePass.GatePassNo));
+                cmd.Parameters.Add(new SqlParameter("LicenseeNo", gatePass.LicenseeLicenseNo));
+                cmd.Parameters.Add(new SqlParameter("VehicleNo", gatePass.VehicleNo));
+                cmd.Parameters.Add(new SqlParameter("DriverName", gatePass.VehicleDriverName));
+                cmd.Parameters.Add(new SqlParameter("LicenseeName", gatePass.LicenseeName));
+                cmd.Parameters.Add(new SqlParameter("LicenseeAddress", gatePass.LicenseeAddress));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", gatePass.VehicleAgencyNameAndAddress));
+                cmd.Parameters.Add(new SqlParameter("Address", gatePass.Address));
+                cmd.Parameters.Add(new SqlParameter("GrossWeight", gatePass.GrossWeight));
+                cmd.Parameters.Add(new SqlParameter("TareWeight", gatePass.TareWeight));
+                cmd.Parameters.Add(new SqlParameter("MDistrictId1", gatePass.MDistrictId1));
+                cmd.Parameters.Add(new SqlParameter("MDistrictId2", gatePass.MDistrictId2));
+                cmd.Parameters.Add(new SqlParameter("MDistrictId3", gatePass.MDistrictId3));
+                cmd.Parameters.Add(new SqlParameter("GatePassSource", gatePass.PassTypeInformation));
+                cmd.Parameters.Add(new SqlParameter("GatePassSourceId", UserSession.LoggedInUserLevelId.ToString()));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId.ToString()));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("sp_Type", gatePass.SP_Type));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 32676;
                 cmd.ExecuteNonQuery();
@@ -654,5 +697,22 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
+
+
+        public DataSet GetDistrictList()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetDistrictList");
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+
+
     }
 }

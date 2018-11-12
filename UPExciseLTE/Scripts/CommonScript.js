@@ -1,4 +1,4 @@
-﻿function ValidateExtension(eve) {
+function ValidateExtension(eve) {
     //var allowedFiles = [".csv", ".xls", ".xlsx"];
     var allowedFiles = [".csv"];ss
     var fileUpload = document.getElementById($(eve).prev().prev().attr('id'));

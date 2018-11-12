@@ -1,0 +1,535 @@
+﻿@model UPExciseLTE.Models.BBTFormation
+@{
+    ViewBag.Title = "EditBBTFormation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("EditBBTFormation", "Production", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.BBTId, 0)
+    @Html.Hidden("SP_Type", 1)
+    if (Model != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Message.MStatus))
+        {
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
+        }
+    }
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>BBT Formation
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Brand Name</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrand", @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Liquor Type</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.LiquorType, new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = true, @Placeholder = "Liquor Type" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Licence Type</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.LicenseType, new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = true, @Placeholder = "License Type" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">BBT Name</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "BBT Name" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">BBT Capacity</label>
+                                    <div>
+
+                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "BBT Capacity", @onkeyPress = "return IsNumeric(event);" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Opening Balance(BL)</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBulkLiter", @class = "form-control", @required = "required", @Placeholder = "BBT Opening Balance", @onkeypress = "return isfloatNumber(this, event);" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Save</button>
+                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script src="~/Scripts/CommonScript.js"></script>
+<script>
+
+
+    $("#danger-alert").show();
+    $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+        $("#danger-alert").slideUp(500);
+    });
+
+
+    $("#ddlBrand").change(function () {
+        debugger;
+        var brandID = $("#ddlBrand").val();
+        if(brandID!="-1")
+        {
+            BBTFormationBrandChange(brandID);
+        }
+    });
+
+    function BBTFormationBrandChange(brandID)
+    {
+        $.ajax({
+            url: '@Url.Action("GetBrandDetailsForDDl", "MasterForms", null)',
+            type:'GET',
+            data:{BrandId:brandID},
+            datatype:"json",
+            success:function(data){
+                debugger;
+                var res=data.split(",");
+                document.getElementById("txtLiquorType").value=res[0];
+                document.getElementById("txtLicenseType").value=res[1];
+            },
+            error:function(data){
+                alert("Error has occurred.");
+            }
+        });
+    }
+
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model UPExciseLTE.Models.BBTFormation
+@{
+    ViewBag.Title = "BBTFormation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("BBTFormation", "Production", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.BBTId, 0)
+    @Html.Hidden("SP_Type", 1)
+    if (Model != null && Model.Message != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Message.MStatus))
+        {
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
+        }
+    }
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>BBT Formation
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div style="width: 90%; margin: 0 auto" class="tablecontainer">
+                                <a class="popup btn btn-primary" onclick="validatethis(this)" href="/AddShop/save/0" style="margin-bottom: 20px; margin-top: 20px; border-radius: 20px"><i class="fa fa-plus"></i>नयी दुकान जोड़े </a>
+                                <table id="tblBBTFormation">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Brand Name</th>
+                                            <th>BBT Name</th>
+                                            <th>BBT Capacity</th>
+                                            <th>BBT Bulk Litre </th>
+                                            <th>Status </th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Save</button>
+                             
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script src="~/Scripts/CommonScript.js"></script>
+<script>
+
+
+    $("#danger-alert").show();
+    $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+        $("#danger-alert").slideUp(500);
+    });
+
+
+    $("#ddlBrand").change(function () {
+        debugger;
+        var brandID = $("#ddlBrand").val();
+        if(brandID!="-1")
+        {
+            BBTFormationBrandChange(brandID);
+        }
+    });
+
+    function BBTFormationBrandChange(brandID)
+    {
+        $.ajax({
+            url: '@Url.Action("GetBrandDetailsForDDl", "MasterForms", null)',
+            type:'GET',
+            data:{BrandId:brandID},
+            datatype:"json",
+            success:function(data){
+                debugger;
+                var res=data.split(",");
+                document.getElementById("txtLiquorType").value=res[0];
+                document.getElementById("txtLicenseType").value=res[1];
+            },
+            error:function(data){
+                alert("Error has occurred.");
+            }
+        });
+    }
+
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+
+</script>
+
+
+<script>
+    window.onload = L;
+    function L() {
+        debugger
+        var oTable = $('#tblBBTFormation').DataTable({
+            "ajax": {
+                "url": '/Production/GetBBTList',
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "RowNum", "autoWidth": true },
+                { "data": "BrandName", "autoWidth": true },
+                { "data": "BBTName", "autoWidth": true },
+                { "data": "BBTCapacity", "autoWidth": true },
+                { "data": "BBTBulkLiter", "autoWidth": true },
+                { "data": "Status", "autoWidth": true },
+         
+                {
+                    "data": "BBTId", "width": "50px", "render": function (data) {
+                        debugger
+                        return '<a class="popup" href="/Production/BBTFormation/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "ShopID", "width": "50px", "render": function (data) {
+                        debugger
+                        return '<a mode="del" style="cursor: pointer;color: red;font-size: initial" onclick = deleteThis(this,' + data + ')>Delete</a>';
+                    }
+                }
+            ]
+        })
+        $('.tablecontainer').on('click', 'a.popup', function (e) {
+            debugger
+
+            e.preventDefault();
+            OpenPopup($(this).attr('href'));
+        })
+        function OpenPopup(pageUrl) {
+            debugger
+            var $pageContent = $('<div/>');
+            $pageContent.load(pageUrl, function () {
+                $('#popupForm', $pageContent).removeData('validator');
+                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+
+            });
+
+            $dialog = $('<div class="popupWindow"  style="overflow:auto"></div>')
+                .html($pageContent)
+                .dialog({
+                    draggable: false,
+                    autoOpen: false,
+                    resizable: false,
+                    model: true,
+                    title: 'Shop Panel-',
+                    height: 750,
+                    width: 750,
+                    close: function () {
+                        $dialog.dialog('destroy').remove();
+                    }
+                })
+
+            $('.popupWindow').on('submit', '#popupForm', function (e) {
+                debugger
+                var url = $('#popupForm')[0].action;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#popupForm').serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            $dialog.dialog('close');
+                            oTable.ajax.reload();
+                            callThis();
+                        }
+                    }
+                })
+
+                e.preventDefault();
+            })
+
+            $dialog.dialog('open');
+        }
+    }
+
+
+    function callThis() {
+        debugger
+        $('#tblBBTFormation').DataTable().destroy();
+        var oTable = $('#tblBBTFormation').DataTable({
+            "ajax": {
+                "url": '/Production/GetBBTList',
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "RowNum", "autoWidth": true },
+                { "data": "BrandName", "autoWidth": true },
+                { "data": "BBTName", "autoWidth": true },
+                { "data": "BBTCapacity", "autoWidth": true },
+                { "data": "BBTBulkLiter", "autoWidth": true },
+                { "data": "Status", "autoWidth": true },
+                //{ "data": "City", "autoWidth": true },
+                //{ "data": "Country", "autoWidth": true },
+                {
+                    "data": "BBTId", "width": "50px", "render": function (data) {
+                        debugger
+                        return '<a class="popup" href="/Production/BBTFormation/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "BBTId", "width": "50px", "render": function (data) {
+                        debugger
+                        return '<a mode="del" style="cursor: pointer;color: red;font-size: initial" onclick = deleteThis(this,' + data + ')>Delete</a>';
+                    }
+                }
+            ]
+        })
+
+    }
+
+    function setDistAndShoptype(obj) {
+        debugger
+
+
+        if ($("#ddlShpType").val() != "") {
+
+            if ($("#ddlShpType").val() == "CL") {
+                $("#CL_").css('display', 'block');
+                $("#ML_").css('display', 'none');
+            }
+            else {
+                $("#ML_").css('display', 'block');
+                $("#CL_").css('display', 'none');
+            }
+
+        }
+
+
+        $.ajax({
+            url: '/AddShop/setDistAndShoptype',
+            data: { 'distcode': $("#ddlDist").val(), "shopType": $("#ddlShpType").val(), 'distName': $("#ddlDist").find("option:selected").text(), "shopName": $("#ddlShpType").find("option:selected").text() },
+            datatype: "json",
+            type: "GET",
+            async: true,
+            success: function (data) {
+                callThis();
+            },
+            error: function (data) {
+                alert("Error in ModelShop Loading");
+            }
+
+        });
+
+
+        event.preventDefault();
+        return false;
+    }
+
+    function validatethis(obj) {
+        debugger
+        if ($("#ddlDist").val() == "-1" || $("#ddlShpType").val() == "") {
+            alert("Please Select the above Detail");
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        }
+    }
+
+
+    function deleteThis(obj, data) {
+        debugger
+
+
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure you want to delete this shop",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: "No, Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: '/AddShop/delete',
+                        data: { 'id': data },
+                        datatype: "json",
+                        type: "GET",
+                        async: true,
+                        success: function (data) {
+                            swal("Shop Deleted Successfully.");
+                            callThis();
+                        },
+                        error: function (data) {
+                            swal("Shop Deletion is not allowed at this stage.");
+                        }
+
+                    });
+                } else {
+                    swal("Cancelled", "Your Shop is safe :)", "error");
+                }
+            });
+
+
+
+
+    }
+
+
+</script>*@
+
+
+

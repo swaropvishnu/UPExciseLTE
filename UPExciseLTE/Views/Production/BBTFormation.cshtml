@@ -9,9 +9,9 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.BBTId,0)
-    @Html.Hidden("SP_Type", 1)
-    if (Model != null)
+    @Html.HiddenFor(model => model.BBTId)
+    @Html.HiddenFor(model => model.SP_Type)
+    if (Model != null && Model.Message != null)
     {
         if (!string.IsNullOrEmpty(Model.Message.MStatus))
         {
@@ -24,7 +24,15 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>BBT Formation
+                            <i class="fa fa-gift"></i>
+                            @if (Model.SP_Type == 1)
+                            {
+                            <span><i class="fa fa-gift"></i>&nbsp;  BBT Formation&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                            else
+                            {
+                            <span><i class="fa fa-gift"></i>&nbsp; Update BBT Formation&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            }
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -65,7 +73,7 @@
                                     <label class="control-label">BBT Capacity</label>
                                     <div>
 
-                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "BBT Capacity",@onkeyPress = "return IsNumeric(event);" })
+                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "BBT Capacity", @onkeyPress = "return IsNumeric(event);" })
 
                                     </div>
                                 </div>
@@ -73,7 +81,7 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Opening Balance(BL)</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBulkLiter", @class = "form-control", @required = "required", @Placeholder = "BBT Opening Balance" ,@onkeypress = "return isfloatNumber(this, event);" })
+                                        @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBulkLiter", @class = "form-control", @required = "required", @Placeholder = "BBT Opening Balance", @onkeypress = "return isfloatNumber(this, event);" })
                                     </div>
                                 </div>
 
@@ -84,8 +92,9 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green">Save</button>
-                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="window.location.href='@Url.Action("GetBBTDetails","Production")'">Go to BBT Formation List</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                             </div>
                         </center>
                     </div>

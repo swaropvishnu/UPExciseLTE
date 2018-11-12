@@ -14,6 +14,53 @@ namespace UPExciseLTE.Controllers
     public class GatePassController : Controller
     {
         // GET: GatePass
+        #region GatePass
+
+        [HttpGet]
+        public ActionResult GatePass()
+        {
+            var gatePass = new Models.GatePass();
+            var ReportController = new ReportController();
+            var informationByLoggedInUserLevel = new InformationByLoggedInUserLevel();
+            informationByLoggedInUserLevel = ReportController.GetInformationByLoggedInUserLeve();
+            gatePass.PassTypeInformation = informationByLoggedInUserLevel.PassTypeInformation;
+            //if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
+            //{
+            //    bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), -1, "Z").FirstOrDefault();
+            //    var str = MasterFormsController.GetBrandDetailsForDDl(bbtFormation.BrandID.ToString()).Split(',');
+            //    bbtFormation.LiquorType = str[0];
+            //    bbtFormation.LicenseType = str[1];
+            //}
+            ViewBag.Brands = CommonBL.fillBrand("S");
+            List<SelectListItem> LicenceNos = new List<SelectListItem>();
+            gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+            ViewBag.LicenceNo = LicenceNos;
+            ViewBag.Districts = new CommonBL().GetDistrictList();
+            return View(gatePass);
+        }
+
+        [HttpPost]
+        public ActionResult GatePass(GatePass gatePass)
+        {
+            ViewBag.Brands = CommonBL.fillBrand("S");
+            var passTypeInformation = gatePass.PassTypeInformation;
+            var str = new CommonDA().InsertUpdateGatePass(gatePass);
+            gatePass = new GatePass();
+            gatePass.PassTypeInformation = passTypeInformation;
+            if (!string.IsNullOrEmpty(str))
+            {
+                gatePass.Message = new Message();
+                gatePass.Message.MStatus = "success";
+                gatePass.Message.TextMessage = str;
+            }
+            List<SelectListItem> LicenceNos = new List<SelectListItem>(); gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+            ViewBag.LicenceNo = LicenceNos;
+            ViewBag.Districts = new CommonBL().GetDistrictList();
+            return View(gatePass);
+        }
+
+        #endregion
+
 
         #region BreweryToManufacturerWholesale
         public ActionResult BreweryToManufacturerWholesale()
@@ -30,7 +77,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult ManufacturerWholesaleToDistrictWholesale()
         {
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
-            BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
+            GatePass breweryToManufacturerWholesaleModel = new GatePass();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
             ViewBag.Brands = CommonBL.fillBrand("S");
             ViewBag.LicenceNo = LicenceNos;
@@ -44,7 +91,7 @@ namespace UPExciseLTE.Controllers
         {
             ViewBag.Brands = CommonBL.fillBrand("S");
             List<SelectListItem> LicenceNos = new List<SelectListItem>();
-            BreweryToManufacturerWholesaleModel breweryToManufacturerWholesaleModel = new BreweryToManufacturerWholesaleModel();
+            GatePass breweryToManufacturerWholesaleModel = new GatePass();
             breweryToManufacturerWholesaleModel.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
             ViewBag.LicenceNo = LicenceNos;
             return View(breweryToManufacturerWholesaleModel);
@@ -69,7 +116,8 @@ namespace UPExciseLTE.Controllers
         }
         public ActionResult UploadGatePass()
         {
-            return View();
+            var message = new Message();
+            return View(message);
         }
 
         #endregion

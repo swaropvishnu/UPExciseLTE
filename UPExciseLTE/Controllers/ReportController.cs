@@ -45,9 +45,9 @@ namespace UPExciseLTE.Controllers
             return View();
         }
 
-        private DistrictWholeSaleToRetailorModel GetInformationByLoggedInUserLeve()
+        public InformationByLoggedInUserLevel GetInformationByLoggedInUserLeve()
         {
-            var loggedInUserInformation = new DistrictWholeSaleToRetailorModel();
+            var loggedInUserInformation = new InformationByLoggedInUserLevel();
             if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 45)
             {
                 loggedInUserInformation.PassType = "FL-B11";
