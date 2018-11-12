@@ -935,7 +935,7 @@ namespace UPExciseLTE
             }
         }
 
-        public static void bindDropDownHnGrid(string ProcName, List<SelectListItem> distNames, string parm1, string parm2, string parm3)
+        public static void bindDropDownHnGrid(string ProcName, List<SelectListItem> distNames, string parm1, string parm2, string parm3,long districtId1=0, long districtId2=0)
         {
             DataSet ds = new DataSet();
             SqlDataReader sdr;
@@ -947,6 +947,10 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
+                if(districtId1>0)
+                    parameters.Add(new SqlParameter("@DistrictId1", districtId1));
+                if (districtId2 >0)
+                    parameters.Add(new SqlParameter("@DistrictId2", districtId2));
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else

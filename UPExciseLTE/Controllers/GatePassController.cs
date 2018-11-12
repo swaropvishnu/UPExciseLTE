@@ -59,6 +59,14 @@ namespace UPExciseLTE.Controllers
             return View(gatePass);
         }
 
+        public JsonResult GetFilteredDistrict(long districtId1=0, long districtId2=0)
+        {
+            var districts = CommonBL.fillDistict("S", districtId1, districtId2);
+            return Json(new SelectList(districts,
+                "Value", "Text"));
+        }
+
+
         #endregion
 
 
