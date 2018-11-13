@@ -36,7 +36,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="control-label">From</label>
                                         <div>
-                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL3
+                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3", new { @checked = "checked" }) FL3
                                             @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                     <div class="form-group   col-md-6">
                                         <label class="control-label">To</label>
                                         <div>
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1") FL1
+                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1", new { @checked = "checked" }) FL1
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1A")FL1A
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "FL2A") FL2A
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "EXPORT") EXPORT
@@ -179,7 +179,7 @@
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">From</label>
                                                 <div>
-                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1") FL1
+                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1", new { @checked = "checked" }) FL1
                                                     @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A
                                                 </div>
                                             </div>
@@ -571,6 +571,12 @@
         $("#txtNetWeight").val(netweight);
     }
 
+
+    $("#ddlLicenseeLicenseNo").change(function () {
+        $("#txtLicenceName").val(this.value);
+    });
+
+
     $("#MDistrictId1").change(function () {
             $.ajax({
                 type: 'POST',
@@ -612,7 +618,20 @@
                 }
             });
             return false;
-        })
+     })
+
+
+    function Validate() {
+
+
+
+
+
+
+
+
+    }
+
 
 
 </script>
