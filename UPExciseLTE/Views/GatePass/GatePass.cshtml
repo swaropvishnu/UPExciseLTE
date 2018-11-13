@@ -36,7 +36,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="control-label">From</label>
                                         <div>
-                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3") FL3
+                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3", new { @checked = "checked" }) FL3
                                             @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                     <div class="form-group   col-md-6">
                                         <label class="control-label">To</label>
                                         <div>
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1") FL1
+                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1", new { @checked = "checked" }) FL1
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1A")FL1A
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "FL2A") FL2A
                                             @Html.RadioButtonFor(m => m.SelectedToRdo, "EXPORT") EXPORT
@@ -179,7 +179,7 @@
                                             <div class="form-group col-md-6">
                                                 <label class="control-label">From</label>
                                                 <div>
-                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1") FL1
+                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1", new { @checked = "checked" }) FL1
                                                     @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A
                                                 </div>
                                             </div>
@@ -230,15 +230,14 @@
 
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="row">
 
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Licencee No</label>
                                         <div>
-                                            @Html.TextBoxFor(m => m.LicenseeLicenseNo, new { @id = "txtLicenceNo", @class = "form-control ", @placeholder = "Licencee No", @required = "required" })
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
+                                            @*@Html.TextBoxFor(m => m.LicenseeLicenseNo, new { @id = "txtLicenceNo", @class = "form-control ", @placeholder = "Licencee No", @required = "required" })*@
 
                                         </div>
                                     </div>
@@ -568,9 +567,71 @@
     function Sum() {
         var grossweight = parseFloat($("#txtGrossWeight").val());
         var tareweight = parseFloat($("#txtTareWeight").val());
-        var netweight = (grossweight + tareweight);
+        var netweight = (grossweight - tareweight);
         $("#txtNetWeight").val(netweight);
     }
+
+
+    $("#ddlLicenseeLicenseNo").change(function () {
+        $("#txtLicenceName").val(this.value);
+    });
+
+
+    $("#MDistrictId1").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFilteredDistrict", "GatePass")',
+                dataType: 'json',
+                data: { districtId1: $("#MDistrictId1").val()},
+                success: function (subcategories) {
+                    $("#MDistrictId2").empty();
+                    $.each(subcategories, function (i, subcategory) {
+                       
+                        $("#MDistrictId2").append('<option value="'
+                            + subcategory.Value + '">' +
+                            subcategory.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Sub Categories : ' + ex);
+                }
+            });
+            return false;
+        })
+
+     $("#MDistrictId2").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFilteredDistrict", "GatePass")',
+                dataType: 'json',
+                data: { districtId1: $("#MDistrictId1").val(), districtId2: $("#MDistrictId2").val() },
+                success: function (subcategories) {
+                    $("#MDistrictId3").empty();
+                    $.each(subcategories, function (i, subcategory) {
+                        $("#MDistrictId3").append('<option value="'
+                            + subcategory.Value + '">' +
+                            subcategory.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Sub Categories : ' + ex);
+                }
+            });
+            return false;
+     })
+
+
+    function Validate() {
+
+
+
+
+
+
+
+
+    }
+
 
 
 </script>

@@ -32,9 +32,9 @@ namespace UPExciseLTE.Controllers
             //    bbtFormation.LicenseType = str[1];
             //}
             ViewBag.Brands = CommonBL.fillBrand("S");
-            List<SelectListItem> LicenceNos = new List<SelectListItem>();
+            
             gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
-            ViewBag.LicenceNo = LicenceNos;
+            ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
@@ -58,6 +58,14 @@ namespace UPExciseLTE.Controllers
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
+
+        [HttpPost]
+        public JsonResult GetFilteredDistrict(long districtId1=0, long districtId2=0)
+        {
+            var districts = CommonBL.fillDistict("S", districtId1, districtId2);
+            return Json(districts, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 
