@@ -32,8 +32,8 @@ namespace UPExciseLTE.Controllers
             //    bbtFormation.LicenseType = str[1];
             //}
             ViewBag.Brands = CommonBL.fillBrand("S");
-            
-            gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+
+            gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);

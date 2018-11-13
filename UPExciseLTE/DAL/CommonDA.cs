@@ -473,7 +473,8 @@ namespace UPExciseLTE.DAL
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassForDistrictWholesaleToRetailor", parameters.ToArray());
+                parameters.Add(new SqlParameter("UserLevelId", 1));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -730,5 +731,25 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
+
+
+        public DataSet GetGatePassDetails()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("SpType", 2));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+
+
+
     }
 }

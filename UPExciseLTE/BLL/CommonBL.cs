@@ -256,6 +256,7 @@ namespace UPExciseLTE.BLL
         private DistrictWholeSaleToRetailorModel GetDistrictWholeSaleToRetailorModel(DataRow dr)
         {
             DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
+
             model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
             model.BrewaryName = dr["BrewaryName"].ToString().Trim();
             model.Revenue = dr["Revenue"].ToString().Trim();
@@ -265,6 +266,42 @@ namespace UPExciseLTE.BLL
             model.Date = dr["Date"].ToString().Trim();
             model.VehicleNo = dr["VehicleNo"].ToString().Trim();
             model.Receiver = dr["Receiver"].ToString().Trim();
+
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.Brand = dr["BrandName"].ToString().Trim();
+            model.Size =int.Parse( dr["Size"].ToString().Trim());
+            model.AvailableBottle =int.Parse( dr["AvailableBottle"].ToString().Trim());
+            model.AvailableBox =int.Parse( dr["AvailableBox"].ToString().Trim());
+            model.Duty =decimal.Parse( dr["Duty"].ToString().Trim());
+            model.AddDuty = decimal.Parse(dr["AddDuty"].ToString().Trim());
+
+            return model;
+        }
+
+        public List<DistrictWholeSaleToRetailorModel> GetGatePassDetails()
+        {
+            var reportModels = new List<DistrictWholeSaleToRetailorModel>();
+            DataSet ds = new CommonDA().GetGatePassDetails();
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    reportModels.Add(GetGatePassDetailModel(dr));
+                }
+            }
+            return reportModels;
+        }
+
+        private DistrictWholeSaleToRetailorModel GetGatePassDetailModel(DataRow dr)
+        {
+            DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.Brand = dr["BrandName"].ToString().Trim();
+            model.Size = int.Parse(dr["Size"].ToString().Trim());
+            model.AvailableBottle = int.Parse(dr["AvailableBottle"].ToString().Trim());
+            model.AvailableBox = int.Parse(dr["AvailableBox"].ToString().Trim());
+            model.Duty = decimal.Parse(dr["Duty"].ToString().Trim());
+            model.AddDuty = decimal.Parse(dr["AddDuty"].ToString().Trim());
             return model;
         }
 
@@ -301,6 +338,13 @@ namespace UPExciseLTE.BLL
             bbtFormation.Status = dr["Status"].ToString().Trim();
             return bbtFormation;
         }
+        #endregion
+
+        #region GatePass
+
+
+
+
         #endregion
 
 
