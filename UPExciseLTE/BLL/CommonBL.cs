@@ -37,6 +37,15 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "DIST", "", SelectType, districtId1, districtId2);
             return StateList;
         }
+
+        public static List<SelectListItem> fillLiceseeLicenseNos(string SelectType)
+        {
+            List<SelectListItem> LicenseeNosList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", LicenseeNosList, "LicenseNo", "", SelectType);
+            return LicenseeNosList;
+        }
+
+
         public static List<SelectListItem> fillBrand(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
