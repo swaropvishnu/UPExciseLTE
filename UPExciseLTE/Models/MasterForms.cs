@@ -127,19 +127,33 @@ namespace UPExciseLTE.Models
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
     }
-    public class UnitTankBLDetail
+    public class UnitTankBLDetail  
     {
+        [Display(Name = "UTBLDetailId")]
         public int UTBLDetailId { get; set; } = -1;
+        [Display(Name = "UnitTankId")]
         public int UnitTankId { get; set; } = -1;
+        [Display(Name = "Unit Tank")]
+        public string UnitTank { get; set; } = "";
+        [Display(Name = "Balance")]
         public float Balance { get; set; } = 0;
+        [Display(Name = "Receive")]
         public float Receive { get; set; } = 0;
+        [Display(Name = "Transferred")]
         public float Transferred { get; set; } = 0;
+        [Display(Name = "Wastage")]
         public float Wastage { get; set; } = 0;
+        [Display(Name = "Narration")]
         public string Narration { get; set; } = "";
+        [Display(Name = "Unit Tank Capacity")]
         public string UnitTankCapacity { get; set; } = "";
+        [Display(Name = "Unit Tank Strength")]
         public string Strength { get; set; } = "";
+        [Display(Name = "EntryDate")]
         public DateTime EntryDate { get; set; }
-        public Message Message { get; set; }
+        [Display(Name = "EntryDate")]
+        public string EntryDate1 { get; set; }
+        public Message Msg { get; set; }
     }
 }
 

@@ -404,11 +404,10 @@ namespace UPExciseLTE.Controllers
                 var str = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
-                    UTBL.Message.MStatus = "success";
-                    UTBL.Message.TextMessage = str;
+                    UTBL.Msg= Message.MsgSuccess(str);
                 }
             }
-            return View();
+            return View(UTBL);
         }
         public string GetUnitTankForDDl(string UnitTankId)
         {
@@ -418,9 +417,17 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult ReceiveUnitTank(UnitTankBLDetail UTBL)
         {
+            UTBL.EntryDate = CommonBL.Setdate(UTBL.EntryDate1);
             string str = new CommonDA().InsertUnitTankBLDetail(UTBL);
             TempData["Message"] = str;
             return RedirectToAction("ReceiveUnitTank");
+        }
+        [HttpGet]
+        public ActionResult UnitTankRecevDetails()
+        {
+            ViewBag.UnitTank = CommonBL.fillUnitTank("A");
+            List<UnitTankBLDetail> lstUtBl = new CommonBL().GetUnitTankRecevDetails(CommonBL.Setdate("01/01/1900"),DateTime.Now,-1,"C");
+            return View(lstUtBl);
         }
 
     }

@@ -675,6 +675,25 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+        public DataSet GetUnitTankRecevDetails(DateTime FromDate, DateTime ToDate, int UnitTankId,string Status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", ToDate));
+                parameters.Add(new SqlParameter("UnitTankId", UnitTankId));
+                parameters.Add(new SqlParameter("Status", Status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitTankRecevDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
         public string InsertUpdateGatePass(GatePass gatePass)
         {
             con.Open();

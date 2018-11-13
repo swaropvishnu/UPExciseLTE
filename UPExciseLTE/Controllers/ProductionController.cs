@@ -42,9 +42,7 @@ namespace UPExciseLTE.Controllers
             bbtFormation = new BBTFormation();
             if(!string.IsNullOrEmpty(str))
             {
-                bbtFormation.Message = new Message();
-                bbtFormation.Message.MStatus = "success";
-                bbtFormation.Message.TextMessage = str;
+                bbtFormation.Message= Message.MsgSuccess(str);
             }
             return View(bbtFormation);
         }

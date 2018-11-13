@@ -1,3 +1,10 @@
+$("#danger-alert").show();
+$("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+    $("#danger-alert").slideUp(500);
+});
+
+
+
 function ValidateExtension(eve) {
     //var allowedFiles = [".csv", ".xls", ".xlsx"];
     var allowedFiles = [".csv"];ss

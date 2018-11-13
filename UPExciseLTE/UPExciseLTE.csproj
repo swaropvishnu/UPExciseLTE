@@ -6198,6 +6198,7 @@
     <Content Include="Views\Production\GetBBTDetails.cshtml" />
     <Content Include="Views\GatePass\GatePass.cshtml" />
     <Content Include="Views\MasterForms\ReceiveUnitTank.cshtml" />
+    <Content Include="Views\MasterForms\UnitTankRecevDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
