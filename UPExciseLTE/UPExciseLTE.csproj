@@ -102,9 +102,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="QRCoder, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\QRCoder.dll</HintPath>
+      <HintPath>..\packages\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -160,6 +160,9 @@
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.3\lib\net40\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -4188,23 +4191,6 @@
     <Content Include="Content\assets\global\plugins\jquery.pulsate.min.js" />
     <Content Include="Content\assets\global\plugins\jquery.scrollTo.min.js" />
     <Content Include="Content\assets\global\plugins\jquery.sparkline.min.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\.gitignore" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\data\jquery.vmap.sampledata.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\jquery.vmap.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\jquery.vmap.min.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\jquery.vmap.packed.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\jqvmap.css" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\maps\jquery.vmap.europe.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\maps\jquery.vmap.germany.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\maps\jquery.vmap.russia.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\maps\jquery.vmap.usa.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\jqvmap\maps\jquery.vmap.world.js" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\europe.html" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\germany.html" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\multi.html" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\russia.html" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\usa.html" />
-    <Content Include="Content\assets\global\plugins\jqvmap\samples\world.html" />
     <Content Include="Content\assets\global\plugins\js.cookie.min.js" />
     <Content Include="Content\assets\global\plugins\jstree\dist\jstree.js" />
     <Content Include="Content\assets\global\plugins\jstree\dist\jstree.min.js" />
@@ -4779,22 +4765,6 @@
     <Content Include="Content\assets\global\plugins\typeahead\handlebars.min.js" />
     <Content Include="Content\assets\global\plugins\typeahead\typeahead.bundle.min.js" />
     <Content Include="Content\assets\global\plugins\typeahead\typeahead.css" />
-    <Content Include="Content\assets\global\plugins\wysihtml\lib\base\base.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\lib\rangy\rangy-core.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\lib\rangy\rangy-selectionsaverestore.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\lib\rangy\rangy-textrange.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.all-commands.min.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.min.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.table_editing.min.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.toolbar.min.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\parser_rules\advanced.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\parser_rules\advanced_and_extended.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\parser_rules\advanced_unwrap.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\parser_rules\simple.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\wysihtml.all-commands.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\wysihtml.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\wysihtml.table_editing.js" />
-    <Content Include="Content\assets\global\plugins\wysihtml\wysihtml.toolbar.js" />
     <Content Include="Content\assets\global\scripts\app.js" />
     <Content Include="Content\assets\global\scripts\app.min.js" />
     <Content Include="Content\assets\global\scripts\datatable.js" />
@@ -5893,7 +5863,6 @@
     <Content Include="Content\assets\global\plugins\jquery-ui-touch-punch\README.md" />
     <Content Include="Content\assets\global\plugins\jquery-validation\README.md" />
     <Content Include="Content\assets\global\plugins\jquery.min.map" />
-    <Content Include="Content\assets\global\plugins\jqvmap\README.md" />
     <Content Include="Content\assets\global\plugins\jstree\jstree.jquery.json" />
     <Content Include="Content\assets\global\plugins\jstree\LICENSE-MIT" />
     <Content Include="Content\assets\global\plugins\jstree\README.md" />
@@ -6047,10 +6016,6 @@
     <Content Include="Content\assets\global\plugins\tabdrop\less\tabdrop.less" />
     <Content Include="Content\assets\global\plugins\typeahead\LICENSE" />
     <Content Include="Content\assets\global\plugins\typeahead\README.md" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.all-commands.min.map" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.min.map" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.table_editing.min.map" />
-    <Content Include="Content\assets\global\plugins\wysihtml\minified\wysihtml.toolbar.min.map" />
     <Content Include="Content\assets\layouts\layout7\img\Thumbs.db" />
     <Content Include="MenuHandler.ashx" />
     <Content Include="Content\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
