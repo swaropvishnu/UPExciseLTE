@@ -247,6 +247,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "UT", UserSession.LoggedInUserId.ToString().Trim(), Select);
             return breweryList;
         }
+        public static List<SelectListItem> fillBBT(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BBT", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
+        }
         #endregion
 
         #region Report
@@ -321,35 +327,37 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return bbtFormation;
         }
-        public List<UnitTankBLDetail> GetUnitTankRecevDetails(DateTime FromDate, DateTime ToDate, int UnitTankId, string Status)
+        public List<UTTransferToBBT> GetUTTransferToBBTList(DateTime FromDate, DateTime ToDate, int UnitTankId, string Status,short BreweryId,int BBTId)
         {
-            List<UnitTankBLDetail>  UnitTankBLDetailList = new List<UnitTankBLDetail>();
-            DataSet ds = new CommonDA().GetUnitTankRecevDetails(FromDate, ToDate, UnitTankId, Status);
+            List<UTTransferToBBT>  UnitTankBLDetailList = new List<UTTransferToBBT>();
+            DataSet ds = new CommonDA().GetUTTransferToBBT(FromDate, ToDate, UnitTankId, Status,BreweryId,BBTId);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    UnitTankBLDetailList.Add(GetUnitTankBLDetail(dr));
+                    UnitTankBLDetailList.Add(GetUTTransferToBBTDetail(dr));
                 }
             }
             return UnitTankBLDetailList;
         }
-        private UnitTankBLDetail GetUnitTankBLDetail(DataRow dr)
+        private UTTransferToBBT GetUTTransferToBBTDetail(DataRow dr)
         {
-            UnitTankBLDetail UTBL = new UnitTankBLDetail();
+            UTTransferToBBT UTBL = new UTTransferToBBT();
             try
             {
-                UTBL.UTBLDetailId = int.Parse(dr["UTBLDetailId"].ToString().Trim());
-                UTBL.UnitTankId = int.Parse(dr["UnitTankId"].ToString().Trim());
-                UTBL.UnitTank = (dr["UnitTankName"].ToString().Trim());
-                UTBL.EntryDate1 = dr["EntryDate"].ToString().Trim();
-                UTBL.Receive = float.Parse(dr["Receive"].ToString().Trim());
-                UTBL.Transferred = float.Parse(dr["Transferred"].ToString().Trim());
-                UTBL.Wastage = float.Parse(dr["Wastage"].ToString().Trim());
-                UTBL.Balance = float.Parse(dr["Balance"].ToString().Trim());
-                UTBL.Narration = dr["Narration"].ToString().Trim();
-                UTBL.UnitTankCapacity = dr["UnitTankCapacity"].ToString().Trim();
-                UTBL.Strength = dr["UnitTankStrength"].ToString().Trim();
+               UTBL.Srno = int.Parse(dr["Srno"].ToString().Trim());
+               UTBL.IssuedFromUTId = int.Parse(dr["IssuedFromUTId"].ToString().Trim());
+               UTBL.UnitTank = (dr["UnitTankName"].ToString().Trim());
+               UTBL.BBTID = int.Parse(dr["BBTId"].ToString().Trim());
+               UTBL.BBTName = (dr["BBTName"].ToString().Trim());
+               UTBL.IssueBL =float.Parse(dr["IssueBL"].ToString().Trim());
+               UTBL.Wastage =float.Parse(dr["Wastage"].ToString().Trim());
+               UTBL.TransferDate1 = dr["TransferDate"].ToString().Trim();
+               UTBL.Remark = dr["Remark"].ToString().Trim();
+               UTBL.PrevBalanceBBT = dr["PrevBalanceBBT"].ToString().Trim();
+               UTBL.PrevBalanceUT = dr["PrevBalanceUT"].ToString().Trim();
+               UTBL.CurrentBalanceUT = dr["CurrentBalanceUT"].ToString().Trim();
+               UTBL.CurrentBalanceBBT = dr["CurrentBalanceBBT"].ToString().Trim();
             }
             catch (Exception) { }
             return UTBL;

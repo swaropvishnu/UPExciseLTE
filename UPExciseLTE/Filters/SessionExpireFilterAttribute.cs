@@ -5,9 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using UPExciseLTE.Models;
-
-
-
 namespace UPExciseLTE.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]

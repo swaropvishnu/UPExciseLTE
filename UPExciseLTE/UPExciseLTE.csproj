@@ -6200,6 +6200,9 @@
     <Content Include="Views\GatePass\GatePass.cshtml" />
     <Content Include="Views\MasterForms\ReceiveUnitTank.cshtml" />
     <Content Include="Views\MasterForms\UnitTankRecevDetails.cshtml" />
+    <Content Include="Views\MasterForms\UTTransferToBBT.cshtml" />
+    <Content Include="Views\MasterForms\UTTransferToBBTDetails.cshtml" />
+    <Content Include="Views\MasterForms\MenuMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

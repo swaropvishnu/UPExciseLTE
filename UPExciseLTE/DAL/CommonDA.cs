@@ -9,6 +9,7 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.Models;
 using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
+using System.Text;
 
 namespace UPExciseLTE.DAL
 {
@@ -155,6 +156,51 @@ namespace UPExciseLTE.DAL
         }
         string IpAddress = GetIpAddress();
         string MacAddress = GetMACAddress();
+        #endregion
+        #region MenuMaster
+        public List<MenuMst> GetMenuMaster(int MenuId, int ParentId, string Enable, string ShowToAll, string ShowInMenu)
+        {
+            List<MenuMst> lstMenuMst = new List<MenuMst>();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("MenuId", MenuId));
+                parameters.Add(new SqlParameter("ParentId", ParentId));
+                parameters.Add(new SqlParameter("Enable", Enable));
+                parameters.Add(new SqlParameter("ShowToAll", ShowToAll));
+                parameters.Add(new SqlParameter("ShowInMenu", ShowInMenu));
+                SqlDataReader reader = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetMenuMst", parameters.ToArray());
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        lstMenuMst.Add(new MenuMst
+                        {
+                            MenuId = int.Parse(reader["MenuId"].ToString()),
+                            Text = reader["Text"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            ParentId = int.Parse(reader["ParentId"].ToString()),
+                            NavUrl = reader["NavUrl"].ToString(),
+                            Enable = reader["Enable"].ToString(),
+                            ShowToPost = reader["ShowToPost"].ToString(),
+                            ShowToAll = reader["ShowToAll"].ToString(),
+                            ShowInMenu = bool.Parse(reader["ShowInMenu"].ToString()),
+                            CreatedBy = reader["CreatedBy"].ToString(),
+                            CreatedOn1 = reader["CreatedOn"].ToString(),
+                            OrderBy = int.Parse(reader["OrderBy"].ToString()),
+                            Icon = reader["Icon"].ToString(),
+                            yojana_code = short.Parse(reader["yojana_code"].ToString()),
+                            IsPrint = bool.Parse(reader["IsPrint"].ToString())
+                        });
+                    }
+                }
+            }
+            catch(Exception exp)
+            {
+                lstMenuMst = null;
+            }
+            return lstMenuMst;
+        }
         #endregion
         internal String UpdateUserDetail(LoginModal objUserData)
         {
@@ -485,41 +531,43 @@ namespace UPExciseLTE.DAL
 
 
         #endregion
-        public void UploadCSV(string objdoc)
+        public string UploadCSV(StringBuilder str,string UploadValue,string UploadBy,int TotalCase,int TotalBottels,StringBuilder QRCodeList)
         {
             con.Open();
-
+            string result = "";
             try
             {
-                //if (objdoc != null)
-                //{
-                //    if (objdoc.Rows.Count > 0)
-                //    {
                 cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "Proc_Tbl_UploadProductionCSV";
                 cmd.CommandTimeout = 3000;
-                cmd.Parameters.Add(new SqlParameter("@tags", objdoc));
-                cmd.Parameters.Add(new SqlParameter("@SpType", 1));
-                //cmd.Parameters.Add(new SqlParameter("user_Id", @UserSession.LoggedInUser.UserName));
-                //cmd.Parameters.Add(new SqlParameter("user_ip", this.IpAddress));
-                //cmd.Parameters.Add(new SqlParameter("user_mac", this.MacAddress));
-                //cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("Query", str.ToString()));
+                cmd.Parameters.Add(new SqlParameter("QRCodeList", QRCodeList.ToString()));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                cmd.Parameters.Add(new SqlParameter("UploadedBy", UploadBy));
+                cmd.Parameters.Add(new SqlParameter("TotalCase", TotalCase));
+                cmd.Parameters.Add(new SqlParameter("TotalBottels", TotalBottels));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
                 cmd.ExecuteNonQuery();
-                //    }
-                //}
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                result = ex.Message;
             }
             finally
             {
                 con.Close();
                 con.Dispose();
             }
-
+            return result;
         }
         public string InsertUpdateUnitTank(UnitTank UT)
         {
@@ -638,21 +686,24 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string InsertUnitTankBLDetail(UnitTankBLDetail UTBL)
+        public string InsertUTTransferToBBT(UTTransferToBBT UTBL)
         {
             string result = "";
             con.Open();
             SqlTransaction tran = con.BeginTransaction();
             try
             {
-                cmd = new SqlCommand("PROC_InsertUnitTankBLDetail", con);
+                cmd = new SqlCommand("PROC_InsertUTTransferToBBT", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
-                cmd.Parameters.Add(new SqlParameter("UTBLDetailId", UTBL.UTBLDetailId));
-                cmd.Parameters.Add(new SqlParameter("UnitTankId", UTBL.UnitTankId));
-                cmd.Parameters.Add(new SqlParameter("EntryDate", UTBL.EntryDate));
-                cmd.Parameters.Add(new SqlParameter("Receive", UTBL.Receive));
+                cmd.Parameters.Add(new SqlParameter("IssuedFromUTId", UTBL.IssuedFromUTId));
+                cmd.Parameters.Add(new SqlParameter("BBTId", UTBL.BBTID));
+                cmd.Parameters.Add(new SqlParameter("TransactionType", UTBL.TransactionType));
+                cmd.Parameters.Add(new SqlParameter("IssueBL", UTBL.IssueBL));
+                cmd.Parameters.Add(new SqlParameter("Wastage", UTBL.Wastage));
+                cmd.Parameters.Add(new SqlParameter("TransferDate", UTBL.TransferDate));
+                cmd.Parameters.Add(new SqlParameter("Remark", UTBL.Remark));
                 cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip",IpAddress));
@@ -675,7 +726,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetUnitTankRecevDetails(DateTime FromDate, DateTime ToDate, int UnitTankId,string Status)
+        public DataSet GetUTTransferToBBT(DateTime FromDate, DateTime ToDate, int UnitTankId,string Status,short BreweryId,int BBTId)
         {
             DataSet ds = new DataSet();
             try
@@ -685,8 +736,10 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("FromDate", FromDate));
                 parameters.Add(new SqlParameter("ToDate", ToDate));
                 parameters.Add(new SqlParameter("UnitTankId", UnitTankId));
+                parameters.Add(new SqlParameter("BBTId", BBTId));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("Status", Status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitTankRecevDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
             }
             catch (Exception)
             {

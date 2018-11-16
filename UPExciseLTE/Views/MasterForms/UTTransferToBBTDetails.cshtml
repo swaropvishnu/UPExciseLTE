@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.UTTransferToBBT>
 
 @{
-    ViewBag.Title = "Unit Tank Receive Details";
+    ViewBag.Title = "UTTransferToBBTDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("UnitTankRecevDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("UTTransferToBBTDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -14,22 +15,30 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Unit Tank Receive Details
+                            <i class="fa fa-gift"></i>UT Transfer To BBT Details
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <div class="form-body">
-                            <div class="form-group col-md-4">
-                                <label class="control-label">From Date</label>
-                                @Html.TextBox("txtFromDate","", new { @class = "form-control", @id = "txtFromDate", @placeholder = "dd/MM/yyyy" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">From Date</label>
+                                    @Html.TextBox("txtFromDate", "", new { @class = "form-control", @id = "txtFromDate", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">To Date</label>
+                                    @Html.TextBox("txtToDate", "", new { @class = "form-control", @id = "txtToDate", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Unit Tank</label>
+                                    @Html.DropDownList("ddlUnitTank", (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">To Date</label>
-                                @Html.TextBox("txtToDate", "", new { @class = "form-control", @id = "txtToDate", @placeholder = "dd/MM/yyyy" })
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Unit Tank</label>
-                                @Html.DropDownList("ddlUnitTank", (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BBT</label>
+                                    @Html.DropDownList("ddlBBT", (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -48,16 +57,24 @@
                                     @Html.DisplayNameFor(model => model.UnitTank)
                                 </th>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.BBTName)
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.TransferDate1)
                                 </th>
+                                 
                                 <th>
-                                    @Html.DisplayNameFor(model => model.PrevBalanceUT)
+                                    @Html.DisplayNameFor(model => model.PrevBalanceBBT)
                                 </th>
                                 <th>
-                                  Receive BL
+                                    Transfer BL
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.CurrentBalanceUT)
+                                    @Html.DisplayNameFor(model => model.Wastage)
+                                </th>
+                               
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CurrentBalanceBBT)
                                 </th>
                             </tr>
                             @foreach (var item in Model)
@@ -70,16 +87,24 @@
                                         @Html.DisplayFor(modelItem => item.UnitTank)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.TransferDate1)
+                                        @Html.DisplayFor(modelItem => item.BBTName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.PrevBalanceUT)
+                                        @Html.DisplayFor(modelItem => item.TransferDate1)
+                                    </td>
+                                     
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PrevBalanceBBT)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.IssueBL)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CurrentBalanceUT)
+                                        @Html.DisplayFor(modelItem => item.Wastage)
+                                    </td>
+                                    
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CurrentBalanceBBT)
                                     </td>
                                 </tr>
                             }

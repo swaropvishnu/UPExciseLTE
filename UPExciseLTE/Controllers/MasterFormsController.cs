@@ -11,11 +11,21 @@ using ClosedXML.Excel;
 using System.IO;
 using UPExciseLTE.BLL;
 using Newtonsoft.Json;
+using UPExciseLTE.Filters;
+using System.Data.Entity.Infrastructure;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class MasterFormsController : Controller
     {
+        public ActionResult MenuMaster()
+        {
+            List<MenuMst> lstMst = new CommonDA().GetMenuMaster(-1,-1,"Z","Z","Z");
+            return View(lstMst);
+        }
         public ActionResult Index()
         {
             return View();
@@ -24,24 +34,24 @@ namespace UPExciseLTE.Controllers
         public ActionResult BrandMaster()
         {
             BrandMaster Brand = new BrandMaster();
-            if (Request.QueryString["Code"] !=null && Request.QueryString["Code"].Trim()!=string.Empty)
+            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
             {
                 Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
             }
-            DataSet ds= new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(),"BE");
-            if (ds !=null && ds.Tables[0]!=null && ds.Tables[0].Rows.Count>0)
+            DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
                 ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
-                ViewBag.MWholeSaleMargin  = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.SWholeSaleMargin  = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.MRetailerMargin   = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
-                ViewBag.SRetailerMargin   = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+                ViewBag.MWholeSaleMargin = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
+                ViewBag.SWholeSaleMargin = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
+                ViewBag.MRetailerMargin = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
+                ViewBag.SRetailerMargin = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
             }
-            string UserId = UserSession.LoggedInUserId.ToString().Trim();      
-            ViewBag.Brewery =CommonBL.fillBrewery();
+            string UserId = UserSession.LoggedInUserId.ToString().Trim();
+            ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("S");
-            ViewBag.Msg = TempData["Message"]; 
+            ViewBag.Msg = TempData["Message"];
             return View(Brand);
         }
         [HttpPost]
@@ -53,7 +63,7 @@ namespace UPExciseLTE.Controllers
             }
             string str = new CommonDA().InsertUpdateBrand(B);
             TempData["Message"] = str;
-            if (B.SPType==1)
+            if (B.SPType == 1)
             {
                 return RedirectToAction("BrandMaster");
             }
@@ -76,7 +86,7 @@ namespace UPExciseLTE.Controllers
             int StateId = -1;// int.Parse(frm["ddlState"].Trim());
             string LicenseType = "";// frm["ddlLicenseType"].Trim();
             string LicenseNo = "";// frm["txtLicenseNo"].Trim();
-            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1,  "", LicenseType, LicenseNo, -1, -1, StateId, "Z");
+            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", LicenseType, LicenseNo, -1, -1, StateId, "Z");
             ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("A");
             return View(lstBrand);
@@ -120,7 +130,7 @@ namespace UPExciseLTE.Controllers
         {
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-            
+
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
                 return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
@@ -129,7 +139,7 @@ namespace UPExciseLTE.Controllers
             {
                 return View(new BottelingPlan());
             }
-            
+
         }
         [HttpGet]
         public string GetBrandDetailsForDDl(string BrandId)
@@ -156,11 +166,12 @@ namespace UPExciseLTE.Controllers
             {
                 BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);
             }
-            catch {
+            catch
+            {
                 ViewBag.Msg = "Invalid Date. Please use dd/MM/yyyy format.";
                 return View(BP);
             }
-            
+
             string str = new CommonDA().InsertUpdatePlan(BP);
             TempData["Message"] = str;
             if (BP.Type == 1)
@@ -251,8 +262,8 @@ namespace UPExciseLTE.Controllers
         {
             ViewBag.Msg = "";
             A = new Crypto().Decrypt(A);
-            int Planid = int.Parse(A);         
-            return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "",Planid, "FB"));
+            int Planid = int.Parse(A);
+            return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", Planid, "FB"));
         }
         [HttpPost]
         public ActionResult ProductionEntry(BottelingPlan BP)
@@ -260,7 +271,7 @@ namespace UPExciseLTE.Controllers
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             BP.Type = 1;
             string str = new CommonDA().InsertUpdateProductionPlan(BP);
-            return RedirectToAction("ProductionEntry", new { A = BP.EncPlanId});
+            return RedirectToAction("ProductionEntry", new { A = BP.EncPlanId });
         }
         [HttpGet]
         public ActionResult FreezePlan()
@@ -276,7 +287,7 @@ namespace UPExciseLTE.Controllers
                 BottelingPlan Plan = new BottelingPlan();
                 Plan.Type = 2;
                 Plan.PlanId = int.Parse(PlanId);
-                Plan.IsProductionFinal=1;
+                Plan.IsProductionFinal = 1;
                 str = new CommonDA().InsertUpdateProductionPlan(Plan);
             }
             catch (Exception x)
@@ -284,7 +295,7 @@ namespace UPExciseLTE.Controllers
                 str = x.Message.ToString();
             }
             return str;
-        } 
+        }
         [HttpGet]
         public ActionResult UploadCSV()
         {
@@ -293,9 +304,9 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult SearchProduction()
         {
-            
+
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"),DateTime.Now,-1,-1,"Z","",-1,"Z"));
+            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "Z"));
         }
         public ActionResult Track_staus()
         {
@@ -320,27 +331,36 @@ namespace UPExciseLTE.Controllers
                     var csv = new List<string[]>();
                     var lines = System.IO.File.ReadAllLines(path1);
                     System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    System.Text.StringBuilder QRCodeList = new System.Text.StringBuilder();
+                    List<string> CaseCode = new List<string>();
+                    string Barcode = "";
+                    string[] Split= new string[4];
                     int count = 0;
                     foreach (string line in lines)
                     {
-                        if (count == 0)
+                        if (count > 1)
                         {
-                            //sb.Append("'");
+                            sb.Append("INSERT INTO[");
+                            sb.Append(UserSession.PushName);
+                            sb.Append("].[dbo].tbl_UploadManufProduction VALUES(");
                             sb.Append(line);
-                            //sb.Append("'");
-                            count++;
+                            sb.Append(",1) ");
+                            Split = line.Split(',');
+                            Barcode= Split[3];
+                            bool alreadyExist = CaseCode.Contains(Barcode);
+                            if (!alreadyExist)
+                                {
+                                    CaseCode.Add(Barcode);
+                                }
+                            if (QRCodeList.Length>0)
+                            {
+                                QRCodeList.Append(",");
+                            }
+                            QRCodeList.Append(Barcode);
                         }
-                        else
-                        {
-                            sb.Append(",");
-                            //sb.Append("'");
-                            sb.Append(line);
-                            //sb.Append("'");
-                        }
+                        count++;
                     }
-
-                    var uploadCSV = new CommonDA();
-                    uploadCSV.UploadCSV(sb.ToString());
+                    string str = new CommonDA().UploadCSV(sb,"1",UserSession.LoggedInUserId.ToString(), CaseCode.Count, count - 1, QRCodeList);
                     ViewBag.Error = "File Upload Successfully";
 
                 }
@@ -368,7 +388,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult UnitTank()
         {
             UnitTank UT = new UnitTank();
-            if (Request.QueryString["A"]!=null && Request.QueryString["A"].Trim()!=string.Empty)
+            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
             {
 
                 UT = new CommonBL().GetUnitTank(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
@@ -385,8 +405,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
         }
-        public string UpdateUnitTank(string UTId,string Status)
-         {
+        public string UpdateUnitTank(string UTId, string Status)
+        {
             UnitTank UT = new UnitTank();
             UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));
             UT.Status = Status;
@@ -397,14 +417,14 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult ReceiveUnitTank()
         {
-            UnitTankBLDetail UTBL = new UnitTankBLDetail();
+            UTTransferToBBT UTBL = new UTTransferToBBT();
             ViewBag.UnitTank = CommonBL.fillUnitTank("S");
-            if (TempData["Message"] !=null)
+            if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
-                    UTBL.Msg= Message.MsgSuccess(str);
+                    UTBL.Msg = Message.MsgSuccess(str);
                 }
             }
             return View(UTBL);
@@ -412,13 +432,13 @@ namespace UPExciseLTE.Controllers
         public string GetUnitTankForDDl(string UnitTankId)
         {
             UnitTank Ut = new CommonBL().GetUnitTank(-1, short.Parse(UnitTankId.Trim()), "A");
-            return Ut.UnitTankCapacity.ToString()+","+Ut.UnitTankStrength.ToString()+","+Ut.UnitTankBulkLiter.ToString();
+            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLiter.ToString();
         }
         [HttpPost]
-        public ActionResult ReceiveUnitTank(UnitTankBLDetail UTBL)
+        public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
         {
-            UTBL.EntryDate = CommonBL.Setdate(UTBL.EntryDate1);
-            string str = new CommonDA().InsertUnitTankBLDetail(UTBL);
+            UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
+            string str = new CommonDA().InsertUTTransferToBBT(UTBL);
             TempData["Message"] = str;
             return RedirectToAction("ReceiveUnitTank");
         }
@@ -426,9 +446,48 @@ namespace UPExciseLTE.Controllers
         public ActionResult UnitTankRecevDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
-            List<UnitTankBLDetail> lstUtBl = new CommonBL().GetUnitTankRecevDetails(CommonBL.Setdate("01/01/1900"),DateTime.Now,-1,"C");
+            List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", -1, -1);
             return View(lstUtBl);
         }
+        [HttpGet]
+        public ActionResult UTTransferToBBT()
+        {
+            UTTransferToBBT UTTBBT = new Models.UTTransferToBBT();
+            ViewBag.UnitTank = CommonBL.fillUnitTank("S");
+            ViewBag.BBT = CommonBL.fillBBT("S");
+            if (TempData["Message"] != null)
+            {
+                var str = TempData["Message"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    UTTBBT.Msg = Message.MsgSuccess(str);
+                }
+            }
+            return View(UTTBBT);
+        }
+        public string GetBBTForDDl(string BBTId)
+        {
 
+            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), -1, "Z")[0];
+            return bbtFormation.BBTBulkLiter.ToString() + "," + bbtFormation.BBTCapacity.ToString();
+        }
+        [HttpPost]
+        
+        public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)
+        {
+            UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
+            UTTBBT.TransactionType = "T";
+            string str = new CommonDA().InsertUTTransferToBBT(UTTBBT);
+            TempData["Message"] = str;
+            return RedirectToAction("UTTransferToBBT");
+        }
+        [HttpGet]
+        public ActionResult UTTransferToBBTDetails()
+        {
+            ViewBag.UnitTank = CommonBL.fillUnitTank("A");
+            ViewBag.BBT = CommonBL.fillBBT("A");
+            List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "T", -1, -1);
+            return View(lstUtBl);
+        }
     }
 }
