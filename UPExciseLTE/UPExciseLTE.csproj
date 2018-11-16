@@ -102,6 +102,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -255,6 +259,7 @@
     <Compile Include="Models\GatePass.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\GatePass1.cs" />
+    <Compile Include="Models\GatePassBrandMapping.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
     <Compile Include="Models\Message.cs" />

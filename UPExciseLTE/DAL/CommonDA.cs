@@ -473,7 +473,8 @@ namespace UPExciseLTE.DAL
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassForDistrictWholesaleToRetailor", parameters.ToArray());
+                parameters.Add(new SqlParameter("UserLevelId", 1));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -585,6 +586,7 @@ namespace UPExciseLTE.DAL
 
         public string InsertUpdateBBT(BBTFormation bbtFormation)
         {
+
             con.Open();
             string str = "";
             SqlTransaction tran = con.BeginTransaction();
@@ -675,8 +677,47 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public string InsertUpdateGatePass(GatePass gatePass)
+        public string InsertUpdateGatePass(GatePass gatePass, List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels)
         {
+
+            DataTable dt = new DataTable();
+            if (districtWholeSaleToRetailorModels != null)
+            {
+                if (districtWholeSaleToRetailorModels.Count > 0)
+                {
+                    dt.Columns.Add("Brand", typeof(string));
+                    dt.Columns.Add("BatchNo", typeof(string));
+                    dt.Columns.Add("Size", typeof(int));
+                    dt.Columns.Add("AvailableBottle", typeof(int));
+                    dt.Columns.Add("AvailableBox", typeof(int));
+                    dt.Columns.Add("DispatchBox", typeof(string));
+                    dt.Columns.Add("DispatchBottle", typeof(int));
+                    dt.Columns.Add("Duty", typeof(decimal));
+                    dt.Columns.Add("AddDuty", typeof(decimal));
+                    dt.Columns.Add("CalculatedDuty", typeof(decimal));
+                    dt.Columns.Add("CalculatedAdditionalDuty", typeof(decimal));
+
+                    for (int i = 0; i < districtWholeSaleToRetailorModels.Count; i++)
+                    {
+                        dt.Rows.Add();
+                        dt.Rows[i]["Brand"] = districtWholeSaleToRetailorModels[i].Brand;
+                        dt.Rows[i]["AddDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].AddDuty);
+                        dt.Rows[i]["AvailableBottle"] =Convert.ToInt32(districtWholeSaleToRetailorModels[i].AvailableBottle);
+                        dt.Rows[i]["AvailableBox"] =Convert.ToInt32( districtWholeSaleToRetailorModels[i].AvailableBox);
+                        dt.Rows[i]["CalculatedAdditionalDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].CalculatedAdditionalDuty);
+                        dt.Rows[i]["CalculatedDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].CalculatedDuty);
+                        dt.Rows[i]["DispatchBottle"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].DispatchBottle);
+                        dt.Rows[i]["Size"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].Size);
+                        dt.Rows[i]["Duty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].Duty);
+                        dt.Rows[i]["BatchNo"] = districtWholeSaleToRetailorModels[i].BatchNo;
+                        dt.Rows[i]["DispatchBox"] =Convert.ToInt32( districtWholeSaleToRetailorModels[i].DispatchBox);
+                        
+                       
+                    }
+                }
+            }
+
+
             con.Open();
             string str = "";
             SqlTransaction tran = con.BeginTransaction();
@@ -699,7 +740,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("DriverName", gatePass.VehicleDriverName));
                 cmd.Parameters.Add(new SqlParameter("LicenseeName", gatePass.LicenseeName));
                 cmd.Parameters.Add(new SqlParameter("LicenseeAddress", gatePass.LicenseeAddress));
-                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", gatePass.VehicleAgencyNameAndAddress));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", gatePass.AgencyNameAndAddress));
                 cmd.Parameters.Add(new SqlParameter("Address", gatePass.Address));
                 cmd.Parameters.Add(new SqlParameter("GrossWeight", gatePass.GrossWeight));
                 cmd.Parameters.Add(new SqlParameter("TareWeight", gatePass.TareWeight));
@@ -713,6 +754,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters.Add(new SqlParameter("sp_Type", gatePass.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("tbl_GatePassBrandMapping", dt));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 32676;
                 cmd.ExecuteNonQuery();
@@ -730,5 +772,28 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
+
+
+        public DataSet GetGatePassDetails(int spType,long GatePassId=0)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("SpType", spType));
+                if(GatePassId>0)
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+
+     
+
+
     }
 }
