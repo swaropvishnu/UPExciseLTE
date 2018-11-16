@@ -472,8 +472,8 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("SpType", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
-                parameters.Add(new SqlParameter("UserLevelId", 1));
+                parameters.Add(new SqlParameter("SpType", 1));
+                parameters.Add(new SqlParameter("UserLevelId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
