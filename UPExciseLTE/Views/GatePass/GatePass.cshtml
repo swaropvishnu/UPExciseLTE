@@ -9,9 +9,8 @@
 {*@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.HiddenFor(Model => Model.PassTypeInformation)
+   
     @Html.HiddenFor(Model => Model.NetWeight)
-    @Html.HiddenFor(Model => Model.DistrictWholeSaleToRetailorList)
     @*if (Model != null && Model.Message != null)
     {
         if (!string.IsNullOrEmpty(Model.Message.MStatus))
@@ -218,54 +217,50 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody >
                                             @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
                                             {
                                                 foreach (var item in Model.DistrictWholeSaleToRetailorList)
                                                 {
                                                     <tr>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum" })
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style="width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand" })
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
                                                 
-                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size" })
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle" })
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
                                               
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox" })
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox" })
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle" })
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo" })
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty" })
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;" ,@disabled="disabled"})
                                                         </td>
-
-                                                 
-
-
                                                     </tr>
                                                 }
                                             }
@@ -536,42 +531,42 @@
                                                 {
                                                     <tr>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum" })
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style = "width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand" })
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
 
-                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size" })
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle" })
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
 
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox" })
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox" })
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle" })
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo" })
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty" })
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty" })
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;", @disabled = "disabled" })
                                                         </td>
                                                     </tr>
                                                 }
@@ -1093,7 +1088,8 @@
         var Date = $("#txtDate").val();
         var ValidTill = $("#txtValidTill").val();
         var FromLicenceType = $("#FromLicenceType").val();
-        var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
+        var e = document.getElementById("ddlLicenseeLicenseNo"); var strUser = e.options[e.selectedIndex].text;
+        var LicenseeLicenseNo = strUser;
         var ToLicenceType = $("#ToLicenceType").val();
         var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
         var VehicleNo = $("#txtVehicleNo").val();

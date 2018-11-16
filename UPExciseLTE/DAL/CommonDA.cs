@@ -781,7 +781,8 @@ namespace UPExciseLTE.DAL
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("SpType", spType));
-                if(GatePassId>0)
+                parameters.Add(new SqlParameter("UserLevelId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                if (GatePassId>0)
                 parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
