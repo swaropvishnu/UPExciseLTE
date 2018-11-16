@@ -6,6 +6,49 @@ using System.Web;
 using System.Web.Mvc;
 namespace UPExciseLTE.Models
 {
+    #region DynamicMenu
+    public class MenuMst
+    {
+        [Display(Name ="Menu Id")]
+        public int MenuId { get; set; } = -1;
+        [Display(Name = "Text")]
+        public string Text { get; set; } = "";
+        [Display(Name = "Description")]
+        public string Description { get; set; } = "";
+        [Display(Name = "Parent Id")]
+        public int ParentId { get; set; } = -1;
+        [Display(Name = "Nav Url")]
+        public string NavUrl { get; set; } = "#";
+        [Display(Name = "Enable")]
+        public string Enable { get; set; } = "1";
+        [Display(Name = "Show To Post")]
+        public string ShowToPost { get; set; } = null;
+        [Display(Name = "Show To All")]
+        public string ShowToAll { get; set; } = "0";
+        [Display(Name = "Show To Menu")]
+        public bool ShowInMenu { get; set; } = false;
+        [Display(Name = "Created By")]
+        public string CreatedBy { get; set; } = null;
+        [Display(Name = "Created On")]
+        public DateTime? CreatedOn { get; set; } = null;
+        [Display(Name = "Created On")]
+        public string CreatedOn1 { get; set; } = null;
+        [Display(Name = "Order By")]
+        public int OrderBy { get; set; } = 1;
+        [Display(Name = "Icon")]
+        public string Icon { get; set; }= "<i class='fa fa-plus-square'></i>";
+        [Display(Name = "Yojana code")]
+        public short yojana_code { get; set; } = -1;
+        [Display(Name = "Is Print")]
+        public bool IsPrint { get; set; } = false;
+    }
+    public class MenuRightMapping
+    {
+        public int Id { get; set; } = -1;
+        public int MenuID { get; set; } = -1;
+        public int RightsId { get; set; } = -1;
+    }
+    #endregion
     public class BrandMaster
     {
         [Display(Name = "Brand Id")]
@@ -105,6 +148,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Is Production Final")]  
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
+        public Message Msg { get; set; }
     }
     public class UnitTank
     {
@@ -127,20 +171,46 @@ namespace UPExciseLTE.Models
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
     }
-    public class UnitTankBLDetail
+    public class UTTransferToBBT
     {
-        public int UTBLDetailId { get; set; } = -1;
-        public int UnitTankId { get; set; } = -1;
-        public float Balance { get; set; } = 0;
-        public float Receive { get; set; } = 0;
-        public float Transferred { get; set; } = 0;
+        [Display(Name ="Sno")]
+        public int Srno { get; set; }
+        [Display(Name = "Transfer Id")]
+        public int TransferId { get; set; } = -1;
+        [Display(Name = "Issued From UT Id")]
+        public int IssuedFromUTId { get; set; } = -1;
+        [Display(Name = "Unit Tank")]
+        public string UnitTank { get; set; } = "";
+        [Display(Name = "Issued To BBT Id")]
+        public int BBTID { get; set; } = -1;
+        [Display(Name = "BBT Name")]
+        public string BBTName { get; set; } = "";
+        public string TransactionType { get; set; } = "R";
+        [Display(Name = "Issue BL")]
+        public float IssueBL { get; set; } = 0;
+        [Display(Name = "Wastage")]
         public float Wastage { get; set; } = 0;
-        public string Narration { get; set; } = "";
+        [Display(Name = "Remark")]
+        public string Remark { get; set; } = "";
+        [Display(Name = "Unit Tank Capacity")]
         public string UnitTankCapacity { get; set; } = "";
+        [Display(Name = "Unit Tank Strength")]
         public string Strength { get; set; } = "";
-        public DateTime EntryDate { get; set; }
-        public Message Message { get; set; }
+        [Display(Name = "Transfer Date")]
+        public DateTime TransferDate { get; set; }
+        [Display(Name = "Transfer Date")]
+        public string TransferDate1 { get; set; }
+        [Display(Name = "Previous UT Balance")]
+        public string PrevBalanceUT { get; set; }
+        [Display(Name = "Previous BBT Balance")]
+        public string PrevBalanceBBT { get; set; }
+        [Display(Name = "Current UT Balance")]
+        public string CurrentBalanceUT { get; set; }
+        [Display(Name = "Previous BBT Balance")]
+        public string CurrentBalanceBBT { get; set; }
+        public Message Msg { get; set; }
     }
+     
 }
 
 

@@ -42,22 +42,18 @@ namespace UPExciseLTE.Controllers
             bbtFormation = new BBTFormation();
             if(!string.IsNullOrEmpty(str))
             {
-                bbtFormation.Message = new Message();
-                bbtFormation.Message.MStatus = "success";
-                bbtFormation.Message.TextMessage = str;
+                bbtFormation.Message= Message.MsgSuccess(str);
             }
             return View(bbtFormation);
         }
-
         [HttpGet]
-        public ActionResult GetBBTDetails( int brandId=1)
+        public ActionResult GetBBTDetails( int brandId=-1)
         {
             var bbtFormations = new List<BBTFormation>();
             ViewBag.Brands = CommonBL.fillBrand("S");
             bbtFormations = new CommonBL().GetBBTMasterList(-1,brandId,"Z");
             return View(bbtFormations);
         }
-
         [HttpGet]
         public ActionResult DeleteBBT(int bbtId)
         {

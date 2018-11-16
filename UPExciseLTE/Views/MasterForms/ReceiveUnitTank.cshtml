@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.UnitTankBLDetail
+﻿@model UPExciseLTE.Models.UTTransferToBBT
 
 @{
     ViewBag.Title = "ReceiveUnitTank";
@@ -10,11 +10,11 @@
 @using (Html.BeginForm("ReceiveUnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    if (Model != null)
+    if (Model.Msg != null)
     {
-        if (!string.IsNullOrEmpty(Model.Message.MStatus))
+        if (!string.IsNullOrEmpty(Model.Msg.MStatus))
         {
-            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Msg)
         }
     }
     <div class="page-content-inner">
@@ -23,7 +23,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span> <i class="fa fa-gift"></i>&nbsp;Receive Beer Into Unit Tank</span>
+                            <span><i class="fa fa-gift"></i>&nbsp;Receive Beer Into Unit Tank</span>
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
@@ -31,11 +31,11 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Entry Date</label>
-                                    @Html.TextBoxFor(model => model.EntryDate, new { @class = "form-control", @id = "txtEntryDate", @placeholder = "dd/MM/yyyy" })
+                                    @Html.TextBoxFor(model => model.TransferDate1, new { @class = "form-control", @id = "txtEntryDate", @placeholder = "dd/MM/yyyy" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank</label>
-                                    @Html.DropDownListFor(m => m.UnitTankId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                    @Html.DropDownListFor(model => model.IssuedFromUTId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Capacity (in Liter)</label>
@@ -49,11 +49,11 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Balance (in Liter)</label>
-                                    @Html.TextBoxFor(model => model.Balance, new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
+                                    @Html.TextBox("txtUnitTankBalance","", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Receive (in Liter)</label>
-                                    @Html.TextBoxFor(model => model.Receive , new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required",@maxlength="10", @onkeyUp = "Calculation();" })
+                                    @Html.TextBoxFor(model => model.IssueBL , new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required",@maxlength="10", @onkeyUp = "Calculation();" })
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,6 @@
                             <div class="form-actions">
                                 <button type="submit" class="btn green">Submit</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Edit/Finalize Bottling Plan</button>
                             </div>
                         </center>
                     </div>
@@ -73,6 +72,7 @@
 
 }
 <script type="text/javascript">
+
     $('#ddlUnitTank').change(function () {
         var UnitTankId = $('#ddlUnitTank').val();
         if (UnitTankId != "-1") {

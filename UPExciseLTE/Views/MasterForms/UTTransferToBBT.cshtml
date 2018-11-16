@@ -1,0 +1,151 @@
+﻿@model UPExciseLTE.Models.UTTransferToBBT
+
+@{
+    ViewBag.Title = "Unit Tank TransferTo BBT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("UTTransferToBBT", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    if (Model.Msg != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Msg.MStatus))
+        {
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Msg)
+        }
+    }
+    <div class="page-content-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; UT Transfer To BBT&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Date</label>
+                                    @Html.TextBoxFor(m => m.TransferDate1, new { @id = "txtTransferDate", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Unit Tank</label>
+                                    @Html.DropDownListFor(m => m.IssuedFromUTId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Unit Tank Balance</label>
+                                    @Html.TextBox("txtUTBal", "", new { @id = "txtUTBal", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BBT</label>
+                                    @Html.DropDownListFor(m => m.BBTID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BBT Balance</label>
+                                    @Html.TextBox("txtBBTBal", "", new { @id = "txtBBTBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BBT Capacity</label>
+                                    @Html.TextBox("txtBBTCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Transfer BL</label>
+                                    @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Wastage BL</label>
+                                    @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @onkeyUp = "CheckTransfer();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Transfer</label>
+                                    @Html.TextBox("txtNetTransfer", "", new { @id = "txtNetTransfer", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+    $('#ddlUnitTank').change(function () {
+        var UnitTankId = $('#ddlUnitTank').val();
+        if (UnitTankId != "-1") {
+            UnitTankChange(UnitTankId);
+        }
+    });
+    function UnitTankChange(UnitTankId) {
+        $.ajax({
+            url: '/MasterForms/GetUnitTankForDDl',
+            data: { 'UnitTankId': UnitTankId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtUTBal").value = res[2];
+            },
+            error: function (data) {
+                alert("Error in GetUnitTankForDDl Loading");
+            }
+        });
+    }
+    $('#ddlBBT').change(function () {
+        var BBTId = $('#ddlBBT').val();
+        if (BBTId != "-1") {
+            BBTChange(BBTId);
+        }
+    });
+    function BBTChange(BBTId) {
+        $.ajax({
+            url: '/MasterForms/GetBBTForDDl',
+            data: { 'BBTId': BBTId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtBBTBal").value = res[0];
+                document.getElementById("txtBBTCapacity").value = res[1];
+            },
+            error: function (data) {
+                alert("Error in GetBBTForDDl Loading");
+            }
+        });
+    }
+    function CheckTransfer()
+    {
+        var UnitTankBal = parseFloat(document.getElementById("txtUTBal").value);
+        var BBTCapacity = parseFloat(document.getElementById("txtBBTCapacity").value);
+        var BBTBalance = parseFloat(document.getElementById("txtBBTBal").value);
+        var TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
+        var WastageBL = parseFloat(document.getElementById("txtWastageBL").value);
+        if (WastageBL > TransferBL) {
+            alert("Wastage BL not greater then Transfer BL");
+            document.getElementById("txtWastageBL").value = TransferBL;
+            WastageBL = TransferBL;
+        }
+        var NetTransfer = TransferBL - WastageBL;
+        if (TransferBL > UnitTankBal) {
+            alert("Max Transfer BL is " + UnitTankBal);
+            document.getElementById("txtTransferBL").value = UnitTankBal;
+        }
+        if ((NetTransfer + BBTBalance) > BBTCapacity) {
+            alert("Max Transfer is not greater than" + (BBTCapacity - BBTBalance));
+        }
+        document.getElementById("txtNetTransfer").value = NetTransfer;
+    }
+</script>

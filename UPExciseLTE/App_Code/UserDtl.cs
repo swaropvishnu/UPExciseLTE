@@ -12,12 +12,8 @@ namespace UPExciseLTE
 {
     public static class UserDtl
     {
-        
-       
         public static int GetFirstNonPunctuationCharIndex(string input, int startIndex)
         {
-
-
             char[] punctuation = new char[15] { '!', '#', '$', '%', '^', '^', '+', '=', '[', ']', '<', '>', '?', '~', '.' };
             //Move the startIndex forward one because we ignore the index user set
             startIndex = startIndex + 1 < input.Length ? startIndex + 1 : input.Length;
