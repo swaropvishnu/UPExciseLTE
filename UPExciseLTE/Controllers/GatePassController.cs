@@ -74,7 +74,7 @@ namespace UPExciseLTE.Controllers
                 gatePass.Message.MStatus = "success";
                 gatePass.Message.TextMessage = str;
             }
-            gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+            gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
