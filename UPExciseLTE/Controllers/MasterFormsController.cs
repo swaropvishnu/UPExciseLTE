@@ -299,7 +299,16 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult UploadCSV()
         {
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "FP"));
+            List<BottelingPlan> lstBotteling = new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "FP");
+            if (TempData["Message"] != null)
+            {
+                var str = TempData["Message"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    lstBotteling[0].Msg = Message.MsgSuccess(str);
+                }
+            }
+            return View(lstBotteling);
         }
         [HttpGet]
         public ActionResult SearchProduction()
@@ -361,7 +370,7 @@ namespace UPExciseLTE.Controllers
                         count++;
                     }
                     string str = new CommonDA().UploadCSV(sb,"1",UserSession.LoggedInUserId.ToString(), CaseCode.Count, count - 1, QRCodeList);
-                    ViewBag.Error = "File Upload Successfully";
+                    TempData["Message"] = str;
 
                 }
                 else

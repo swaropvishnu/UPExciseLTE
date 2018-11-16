@@ -5,14 +5,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    ViewBag.Title = "Freeze Plan";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 @using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+
+    if (Model != null)
+    {
+
+        if (Model.FirstOrDefault().Msg != null)
+        {
+            if (!string.IsNullOrEmpty(Model.FirstOrDefault().Msg.MStatus))
+            {
+                <script type="text/javascript"> var msg = '@Model.FirstOrDefault().Msg.TextMessage'; alert(msg);</script>
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.FirstOrDefault().Msg)
+            }
+        }
+    }
+    
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">

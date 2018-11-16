@@ -148,6 +148,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Is Production Final")]  
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
+        public Message Msg { get; set; }
     }
     public class UnitTank
     {
