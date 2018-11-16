@@ -773,17 +773,17 @@ namespace UPExciseLTE.DAL
                         dt.Rows.Add();
                         dt.Rows[i]["Brand"] = districtWholeSaleToRetailorModels[i].Brand;
                         dt.Rows[i]["AddDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].AddDuty);
-                        dt.Rows[i]["AvailableBottle"] =Convert.ToInt32(districtWholeSaleToRetailorModels[i].AvailableBottle);
-                        dt.Rows[i]["AvailableBox"] =Convert.ToInt32( districtWholeSaleToRetailorModels[i].AvailableBox);
+                        dt.Rows[i]["AvailableBottle"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].AvailableBottle);
+                        dt.Rows[i]["AvailableBox"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].AvailableBox);
                         dt.Rows[i]["CalculatedAdditionalDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].CalculatedAdditionalDuty);
                         dt.Rows[i]["CalculatedDuty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].CalculatedDuty);
                         dt.Rows[i]["DispatchBottle"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].DispatchBottle);
                         dt.Rows[i]["Size"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].Size);
                         dt.Rows[i]["Duty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].Duty);
                         dt.Rows[i]["BatchNo"] = districtWholeSaleToRetailorModels[i].BatchNo;
-                        dt.Rows[i]["DispatchBox"] =Convert.ToInt32( districtWholeSaleToRetailorModels[i].DispatchBox);
-                        
-                       
+                        dt.Rows[i]["DispatchBox"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].DispatchBox);
+
+
                     }
                 }
             }
