@@ -7,6 +7,10 @@ using UPExciseLTE.DAL;
 using UPExciseLTE.App_Code;
 using UPExciseLTE.Models;
 using UPExciseLTE.BLL;
+using System.IO;
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace UPExciseLTE.Controllers
 {
@@ -33,10 +37,28 @@ namespace UPExciseLTE.Controllers
 
         public ActionResult GatePassReport()
         {
+            string qrcode = "";
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(qrcode, QRCodeGenerator.ECCLevel.Q);
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    bitMap.Save(ms, ImageFormat.Png);
+                    ViewBag.QRCodeImage = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                }
+            }
+
             var loggedInUserInformation = GetInformationByLoggedInUserLeve();
             ViewBag.Reciever = loggedInUserInformation.Receiver;
             ViewBag.PassType = loggedInUserInformation.PassType;
-            return View();
+            var gatePass = new GatePass();
+
+            if (Request.QueryString["GatePass"] != null && Request.QueryString["GatePass"].Trim() != string.Empty)
+            {
+                gatePass = new CommonBL().GenerateGatePass(long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim())));
+            }
+            return View(gatePass);
         }
 
 

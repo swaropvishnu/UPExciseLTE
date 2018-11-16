@@ -274,21 +274,140 @@ namespace UPExciseLTE.BLL
         private DistrictWholeSaleToRetailorModel GetDistrictWholeSaleToRetailorModel(DataRow dr)
         {
             DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
-            try
-            {
-                model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
-                model.BrewaryName = dr["BrewaryName"].ToString().Trim();
-                model.Revenue = dr["Revenue"].ToString().Trim();
-                model.Brand = dr["Brand"].ToString().Trim();
-                model.BatchNo = dr["BatchNo"].ToString().Trim();
-                model.TotalBottle = dr["TotalBottle"].ToString().Trim();
-                model.Date = dr["Date"].ToString().Trim();
-                model.VehicleNo = dr["VehicleNo"].ToString().Trim();
-                model.Receiver = dr["Receiver"].ToString().Trim();
-            }
-            catch (Exception) { }
+
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.BrewaryName = dr["BrewaryName"].ToString().Trim();
+            model.Revenue = dr["Revenue"].ToString().Trim();
+            model.Brand = dr["Brand"].ToString().Trim();
+            model.BatchNo = dr["BatchNo"].ToString().Trim();
+            model.TotalBottle = dr["TotalBottle"].ToString().Trim();
+            model.Date = dr["Date"].ToString().Trim();
+            model.VehicleNo = dr["VehicleNo"].ToString().Trim();
+            model.Receiver = dr["Receiver"].ToString().Trim();
+
+            //model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            //model.Brand = dr["BrandName"].ToString().Trim();
+            //model.Size =int.Parse( dr["Size"].ToString().Trim());
+            //model.AvailableBottle =int.Parse( dr["AvailableBottle"].ToString().Trim());
+            //model.AvailableBox =int.Parse( dr["AvailableBox"].ToString().Trim());
+            //model.Duty =decimal.Parse( dr["Duty"].ToString().Trim());
+            //model.AddDuty = decimal.Parse(dr["AddDuty"].ToString().Trim());
+
             return model;
         }
+
+        public List<DistrictWholeSaleToRetailorModel> GetGatePassDetails()
+        {
+            var reportModels = new List<DistrictWholeSaleToRetailorModel>();
+            DataSet ds = new CommonDA().GetGatePassDetails(2);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    reportModels.Add(GetGatePassDetailModel(dr));
+                }
+            }
+            return reportModels;
+        }
+
+        private DistrictWholeSaleToRetailorModel GetGatePassDetailModel(DataRow dr)
+        {
+            DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.Brand = dr["BrandName"].ToString().Trim();
+            model.Size = int.Parse(dr["Size"].ToString().Trim());
+            model.AvailableBottle = int.Parse(dr["AvailableBottle"].ToString().Trim());
+            model.AvailableBox = int.Parse(dr["AvailableBox"].ToString().Trim());
+            model.Duty = decimal.Parse(dr["Duty"].ToString().Trim());
+            model.AddDuty = decimal.Parse(dr["AddDuty"].ToString().Trim());
+            return model;
+        }
+
+        public List<GatePass> GetGatePassDetailsForGatePassList()
+        {
+            var reportModels = new List<GatePass>();
+            DataSet ds = new CommonDA().GetGatePassDetails(3);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    reportModels.Add(GetGatePassDetailModelForPassList(dr));
+                }
+            }
+            return reportModels;
+        }
+
+
+        private GatePass GetGatePassDetailModelForPassList(DataRow dr)
+        {
+            GatePass model = new GatePass();
+            model.GatePassId = int.Parse(dr["GatePassId"].ToString().Trim());
+            model.ToDate = Convert.ToDateTime(dr["ToDate"].ToString().Trim());
+            model.FromDate = Convert.ToDateTime(dr["FromDate"].ToString().Trim());
+            model.GatePassNo= dr["GatePassNo"].ToString().Trim();
+            model.VehicleNo = dr["VehicleNo"].ToString().Trim();
+            model.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
+            model.ConsignorName = dr["ConsinorName"].ToString().Trim();
+            model.ConsigneeName = dr["ConsineeName"].ToString().Trim();
+            model.TotalBox = int.Parse(dr["TotalBox"].ToString().Trim());
+            model.TotalBottles = int.Parse(dr["TotalBottles"].ToString().Trim());
+            model.TotalLitres = decimal.Parse(dr["TotalLitres"].ToString().Trim());
+            model.ConsiderationFees = decimal.Parse(dr["ConsiderationFees"].ToString().Trim());
+            model.Encrypt_GatePassID = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
+            return model;
+        }
+
+
+
+        public GatePass GenerateGatePass(long gatePassId)
+        {
+            var gatePass = new GatePass();
+            var reportModels = new List<DistrictWholeSaleToRetailorModel>();
+            DataSet ds1 = new CommonDA().GetGatePassDetails(5, gatePassId);
+            DataSet ds2 = new CommonDA().GetGatePassDetails(4, gatePassId);
+            if (ds1 != null && ds1.Tables[0] != null && ds1.Tables[0].Rows.Count > 0)
+            {
+                
+                gatePass.GatePassId = int.Parse(ds1.Tables[0].Rows[0]["GatePassId"].ToString());
+                gatePass.ToDate = DateTime.Parse(ds1.Tables[0].Rows[0]["ToDate"].ToString());
+                gatePass.FromDate = DateTime.Parse(ds1.Tables[0].Rows[0]["FromDate"].ToString());
+                gatePass.GatePassNo = ds1.Tables[0].Rows[0]["GatePassNo"].ToString().ToString().Trim();
+                gatePass.VehicleNo = ds1.Tables[0].Rows[0]["VehicleNo"].ToString().ToString().Trim();
+                gatePass.AgencyNameAndAddress =ds1.Tables[0].Rows[0]["AgencyNameAndAddress"].ToString().Trim();
+                gatePass.ConsignorName =ds1.Tables[0].Rows[0]["ConsinorName"].ToString().Trim();
+                gatePass.ConsigneeName = ds1.Tables[0].Rows[0]["ConsineeName"].ToString().Trim();
+                gatePass.TotalBottles = int.Parse(ds1.Tables[0].Rows[0]["TotalBottles"].ToString().Trim());
+                gatePass.TotalLitres = decimal.Parse(ds1.Tables[0].Rows[0]["TotalLitres"].ToString().Trim());
+                gatePass.ConsiderationFees = decimal.Parse(ds1.Tables[0].Rows[0]["ConsiderationFees"].ToString().Trim());
+                gatePass.TotalBottleQuantity = decimal.Parse(ds1.Tables[0].Rows[0]["TotalBottleQuantity"].ToString().Trim());
+                gatePass.TotalLitresQuantity = decimal.Parse(ds1.Tables[0].Rows[0]["TotalLitresQuantity"].ToString().Trim());
+            }
+             
+            if (ds2 != null && ds2.Tables[0] != null && ds2.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds2.Tables[0].Rows)
+                {
+                    reportModels.Add(GetGeneratedPassBrandList(dr));
+                }
+            }
+            gatePass.DistrictWholeSaleToRetailorList = reportModels;
+            return gatePass;
+        }
+
+        private DistrictWholeSaleToRetailorModel GetGeneratedPassBrandList(DataRow dr)
+        {
+            var model = new DistrictWholeSaleToRetailorModel();
+            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+            model.TransitGatePassID = int.Parse(dr["GatePassId"].ToString().Trim());
+            model.Brand = dr["Brand"].ToString().Trim();
+            model.BatchNo = dr["BatchNo"].ToString().Trim();
+            model.BottleQuantity = dr["BottlesQuantity"].ToString().Trim();
+            model.AlcoholicStrength = decimal.Parse(dr["Strength"].ToString().Trim());
+            model.TotalLitres = decimal.Parse(dr["TotalLitres"].ToString().Trim());
+            return model;
+        }
+
+
 
         #endregion
 
@@ -362,6 +481,13 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return UTBL;
         }
+        #endregion
+
+        #region GatePass
+
+
+
+
         #endregion
 
 

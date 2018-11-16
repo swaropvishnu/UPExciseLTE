@@ -5,20 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("GatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
+@*@using (Html.BeginForm("GatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{*@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(Model => Model.PassTypeInformation)
     @Html.HiddenFor(Model => Model.NetWeight)
-    if (Model != null && Model.Message != null)
+    @Html.HiddenFor(Model => Model.DistrictWholeSaleToRetailorList)
+    @*if (Model != null && Model.Message != null)
     {
         if (!string.IsNullOrEmpty(Model.Message.MStatus))
         {
             @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
         }
-    }
-    if (Model.PassTypeInformation == "Brewery To Manufacturer Wholesale")
+    }*@
+    <input type="hidden" value="@Model.PassTypeInformation" id="GatePassType"/>
+    @if (Model.PassTypeInformation == "Brewery To Manufacturer Wholesale")
     {
 
         <div class="page-content-inner">
@@ -32,62 +34,92 @@
                         </div>
                         <div class="portlet-body form" style="background-color:#f5f5f5">
                             <div class="form-body">
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label">From</label>
-                                        <div>
-                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3", new { @checked = "checked" }) FL3
-                                            @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group   col-md-6">
-                                        <label class="control-label">To</label>
-                                        <div>
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1", new { @checked = "checked" }) FL1
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL1A")FL1A
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "FL2A") FL2A
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "EXPORT") EXPORT
-                                            @Html.RadioButtonFor(m => m.SelectedToRdo, "EXPORT OUT SIDE INDIA") EXPORT OUT SIDE INDIA
-                                            @*@Html.RadioButtonFor(m => m.SelectedFromRdo, "FL3A") FL3A*@
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="row">
-
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Without Bond</label>
+                                        <div>
+                                            FL36
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Date</label>
                                         <div>
                                             @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required" } })
                                         </div>
                                     </div>
-
-
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Valid Till</label>
                                         <div>
                                             @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" } })
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group  col-md-4">
-                                        <label class="control-label">Brand Name</label>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">From</label>
                                         <div>
-                                            @*@Html.DropDownList("ddlBrandName", (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrandName", @class = "form-control" })*@
-                                            @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrand", @class = "form-control" })
+                                            <select class="form-control" id="FromLicenceType" name="FromLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL3">FL3</option>
+                                                <option value="FL3A">FL3A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignor Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @disabled = "disbled" })
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group  col-md-4">
-                                        <label class="control-label">License No.</label>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">To</label>
                                         <div>
-                                            @*@Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })*@
-                                            @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
+                                            <select class="form-control" id="ToLicenceType" name="FromLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL1">FL1</option>
+                                                <option value="FL1A">FL1A</option>
+                                                <option value="FL2A">FL2A</option>
+                                                <option value="EXPORT">EXPORT</option>
+                                                <option value="EXPORT OUT SIDE INDIA">EXPORT OUT SIDE INDIA</option>
+                                            </select>
                                         </div>
                                     </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo1, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo1", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignee Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsigneeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled" })
+                                        </div>
+                                    </div>
+                                </div>
 
+
+
+                                <div class="row">
+
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Vehicle No</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
+
+                                        </div>
+                                    </div>
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Vehicle Driver Name</label>
                                         <div>
@@ -97,63 +129,164 @@
                                     </div>
 
                                     <div class="form-group   col-md-4">
-                                        <label class="control-label">Vehicle No</label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group   col-md-6">
                                         <label class="control-label">Route Details</label>
                                         <div>
-                                            @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
+                                            @Html.TextBoxFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                                         </div>
                                     </div>
 
 
 
-                                    <div class="form-group   col-md-6">
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="form-group   col-md-8">
                                         <label class="control-label">Vehicle Agency Name And Address</label>
                                         <div>
-                                            @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
+                                            @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Gross Weight</label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.GrossWeight, new { @id = "txtGrossWeight", @class = "form-control ", @placeholder = "Gross Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
+                                @*<div class="row">
+                                        <div class="form-group   col-md-4">
+                                            <label class="control-label">Gross Weight</label>
+                                            <div>
+                                                @Html.TextBoxFor(m => m.GrossWeight, new { @id = "txtGrossWeight", @class = "form-control ", @placeholder = "Gross Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Tare Weight</label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.TareWeight, new { @id = "txtTareWeight", @class = "form-control ", @placeholder = "Tare Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
+                                        <div class="form-group   col-md-4">
+                                            <label class="control-label">Tare Weight</label>
+                                            <div>
+                                                @Html.TextBoxFor(m => m.TareWeight, new { @id = "txtTareWeight", @class = "form-control ", @placeholder = "Tare Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Net Weight</label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required", @disabled = "disbled" })
+                                        <div class="form-group   col-md-4">
+                                            <label class="control-label">Net Weight</label>
+                                            <div>
+                                                @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required", @disabled = "disbled" })
 
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div>*@
+                            </div>
+                          
+
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    S.No
+                                                </th>
+                                                <th>
+                                                    Brand
+                                                </th>
+                                                <th>
+                                                    Size
+                                                </th>
+                                                <th>
+                                                    Available Bottle
+                                                </th>
+                                                <th>
+                                                    Available Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Bottle
+                                                </th>
+                                                <th>
+                                                    Batch No
+                                                </th>
+                                                <th>
+                                                    Duty
+                                                </th>
+                                                <th>
+                                                    Add Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Additional Duty
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
+                                            {
+                                                foreach (var item in Model.DistrictWholeSaleToRetailorList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand" })
+                                                        </td>
+                                                        <td>
+                                                
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle" })
+                                              
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty" })
+                                                        </td>
+
+                                                 
+
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+
+
+                                    </table>
                                 </div>
                             </div>
+
+
                             <div style="clear:both"></div>
                             <center>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn green">Submit</button>
+                                    <button type="submit" class="btn green" id="btnBMWholeSale" onclick="Validate();">Submit</button>
                                     @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                        <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
                                 </div>
                             </center>
+
                         </div>
                     </div>
                 </div>
@@ -174,46 +307,11 @@
                         <div class="portlet-body form" style="background-color:#f5f5f5">
                             <div class="form-body">
                                 <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label class="control-label">From</label>
-                                                <div>
-                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1", new { @checked = "checked" }) FL1
-                                                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <div class="col-md-12">
-                                                    <label class="control-label">To</label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    @Html.RadioButtonFor(m => m.SelectedToRdo, "FL2", new { @checked = "checked" }) FL2
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group  col-md-4">
-                                        <label class="control-label">Brand Name</label>
-                                        <div>
-                                            @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrand", @class = "form-control" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group  col-md-4">
-                                        <label class="control-label">License No.</label>
-                                        <div>
-                                            @*@Html.DropDownList("ddlLicenceNo", (IEnumerable<SelectListItem>)ViewBag.LicenceNo, new { @id = "ddlLicenceNo", @class = "form-control" })*@
-                                            @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-
+                              
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Date</label>
                                         <div>
-                                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @disabled = "disbled" } })
+                                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required" } })
                                         </div>
                                     </div>
 
@@ -223,31 +321,96 @@
                                             @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" } })
                                         </div>
                                     </div>
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Vehicle Driver Name</label>
+                                    <div class="form-group  col-md-4">
+                                        <label class="control-label">Brand Name</label>
                                         <div>
-                                            @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
+                                            @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrandId", @class = "form-control", @name = "ddlBrandId" })
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group  col-md-4">
+                <label class="control-label">License No.</label>
+                <div>
+                    @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true", @name = "txtLicenseNo" })
+                </div>
+            </div>*@
+                                </div>
 
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">From</label>
+                                        <div>
+                                            @*@Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1", new { @checked = "checked" }) FL1
+                    @Html.RadioButtonFor(m => m.SelectedFromRdo, "FL1A") FL1A*@
+                                            <select class="form-control" id="FromLicenceType" name="FromLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL1">FL1</option>
+                                                <option value="FL1A">FL1A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control", @name = "ddlLicenseeLicenseNo" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignor Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @disabled = "disbled", @name = "txtConsignorName" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-
+                                    <div class="form-group col-md-4">
+                                            <label class="control-label">To</label>
+                                        <div>
+                                            <select class="form-control" id="ToLicenceType" name="ToLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL2">FL2</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Licencee No</label>
                                         <div>
-                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
-                                            @*@Html.TextBoxFor(m => m.LicenseeLicenseNo, new { @id = "txtLicenceNo", @class = "form-control ", @placeholder = "Licencee No", @required = "required" })*@
-
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo1, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo1", @class = "form-control" ,@name= "ddlLicenseeLicenseNo1" })
                                         </div>
                                     </div>
-
-
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignee Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsigneeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled",@name= "txtConsigneeName" })
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                @*<div class="row">
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Vehicle Driver Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="row">
+                                    @*<div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.LicenseeLicenseNo, (IEnumerable<SelectListItem>)ViewBag.LicenseeLiceseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
+                                        </div>
+                                    </div>
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Licencee Name</label>
                                         <div>
                                             @Html.TextBoxFor(m => m.LicenseeName, new { @id = "txtLicenceName", @class = "form-control ", @placeholder = "Licencee Name", @required = "required", @disabled = "disbled" })
+                                        </div>
+                                    </div>*@
 
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Vehicle Driver Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
                                         </div>
                                     </div>
 
@@ -255,36 +418,29 @@
                                         <label class="control-label">Vehicle No</label>
                                         <div>
                                             @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
-
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="row">
-
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Address</label>
                                         <div>
-                                            @Html.TextAreaFor(m => m.Address, new { @id = "txtAreaAddress", @class = "form-control ", @placeholder = "Address", @required = "required" })
+                                            @Html.TextAreaFor(m => m.Address, new { @id = "txtAddress", @class = "form-control ", @placeholder = "Address", @required = "required" })
                                         </div>
                                     </div>
-
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Route Details</label>
                                         <div>
                                             @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                                         </div>
                                     </div>
-
                                     <div class="form-group   col-md-4">
                                         <label class="control-label">Vehicle Agency Name And Address</label>
                                         <div>
-                                            @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
+                                            @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div class="row">
                                     <div class="form-group  ">
                                         <div class="col-md-12">
@@ -292,7 +448,7 @@
                                         </div>
 
                                         <div class="col-md-4 ">
-                                            @Html.DropDownListFor(m=>m.MDistrictId1, (IEnumerable<SelectListItem>)ViewBag.Districts, new { @id = "MDistrictId1", @class = "form-control col-md-4 " })
+                                            @Html.DropDownListFor(m => m.MDistrictId1, (IEnumerable<SelectListItem>)ViewBag.Districts, new { @id = "MDistrictId1", @class = "form-control col-md-4 " })
 
                                         </div>
                                         <div class="col-md-4 ">
@@ -330,10 +486,104 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table id="tblManufacturerWholeSaleToDistrictWholeSale" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    S.No
+                                                </th>
+                                                <th>
+                                                    Brand
+                                                </th>
+                                                <th>
+                                                    Size
+                                                </th>
+                                                <th>
+                                                    Available Bottle
+                                                </th>
+                                                <th>
+                                                    Available Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Bottle
+                                                </th>
+                                                <th>
+                                                    Batch No
+                                                </th>
+                                                <th>
+                                                    Duty
+                                                </th>
+                                                <th>
+                                                    Add Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Additional Duty
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
+                                            {
+                                                foreach (var item in Model.DistrictWholeSaleToRetailorList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand" })
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty" })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <div style="clear:both"></div>
                             <center>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn green">GET LICENCE DETAILS</button>
+                                    <button type="submit" class="btn green" id="btnManufacturerWholeSaleToDistrictWholeSale" onclick="Validate();">GET LICENCE DETAILS</button>
                                     @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                                         <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">GET LICENCE DETAILS</button>*@
                                 </div>
@@ -461,15 +711,111 @@
                                     <div class="form-group   col-md-6">
                                         <label class="control-label">Vehicle (Agency Name And Address)</label>
                                         <div>
-                                            @Html.TextAreaFor(m => m.VehicleAgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
+                                            @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            @*<div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    S.No
+                                                </th>
+                                                <th>
+                                                    Brand
+                                                </th>
+                                                <th>
+                                                    Size
+                                                </th>
+                                                <th>
+                                                    Available Bottle
+                                                </th>
+                                                <th>
+                                                    Available Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Bottle
+                                                </th>
+                                                <th>
+                                                    Batch No
+                                                </th>
+                                                <th>
+                                                    Duty
+                                                </th>
+                                                <th>
+                                                    Add Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Additional Duty
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
+                                            {
+                                                foreach (var item in Model.DistrictWholeSaleToRetailorList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand" })
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty" })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>*@
+
                             <div style="clear:both"></div>
                             <center>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn green">Submit</button>
+                                    <button type="submit" class="btn green" onclick="Validate();">Submit</button>
 
                                     @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                                         <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
@@ -497,7 +843,6 @@
                                             @*@Html.DisplayNameFor(model => model.LicenceType)*@
                                             Bottles, Flash Quantity
                                             Contained in each
-
                                         </th>
 
                                         <th scope="col">
@@ -538,7 +883,7 @@
                                                 </td>
 
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.AlcohalicStrength)
+                                                    @Html.DisplayFor(modelItem => item.AlcoholicStrength)
                                                 </td>
 
                                                 @*<td>
@@ -550,7 +895,6 @@
                                         }
                                     }
 
-
                                 </table>
                             </div>
                         </div>
@@ -560,7 +904,7 @@
             </div>
         </div>
     }
-}
+@*}*@
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
 
@@ -573,9 +917,11 @@
 
 
     $("#ddlLicenseeLicenseNo").change(function () {
-        $("#txtLicenceName").val(this.value);
+        $("#txtConsignorName").val(this.value);
     });
-
+    $("#ddlLicenseeLicenseNo1").change(function () {
+        $("#txtConsigneeName").val(this.value);
+    });
 
     $("#MDistrictId1").change(function () {
             $.ajax({
@@ -586,7 +932,7 @@
                 success: function (subcategories) {
                     $("#MDistrictId2").empty();
                     $.each(subcategories, function (i, subcategory) {
-                       
+
                         $("#MDistrictId2").append('<option value="'
                             + subcategory.Value + '">' +
                             subcategory.Text + '</option>');
@@ -623,15 +969,280 @@
 
     function Validate() {
 
+        if($("#ddlBrand").val()=="-1")
+        {
+            alert("Please Select Brand.")
+            return false;
+        }
+        else if ($("#ddlLicenseeLicenseNo").val() == "-1")
+        {
+            alert("Please Select Licensee No.")
+            return false;
+        }
 
-
-
-
-
-
-
+        else if(("#MDistrictId1").val()=="-1" ||("#MDistrictId2").val()=="-1" ||("#MDistrictId3").val()=="-1" )
+        {
+            alert("Please Select Major Districts in Route")
+            return false;
+        }
     }
 
+
+    $(function () {
+        $('.DispatchBottle,.AvailableBox,.DispatchBottle,.CalculatedDuty,.CalculatedAdditionalDuty').prop('readonly', true);
+        var GatePassType = $("#GatePassType").val();
+        if (GatePassType == "Brewery To Manufacturer Wholesale")
+            var $tblrows = $("#tblBMWholeSale tbody tr");
+        else if (GatePassType == "Manufacturer Wholesale to Disctrict Wholesale")
+            var $tblrows = $("#tblManufacturerWholeSaleToDistrictWholeSale tbody tr");
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            debugger;
+            $tblrow.find('.DispatchBox').on('change', function () {
+                debugger;
+                //var dispatchBox = $tblrow.find("[id=txtDispatchBox]").val();
+                //var availableBox = $tblrow.find("[id=lblAvailableBox]").val();
+                //var size = $tblrow.find("[id=lblSize]").val();
+                //var duty = $tblrow.find("[id=lblDuty]").val();
+                //var addDuty = $tblrow.find("[id=lblAddDuty]").val();
+                //var dispatchBottle = parseInt(dispatchBox) * parseInt(size);
+                //var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
+                //var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
+                //$('#lblDispatchBottle').val(dispatchBottle);
+                //$('#lblCalculatedDuty').val(calculatedDuty.toFixed(2));
+                //$('#lblCalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
+
+                var dispatchBox = $tblrow.find("[name='item.DispatchBox']").val();
+              
+                var availableBox = $tblrow.find("[name='item.AvailableBox']").val();
+                var size = $tblrow.find("[name='item.Size']").val();
+                var duty = $tblrow.find("[name='item.Duty']").val();
+                var addDuty = $tblrow.find("[name='item.AddDuty']").val();
+                var dispatchBottle = parseInt(dispatchBox,10) * parseInt(size,10);
+                var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
+                var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
+                $tblrow.find('.DispatchBottle').val(dispatchBottle);
+                $tblrow.find('.CalculatedDuty').val(calculatedDuty.toFixed(2));
+                $tblrow.find('.CalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
+
+                //var subTotal = parseInt(qty, 10) * parseFloat(price);
+
+                //if (!isNaN(subTotal)) {
+
+                //    $tblrow.find('.subtot').val(subTotal.toFixed(2));
+                //    var grandTotal = 0;
+
+                //    $(".subtot").each(function () {
+                //        var stval = parseFloat($(this).val());
+                //        grandTotal += isNaN(stval) ? 0 : stval;
+                //    });
+
+                //    $('.grdtot').val(grandTotal.toFixed(2));
+                //}
+            });
+        });
+    });
+
+    
+    $("button#btnBMWholeSale").click(function () {
+        var tblBMWholeSale = "#tblBMWholeSale tbody tr";
+        GetGatePass(tblBMWholeSale)
+    });
+    $("button#btnManufacturerWholeSaleToDistrictWholeSale").click(function () {
+        var tblManufacturerWholeSaleToDistrictWholeSale = "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr";
+        GetGatePass(tblManufacturerWholeSaleToDistrictWholeSale)
+    });
+
+    function GetGatePass(paramId)
+    {
+        debugger;
+        var data = [];
+        var SerialNo, Brand, Size, AvailableBottle, AvailableBox, DispatchBox, DispatchBottle, Duty, AddDuty, CalculatedDuty, CalculatedAdditionalDuty;
+        $(paramId).each(function (index) {
+            SerialNo = $(this).find("[name='item.RowNum']").val();
+            Brand = $(this).find("[name='item.Brand']").val();
+            Size = $(this).find("[name='item.Size']").val();
+            AvailableBottle = $(this).find("[name='item.AvailableBottle']").val();
+            BatchNo = $(this).find("[name='item.BatchNo']").val();
+            AvailableBox = $(this).find("[name='item.AvailableBox']").val();
+            DispatchBox = $(this).find("[name='item.DispatchBox']").val();
+            DispatchBottle = $(this).find("[name='item.DispatchBottle']").val();
+            Duty = $(this).find("[name='item.Duty']").val();
+            AddDuty = $(this).find("[name='item.AddDuty']").val();
+            CalculatedDuty = $(this).find("[name='item.CalculatedDuty']").val();
+            CalculatedAdditionalDuty = $(this).find("[name='item.CalculatedAdditionalDuty']").val();
+            //---->Form validation goes here
+            data.push({
+                SerialNo: parseInt(SerialNo),
+                Brand: Brand,
+                BatchNo: BatchNo,
+                Size: Size,
+                AvailableBottle: AvailableBottle,
+                AvailableBox: AvailableBox,
+                DispatchBox: DispatchBox,
+                DispatchBottle: DispatchBottle,
+                Duty: Duty,
+                AddDuty: AddDuty,
+                CalculatedDuty: CalculatedDuty,
+                CalculatedAdditionalDuty: CalculatedAdditionalDuty,
+            });
+        });
+
+        //For Brewery To Manufacturer WholeSale
+
+        var Date = $("#txtDate").val();
+        var ValidTill = $("#txtValidTill").val();
+        var FromLicenceType = $("#FromLicenceType").val();
+        var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
+        var ToLicenceType = $("#ToLicenceType").val();
+        var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
+        var VehicleNo = $("#txtVehicleNo").val();
+        var VehicleDriverName = $("#txtVehicleDriverName").val();
+        var AreaRouteDetails = $("#txtAreaRouteDetails").val();
+        var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
+        //For Brewery To Manufacturer WholeSale
+
+        //For Manufacturer To District WholeSale.
+        //var Date = $("#txtDate").val();
+        //var ValidTill = $("#txtValidTill").val();
+       
+        //var FromLicenceType = $("#FromLicenceType").val();
+        //var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
+        //var ToLicenceType = $("#ToLicenceType").val();
+        //var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
+        //var VehicleNo = $("#txtVehicleNo").val();
+        //var VehicleDriverName = $("#txtVehicleDriverName").val();
+        //var AreaRouteDetails = $("#txtAreaRouteDetails").val();
+        //var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
+        if (paramId == "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr")
+        {
+            var txtAddress = $("#txtAddress").val();
+            var brandId = $("#ddlBrandId").val();//
+            var MDistrictId1 = parseInt($("#MDistrictId1").val());
+            var MDistrictId2 = parseInt($("#MDistrictId2").val());
+            var MDistrictId3 = parseInt($("#MDistrictId3").val());
+            var txtGrossWeight = parseFloat($("#txtGrossWeight").val());
+            var txtTareWeight = parseFloat($("#txtTareWeight").val());
+        }
+        else {
+            var txtAddress = "";
+            var brandId ="0"//
+            var MDistrictId1 = "0";
+            var MDistrictId2 = "0";
+            var MDistrictId3 = "0";
+            var txtGrossWeight = "0.00";
+            var txtTareWeight = "0.00";
+        }
+
+        //For Manufacturer To District WholeSale.
+
+        var gatePassData = {
+            Date: Date, ValidTill: ValidTill, SelectedFromRdo: FromLicenceType, LicenseeLicenseNo: LicenseeLicenseNo, SelectedToRdo: ToLicenceType, LicenseeLicenseNo1: LicenseeLicenseNo1, VehicleNo: VehicleNo, VehicleDriverName: VehicleDriverName, RouteDetails: AreaRouteDetails, AgencyNameAndAddress: AreaVehicleAgencyNameAndAddress, VehicleDriverName: VehicleDriverName,
+            BrandId: brandId, MDistrictId1: MDistrictId1, MDistrictId2: MDistrictId2, MDistrictId3: MDistrictId3, GrossWeight: txtGrossWeight, TareWeight: txtTareWeight, Address: txtAddress
+        };
+
+           submitFormData(data, gatePassData);
+    }
+
+
+
+
+
+    //$("button#btnBMWholeSale").click(function () {
+    //    debugger;
+    //    var data = [];
+    //    var SerialNo, Brand, Size, AvailableBottle, AvailableBox, DispatchBox, DispatchBottle, Duty, AddDuty, CalculatedDuty, CalculatedAdditionalDuty;
+    //    $("#tblBMWholeSale tbody tr").each(function (index) {
+
+    //        SerialNo = $(this).find("[name='item.RowNum']").val();
+    //        Brand = $(this).find("[name='item.Brand']").val();
+    //        Size = $(this).find("[name='item.Size']").val();
+    //        AvailableBottle = $(this).find("[name='item.AvailableBottle']").val();
+    //        BatchNo = $(this).find("[name='item.BatchNo']").val();
+    //        AvailableBox = $(this).find("[name='item.AvailableBox']").val();
+    //        DispatchBox = $(this).find("[name='item.DispatchBox']").val();
+    //        DispatchBottle = $(this).find("[name='item.DispatchBottle']").val();
+    //        Duty = $(this).find("[name='item.Duty']").val();
+    //        AddDuty = $(this).find("[name='item.AddDuty']").val();
+    //        CalculatedDuty = $(this).find("[name='item.CalculatedDuty']").val();
+    //        CalculatedAdditionalDuty = $(this).find("[name='item.CalculatedAdditionalDuty']").val();
+    //        //---->Form validation goes here
+    //        data.push({
+    //            SerialNo: parseInt(SerialNo),
+    //            Brand: Brand,
+    //            BatchNo: BatchNo,
+    //            Size: Size,
+    //            AvailableBottle: AvailableBottle,
+    //            AvailableBox: AvailableBox,
+    //            DispatchBox: DispatchBox,
+    //            DispatchBottle: DispatchBottle,
+    //            Duty: Duty,
+    //            AddDuty: AddDuty,
+    //            CalculatedDuty: CalculatedDuty,
+    //            CalculatedAdditionalDuty: CalculatedAdditionalDuty,
+    //        });
+    //    });
+    //    var Date = $("#txtDate").val();
+    //    var ValidTill = $("#txtValidTill").val();
+    //    var FromLicenceType = $("#FromLicenceType").val();
+    //    var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
+    //    var ToLicenceType = $("#ToLicenceType").val();
+    //    var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
+    //    var VehicleNo = $("#txtVehicleNo").val();
+    //    var VehicleDriverName = $("#txtVehicleDriverName").val();
+    //    var AreaRouteDetails = $("#txtAreaRouteDetails").val();
+    //    var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
+    //    var gatePassData = { Date: Date, ValidTill: ValidTill, SelectedFromRdo: FromLicenceType, LicenseeLicenseNo: LicenseeLicenseNo, SelectedToRdo: ToLicenceType, LicenseeLicenseNo1: LicenseeLicenseNo1, VehicleNo: VehicleNo, VehicleDriverName: VehicleDriverName, AreaRouteDetails: AreaRouteDetails, AreaVehicleAgencyNameAndAddress: AreaVehicleAgencyNameAndAddress };
+
+    //    submitFormData(data, gatePassData);
+    //});
+    function submitFormData(formData, gatepass) {
+
+        $.ajax({
+            type: 'POST',
+            data: { 'gatePass': gatepass, 'districtWholeSaleToRetailorModels': formData },
+            url: '@Url.Action("GatePass", "GatePass")',
+            success: function (result) {
+                if (result.success == true) {
+                    $('.alert-success').show();
+                    $('.alert-danger').hide();
+                    $("#successmsg").html(result.msg);
+                    setTimeout(function () {
+                        $(".alert-success").alert('close');
+                    }, 10000);
+
+
+                } else {
+                    $('.alert-danger').show();
+                    $('.alert-success').hide();
+                    $("#error").html(result.msg);
+                    setTimeout(function () {
+                        $(".alert-danger").alert('close');
+                    }, 10000);
+
+                }
+            }
+        });
+    }
+
+
+
+
+
+    //var $tblrows = $("#tblBMWholeSale tbody tr");
+    //$tblrows.each(function (index) {
+    //    var $tblrow = $(this);
+    //    debugger;
+    //    $tblrow.find('.DispatchBox').on('change', function () {
+
+    //        var qty = $tblrow.find("[name=DispatchBox]").val();
+    //        var price = $tblrow.find("[name=DispatchBottle]").val();
+    //        var subTotal = parseInt(qty, 10) * parseFloat(price);
+    //   });
+
+
+    //https://www.dotnetcurry.com/jquery/1189/jquery-table-calculate-sum-all-rows
+    //https://stackoverflow.com/questions/43048465/ho-to-save-table-data-using-ajax-jquery
 
 
 </script>

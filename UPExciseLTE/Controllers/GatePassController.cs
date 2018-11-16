@@ -32,19 +32,40 @@ namespace UPExciseLTE.Controllers
             //    bbtFormation.LicenseType = str[1];
             //}
             ViewBag.Brands = CommonBL.fillBrand("S");
-            
-            gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+
+            gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
 
+        //[HttpPost]
+        //public ActionResult GatePass(GatePass gatePass)
+        //{
+        //    ViewBag.Brands = CommonBL.fillBrand("S");
+        //    var passTypeInformation = gatePass.PassTypeInformation;
+        //    var str = new CommonDA().InsertUpdateGatePass(gatePass);
+        //    gatePass = new GatePass();
+        //    gatePass.PassTypeInformation = passTypeInformation;
+        //    if (!string.IsNullOrEmpty(str))
+        //    {
+        //        gatePass.Message = new Message();
+        //        gatePass.Message.MStatus = "success";
+        //        gatePass.Message.TextMessage = str;
+        //    }
+        //    List<SelectListItem> LicenceNos = new List<SelectListItem>(); gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+        //    ViewBag.LicenceNo = LicenceNos;
+        //    ViewBag.Districts = CommonBL.fillDistict("S");
+        //    return View(gatePass);
+        //}
+
+
         [HttpPost]
-        public ActionResult GatePass(GatePass gatePass)
+        public ActionResult GatePass(GatePass gatePass, List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels)
         {
             ViewBag.Brands = CommonBL.fillBrand("S");
             var passTypeInformation = gatePass.PassTypeInformation;
-            var str = new CommonDA().InsertUpdateGatePass(gatePass);
+            var str = new CommonDA().InsertUpdateGatePass(gatePass, districtWholeSaleToRetailorModels);
             gatePass = new GatePass();
             gatePass.PassTypeInformation = passTypeInformation;
             if (!string.IsNullOrEmpty(str))
@@ -53,11 +74,14 @@ namespace UPExciseLTE.Controllers
                 gatePass.Message.MStatus = "success";
                 gatePass.Message.TextMessage = str;
             }
-            List<SelectListItem> LicenceNos = new List<SelectListItem>(); gatePass.DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
-            ViewBag.LicenceNo = LicenceNos;
+            gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
+            ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
             return View(gatePass);
         }
+
+
+
 
         [HttpPost]
         public JsonResult GetFilteredDistrict(long districtId1=0, long districtId2=0)
@@ -120,7 +144,8 @@ namespace UPExciseLTE.Controllers
         #region GenerateGatePass
         public ActionResult GenerateGatePass()
         {
-            return View();
+            var gatePassList = new CommonBL().GetGatePassDetailsForGatePassList();
+            return View(gatePassList);
         }
         public ActionResult UploadGatePass()
         {
