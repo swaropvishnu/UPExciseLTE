@@ -749,9 +749,8 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string InsertUpdateGatePass(GatePass gatePass)
+        public string InsertUpdateGatePass(GatePass gatePass, List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels)
         {
-
             DataTable dt = new DataTable();
             if (districtWholeSaleToRetailorModels != null)
             {

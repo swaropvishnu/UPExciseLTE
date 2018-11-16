@@ -71,13 +71,12 @@ namespace UPExciseLTE.Controllers
             if (!string.IsNullOrEmpty(str))
             {
                 gatePass.Message = new Message();
-                gatePass.Message.MStatus = "success";
-                gatePass.Message.TextMessage = str;
+                gatePass.Message = Message.MsgSuccess(str);
             }
             gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
-            return View(gatePass);
+            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", gatePass.Message);
         }
 
 

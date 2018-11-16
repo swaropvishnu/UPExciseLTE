@@ -11,13 +11,17 @@
     @Html.ValidationSummary(true)
    
     @Html.HiddenFor(Model => Model.NetWeight)
-    @*if (Model != null && Model.Message != null)
+    @*@if (Model != null && Model.Message != null)
     {
         if (!string.IsNullOrEmpty(Model.Message.MStatus))
         {
             @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
         }
     }*@
+
+     
+    <div id="Msg"></div>
+
     <input type="hidden" value="@Model.PassTypeInformation" id="GatePassType"/>
     @if (Model.PassTypeInformation == "Brewery To Manufacturer Wholesale")
     {
@@ -903,6 +907,9 @@
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
 
+
+
+
     function Sum() {
         var grossweight = parseFloat($("#txtGrossWeight").val());
         var tareweight = parseFloat($("#txtTareWeight").val());
@@ -975,11 +982,11 @@
             return false;
         }
 
-        else if(("#MDistrictId1").val()=="-1" ||("#MDistrictId2").val()=="-1" ||("#MDistrictId3").val()=="-1" )
-        {
-            alert("Please Select Major Districts in Route")
-            return false;
-        }
+        //else if(("#MDistrictId1").val()=="-1" ||("#MDistrictId2").val()=="-1" ||("#MDistrictId3").val()=="-1" )
+        //{
+        //    alert("Please Select Major Districts in Route")
+        //    return false;
+        //}
     }
 
 
@@ -994,21 +1001,7 @@
             var $tblrow = $(this);
             debugger;
             $tblrow.find('.DispatchBox').on('change', function () {
-                debugger;
-                //var dispatchBox = $tblrow.find("[id=txtDispatchBox]").val();
-                //var availableBox = $tblrow.find("[id=lblAvailableBox]").val();
-                //var size = $tblrow.find("[id=lblSize]").val();
-                //var duty = $tblrow.find("[id=lblDuty]").val();
-                //var addDuty = $tblrow.find("[id=lblAddDuty]").val();
-                //var dispatchBottle = parseInt(dispatchBox) * parseInt(size);
-                //var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
-                //var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
-                //$('#lblDispatchBottle').val(dispatchBottle);
-                //$('#lblCalculatedDuty').val(calculatedDuty.toFixed(2));
-                //$('#lblCalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
-
                 var dispatchBox = $tblrow.find("[name='item.DispatchBox']").val();
-              
                 var availableBox = $tblrow.find("[name='item.AvailableBox']").val();
                 var size = $tblrow.find("[name='item.Size']").val();
                 var duty = $tblrow.find("[name='item.Duty']").val();
@@ -1098,18 +1091,6 @@
         var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
         //For Brewery To Manufacturer WholeSale
 
-        //For Manufacturer To District WholeSale.
-        //var Date = $("#txtDate").val();
-        //var ValidTill = $("#txtValidTill").val();
-       
-        //var FromLicenceType = $("#FromLicenceType").val();
-        //var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
-        //var ToLicenceType = $("#ToLicenceType").val();
-        //var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
-        //var VehicleNo = $("#txtVehicleNo").val();
-        //var VehicleDriverName = $("#txtVehicleDriverName").val();
-        //var AreaRouteDetails = $("#txtAreaRouteDetails").val();
-        //var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
         if (paramId == "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr")
         {
             var txtAddress = $("#txtAddress").val();
@@ -1144,54 +1125,6 @@
 
 
 
-    //$("button#btnBMWholeSale").click(function () {
-    //    debugger;
-    //    var data = [];
-    //    var SerialNo, Brand, Size, AvailableBottle, AvailableBox, DispatchBox, DispatchBottle, Duty, AddDuty, CalculatedDuty, CalculatedAdditionalDuty;
-    //    $("#tblBMWholeSale tbody tr").each(function (index) {
-
-    //        SerialNo = $(this).find("[name='item.RowNum']").val();
-    //        Brand = $(this).find("[name='item.Brand']").val();
-    //        Size = $(this).find("[name='item.Size']").val();
-    //        AvailableBottle = $(this).find("[name='item.AvailableBottle']").val();
-    //        BatchNo = $(this).find("[name='item.BatchNo']").val();
-    //        AvailableBox = $(this).find("[name='item.AvailableBox']").val();
-    //        DispatchBox = $(this).find("[name='item.DispatchBox']").val();
-    //        DispatchBottle = $(this).find("[name='item.DispatchBottle']").val();
-    //        Duty = $(this).find("[name='item.Duty']").val();
-    //        AddDuty = $(this).find("[name='item.AddDuty']").val();
-    //        CalculatedDuty = $(this).find("[name='item.CalculatedDuty']").val();
-    //        CalculatedAdditionalDuty = $(this).find("[name='item.CalculatedAdditionalDuty']").val();
-    //        //---->Form validation goes here
-    //        data.push({
-    //            SerialNo: parseInt(SerialNo),
-    //            Brand: Brand,
-    //            BatchNo: BatchNo,
-    //            Size: Size,
-    //            AvailableBottle: AvailableBottle,
-    //            AvailableBox: AvailableBox,
-    //            DispatchBox: DispatchBox,
-    //            DispatchBottle: DispatchBottle,
-    //            Duty: Duty,
-    //            AddDuty: AddDuty,
-    //            CalculatedDuty: CalculatedDuty,
-    //            CalculatedAdditionalDuty: CalculatedAdditionalDuty,
-    //        });
-    //    });
-    //    var Date = $("#txtDate").val();
-    //    var ValidTill = $("#txtValidTill").val();
-    //    var FromLicenceType = $("#FromLicenceType").val();
-    //    var LicenseeLicenseNo = $("#ddlLicenseeLicenseNo").val();
-    //    var ToLicenceType = $("#ToLicenceType").val();
-    //    var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
-    //    var VehicleNo = $("#txtVehicleNo").val();
-    //    var VehicleDriverName = $("#txtVehicleDriverName").val();
-    //    var AreaRouteDetails = $("#txtAreaRouteDetails").val();
-    //    var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
-    //    var gatePassData = { Date: Date, ValidTill: ValidTill, SelectedFromRdo: FromLicenceType, LicenseeLicenseNo: LicenseeLicenseNo, SelectedToRdo: ToLicenceType, LicenseeLicenseNo1: LicenseeLicenseNo1, VehicleNo: VehicleNo, VehicleDriverName: VehicleDriverName, AreaRouteDetails: AreaRouteDetails, AreaVehicleAgencyNameAndAddress: AreaVehicleAgencyNameAndAddress };
-
-    //    submitFormData(data, gatePassData);
-    //});
     function submitFormData(formData, gatepass) {
 
         $.ajax({
@@ -1199,24 +1132,27 @@
             data: { 'gatePass': gatepass, 'districtWholeSaleToRetailorModels': formData },
             url: '@Url.Action("GatePass", "GatePass")',
             success: function (result) {
-                if (result.success == true) {
-                    $('.alert-success').show();
-                    $('.alert-danger').hide();
-                    $("#successmsg").html(result.msg);
-                    setTimeout(function () {
-                        $(".alert-success").alert('close');
-                    }, 10000);
-
-
-                } else {
-                    $('.alert-danger').show();
-                    $('.alert-success').hide();
-                    $("#error").html(result.msg);
-                    setTimeout(function () {
-                        $(".alert-danger").alert('close');
-                    }, 10000);
-
-                }
+                $("#Msg").html(result);
+                $("#danger-alert").show();
+                $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+                    $("#danger-alert").slideUp(500);
+                });
+                $(window).scrollTop(0);
+                //if (result.success == true) {
+                //    $('.alert-success').show();
+                //    $('.alert-danger').hide();
+                //    $("#successmsg").html(result.msg);
+                //    setTimeout(function () {
+                //        $(".alert-success").alert('close');
+                //    }, 10000);
+                //} else {
+                //    $('.alert-danger').show();
+                //    $('.alert-success').hide();
+                //    $("#error").html(result.msg);
+                //    setTimeout(function () {
+                //        $(".alert-danger").alert('close');
+                //    }, 10000);
+                //}
             }
         });
     }
