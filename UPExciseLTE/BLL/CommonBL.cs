@@ -38,6 +38,13 @@ namespace UPExciseLTE.BLL
             return StateList;
         }
 
+        public static List<SelectListItem> fillShops(string SelectType)
+        {
+            List<SelectListItem> StateList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "SHOP", "", SelectType);
+            return StateList;
+        }
+        
         public static List<SelectListItem> fillLiceseeLicenseNos(string SelectType)
         {
             List<SelectListItem> LicenseeNosList = new List<SelectListItem>();
@@ -369,8 +376,8 @@ namespace UPExciseLTE.BLL
             {
                 
                 gatePass.GatePassId = int.Parse(ds1.Tables[0].Rows[0]["GatePassId"].ToString());
-                gatePass.ToDate = DateTime.Parse(ds1.Tables[0].Rows[0]["ToDate"].ToString());
-                gatePass.FromDate = DateTime.Parse(ds1.Tables[0].Rows[0]["FromDate"].ToString());
+                gatePass.ToDate =Convert.ToDateTime(ds1.Tables[0].Rows[0]["ToDate"].ToString());
+                gatePass.FromDate = Convert.ToDateTime(ds1.Tables[0].Rows[0]["FromDate"].ToString());
                 gatePass.GatePassNo = ds1.Tables[0].Rows[0]["GatePassNo"].ToString().ToString().Trim();
                 gatePass.VehicleNo = ds1.Tables[0].Rows[0]["VehicleNo"].ToString().ToString().Trim();
                 gatePass.AgencyNameAndAddress =ds1.Tables[0].Rows[0]["AgencyNameAndAddress"].ToString().Trim();

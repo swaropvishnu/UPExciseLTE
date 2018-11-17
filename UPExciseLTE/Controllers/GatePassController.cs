@@ -36,6 +36,7 @@ namespace UPExciseLTE.Controllers
             gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
+            ViewBag.Shops = CommonBL.fillShops("S");
             return View(gatePass);
         }
 
@@ -64,6 +65,8 @@ namespace UPExciseLTE.Controllers
         public ActionResult GatePass(GatePass gatePass, List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels)
         {
             ViewBag.Brands = CommonBL.fillBrand("S");
+            gatePass.FromDate = CommonBL.Setdate(gatePass.Date);
+            gatePass.ToDate= CommonBL.Setdate(gatePass.ValidTill);
             var passTypeInformation = gatePass.PassTypeInformation;
             var str = new CommonDA().InsertUpdateGatePass(gatePass, districtWholeSaleToRetailorModels);
             gatePass = new GatePass();
@@ -71,13 +74,13 @@ namespace UPExciseLTE.Controllers
             if (!string.IsNullOrEmpty(str))
             {
                 gatePass.Message = new Message();
-                gatePass.Message.MStatus = "success";
-                gatePass.Message.TextMessage = str;
+                gatePass.Message = Message.MsgSuccess(str);
             }
             gatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
             ViewBag.LicenseeLiceseeNos = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.Districts = CommonBL.fillDistict("S");
-            return View(gatePass);
+            ViewBag.Shops = CommonBL.fillShops("S");
+            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", gatePass.Message);
         }
 
 
