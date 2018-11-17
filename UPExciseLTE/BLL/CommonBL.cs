@@ -376,8 +376,8 @@ namespace UPExciseLTE.BLL
             {
                 
                 gatePass.GatePassId = int.Parse(ds1.Tables[0].Rows[0]["GatePassId"].ToString());
-                gatePass.Date = ds1.Tables[0].Rows[0]["ToDate"].ToString();
-                gatePass.ValidTill = ds1.Tables[0].Rows[0]["FromDate"].ToString();
+                gatePass.ToDate =Convert.ToDateTime(ds1.Tables[0].Rows[0]["ToDate"].ToString());
+                gatePass.FromDate = Convert.ToDateTime(ds1.Tables[0].Rows[0]["FromDate"].ToString());
                 gatePass.GatePassNo = ds1.Tables[0].Rows[0]["GatePassNo"].ToString().ToString().Trim();
                 gatePass.VehicleNo = ds1.Tables[0].Rows[0]["VehicleNo"].ToString().ToString().Trim();
                 gatePass.AgencyNameAndAddress =ds1.Tables[0].Rows[0]["AgencyNameAndAddress"].ToString().Trim();

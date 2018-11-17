@@ -9,21 +9,10 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-@*@using (Html.BeginForm("GatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{*@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
    
     @Html.HiddenFor(Model => Model.NetWeight)
-    @*@if (Model != null && Model.Message != null)
-    {
-        if (!string.IsNullOrEmpty(Model.Message.MStatus))
-        {
-            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
-        }
-    }*@
-
-     
     <div id="Msg"></div>
 
     <input type="hidden" value="@Model.PassTypeInformation" id="GatePassType"/>
@@ -584,8 +573,6 @@
                             <center>
                                 <div class="form-actions">
                                     <button type="submit" class="btn green" id="btnManufacturerWholeSaleToDistrictWholeSale" >GET LICENCE DETAILS</button>
-                                    @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                        <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">GET LICENCE DETAILS</button>*@
                                 </div>
                             </center>
                         </div>
@@ -823,9 +810,6 @@
                             <center>
                                 <div class="form-actions">
                                     <button type="submit" class="btn green" id="btnWholeSaleToRetailor" >Submit</button>
-
-                                    @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                        <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
                                 </div>
                             </center>
                         </div>
@@ -907,7 +891,7 @@
             </div>
         </div>
     }
-@*}*@
+
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
 
@@ -933,7 +917,6 @@
         var netweight = (grossweight - tareweight);
         $("#txtNetWeight").val(netweight);
     }
-
 
     $("#ddlLicenseeLicenseNo").change(function () {
         $("#txtConsignorName").val(this.value);
@@ -1088,10 +1071,6 @@
             alert("Please Fill GatePass No.");
             return;
         }
-        //else if ($("#txtLicenseeLicenseNo").val() == "") {
-        //    alert("Please Fill Licensee License No.");
-        //    return;
-            //}
         else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
             alert("Please Select Licensee No.")
             return;
@@ -1153,20 +1132,6 @@
                 $tblrow.find('.CalculatedDuty').val(calculatedDuty.toFixed(2));
                 $tblrow.find('.CalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
 
-                //var subTotal = parseInt(qty, 10) * parseFloat(price);
-
-                //if (!isNaN(subTotal)) {
-
-                //    $tblrow.find('.subtot').val(subTotal.toFixed(2));
-                //    var grandTotal = 0;
-
-                //    $(".subtot").each(function () {
-                //        var stval = parseFloat($(this).val());
-                //        grandTotal += isNaN(stval) ? 0 : stval;
-                //    });
-
-                //    $('.grdtot').val(grandTotal.toFixed(2));
-                //}
             });
         });
     });
@@ -1254,7 +1219,7 @@
                 CalculatedAdditionalDuty: CalculatedAdditionalDuty,
             });
         });
-      //  "#tblWholeSaleToRetailor tbody tr";
+      
         //For Brewery To Manufacturer WholeSale
 
         var Date = $("#txtDate").val();
