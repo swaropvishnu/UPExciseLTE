@@ -130,7 +130,7 @@ namespace UPExciseLTE.Controllers
         {
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-
+            ViewBag.BBT = CommonBL.fillBBT("S");
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
                 return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
@@ -140,6 +140,11 @@ namespace UPExciseLTE.Controllers
                 return View(new BottelingPlan());
             }
 
+        }
+        public string GetBBTDetailsForDDl(string BBTID)
+        {
+            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
+            return bbtFormation.BBTBulkLiter.ToString();
         }
         [HttpGet]
         public string GetBrandDetailsForDDl(string BrandId)

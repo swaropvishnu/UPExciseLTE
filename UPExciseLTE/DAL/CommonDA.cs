@@ -370,6 +370,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
                 cmd.Parameters.Add(new SqlParameter("BrandId", BP.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BBTId", BP.BBTId));
                 cmd.Parameters.Add(new SqlParameter("DateOfPlan", BP.DateOfPlan));
                 cmd.Parameters.Add(new SqlParameter("BatchNo", BP.BatchNo));
                 cmd.Parameters.Add(new SqlParameter("NumberOfCases", BP.NumberOfCases));
