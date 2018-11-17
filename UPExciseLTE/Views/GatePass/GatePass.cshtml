@@ -141,9 +141,6 @@
                                             @Html.TextBoxFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                                         </div>
                                     </div>
-
-
-
                                 </div>
 
 
@@ -1288,6 +1285,7 @@
             var MDistrictId3 = parseInt($("#MDistrictId3").val());
             var txtGrossWeight = parseFloat($("#txtGrossWeight").val());
             var txtTareWeight = parseFloat($("#txtTareWeight").val());
+            var shopName = ""; var shopId = "0"; gatePassNo: ""; licenseeName: ""; licenseeAddress = "";
         }
         else {
             var txtAddress = "";
@@ -1307,15 +1305,7 @@
             var licenseeName = $("#txtAreaLicenseeName").val();
             var licenseeAddress =$("#txtAreaLicenseeAddress").val();
         }
-        else {
-            var shopName = "";
-            var shopId = "0";//
-            var brandId = "";
-            var gatePassNo = "";
-            var LicenseeLicenseNo = "";
-            var licenseeName = "";
-            var licenseeAddress ="";
-        }
+
 
 
         //For Manufacturer To District WholeSale.
