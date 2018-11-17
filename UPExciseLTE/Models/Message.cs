@@ -13,28 +13,28 @@ namespace UPExciseLTE.Models
         {
             Message Msg = new Message();
             Msg.TextMessage = TextMsg;
-            Msg.MStatus = "Success";
+            Msg.MStatus = "success";
             return Msg;
         }
         public static  Message MsgDanger(string TextMsg)
         {
             Message Msg = new Message();
             Msg.TextMessage = TextMsg;
-            Msg.MStatus = "Danger";
+            Msg.MStatus = "danger";
             return Msg;
         }
         public static Message MsgInfo(string TextMsg)
         {
             Message Msg = new Message();
             Msg.TextMessage = TextMsg;
-            Msg.MStatus = "Info";
+            Msg.MStatus = "info";
             return Msg;
         }
         public static Message MsgWarning(string TextMsg)
         {
             Message Msg = new Message();
             Msg.TextMessage = TextMsg;
-            Msg.MStatus = "Warning";
+            Msg.MStatus = "warning";
             return Msg;
         }
     }

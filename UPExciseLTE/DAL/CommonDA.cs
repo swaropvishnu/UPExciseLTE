@@ -798,8 +798,8 @@ namespace UPExciseLTE.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("GatePassId", gatePass.GatePassId));
-                cmd.Parameters.Add(new SqlParameter("FromDate", gatePass.Date));
-                cmd.Parameters.Add(new SqlParameter("ToDate", gatePass.ValidTill));
+                cmd.Parameters.Add(new SqlParameter("FromDate", gatePass.FromDate));
+                cmd.Parameters.Add(new SqlParameter("ToDate", gatePass.ToDate));
                 cmd.Parameters.Add(new SqlParameter("To", gatePass.SelectedToRdo));
                 cmd.Parameters.Add(new SqlParameter("From", gatePass.SelectedFromRdo));
                 cmd.Parameters.Add(new SqlParameter("BrandId", gatePass.BrandId));

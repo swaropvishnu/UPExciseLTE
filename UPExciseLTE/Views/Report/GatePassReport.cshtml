@@ -59,7 +59,7 @@
                             <div>
                                 <label class="control-label">Date : </label>
                                 @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                @Html.DisplayFor(Model => Model.ToDate)
+                                @Html.DisplayFor(Model => Model.Date)
                             </div>
                         </div>
 
@@ -68,7 +68,7 @@
                             <div>
                                 <label class="control-label">Valid Till : </label>
                                 @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                @Html.DisplayFor(Model => Model.FromDate)
+                                @Html.DisplayFor(Model => Model.ValidTill)
                             </div>
                         </div>
 

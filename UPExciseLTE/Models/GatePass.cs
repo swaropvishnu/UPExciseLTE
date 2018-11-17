@@ -12,13 +12,13 @@ namespace UPExciseLTE.Models
         {
             DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
         }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; } = DateTime.Now;
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public string Date { get; set; } //= DateTime.Now;
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ValidTill { get; set; }= DateTime.Now.AddDays(7);
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public string ValidTill { get; set; }//= DateTime.Now.AddDays(7);
 
         public string FromRdoList { get; set; }
 
@@ -37,6 +37,7 @@ namespace UPExciseLTE.Models
         public string AgencyNameAndAddress { get; set; }
 
         public string  LicenceNo { get; set; }
+
         public string LicenceName { get; set; }
 
         public string Address { get; set; }
@@ -64,7 +65,6 @@ namespace UPExciseLTE.Models
         public string ConsignorName { get; set; }
 
         public string ConsigneeName { get; set; }
-
 
         public string LicenseeAddress { get; set; }
 
@@ -96,7 +96,6 @@ namespace UPExciseLTE.Models
 
         public string Encrypt_GatePassID { get; set; }
 
-
         public decimal TotalLitresQuantity { get; set; }
 
         public decimal TotalBottleQuantity { get; set; }
@@ -113,8 +112,6 @@ namespace UPExciseLTE.Models
         [Display(Name = "Kind Of Liquor")]
         public string KindOfLiquor { get; set; }
 
-  
-
         [Display(Name = "Bottles,Flask Quantity Contained in each")]
         public decimal Quantity { get; set; }
 
@@ -122,8 +119,6 @@ namespace UPExciseLTE.Models
         public decimal TotalLitresOfBL { get; set; }
         [Display(Name = "AL")]
         public decimal TotalLitresOfAL { get; set; }
-
-
 
         public string TotalBottle { get; set; }
 
@@ -136,11 +131,10 @@ namespace UPExciseLTE.Models
      
         public string Date { get; set; }
 
-         public string FromDate { get; set; }
+        public string FromDate { get; set; }
         public string VehicleNo { get; set; }
         public string Receiver { get; set; }
    
-
         public string PassType { get; set; }
 
         public string PassTypeInformation { get; set; }
