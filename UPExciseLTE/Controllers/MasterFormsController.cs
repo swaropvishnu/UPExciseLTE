@@ -130,7 +130,7 @@ namespace UPExciseLTE.Controllers
         {
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-
+            ViewBag.BBT = CommonBL.fillBBT("S");
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
                 return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
@@ -140,6 +140,11 @@ namespace UPExciseLTE.Controllers
                 return View(new BottelingPlan());
             }
 
+        }
+        public string GetBBTDetailsForDDl(string BBTID)
+        {
+            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
+            return bbtFormation.BBTBulkLiter.ToString();
         }
         [HttpGet]
         public string GetBrandDetailsForDDl(string BrandId)
@@ -336,47 +341,17 @@ namespace UPExciseLTE.Controllers
                 }
                 if (extension == ".csv")
                 {
-                    Request.Files["impCSVUpload"].SaveAs(path1);
-                    var csv = new List<string[]>();
-                    var lines = System.IO.File.ReadAllLines(path1);
-                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                    System.Text.StringBuilder QRCodeList = new System.Text.StringBuilder();
-                    List<string> CaseCode = new List<string>();
-                    string Barcode = "";
-                    string[] Split= new string[4];
-                    int count = 0;
-                    foreach (string line in lines)
-                    {
-                        if (count > 1)
-                        {
-                            sb.Append("INSERT INTO[");
-                            sb.Append(UserSession.PushName);
-                            sb.Append("].[dbo].tbl_UploadManufProduction VALUES(");
-                            sb.Append(line);
-                            sb.Append(",1) ");
-                            Split = line.Split(',');
-                            Barcode= Split[3];
-                            bool alreadyExist = CaseCode.Contains(Barcode);
-                            if (!alreadyExist)
-                                {
-                                    CaseCode.Add(Barcode);
-                                }
-                            if (QRCodeList.Length>0)
-                            {
-                                QRCodeList.Append(",");
-                            }
-                            QRCodeList.Append(Barcode);
-                        }
-                        count++;
-                    }
-                    string str = new CommonDA().UploadCSV(sb,"1",UserSession.LoggedInUserId.ToString(), CaseCode.Count, count - 1, QRCodeList);
+                    UploadCSV ob = new UploadCSV();
+                    string UploadedValue = "1";
+                    System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
+                    ob.GetCSVDetails(file, UploadedValue);
+                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode);
                     TempData["Message"] = str;
 
                 }
                 else
                 {
-                    ViewBag.Error = "Please Upload Files in .csv format";
-
+                    TempData["Message"] = "Please Upload Files in .csv format";
                 }
 
             }

@@ -97,6 +97,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Plan Id")]
         public int PlanId { get; set; } = -1;
         public string EncPlanId { get; set; } = "";
+        public int BBTId { get; set; }
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; } = -1;
         [Display(Name = "Plan Date")]
