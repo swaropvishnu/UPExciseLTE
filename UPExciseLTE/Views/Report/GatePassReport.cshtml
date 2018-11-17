@@ -32,7 +32,6 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    @*<centre><img src="~/Img/QRCode1.jpg" class="QRCodeImg" /></centre>*@
                                     @if (ViewBag.QRCodeImage != null)
                                     {
                                         <centre>
@@ -48,8 +47,6 @@
                         <div class="form-group col-md-4">
                             <div>
                                 <label class="control-label">No. : </label>
-
-                                @*@Html.TextBox("55-2018-19-FL3A-18223", new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
                                 @Html.DisplayFor(Model => Model.GatePassNo)
                             </div>
                         </div>
@@ -58,9 +55,6 @@
 
                             <div>
                                 <label class="control-label">Date : </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                @*@Html.DisplayFor(Model => Model.Date)*@
-                              
                                 @Model.FromDate.ToString("dd/MM/yyyy")
                             </div>
                         </div>
@@ -69,7 +63,7 @@
                         <div class="form-group col-md-4">
                             <div>
                                 <label class="control-label">Valid Till : </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                             
                                 @Model.ToDate.ToString("dd/MM/yyyy")
                             </div>
                         </div>
@@ -77,7 +71,7 @@
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">1. Name of Consignor : </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                               
                                 @Html.DisplayFor(Model => Model.ConsignorName)
                             </div>
                         </div>
@@ -85,7 +79,7 @@
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">2. Name of Consignee : </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                              
                                 @Html.DisplayFor(Model => Model.ConsigneeName)
                             </div>
                         </div>
@@ -93,14 +87,14 @@
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">3. Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via (............) Vehicle No : </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                             
                                 @Html.DisplayFor(Model => Model.VehicleNo)
                             </div>
                         </div>
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">4. Number / date of Permit, if any :        </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                              
                                 NA
                             </div>
                         </div>
@@ -108,7 +102,7 @@
                         <div class="form-group col-md-6">
                             <div>
                                 <label class="control-label">5. Duty Paid / In Bond </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                               
                                 Duty Paid
                             </div>
                         </div>
@@ -117,7 +111,7 @@
                         <div class="form-group col-md-6">
                             <div>
                                 <label class="control-label">6. Export Duty : Rs. </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                               
                                 N.A
                             </div>
                         </div>
@@ -126,7 +120,7 @@
                         <div class="form-group col-md-6">
                             <div>
                                 <label class="control-label">7. Consideration Fee Rs. </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                              
                                 @Html.DisplayFor(Model => Model.ConsiderationFees)
                             </div>
                         </div>
@@ -134,7 +128,7 @@
                         <div class="form-group col-md-6">
                             <div>
                                 <label class="control-label">Addl. Consi. Fee Rs. </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                               
                                 1807.68
                             </div>
                         </div>
@@ -142,7 +136,7 @@
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">8. Vehicle Agency Details </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                               
                                 @Html.DisplayFor(Model => Model.AgencyNameAndAddress)
                             </div>
                         </div>
@@ -150,14 +144,14 @@
                         <div class="form-group col-md-12">
                             <div>
                                 <label class="control-label">It should be returned within 90 days after verification by competent authority. </label>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                              
 
                             </div>
                         </div>
                         <div class="form-group col-md-12">
                             <div>
                                 <h4><strong>FOR DETAILS BELOW :</strong></h4>
-                                @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
+                                
 
                             </div>
                         </div>
@@ -330,18 +324,14 @@
         var divElements = document.getElementById(divID).innerHTML;
         //Get the HTML of whole page
         var oldPage = document.body.innerHTML;
-
         //Reset the page's HTML with div's HTML only
         document.body.innerHTML =
           "<html><head><title></title></head><body>" +
           divElements + "</body>";
-
         //Print Page
         window.print();
-
         //Restore orignal HTML
         document.body.innerHTML = oldPage;
-
 
     }
 </script>

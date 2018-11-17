@@ -261,8 +261,6 @@
     <Compile Include="Models\BBTFormation.cs" />
     <Compile Include="Models\GatePass.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
-    <Compile Include="Models\GatePass1.cs" />
-    <Compile Include="Models\GatePassBrandMapping.cs" />
     <Compile Include="Models\LoginModal.cs" />
     <Compile Include="Models\MasterForms.cs" />
     <Compile Include="Models\Message.cs" />

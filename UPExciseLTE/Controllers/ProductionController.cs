@@ -34,8 +34,6 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult BBTFormation(BBTFormation bbtFormation)
         {
-            //Get BBTFormation List
-            //
             ViewBag.Brands = CommonBL.fillBrand("S");
             bbtFormation.Status ="A";
             var str = new CommonDA().InsertUpdateBBT(bbtFormation);
