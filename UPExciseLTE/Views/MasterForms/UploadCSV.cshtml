@@ -16,12 +16,17 @@
         {
             if (!string.IsNullOrEmpty(Model.FirstOrDefault().Msg.MStatus))
             {
-                <script type="text/javascript"> var msg = '@Model.FirstOrDefault().Msg.TextMessage'; alert(msg);</script>
-            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.FirstOrDefault().Msg)
+
+                @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.FirstOrDefault().Msg)
             }
         }
     }
-    
+    <script type="text/javascript">
+        $("#danger-alert").show();
+        $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+            $("#danger-alert").slideUp(500);
+        });
+    </script>
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
