@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Web.Mvc;
 using UPExciseLTE.DAL;
 using UPExciseLTE.Models;
 //using UPExciseLTE.App_Code;
-using ClosedXML;
 using ClosedXML.Excel;
 using System.IO;
 using UPExciseLTE.BLL;
-using Newtonsoft.Json;
 using UPExciseLTE.Filters;
 using System.Data.Entity.Infrastructure;
 
@@ -54,11 +51,13 @@ namespace UPExciseLTE.Controllers
             ViewBag.Msg = TempData["Message"];
             return View(Brand);
         }
-        [HttpPost]
-        public ActionResult BrandMaster(BrandMaster B)
+        public ActionResult BrandMaster(BrandMaster B) 
         {
+
             if (B.Remark == null)
             {
+                //TempData["Message"] = "Please Submit Remark";
+                //return RedirectToAction("BrandMaster",new {BrandMaster=B });
                 B.Remark = "";
             }
             string str = new CommonDA().InsertUpdateBrand(B);

@@ -59,7 +59,6 @@ namespace UPExciseLTE.DAL
             }
             finally
             {
-
                 con.Close();
                 con.Dispose();
             }
@@ -67,7 +66,13 @@ namespace UPExciseLTE.DAL
         public string filter_bad_chars_rep(string s)
         {
             string[] sL_Char = {
-            "onfocus",          "\"\"",         "=",            "onmouseover",          "prompt",           "%27",          "alert#",
+            "onfocus",                              
+            "\"\"", 
+            "=",
+            "onmouseover",
+            "prompt",
+            "%27",
+            "alert#",
             "alert",
             "'or",
             "`or",
@@ -79,7 +84,7 @@ namespace UPExciseLTE.DAL
             "`",
             "9,9,9",
             "src",
-            "onload",
+            "onload",   
             "select",
             "drop",
             "insert",
@@ -116,18 +121,17 @@ namespace UPExciseLTE.DAL
             "&",
             "*"
         };
-
-            int sL_Char_Length = sL_Char.Length - 1;
-            while (sL_Char_Length >= 0)
+        int sL_Char_Length = sL_Char.Length - 1;
+        while (sL_Char_Length >= 0)
+        {
+            if (s.Contains(sL_Char[sL_Char_Length]))
             {
-                if (s.Contains(sL_Char[sL_Char_Length]))
-                {
-                    s.Replace(sL_Char[sL_Char_Length], "");
-                    break; // TODO: might not be correct. Was : Exit While
-                }
-                sL_Char_Length -= 1;
+                s.Replace(sL_Char[sL_Char_Length], "");
+                break; // TODO: might not be correct. Was : Exit While
             }
-            return s;
+            sL_Char_Length -= 1;
+        }
+        return s;
         }
         public static string GetMACAddress()
         {

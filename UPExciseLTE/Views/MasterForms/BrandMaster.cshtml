@@ -51,12 +51,86 @@
         var LiquorType = $('#ddlState').val();
         if (LiquorType == "27") {
             document.getElementById("txtQuantityInBottleML").style.display = "none";
-            $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
+            if (document.getElementById("txtQuantityInBottleML").value!="") {
+                $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
+            }
             document.getElementById("ddlQuantityInBottleML").style.display = "";
         }
         else {
             document.getElementById("txtQuantityInBottleML").style.display = "";
             document.getElementById("ddlQuantityInBottleML").style.display = "none";
+        }
+    }
+    function Validation() {
+        
+        var ddlState = $('#ddlState').val();
+        if (ddlState == -1) {
+            alert("Please Select State First");
+            $('#ddlState').focus();
+            return false;
+        }
+        if (document.getElementById("txtBrandName").value == "") {
+            alert("Please Enter Brand Name");
+            document.getElementById("txtBrandName").focus();
+            return;
+        }
+        if (document.getElementById("txtBrandRegistrationNumber").value == "") {
+            alert("Please Enter Brand Registration Number");
+            document.getElementById("txtBrandRegistrationNumber").focus();
+            return;
+        }
+        if (document.getElementById("txtStrength").value == "") {
+            alert("Please Enter Strength");
+            document.getElementById("txtStrength").focus();
+            return;
+        } else {
+            try {
+                parseFloat(document.getElementById("txtStrength").value);
+                if (parseFloat(document.getElementById("txtStrength").value) < 0) {
+                    alert("Please Enter Valid Strength");
+                    document.getElementById("txtStrength").focus();
+                    return;}
+            }
+            catch {
+                alert("Please Enter Valid Strength");
+                document.getElementById("txtStrength").focus();
+                return;
+            }
+        }
+        if (document.getElementById("txtLicenseNo").value == "") {
+            alert("Please Enter License No");
+            document.getElementById("txtLicenseNo").focus();
+            return;
+        }
+        if (document.getElementById("txtQuantityInCase").value == "" && document.getElementById("txtQuantityInCase").value == "0") {
+            alert("Please Enter Quantity in Case");
+            document.getElementById("txtQuantityInCase").focus();
+            return;
+        } else {
+            try {
+                parseInt(document.getElementById("txtQuantityInCase").value);
+            }
+            catch{alert("Please Enter valid Quantity");
+                document.getElementById("txtQuantityInCase").focus();
+                return;
+            }
+        }
+        if (document.getElementById("txtQuantityInBottleML").value == "0" && document.getElementById("txtQuantityInBottleML").value == "") {
+            alert("Please Enter Quantity In Bottle ML")
+            document.getElementById("txtQuantityInBottleML").focus();
+            return;
+        }
+        if (document.getElementById("txtXFactoryPrice").value == "0" && document.getElementById("txtXFactoryPrice").value == "") {
+            alert("Please Enter X Factory Price")
+            document.getElementById("txtXFactoryPrice").focus();
+            return;
+        } else {
+            try {
+                parseFloat("Please Enter X Factory Price");
+            } catch{alert("Please Enter valid X Factory Price");
+                document.getElementById("txtXFactoryPrice").focus();
+                return;
+            }
         }
     }
 </script>
@@ -152,7 +226,7 @@
                                     <div>
                                         @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
 
-                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650" }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650",Selected=true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
                                     </div>
                                 </div>
                                
@@ -202,10 +276,9 @@
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
-                                <button type="submit" class="btn green">Submit</button>
+                                <button type="submit" class="btn green" onclick="Validation();">Submit</button>
                                 <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go To Edit/Delete Brand</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-
                             </div>
                         </center>
                     </div>
