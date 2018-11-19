@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace UPExciseLTE.Models
 {
@@ -178,7 +179,128 @@ namespace UPExciseLTE.Models
     }
 
 
+    public class BrewerytToManufacturerGatePass
+    {
+        public BrewerytToManufacturerGatePass()
+        {
+            DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+        }
 
+        public string ToRdoList { get; set; }
+
+        public string SelectedToRdo { get; set; }
+
+        public string LicenceNo { get; set; }
+
+        public string LicenceName { get; set; }
+
+        public string Address { get; set; }
+
+        public string MajorDistrictsInRoute { get; set; }
+
+        public decimal GrossWeight { get; set; }
+
+        public decimal TareWeight { get; set; }
+
+        public decimal NetWeight { get; set; }
+
+        public string ShopName { get; set; }
+
+        public int ShopId { get; set; }
+
+        public string GatePassNo { get; set; }
+
+        public string LicenseeName { get; set; }
+
+        public string LicenseeAddress { get; set; }
+
+      
+
+        public IEnumerable<DistrictWholeSaleToRetailorModel> DistrictWholeSaleToRetailorList { get; set; }
+
+        public string PassTypeInformation { get; set; }
+        public Message Message { get; set; }
+
+        public decimal MDistrictId1 { get; set; }
+        public decimal MDistrictId2 { get; set; }
+        public decimal MDistrictId3 { get; set; }
+
+        public long GatePassId { get; set; }
+        public DateTime FromDate { get; set; } = DateTime.Now;
+        public DateTime ToDate { get; set; } = DateTime.Now.AddDays(7);
+        public string To { get; set; } = "";
+        public string From { get; set; } = "";
+       
+
+        public int TotalBox { get; set; }
+
+        public int TotalBottles { get; set; }
+
+        public decimal TotalLitres { get; set; }
+
+        public decimal ConsiderationFees { get; set; }
+
+        public string Encrypt_GatePassID { get; set; }
+
+        public decimal TotalLitresQuantity { get; set; }
+
+        public decimal TotalBottleQuantity { get; set; }
+
+
+        [Display(Name = "Date")]
+        public string Date { get; set; } //= DateTime.Now;
+
+        [Display(Name = "Valid Till")]
+        public string ValidTill { get; set; }//= DateTime.Now.AddDays(7);
+
+        [Display(Name = "From")]
+        public string FromLicenseType { get; set; }
+
+        [Display(Name = "To")]
+        public string ToLicenseType { get; set; }
+
+        [Display(Name = "Brand ")]
+        public IEnumerable<SelectListItem> Brands { get; set; }
+
+        public long? BrandId { get; set; }
+
+        [Display(Name = "District ")]
+        public IEnumerable<SelectListItem> Districts { get; set; }
+        [Display(Name = "Consinor Licensee Nos ")]
+
+        public IEnumerable<SelectListItem> ConsinorLicenseeNos { get; set; }
+
+        [Display(Name = "Consinee Licensee Nos ")]
+        public IEnumerable<SelectListItem> ConsineeLicenseeNos { get; set; }
+
+        [Display(Name = "Consignor Name")]
+        public string ConsignorName { get; set; }
+
+        [Display(Name = "Consignee Name ")]
+        public string ConsigneeName { get; set; }
+        [Display(Name = "Consinor LicenseNo")]
+
+        public string ConsinorLicenseNo { get; set; }
+        [Display(Name = "Consinee LicenseNo")]
+        public string ConsineeLicenseNo { get; set; }
+
+        [Display(Name = "Vehicle No")]
+        public string VehicleNo { get; set; }
+
+        [Display(Name = "Vehicle Driver Name")]
+        public string VehicleDriverName { get; set; }
+
+        [Display(Name = "Agency Name And Address")]
+        public string AgencyNameAndAddress { get; set; }
+
+        [Display(Name = "Route Details")]
+        public string RouteDetails { get; set; }
+
+        public int SP_Type { get; set; } = 1;
+
+
+
+    }
     public class InformationByLoggedInUserLevel
     {
         public string Receiver { get; set; }

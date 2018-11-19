@@ -8,6 +8,7 @@ using UPExciseLTE.Models;
 using System.Data;
 using UPExciseLTE.DAL;
 using UPExciseLTE.BLL;
+using System.IO;
 
 namespace UPExciseLTE.Controllers
 {
@@ -84,15 +85,70 @@ namespace UPExciseLTE.Controllers
         #endregion
 
 
-        //#region BreweryToManufacturerWholesale
-        //public ActionResult BreweryToManufacturerWholesale()
-        //{
-        //    List<SelectListItem> LicenceNos = new List<SelectListItem>();
-        //    ViewBag.LicenceNo = LicenceNos;
-        //    ViewBag.Brands = CommonBL.fillBrand("S");
-        //    return View();
-        //}
-        //#endregion
+        #region BreweryToManufacturerWholesale
+
+        [HttpGet]
+        public ActionResult BreweryToManufacturerWholesale()
+        {
+            BrewerytToManufacturerGatePass breweryToManufacturerGatePass = new BrewerytToManufacturerGatePass();
+            breweryToManufacturerGatePass= new CommonBL().GetBreweryToManufacturerPassDetailsDetails();
+            breweryToManufacturerGatePass = GetBrewerytToManufacturerGatePass(breweryToManufacturerGatePass);
+            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
+            return View(breweryToManufacturerGatePass);
+        }
+
+        [HttpPost]
+        public ActionResult BreweryToManufacturerWholesale(BrewerytToManufacturerGatePass breweryToManufacturerGatePass)
+        {
+            //var str = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);
+            //gatePass = new GatePass();
+            //gatePass.PassTypeInformation = passTypeInformation;
+            //if (!string.IsNullOrEmpty(str))
+            //{
+            //    gatePass.Message = new Message();
+            //    gatePass.Message = Message.MsgSuccess(str);
+            //}
+            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
+            return View(breweryToManufacturerGatePass);
+        }
+
+
+        private BrewerytToManufacturerGatePass GetBrewerytToManufacturerGatePass(BrewerytToManufacturerGatePass breweryToManufacturerGatePass)
+        {
+            breweryToManufacturerGatePass.ConsinorLicenseeNos = CommonBL.fillLiceseeLicenseNos("S");
+            breweryToManufacturerGatePass.ConsineeLicenseeNos = CommonBL.fillLiceseeLicenseNos("S");
+            breweryToManufacturerGatePass.Districts = CommonBL.fillDistict("S");
+            breweryToManufacturerGatePass.Brands = CommonBL.fillBrand("S");
+            return breweryToManufacturerGatePass;
+        }
+
+
+        [HttpPost]
+        public ActionResult UploadCSVFile(long brandId = 0,long gatePassId=0)
+        {
+            if (Request.Files["impCSVUpload"].ContentLength > 0)
+            {
+                string extension = System.IO.Path.GetExtension(Request.Files["impCSVUpload"].FileName).ToLower();
+                if (extension == ".csv")
+                {
+                    UploadCSV ob = new UploadCSV();
+                    string UploadedValue = "2";
+                    System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
+                    ob.GetCSVDetails(file, UploadedValue);
+                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode);
+                    TempData["Message"] = str;
+                }
+                else
+                {
+                    TempData["Message"] = "Please Upload Files in .csv format";
+                }
+
+            }
+
+            return RedirectToAction("UploadCSV");
+        }
+
+        #endregion
 
 
         //#region ManufacturerWholesaleToDistrictWholesale

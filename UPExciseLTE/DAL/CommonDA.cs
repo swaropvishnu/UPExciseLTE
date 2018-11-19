@@ -546,7 +546,7 @@ namespace UPExciseLTE.DAL
                 cmd.CommandTimeout = 3000;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("Query", str.ToString()));
-                cmd.Parameters.Add(new SqlParameter("QRCodeList", QRCodeList.ToString()));
+                cmd.Parameters.Add(new SqlParameter("CaseCodeList", QRCodeList.ToString()));
                 cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
                 cmd.Parameters.Add(new SqlParameter("UploadedBy", UploadBy));
                 cmd.Parameters.Add(new SqlParameter("TotalCase", TotalCase));
@@ -858,7 +858,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ds = null;
             }
