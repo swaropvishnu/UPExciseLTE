@@ -332,12 +332,6 @@ namespace UPExciseLTE.Controllers
             if (Request.Files["impCSVUpload"].ContentLength > 0)
             {
                 string extension = System.IO.Path.GetExtension(Request.Files["impCSVUpload"].FileName).ToLower();
-
-                string path1 = string.Format("{0}/{1}", Server.MapPath("~/Content/Uploads"), Request.Files["impCSVUpload"].FileName);
-                if (!Directory.Exists(path1))
-                {
-                    Directory.CreateDirectory(Server.MapPath("~/Content/Uploads"));
-                }
                 if (extension == ".csv")
                 {
                     UploadCSV ob = new UploadCSV();

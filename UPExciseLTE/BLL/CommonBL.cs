@@ -414,7 +414,58 @@ namespace UPExciseLTE.BLL
             return model;
         }
 
+        public BrewerytToManufacturerGatePass GetBreweryToManufacturerPassDetailsDetails()
+        {
+            var reportModels = new BrewerytToManufacturerGatePass();
+            DataSet ds = new CommonDA().GetGatePassDetails(6);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                //foreach (DataRow dr in ds.Tables[0].Rows)..
+                //{
+                //    reportModels.Add(GetBreweryToManufacturerModel(dr));
+                //}.
 
+                reportModels.Date = ds.Tables[0].Rows[0]["Date"].ToString();
+                reportModels.ValidTill = ds.Tables[0].Rows[0]["ValidTill"].ToString().Trim();
+                reportModels.FromLicenseType = ds.Tables[0].Rows[0]["FromLicenseType"].ToString();
+                reportModels.ToLicenseType = ds.Tables[0].Rows[0]["ToLicenseType"].ToString().Trim();
+                if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["BrandId"].ToString()))
+                    reportModels.BrandId = null;
+                else
+                    reportModels.BrandId= Convert.ToInt64(ds.Tables[0].Rows[0]["BrandId"].ToString());
+
+                reportModels.ConsineeLicenseNo = ds.Tables[0].Rows[0]["ConsineeLicenseNo"].ToString().Trim();
+                reportModels.ConsinorLicenseNo = ds.Tables[0].Rows[0]["ConsinorLicenseNo"].ToString().Trim();
+                reportModels.VehicleNo = ds.Tables[0].Rows[0]["VehicleNo"].ToString().Trim();
+                reportModels.VehicleDriverName = ds.Tables[0].Rows[0]["VehicleDriverName"].ToString().Trim();
+                reportModels.AgencyNameAndAddress = ds.Tables[0].Rows[0]["AgencyNameAndAddress"].ToString().Trim();
+                reportModels.RouteDetails = ds.Tables[0].Rows[0]["RouteDetails"].ToString().Trim();
+                reportModels.ConsignorName = ds.Tables[0].Rows[0]["ConsignorName"].ToString().Trim();
+                reportModels.ConsigneeName = ds.Tables[0].Rows[0]["ConsigneeName"].ToString().Trim();
+
+                
+            }
+            return reportModels;
+        }
+
+        //private BrewerytToManufacturerGatePass GetBreweryToManufacturerModel(DataRow dr)
+        //{
+        //    var model = new BrewerytToManufacturerGatePass();
+        //    model.Date = dr["Date"].ToString();
+        //    model.ValidTill = dr["ValidTill"].ToString().Trim();
+        //    model.FromLicenseType = dr["FromLicenseType"].ToString();
+        //    model.ToLicenseType = dr["ToLicenseType"].ToString().Trim();
+        //    model.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+        //    model.ConsineeLicenseNo =dr["ConsineeLicenseNo"].ToString().Trim();
+        //    model.ConsinorLicenseNo =dr["ConsinorLicenseNo"].ToString().Trim();
+        //    model.VehicleNo = dr["VehicleNo"].ToString().Trim();
+        //    model.VehicleDriverName = dr["VehicleDriverName"].ToString().Trim();
+        //    model.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
+        //    model.RouteDetails = dr["RouteDetails"].ToString().Trim();
+        //    model.ConsignorName = dr["ConsignorName"].ToString().Trim();
+        //    model.ConsignorName = dr["ConsignorName"].ToString().Trim();
+        //    return model;
+        //}
 
         #endregion
 

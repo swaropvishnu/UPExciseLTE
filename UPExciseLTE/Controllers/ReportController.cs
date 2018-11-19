@@ -8,9 +8,9 @@ using UPExciseLTE.App_Code;
 using UPExciseLTE.Models;
 using UPExciseLTE.BLL;
 using System.IO;
-using QRCoder;
 using System.Drawing;
 using System.Drawing.Imaging;
+using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
@@ -37,17 +37,19 @@ namespace UPExciseLTE.Controllers
 
         public ActionResult GatePassReport()
         {
-            string qrcode = "";
-            using (MemoryStream ms = new MemoryStream())
-            {
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(qrcode, QRCodeGenerator.ECCLevel.Q);
-                using (Bitmap bitMap = qrCode.GetGraphic(20))
-                {
-                    bitMap.Save(ms, ImageFormat.Png);
-                    ViewBag.QRCodeImage = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                }
-            }
+            //string qrcode = "";
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            //    QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(qrcode, QRCodeGenerator.ECCLevel.Q);
+            //    using (Bitmap bitMap = qrCode.GetGraphic(20))
+            //    {
+            //        bitMap.Save(ms, ImageFormat.Png);
+            //        ViewBag.QRCodeImage = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+            //    }
+            //}
+            string qrcode = "EXCISE";
+            ViewBag.QRCodeImage = GenerateQRCode(qrcode);
 
             var loggedInUserInformation = GetInformationByLoggedInUserLeve();
             ViewBag.Reciever = loggedInUserInformation.Receiver;
@@ -60,6 +62,50 @@ namespace UPExciseLTE.Controllers
             }
             return View(gatePass);
         }
+
+        private string GenerateQRCode(string qrcodeText)
+        {
+            string folderPath = "~/Img/";
+            string imagePath = "~/Img/QrCode.jpg";
+            // If the directory doesn't exist then create it.
+            if (!Directory.Exists(Server.MapPath(folderPath)))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var barcodeWriter = new BarcodeWriter();
+            barcodeWriter.Format = BarcodeFormat.QR_CODE;
+            var result = barcodeWriter.Write(qrcodeText);
+
+            string barcodePath = Server.MapPath(imagePath);
+            var barcodeBitmap = new Bitmap(result);
+            using (MemoryStream memory = new MemoryStream())
+            {
+                using (FileStream fs = new FileStream(barcodePath, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    barcodeBitmap.Save(memory, ImageFormat.Jpeg);
+                    byte[] bytes = memory.ToArray();
+                    fs.Write(bytes, 0, bytes.Length);
+                }
+            }
+            return imagePath;
+        }
+
+        //private QRCodeModel ReadQRCode()
+        //{
+        //    QRCodeModel barcodeModel = new QRCodeModel();
+        //    string barcodeText = "";
+        //    string imagePath = "~/Images/QrCode.jpg";
+        //    string barcodePath = Server.MapPath(imagePath);
+        //    var barcodeReader = new BarcodeReader();
+
+        //    var result = barcodeReader.Decode(new Bitmap(barcodePath));
+        //    if (result != null)
+        //    {
+        //        barcodeText = result.Text;
+        //    }
+        //    return new QRCodeModel() { QRCodeText = barcodeText, QRCodeImagePath = imagePath };
+        //}
 
 
         public ActionResult BarCodeProducution()
