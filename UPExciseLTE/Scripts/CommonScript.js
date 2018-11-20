@@ -51,6 +51,28 @@ function ValidateExtension(eve) {
     //alert("File Uploaded Successfully.");
     return true;
 }
+
+
+function ValidateExtension1(eve) {
+    //var allowedFiles = [".csv", ".xls", ".xlsx"];
+    var allowedFiles = [".csv"];
+    var fileUpload = document.getElementById($(eve).prev().attr('id'));
+    var lblError = document.getElementById("lblError");
+    var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+" + allowedFiles.join('|') + "$");
+    if (!regex.test(fileUpload.value.toLowerCase())) {
+        lblError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+        $("#danger-alert").show();
+        $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
+            $("#danger-alert").slideUp(500);
+        });
+        return false;
+    }
+    lblError.innerHTML = "";
+    //alert("File Uploaded Successfully.");
+    return true;
+}
+
+
 var specialKeys = new Array();
 specialKeys.push(47); // for Forward Slash(/)
 specialKeys.push(8); //Backspace

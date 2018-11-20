@@ -5,320 +5,373 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+
+    .note p, .page-loading, .panel .panel-body{
+    background-color:#f5f5f5;
+    }
+
+
+
+</style>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@using (Html.BeginForm("BreweryToManufacturerWholesale", "GatePass", FormMethod.Post, new { @id = "UploadGatePassform", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-@Html.AntiForgeryToken()
-@Html.ValidationSummary(true)
+    @Html.HiddenFor(Model => Model.To)
+    @Html.HiddenFor(Model => Model.From)
+    @Html.HiddenFor(Model => Model.ShopName)
 <input type="hidden" value="@Model.GatePassId" id="GatePassID" />
 <input type="hidden" value="@Model.BrandId" id="BrandId" />
 <div id="Msg"></div>
 
 <input type="hidden" value="@Model.PassTypeInformation" id="GatePassType" />
 
-    <div class="page-content-inner">
-        <div class="row ">
-            <div class="col-md-12">
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-gift"></i>@Model.PassTypeInformation
-                        </div>
+<div class="page-content-inner">
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>@Model.PassTypeInformation
                     </div>
-                    <div class="portlet-body form" style="background-color:#f5f5f5">
-                        <div class="form-body">
+                </div>
+                <div class="portlet-body form" style="background-color:#f5f5f5">
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Without Bond</label>
-                                    <div>
-                                        FL36
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Date</label>
-                                    <div>
-                                        @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "dd/MM/yyyy", @required = "required" } })
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Valid Till</label>
-                                    <div>
-                                        @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "dd/MM/yyyy", @required = "required" } })
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">First Step</div>
+                        <div class="panel-body">
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">From</label>
-                                    <div>
-                                        <select class="form-control" id="FromLicenceType" name="FromLicenceType">
-                                            <option value="-1">--Select--</option>
-                                            <option value="FL3">FL3</option>
-                                            <option value="FL3A">FL3A</option>
-                                        </select>
-                                        <input type="hidden" value="@Model.FromLicenseType" id="FromLicenceTypeId" />
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Licencee No</label>
-                                    <div>
-                                        @Html.DropDownListFor(m => m.ConsinorLicenseNo, (IEnumerable<SelectListItem>)Model.ConsinorLicenseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Consignor Name</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.ConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @disabled = "disbled" })
+                            <div class="form-body">
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">To</label>
-                                    <div>
-                                        <select class="form-control" id="ToLicenceType" name="FromLicenceType">
-                                            <option value="-1">--Select--</option>
-                                            <option value="FL1">FL1</option>
-                                            <option value="FL1A">FL1A</option>
-                                            <option value="FL2A">FL2A</option>
-                                            <option value="EXPORT">EXPORT</option>
-                                            <option value="EXPORT OUT SIDE INDIA">EXPORT OUT SIDE INDIA</option>
-                                        </select>
-                                        <input type="hidden" value="@Model.ToLicenseType" id="ToLicenceTypeId" />
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Licencee No</label>
-                                    <div>
-                                        @Html.DropDownListFor(m => m.ConsineeLicenseNo, (IEnumerable<SelectListItem>)Model.ConsineeLicenseeNos, new { @id = "ddlLicenseeLicenseNo1", @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Consignee Name</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.ConsigneeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled" })
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row">
-
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Vehicle No</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
-
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Vehicle Driver Name</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Route Details</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-
-                                <div class="form-group   col-md-8">
-                                    <label class="control-label">Vehicle Agency Name And Address</label>
-                                    <div>
-                                        @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
-                                    </div>
-                                </div>
-                            </div>
-                            @*<div class="row">
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Gross Weight</label>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Without Bond</label>
                                         <div>
-                                            @Html.TextBoxFor(m => m.GrossWeight, new { @id = "txtGrossWeight", @class = "form-control ", @placeholder = "Gross Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
+                                            FL36
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Date</label>
+                                        <div>
+                                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "dd/MM/yyyy", @required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Valid Till</label>
+                                        <div>
+                                            @Html.EditorFor(m => m.ValidTill, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "dd/MM/yyyy", @required = "required" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">From</label>
+                                        <div>
+                                            <select class="form-control" id="FromLicenceType" name="FromLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL3">FL3</option>
+                                                <option value="FL3A">FL3A</option>
+                                            </select>
+                                            <input type="hidden" value="@Model.FromLicenseType" id="FromLicenceTypeId" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.ConsinorLicenseNo, (IEnumerable<SelectListItem>)Model.ConsinorLicenseeNos, new { @id = "ddlLicenseeLicenseNo", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignor Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @disabled = "disbled" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">To</label>
+                                        <div>
+                                            <select class="form-control" id="ToLicenceType" name="FromLicenceType">
+                                                <option value="-1">--Select--</option>
+                                                <option value="FL1">FL1</option>
+                                                <option value="FL1A">FL1A</option>
+                                                <option value="FL2A">FL2A</option>
+                                                <option value="EXPORT">EXPORT</option>
+                                                <option value="EXPORT OUT SIDE INDIA">EXPORT OUT SIDE INDIA</option>
+                                            </select>
+                                            <input type="hidden" value="@Model.ToLicenseType" id="ToLicenceTypeId" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Licencee No</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.ConsineeLicenseNo, (IEnumerable<SelectListItem>)Model.ConsineeLicenseeNos, new { @id = "ddlLicenseeLicenseNo1", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Consignee Name</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.ConsigneeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Vehicle No</label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
 
                                         </div>
                                     </div>
                                     <div class="form-group   col-md-4">
-                                        <label class="control-label">Tare Weight</label>
+                                        <label class="control-label">Vehicle Driver Name</label>
                                         <div>
-                                            @Html.TextBoxFor(m => m.TareWeight, new { @id = "txtTareWeight", @class = "form-control ", @placeholder = "Tare Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
+                                            @Html.TextBoxFor(m => m.VehicleDriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
 
                                         </div>
                                     </div>
+
                                     <div class="form-group   col-md-4">
-                                        <label class="control-label">Net Weight</label>
+                                        <label class="control-label">Route Details</label>
                                         <div>
-                                            @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required", @disabled = "disbled" })
-
+                                            @Html.TextBoxFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required" })
                                         </div>
                                     </div>
-                                </div>*@
-                        </div>
-                        <div class="form-body">
-
-                            <div class="form-group  col-md-4">
-                                <label class="control-label">@Html.DisplayNameFor(model => model.Brands)</label>
-                                <div>
-                                    @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)Model.Brands, new { @id = "ddlBrandId", @class = "form-control", @name = "ddlBrandId" })
                                 </div>
-                            </div>
 
-                            <div class="form-group col-md-4">
-                                <label class="control-label">&nbsp;</label>
-                                <div >
-                                    <input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" /> 
+                                <div class="row">
+
+                                    <div class="form-group   col-md-8">
+                                        <label class="control-label">Vehicle Agency Name And Address</label>
+                                        <div>
+                                            @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required" })
+                                        </div>
+                                    </div>
                                 </div>
                               
                             </div>
-                            <div class="form-group  col-md-4">
-                                <label class="control-label">&nbsp;</label>
-                                <div>
-                                  <button type="submit" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension(this)">Save Gate Pass</button>
+                            @*<div style="clear:both"></div>*@
+                            <center>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn green" id="btnBMWholeSale">Submit</button>
+                                    @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
                                 </div>
-                            </div>
+                            </center>
+
+
 
                         </div>
-
-                        <div class="portlet-body">
-                            <div class="table-scrollable">
-                                <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th >
-                                                S.No
-                                            </th>
-                                            <th>
-                                                Brand
-                                            </th>
-                                            <th>
-                                                Size
-                                            </th>
-                                            <th>
-                                                Available Bottle
-                                            </th>
-                                            <th>
-                                                Available Box
-                                            </th>
-                                            <th>
-                                                Dispatch Box
-                                            </th>
-                                            <th>
-                                                Dispatch Bottle
-                                            </th>
-                                            <th>
-                                                Batch No
-                                            </th>
-                                            <th>
-                                                Duty
-                                            </th>
-                                            <th>
-                                                Add Duty
-                                            </th>
-                                            <th>
-                                                Calculated Duty
-                                            </th>
-                                            <th>
-                                                Calculated Additional Duty
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
-                                        {
-                                            foreach (var item in Model.DistrictWholeSaleToRetailorList)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style = "width:50px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-
-                                                        @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
-
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;", @onkeyPress = "return IsNumeric(event);" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
-                                                    </td>
-                                                    <td>
-                                                        @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;", @disabled = "disabled" })
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div style="clear:both"></div>
-                        <center>
-                            <div class="form-actions">
-                                <button type="submit" class="btn green" id="btnBMWholeSale">Submit</button>
-                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
-                            </div>
-                        </center>
-
                     </div>
+
+                       
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Second Step</div>
+                        <div class="panel-body">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="form-group  col-md-4">
+                                        <label class="control-label">@Html.DisplayNameFor(model => model.Brands)</label>
+                                        <div>
+                                            @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)Model.Brands, new { @id = "ddlBrandId", @class = "form-control", @name = "ddlBrandId" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">&nbsp;</label>
+                                        <div>
+                                            <input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                              
+                                @*<div class="form-group  col-md-4">
+                                    <label class="control-label">&nbsp;</label>
+                                    <div>
+                                        <button type="button" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension1(this)">Save Gate Pass</button>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <center>
+                                <div class="form-actions">
+                                    <button type="button" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension1(this)">Upload CSV</button>
+                                    @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                                </div>
+                            </center>
+                        </div>
+                   
+                    </div>
+                       
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Third Step</div>
+                        <div class="panel-body">
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    S.No
+                                                </th>
+                                                <th>
+                                                    Brand
+                                                </th>
+                                                <th>
+                                                    Size
+                                                </th>
+                                                <th>
+                                                    Available Bottle
+                                                </th>
+                                                <th>
+                                                    Available Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Box
+                                                </th>
+                                                <th>
+                                                    Dispatch Bottle
+                                                </th>
+                                                <th>
+                                                    Batch No
+                                                </th>
+                                                <th>
+                                                    Duty
+                                                </th>
+                                                <th>
+                                                    Add Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Duty
+                                                </th>
+                                                <th>
+                                                    Calculated Additional Duty
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
+                                            {
+                                                foreach (var item in Model.DistrictWholeSaleToRetailorList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style = "width:50px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+
+                                                            @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;", @onkeyPress = "return IsNumeric(event);" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;", @disabled = "disabled" })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <center>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn green" id="btnBMWholeComplete">Finalize Gate Pass</button>
+                                        @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                                    </div>
+                                </center>
+                            </div>
+
+
+
+                        </div>
+                      
+                    </div>     
+
                 </div>
             </div>
         </div>
     </div>
+</div>
+}
+
 
 
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
 
+    $(document).ready(function () {
+        //$("#ToLicenceType").val($("#To").val());
+        //$("#FromLicenceType").val($("#From").val());
+
+    });
 
     $("#ToLicenceType").val($("#ToLicenceTypeId").val());
     $("#FromLicenceType").val($("#FromLicenceTypeId").val());
 
+    $("#ToLicenceType").change(function () {
+        $("#To").val($("#ToLicenceType").val());
+    });
+    $("#FromLicenceType").change(function () {
+        $("#From").val($("#FromLicenceType").val());
+    });
+
+    $("#ddlLicenseeLicenseNo").change(function () {
+        e = document.getElementById("ddlLicenseeLicenseNo"); var licenseNo = e.options[e.selectedIndex].text;
+        $("#ShopName").val(licenseNo);
+    });
+
+
     $("#btnBMCSVUpload").click(function () {
         debugger;
-        if ($("#ddlBrandId").val()=="-1")
-        {
+        if ($("#ddlBrandId").val() == "-1") {
             alert("Please Select Brand");
+            return;
         }
-        var gatePassID = $("#GatePassID").val();
+        else
+            var brandId =parseInt($("#ddlBrandId").val(),0);
+        var gatePassID =parseInt( $("#GatePassID").val(),0);
         var fileUpload = document.getElementById("impCSVUpload");
-        var brandId = 1;
-        if (fileUpload.value != null && gatePassID > 0 && brandId>0) {
+       
+        if (fileUpload.value != null && gatePassID > 0 && brandId > 0) {
             var uploadFile = new FormData();
             var files = $("#impCSVUpload").get(0).files;
             // Add the uploaded file content to the form data collection
@@ -337,6 +390,10 @@
                     }
                 });
             }
+        }
+        else
+        {
+            alert("Please Generate Gate Pass First.");
         }
     });
 
@@ -360,12 +417,12 @@
 
 
     });
-    function Sum() {
-        var grossweight = parseFloat($("#txtGrossWeight").val());
-        var tareweight = parseFloat($("#txtTareWeight").val());
-        var netweight = (grossweight - tareweight);
-        $("#txtNetWeight").val(netweight);
-    }
+    //function Sum() {
+    //    var grossweight = parseFloat($("#txtGrossWeight").val());
+    //    var tareweight = parseFloat($("#txtTareWeight").val());
+    //    var netweight = (grossweight - tareweight);
+    //    $("#txtNetWeight").val(netweight);
+    //}
 
     $("#ddlLicenseeLicenseNo").change(function () {
         $("#txtConsignorName").val(this.value);
@@ -377,207 +434,206 @@
         $("#txtConsignorName").val(this.value);
     });
 
-    $("#MDistrictId1").change(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetFilteredDistrict", "GatePass")',
-                dataType: 'json',
-                data: { districtId1: $("#MDistrictId1").val()},
-                success: function (subcategories) {
-                    $("#MDistrictId2").empty();
-                    $.each(subcategories, function (i, subcategory) {
+    @*$("#MDistrictId1").change(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetFilteredDistrict", "GatePass")',
+            dataType: 'json',
+            data: { districtId1: $("#MDistrictId1").val() },
+            success: function (subcategories) {
+                $("#MDistrictId2").empty();
+                $.each(subcategories, function (i, subcategory) {
 
-                        $("#MDistrictId2").append('<option value="'
-                            + subcategory.Value + '">' +
-                            subcategory.Text + '</option>');
-                    });
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve Sub Categories : ' + ex);
-                }
-            });
-            return false;
-        })
+                    $("#MDistrictId2").append('<option value="'
+                        + subcategory.Value + '">' +
+                        subcategory.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve Sub Categories : ' + ex);
+            }
+        });
+        return false;
+    })*@
 
-     $("#MDistrictId2").change(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetFilteredDistrict", "GatePass")',
-                dataType: 'json',
-                data: { districtId1: $("#MDistrictId1").val(), districtId2: $("#MDistrictId2").val() },
-                success: function (subcategories) {
-                    $("#MDistrictId3").empty();
-                    $.each(subcategories, function (i, subcategory) {
-                        $("#MDistrictId3").append('<option value="'
-                            + subcategory.Value + '">' +
-                            subcategory.Text + '</option>');
-                    });
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve Sub Categories : ' + ex);
-                }
-            });
-            return false;
-     })
-
-
-
-    $("button#btnManufacturerWholeSaleToDistrictWholeSale").click(function () {
-        var tblManufacturerWholeSaleToDistrictWholeSale = "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr";
-        var pattern = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-        if ($("#txtDate").val() == null || $("#txtDate").val() == "" || !pattern.test($("#txtDate").val())) {
-            alert("Date Format is not Correct");
-            return;
-        }
-        else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
-            alert("Date Format is not Correct");
-            return;
-        }
-        if ($("#ddlBrandId").val() == "-1") {
-            alert("Please Select Brand.")
-            return;
-        }
-
-        if ($("#FromLicenceType").val() == "-1") {
-            alert("Please Select From Licence Type")
-            return;
-        }
-        else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
-            alert("Please Select Licensee No.")
-            return;
-        } else if ($("#ToLicenceType").val() == "-1") {
-            alert("Please Select To Licence Type.")
-            return;
-        }
-        else if ($("#ddlLicenseeLicenseNo1").val() == "-1") {
-            alert("Please Select Licensee No.")
-            return;
-        }
-        else if ($("#txtVehicleDriverName").val() == "") {
-            alert("Please Fill Driver Name No.")
-            return;
-        }
-        else if ($("#txtVehicleNo").val() == "") {
-            alert("Please Fill Vehicle No.")
-            return;
-        } else if ($("#txtAddress").val() == "") {
-            alert("Please Fill Address.")
-            return;
-        }
-
-        else if ($("#txtAreaRouteDetails").val() == "") {
-            alert("Please Fill Route Details.")
-            return;
-        }
-        else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
-            alert("Please Fill Agency Name and Address.")
-            return;
-        }
-        else if ($("#MDistrictId1").val() == "-1" || $("#MDistrictId2").val() == "-1" || $("#MDistrictId3").val() == "-1") {
-            alert("Please Select Major Districts in Route")
-            return;
-        }
-        else if ($("#txtGrossWeight").val() == "0") {
-
-            alert("Please Enter Gross Weight.")
-            return;
-        }
-        else if ($("#txtTareWeight").val() == "0") {
-
-            alert("Please Enter Tare Weight.")
-            return;
-        }
-
-        GetGatePass(tblManufacturerWholeSaleToDistrictWholeSale)
-    });
+    @*$("#MDistrictId2").change(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetFilteredDistrict", "GatePass")',
+            dataType: 'json',
+            data: { districtId1: $("#MDistrictId1").val(), districtId2: $("#MDistrictId2").val() },
+            success: function (subcategories) {
+                $("#MDistrictId3").empty();
+                $.each(subcategories, function (i, subcategory) {
+                    $("#MDistrictId3").append('<option value="'
+                        + subcategory.Value + '">' +
+                        subcategory.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve Sub Categories : ' + ex);
+            }
+        });
+        return false;
+    })*@
 
 
-    $("button#btnWholeSaleToRetailor").click(function () {
-        var tblWholeSaleToRetailor = "#tblWholeSaleToRetailor tbody tr";
-        var pattern = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-        if ($("#txtDate").val() == null || $("#txtDate").val() == "" || !pattern.test($("#txtDate").val())) {
-            alert("Date Format is not Correct");
-            return;
-        }
-        else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
-            alert("Date Format is not Correct");
-            return;
-        }
-        if ($("#ddlBrand").val() == "-1") {
-            alert("Please Select Brand.")
-            return;
-        }
-        else if ($("#ddlShopName").val() == "-1")
-        {
-            alert("Please Select Shop Name.");
-            return;
-        }
-        else if ($("#txtToShopId").val() == "") {
-            alert("Please Fill Shop ID.");
-            return;
-        }
-        else if ($("#txtGatePassNo").val() == "") {
-            alert("Please Fill GatePass No.");
-            return;
-        }
-        else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
-            alert("Please Select Licensee No.")
-            return;
-        }
-        else if ($("#txtVehicleNo").val() == "") {
-            alert("Please Fill Vehicle No.")
-            return;
-        }
-        else if ($("#txtVehicleDriverName").val() == "") {
-            alert("Please Fill Driver Name No.")
-            return;
-        }
-        else if ($("#txtAreaLicenseeName").val() == "") {
-            alert("Please Fill Licencee Name.");
-            return;
-        }
-        else if ($("#txtAreaLicenseeAddress").val() == "") {
-            alert("Please Fill Licencee Address.");
-            return;
-        }
-        else if ($("#txtAreaRouteDetails").val() == "") {
-            alert("Please Fill Route Details.")
-            return;
-        }
-        else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
-            alert("Please Fill Agency Name and Address.")
-            return;
-        }
 
-        GetGatePass(tblWholeSaleToRetailor)
-    });
+    //$("button#btnManufacturerWholeSaleToDistrictWholeSale").click(function () {
+    //    var tblManufacturerWholeSaleToDistrictWholeSale = "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr";
+    //    var pattern = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+    //    if ($("#txtDate").val() == null || $("#txtDate").val() == "" || !pattern.test($("#txtDate").val())) {
+    //        alert("Date Format is not Correct");
+    //        return;
+    //    }
+    //    else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
+    //        alert("Date Format is not Correct");
+    //        return;
+    //    }
+    //    if ($("#ddlBrandId").val() == "-1") {
+    //        alert("Please Select Brand.")
+    //        return;
+    //    }
+
+    //    if ($("#FromLicenceType").val() == "-1") {
+    //        alert("Please Select From Licence Type")
+    //        return;
+    //    }
+    //    else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
+    //        alert("Please Select Licensee No.")
+    //        return;
+    //    } else if ($("#ToLicenceType").val() == "-1") {
+    //        alert("Please Select To Licence Type.")
+    //        return;
+    //    }
+    //    else if ($("#ddlLicenseeLicenseNo1").val() == "-1") {
+    //        alert("Please Select Licensee No.")
+    //        return;
+    //    }
+    //    else if ($("#txtVehicleDriverName").val() == "") {
+    //        alert("Please Fill Driver Name No.")
+    //        return;
+    //    }
+    //    else if ($("#txtVehicleNo").val() == "") {
+    //        alert("Please Fill Vehicle No.")
+    //        return;
+    //    } else if ($("#txtAddress").val() == "") {
+    //        alert("Please Fill Address.")
+    //        return;
+    //    }
+
+    //    else if ($("#txtAreaRouteDetails").val() == "") {
+    //        alert("Please Fill Route Details.")
+    //        return;
+    //    }
+    //    else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
+    //        alert("Please Fill Agency Name and Address.")
+    //        return;
+    //    }
+    //    else if ($("#MDistrictId1").val() == "-1" || $("#MDistrictId2").val() == "-1" || $("#MDistrictId3").val() == "-1") {
+    //        alert("Please Select Major Districts in Route")
+    //        return;
+    //    }
+    //    else if ($("#txtGrossWeight").val() == "0") {
+
+    //        alert("Please Enter Gross Weight.")
+    //        return;
+    //    }
+    //    else if ($("#txtTareWeight").val() == "0") {
+
+    //        alert("Please Enter Tare Weight.")
+    //        return;
+    //    }
+
+    //    GetGatePass(tblManufacturerWholeSaleToDistrictWholeSale)
+    //});
+
+
+    //$("button#btnWholeSaleToRetailor").click(function () {
+    //    var tblWholeSaleToRetailor = "#tblWholeSaleToRetailor tbody tr";
+    //    var pattern = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+    //    if ($("#txtDate").val() == null || $("#txtDate").val() == "" || !pattern.test($("#txtDate").val())) {
+    //        alert("Date Format is not Correct");
+    //        return;
+    //    }
+    //    else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
+    //        alert("Date Format is not Correct");
+    //        return;
+    //    }
+    //    if ($("#ddlBrand").val() == "-1") {
+    //        alert("Please Select Brand.")
+    //        return;
+    //    }
+    //    else if ($("#ddlShopName").val() == "-1") {
+    //        alert("Please Select Shop Name.");
+    //        return;
+    //    }
+    //    else if ($("#txtToShopId").val() == "") {
+    //        alert("Please Fill Shop ID.");
+    //        return;
+    //    }
+    //    else if ($("#txtGatePassNo").val() == "") {
+    //        alert("Please Fill GatePass No.");
+    //        return;
+    //    }
+    //    else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
+    //        alert("Please Select Licensee No.")
+    //        return;
+    //    }
+    //    else if ($("#txtVehicleNo").val() == "") {
+    //        alert("Please Fill Vehicle No.")
+    //        return;
+    //    }
+    //    else if ($("#txtVehicleDriverName").val() == "") {
+    //        alert("Please Fill Driver Name No.")
+    //        return;
+    //    }
+    //    else if ($("#txtAreaLicenseeName").val() == "") {
+    //        alert("Please Fill Licencee Name.");
+    //        return;
+    //    }
+    //    else if ($("#txtAreaLicenseeAddress").val() == "") {
+    //        alert("Please Fill Licencee Address.");
+    //        return;
+    //    }
+    //    else if ($("#txtAreaRouteDetails").val() == "") {
+    //        alert("Please Fill Route Details.")
+    //        return;
+    //    }
+    //    else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
+    //        alert("Please Fill Agency Name and Address.")
+    //        return;
+    //    }
+
+    //    GetGatePass(tblWholeSaleToRetailor)
+    //});
 
 
 
     $(function () {
         var $tblrows = "";
-        $('.DispatchBottle,.AvailableBox,.DispatchBottle,.CalculatedDuty,.CalculatedAdditionalDuty').prop('readonly', true);
-        var GatePassType = $("#GatePassType").val();
-        if (GatePassType == "Brewery To Manufacturer Wholesale")
+        $('.DispatchBottle,.DispatchBox,.AvailableBox,.DispatchBottle,.CalculatedDuty,.CalculatedAdditionalDuty').prop('readonly', true);
+        //var GatePassType = $("#GatePassType").val();
+        //if (GatePassType == "Brewery To Manufacturer Wholesale")
             $tblrows = $("#tblBMWholeSale tbody tr");
-        else if (GatePassType == "Manufacturer Wholesale to Disctrict Wholesale")
-            $tblrows = $("#tblManufacturerWholeSaleToDistrictWholeSale tbody tr");
-        else if (GatePassType == "District Wholesale to Retailor")
-            $tblrows = $("#tblWholeSaleToRetailor tbody tr");
+        //else if (GatePassType == "Manufacturer Wholesale to Disctrict Wholesale")
+        //    $tblrows = $("#tblManufacturerWholeSaleToDistrictWholeSale tbody tr");
+        //else if (GatePassType == "District Wholesale to Retailor")
+        //    $tblrows = $("#tblWholeSaleToRetailor tbody tr");
 
         $tblrows.each(function (index) {
             var $tblrow = $(this);
             debugger;
-            $tblrow.find('.DispatchBox').on('change', function () {
+            $tblrow.find('.BatchNo').on('change', function () {
                 var dispatchBox = $tblrow.find("[name='item.DispatchBox']").val();
                 var availableBox = $tblrow.find("[name='item.AvailableBox']").val();
                 var size = $tblrow.find("[name='item.Size']").val();
                 var duty = $tblrow.find("[name='item.Duty']").val();
                 var addDuty = $tblrow.find("[name='item.AddDuty']").val();
-                var dispatchBottle = parseInt(dispatchBox,10) * parseInt(size,10);
+                var dispatchBottle = parseInt(dispatchBox, 10) * parseInt(size, 10);
                 var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
                 var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
-                $tblrow.find('.DispatchBottle').val(dispatchBottle);
+                //$tblrow.find('.DispatchBottle').val(dispatchBottle);
                 $tblrow.find('.CalculatedDuty').val(calculatedDuty.toFixed(2));
                 $tblrow.find('.CalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
 
@@ -586,56 +642,54 @@
     });
 
 
-    $("button#btnBMWholeSale").click(function () {
+    $("button#btnBMWholeComplete").click(function () {
         var tblBMWholeSale = "#tblBMWholeSale tbody tr";
-        var pattern =/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-        if($("#txtDate").val()==null || $("#txtDate").val()==""||!pattern.test($("#txtDate").val()))
-        {
-            alert("Date Format is not Correct");
-            return;
-        }
-        else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
-            alert("Date Format is not Correct");
-            return;
-        }
+        //var pattern = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+        //if ($("#txtDate").val() == null || $("#txtDate").val() == "" || !pattern.test($("#txtDate").val())) {
+        //    alert("Date Format is not Correct");
+        //    return;
+        //}
+        //else if ($("#txtValidTill").val() == null || $("#txtValidTill").val() == "" || !pattern.test($("#txtValidTill").val())) {
+        //    alert("Date Format is not Correct");
+        //    return;
+        //}
 
-        if ($("#FromLicenceType").val() == "-1") {
-            alert("Please Select From Licence Type")
-            return false;
-        }
-        else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
-            alert("Please Select Licensee No.")
-            return false;
-        } else if ($("#ToLicenceType").val() == "-1") {
-            alert("Please Select To Licence Type.")
-            return false;
-        }
-        else if ($("#ddlLicenseeLicenseNo1").val() == "-1") {
-            alert("Please Select Licensee No.")
-            return false;
-        }
-        else if ($("#txtVehicleNo").val() == "") {
-            alert("Please Fill Vehicle No.")
-            return false;
-        }
-        else if ($("#txtVehicleDriverName").val() == "") {
-            alert("Please Fill Driver Name No.")
-            return false;
-        }
-        else if ($("#txtAreaRouteDetails").val() == "") {
-            alert("Please Fill Route Details.")
-            return false;
-        }
-        else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
-            alert("Please Fill Agency Name and Address.")
-            return false;
-        }
+        //if ($("#FromLicenceType").val() == "-1") {
+        //    alert("Please Select From Licence Type")
+        //    return false;
+        //}
+        //else if ($("#ddlLicenseeLicenseNo").val() == "-1") {
+        //    alert("Please Select Licensee No.")
+        //    return false;
+        //} else if ($("#ToLicenceType").val() == "-1") {
+        //    alert("Please Select To Licence Type.")
+        //    return false;
+        //}
+        //else if ($("#ddlLicenseeLicenseNo1").val() == "-1") {
+        //    alert("Please Select Licensee No.")
+        //    return false;
+        //}
+        //else if ($("#txtVehicleNo").val() == "") {
+        //    alert("Please Fill Vehicle No.")
+        //    return false;
+        //}
+        //else if ($("#txtVehicleDriverName").val() == "") {
+        //    alert("Please Fill Driver Name No.")
+        //    return false;
+        //}
+        //else if ($("#txtAreaRouteDetails").val() == "") {
+        //    alert("Please Fill Route Details.")
+        //    return false;
+        //}
+        //else if ($("#txtAreaVehicleAgencyNameAndAddress").val() == "") {
+        //    alert("Please Fill Agency Name and Address.")
+        //    return false;
+        //}
 
         GetGatePass(tblBMWholeSale)
     });
 
-    function GetGatePass(paramId)
-    {
+    function GetGatePass(paramId) {
         debugger;
         var data = [];
         var SerialNo, Brand, Size, AvailableBottle, AvailableBox, DispatchBox, DispatchBottle, Duty, AddDuty, CalculatedDuty, CalculatedAdditionalDuty;
@@ -671,73 +725,20 @@
 
         //For Brewery To Manufacturer WholeSale
 
-        var Date = $("#txtDate").val();
-        var ValidTill = $("#txtValidTill").val();
+        var gatePassID = parseInt($("#GatePassID").val(), 0);
 
-        //if (paramId != "#tblWholeSaleToRetailor tbody tr")
-        //{
-            var FromLicenceType = $("#FromLicenceType").val();
-            var e = document.getElementById("ddlLicenseeLicenseNo"); var strUser = e.options[e.selectedIndex].text;
-            var LicenseeLicenseNo = strUser;
-            var ToLicenceType = $("#ToLicenceType").val();
-            var LicenseeLicenseNo1 = $("#ddlLicenseeLicenseNo1").val();
-        //}
+       
 
-
-        var VehicleNo = $("#txtVehicleNo").val();
-        var VehicleDriverName = $("#txtVehicleDriverName").val();
-        var AreaRouteDetails = $("#txtAreaRouteDetails").val();
-        var AreaVehicleAgencyNameAndAddress = $("#txtAreaVehicleAgencyNameAndAddress").val();
-        //For Brewery To Manufacturer WholeSale
-
-        if (paramId == "#tblManufacturerWholeSaleToDistrictWholeSale tbody tr")
-        {
-            var txtAddress = $("#txtAddress").val();
-            var brandId = $("#ddlBrandId").val();//
-            var MDistrictId1 = parseInt($("#MDistrictId1").val());
-            var MDistrictId2 = parseInt($("#MDistrictId2").val());
-            var MDistrictId3 = parseInt($("#MDistrictId3").val());
-            var txtGrossWeight = parseFloat($("#txtGrossWeight").val());
-            var txtTareWeight = parseFloat($("#txtTareWeight").val());
-            var shopName = ""; var shopId = "0"; gatePassNo: ""; licenseeName: ""; licenseeAddress = "";
-        }
-        else {
-            var txtAddress = "";
-            var brandId ="0"//
-            var MDistrictId1 = "0";
-            var MDistrictId2 = "0";
-            var MDistrictId3 = "0";
-            var txtGrossWeight = "0.00";
-            var txtTareWeight = "0.00";
-        }
-
-        if (paramId == "#tblWholeSaleToRetailor tbody tr") {
-            //var shopName = $("#ddlShopName").val();
-            var shopId = $("#ddlShopName").val();//
-            var brandId = $("#ddlBrand").val();//
-            var gatePassNo = $("#txtGatePassNo").val();
-            var licenseeName = $("#txtAreaLicenseeName").val();
-            var licenseeAddress =$("#txtAreaLicenseeAddress").val();
-        }
-
-        //For Manufacturer To District WholeSale.
-
-        var gatePassData = {
-            Date: Date, ValidTill: ValidTill, SelectedFromRdo: FromLicenceType, LicenseeLicenseNo: LicenseeLicenseNo, SelectedToRdo: ToLicenceType, LicenseeLicenseNo1: LicenseeLicenseNo1, VehicleNo: VehicleNo, VehicleDriverName: VehicleDriverName, RouteDetails: AreaRouteDetails, AgencyNameAndAddress: AreaVehicleAgencyNameAndAddress, VehicleDriverName: VehicleDriverName,
-            BrandId: brandId, MDistrictId1: MDistrictId1, MDistrictId2: MDistrictId2, MDistrictId3: MDistrictId3, GrossWeight: txtGrossWeight, TareWeight: txtTareWeight, Address: txtAddress
-           , ShopName: shopName, ShopId: shopId, GatePassNo: gatePassNo,  LicenseeName: licenseeName, LicenseeAddress: licenseeAddress
-        };
-
-           submitFormData(data, gatePassData);
+        submitFormData(data, gatePassID);
     }
 
 
-    function submitFormData(formData, gatepass) {
+    function submitFormData(formData, gatePassID) {
 
         $.ajax({
             type: 'POST',
-            data: { 'gatePass': gatepass, 'districtWholeSaleToRetailorModels': formData },
-            url: '@Url.Action("GatePass", "GatePass")',
+            data: {'districtWholeSaleToRetailorModels': formData, 'gatePassID': gatePassID },
+            url: '@Url.Action("FinalizeBMWholesaleGatePass", "GatePass")',
             success: function (result) {
                 $("#Msg").html(result);
                 $("#danger-alert").show();
