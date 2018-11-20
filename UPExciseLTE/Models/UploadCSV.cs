@@ -12,27 +12,34 @@ namespace UPExciseLTE.Models
         public int CaseCount = 0,QRCount=0;
         public void GetCSVDetails(HttpPostedFileBase file, string UploadedValue)
         {
-             string path1 = string.Format("{0}/{1}", System.Web.HttpContext.Current.Server.MapPath("~/Content/Uploads"), file.FileName);
-                if (!Directory.Exists(path1))
-                {
-                    Directory.CreateDirectory(System.Web.HttpContext.Current.Server.MapPath("~/Content/Uploads"));
-                }
+            StreamReader csvreader = new StreamReader(file.InputStream);
+
+            //string path1 = string.Format("{0}/{1}", System.Web.HttpContext.Current.Server.MapPath("~/Content/Uploads"), file.FileName);
+            //    if (!Directory.Exists(path1))
+            //    {
+            //        Directory.CreateDirectory(System.Web.HttpContext.Current.Server.MapPath("~/Content/Uploads"));
+            //    }
             if (file.ContentLength > 0)
             {
                 string extension = System.IO.Path.GetExtension(file.FileName).ToLower();
                 if (extension == ".csv")
                 {
-                    file.SaveAs(path1);
-                    var csv = new List<string[]>();
-                    var lines = System.IO.File.ReadAllLines(path1);
+                    /*while (!csvreader.EndOfStream)
+                    {
+                        var line = csvreader.ReadLine();
+                        var values = line.Split(';');
+                    }*/
+                   
                     StringBuilder sb = new StringBuilder();
                     StringBuilder BarcodeList = new StringBuilder();
                     List<string> CaseCodelst = new List<string>();
                     string Barcode = "";
                     string[] Split = new string[4];
                     int count = 0;
-                    foreach (string line in lines)
+                    string line = "";
+                    while (!csvreader.EndOfStream)
                     {
+                        line = csvreader.ReadLine();
                         if (count >= 1)
                         {
                             sb.Append("INSERT INTO[");
