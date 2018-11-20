@@ -317,6 +317,24 @@ namespace UPExciseLTE.BLL
             return reportModels;
         }
 
+
+
+        public List<DistrictWholeSaleToRetailorModel> GetBMGatePassDetails(long gatePassId,long brandId)
+        {
+            var reportModels = new List<DistrictWholeSaleToRetailorModel>();
+            DataSet ds = new CommonDA().GetGatePassDetails(2,gatePassId,brandId);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    reportModels.Add(GetGatePassDetailModel(dr));
+                }
+            }
+            return reportModels;
+        }
+
+
+
         private DistrictWholeSaleToRetailorModel GetGatePassDetailModel(DataRow dr)
         {
             DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
@@ -325,6 +343,8 @@ namespace UPExciseLTE.BLL
             model.Size = int.Parse(dr["Size"].ToString().Trim());
             model.AvailableBottle = int.Parse(dr["AvailableBottle"].ToString().Trim());
             model.AvailableBox = int.Parse(dr["AvailableBox"].ToString().Trim());
+            model.DispatchBox = int.Parse(dr["DispatchBox"].ToString().Trim());
+            model.DispatchBottle = int.Parse(dr["DispatchBottle"].ToString().Trim());
             model.Duty = decimal.Parse(dr["Duty"].ToString().Trim());
             model.AddDuty = decimal.Parse(dr["AddDuty"].ToString().Trim());
             return model;
@@ -442,8 +462,10 @@ namespace UPExciseLTE.BLL
                 reportModels.RouteDetails = ds.Tables[0].Rows[0]["RouteDetails"].ToString().Trim();
                 reportModels.ConsignorName = ds.Tables[0].Rows[0]["ConsignorName"].ToString().Trim();
                 reportModels.ConsigneeName = ds.Tables[0].Rows[0]["ConsigneeName"].ToString().Trim();
+                reportModels.GatePassId = Convert.ToInt64(ds.Tables[0].Rows[0]["GatePassId"].ToString().Trim());
+                reportModels.SP_Type = 6;
 
-                
+
             }
             return reportModels;
         }

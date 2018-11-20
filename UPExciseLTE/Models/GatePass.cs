@@ -184,6 +184,7 @@ namespace UPExciseLTE.Models
         public BrewerytToManufacturerGatePass()
         {
             DistrictWholeSaleToRetailorList = new List<DistrictWholeSaleToRetailorModel>();
+            Message = new Message();
         }
 
         public string ToRdoList { get; set; }
@@ -245,6 +246,8 @@ namespace UPExciseLTE.Models
         public decimal TotalLitresQuantity { get; set; }
 
         public decimal TotalBottleQuantity { get; set; }
+
+
 
 
         [Display(Name = "Date")]

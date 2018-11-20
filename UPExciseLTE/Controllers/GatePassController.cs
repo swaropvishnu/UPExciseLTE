@@ -79,9 +79,6 @@ namespace UPExciseLTE.Controllers
             return View(message);
         }
 
-
-
-
         #endregion
 
 
@@ -91,26 +88,50 @@ namespace UPExciseLTE.Controllers
         public ActionResult BreweryToManufacturerWholesale()
         {
             BrewerytToManufacturerGatePass breweryToManufacturerGatePass = new BrewerytToManufacturerGatePass();
-            breweryToManufacturerGatePass= new CommonBL().GetBreweryToManufacturerPassDetailsDetails();
+            var ReportController = new ReportController();
+            var informationByLoggedInUserLevel = new InformationByLoggedInUserLevel();
+            informationByLoggedInUserLevel = ReportController.GetInformationByLoggedInUserLeve();
+            breweryToManufacturerGatePass.PassTypeInformation = informationByLoggedInUserLevel.PassTypeInformation;
+            breweryToManufacturerGatePass = new CommonBL().GetBreweryToManufacturerPassDetailsDetails();
             breweryToManufacturerGatePass = GetBrewerytToManufacturerGatePass(breweryToManufacturerGatePass);
-            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
+            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetBMGatePassDetails(breweryToManufacturerGatePass.GatePassId, Convert.ToInt64(breweryToManufacturerGatePass.BrandId));
             return View(breweryToManufacturerGatePass);
         }
 
         [HttpPost]
         public ActionResult BreweryToManufacturerWholesale(BrewerytToManufacturerGatePass breweryToManufacturerGatePass)
         {
-            //var str = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);
-            //gatePass = new GatePass();
-            //gatePass.PassTypeInformation = passTypeInformation;
-            //if (!string.IsNullOrEmpty(str))
-            //{
-            //    gatePass.Message = new Message();
-            //    gatePass.Message = Message.MsgSuccess(str);
-            //}
-            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetGatePassDetails();
+            breweryToManufacturerGatePass.FromDate = CommonBL.Setdate(breweryToManufacturerGatePass.Date);
+            breweryToManufacturerGatePass.ToDate = CommonBL.Setdate(breweryToManufacturerGatePass.ValidTill);
+            var str = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);
+            if (!string.IsNullOrEmpty(str))
+            {
+                breweryToManufacturerGatePass.Message = Message.MsgSuccess(str);
+            }
+            breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetBMGatePassDetails(breweryToManufacturerGatePass.GatePassId, Convert.ToInt64(breweryToManufacturerGatePass.BrandId));
+            breweryToManufacturerGatePass = GetBrewerytToManufacturerGatePass(breweryToManufacturerGatePass);
             return View(breweryToManufacturerGatePass);
         }
+
+
+
+        [HttpPost]
+        public ActionResult FinalizeBMWholesaleGatePass(List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels,long gatePassID)
+        {
+            var gatePass = new BrewerytToManufacturerGatePass();
+            gatePass.GatePassId = gatePassID;
+            gatePass.SP_Type = 3;
+            var str = new CommonDA().InsertUpdateGatePass(gatePass, districtWholeSaleToRetailorModels);
+            if (!string.IsNullOrEmpty(str))
+            {
+                gatePass.Message = new Message();
+                gatePass.Message = Message.MsgSuccess(str);
+            }
+            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", gatePass.Message);
+        }
+
+
+
 
 
         private BrewerytToManufacturerGatePass GetBrewerytToManufacturerGatePass(BrewerytToManufacturerGatePass breweryToManufacturerGatePass)
@@ -135,8 +156,17 @@ namespace UPExciseLTE.Controllers
                     string UploadedValue = "2";
                     System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
                     ob.GetCSVDetails(file, UploadedValue);
-                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode);
+                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode,gatePassId);
                     TempData["Message"] = str;
+                    var breweryToManufacturerGatePass = new BrewerytToManufacturerGatePass();
+                    breweryToManufacturerGatePass.SP_Type = 2;
+                    breweryToManufacturerGatePass.BrandId = brandId;
+                    breweryToManufacturerGatePass.GatePassId = gatePassId;
+                    var msg = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        breweryToManufacturerGatePass.Message = Message.MsgSuccess(msg);
+                    }
                 }
                 else
                 {
@@ -175,11 +205,6 @@ namespace UPExciseLTE.Controllers
         //    return View(breweryToManufacturerWholesaleModel);
         //}
         //#endregion
-
-
-
-
-
 
     }
 }
