@@ -440,13 +440,8 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetGatePassDetails(6);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                //foreach (DataRow dr in ds.Tables[0].Rows)..
-                //{
-                //    reportModels.Add(GetBreweryToManufacturerModel(dr));
-                //}.
-
-                reportModels.Date = ds.Tables[0].Rows[0]["Date"].ToString();
-                reportModels.ValidTill = ds.Tables[0].Rows[0]["ValidTill"].ToString().Trim();
+                reportModels.Date = ds.Tables[0].Rows[0]["Date"].ToString().Substring(0,11);
+                reportModels.ValidTill = ds.Tables[0].Rows[0]["ValidTill"].ToString().Trim().Substring(0, 11);
                 reportModels.FromLicenseType = ds.Tables[0].Rows[0]["FromLicenseType"].ToString();
                 reportModels.ToLicenseType = ds.Tables[0].Rows[0]["ToLicenseType"].ToString().Trim();
                 if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["BrandId"].ToString()))
