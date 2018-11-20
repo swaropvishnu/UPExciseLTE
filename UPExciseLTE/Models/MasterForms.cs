@@ -80,7 +80,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Box-Size (Number of Bottles)")]
         public int QuantityInCase { get; set; } = 0;
         [Display(Name = "Quantity (In Bottle, In ml.)")]
-        public int QuantityInBottleML { get; set; } = 0;
+        public int QuantityInBottleML { get; set; } = 650;
         [Display(Name = "Packaging Type")]
         public string PackagingType { get; set; } = "";
         [Display(Name = "Excise Duty")]

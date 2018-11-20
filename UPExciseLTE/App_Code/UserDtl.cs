@@ -1271,8 +1271,19 @@ namespace UPExciseLTE
         public static int filter_bad_chars(string s)
         {
             string[] sL_Char = {
-			"onfocus",			"\"\"",			"=",			"onmouseover",			"prompt",			"%27",			"alert#",			"alert",			"'or",
-			"`or",			"`or`",			"'or'",			"'='",
+			"onfocus",
+            "\"\"",
+            "=",
+            "onmouseover",
+            "prompt",
+            "%27",
+            "alert#",
+            "alert",
+            "'or",
+			"`or",
+            "`or`",
+            "'or'",
+            "'='",
 			"`=`",
 			"'",
 			"`",
