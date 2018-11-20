@@ -338,7 +338,7 @@ namespace UPExciseLTE.BLL
         private DistrictWholeSaleToRetailorModel GetGatePassDetailModel(DataRow dr)
         {
             DistrictWholeSaleToRetailorModel model = new DistrictWholeSaleToRetailorModel();
-            model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
+           // model.RowNum = int.Parse(dr["RowNum"].ToString().Trim());
             model.Brand = dr["BrandName"].ToString().Trim();
             model.Size = int.Parse(dr["Size"].ToString().Trim());
             model.AvailableBottle = int.Parse(dr["AvailableBottle"].ToString().Trim());

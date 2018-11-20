@@ -900,7 +900,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("Proc_InsertUpdateGatePass", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                if(gatePass.GatePassId > 0 && dt!=null)
+                if(gatePass.GatePassId > 0 && dt.Rows.Count>0)
                 {
                     cmd.Parameters.Add(new SqlParameter("GatePassId", gatePass.GatePassId));
                     cmd.Parameters.Add(new SqlParameter("tbl_GatePassBrandMapping", dt));
@@ -909,6 +909,7 @@ namespace UPExciseLTE.DAL
                 {
                     cmd.Parameters.Add(new SqlParameter("GatePassId", gatePass.GatePassId));
                     cmd.Parameters.Add(new SqlParameter("BrandId", gatePass.BrandId));
+                    cmd.Parameters.Add(new SqlParameter("UploadValue", gatePass.UploadValue));
                 }
                 else
 

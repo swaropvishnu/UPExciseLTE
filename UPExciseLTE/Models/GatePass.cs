@@ -299,6 +299,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "Route Details")]
         public string RouteDetails { get; set; }
 
+        public string UploadValue { get; set; }
+
         public int SP_Type { get; set; } = 1;
 
 

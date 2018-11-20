@@ -110,7 +110,7 @@ namespace UPExciseLTE.Controllers
             }
             breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetBMGatePassDetails(breweryToManufacturerGatePass.GatePassId, Convert.ToInt64(breweryToManufacturerGatePass.BrandId));
             breweryToManufacturerGatePass = GetBrewerytToManufacturerGatePass(breweryToManufacturerGatePass);
-            return View(breweryToManufacturerGatePass);
+            return RedirectToAction("BreweryToManufacturerWholesale");
         }
 
 
@@ -162,6 +162,7 @@ namespace UPExciseLTE.Controllers
                     breweryToManufacturerGatePass.SP_Type = 2;
                     breweryToManufacturerGatePass.BrandId = brandId;
                     breweryToManufacturerGatePass.GatePassId = gatePassId;
+                    breweryToManufacturerGatePass.UploadValue = UploadedValue;
                     var msg = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);
                     if (!string.IsNullOrEmpty(msg))
                     {
