@@ -91,8 +91,8 @@ namespace UPExciseLTE.Controllers
             var ReportController = new ReportController();
             var informationByLoggedInUserLevel = new InformationByLoggedInUserLevel();
             informationByLoggedInUserLevel = ReportController.GetInformationByLoggedInUserLeve();
-            breweryToManufacturerGatePass.PassTypeInformation = informationByLoggedInUserLevel.PassTypeInformation;
             breweryToManufacturerGatePass = new CommonBL().GetBreweryToManufacturerPassDetailsDetails();
+            breweryToManufacturerGatePass.PassTypeInformation = informationByLoggedInUserLevel.PassTypeInformation;
             breweryToManufacturerGatePass = GetBrewerytToManufacturerGatePass(breweryToManufacturerGatePass);
             breweryToManufacturerGatePass.DistrictWholeSaleToRetailorList = new CommonBL().GetBMGatePassDetails(breweryToManufacturerGatePass.GatePassId, Convert.ToInt64(breweryToManufacturerGatePass.BrandId));
             return View(breweryToManufacturerGatePass);
