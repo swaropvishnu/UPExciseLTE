@@ -3,8 +3,6 @@
     ViewBag.Title = "BBTFormation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 @using (Html.BeginForm("BBTFormation", "Production", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -26,11 +24,11 @@
                         <div class="caption">
                             @if (Model.SP_Type == 1)
                             {
-                            <span><i class="fa fa-gift"></i>&nbsp;  BBT Master&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                                <span><i class="fa fa-gift"></i>&nbsp;Bottling Tank Master&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
                             }
                             else
                             {
-                            <span><i class="fa fa-gift"></i>&nbsp; Update BBT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                                <span><i class="fa fa-gift"></i>&nbsp; Update Bottling Tank&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
                             }
                         </div>
                     </div>
@@ -43,14 +41,12 @@
                                         @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brands, new { @id = "ddlBrand", @class = "form-control" })
                                     </div>
                                 </div>
-
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Liquor Type</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.LiquorType, new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = true, @Placeholder = "Liquor Type" })
                                     </div>
                                 </div>
-
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Licence Type</label>
                                     <div>
@@ -58,41 +54,32 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
-
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label">BBT Name</label>
+                                    <label class="control-label">Bottling Tank Name</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "BBT Name" })
+                                        @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "Bottling TankName" })
                                     </div>
                                 </div>
-
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label">BBT Capacity (Bulk Liter)</label>
+                                    <label class="control-label">Bottling Tank Capacity (Bulk Liter)</label>
                                     <div>
-
-                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "BBT Capacity", @onkeyPress = "return IsNumeric(event);" })
-
+                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "Bottling TankCapacity", @onkeyPress = "return IsNumeric(event);", @MaxLength = "5" })
                                     </div>
                                 </div>
-
                                 <div class="form-group  col-md-4 display-hide">
                                     <label class="control-label">Opening Balance(BL)</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBulkLiter", @class = "form-control", @required = "required", @Placeholder = "BBT Opening Balance", @onkeypress = "return isfloatNumber(this, event);" })
+                                        @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBulkLiter", @class = "form-control", @required = "required", @Placeholder = "Bottling TankOpening Balance", @onkeypress = "return isfloatNumber(this, event);" })
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green">Save</button>
-
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="window.location.href='@Url.Action("GetBBTDetails","Production")'">Go to BBT Formation List</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="window.location.href='@Url.Action("GetBBTDetails","Production")'">Go to Bottling Tank List</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                             </div>
                         </center>
@@ -101,19 +88,13 @@
             </div>
         </div>
     </div>
-
 }
-
 <script src="~/Scripts/CommonScript.js"></script>
 <script>
-
-
     $("#danger-alert").show();
     $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
         $("#danger-alert").slideUp(500);
     });
-
-
     $("#ddlBrand").change(function () {
         debugger;
         var brandID = $("#ddlBrand").val();
@@ -122,7 +103,6 @@
             BBTFormationBrandChange(brandID);
         }
     });
-
     function BBTFormationBrandChange(brandID)
     {
         $.ajax({
@@ -141,7 +121,6 @@
             }
         });
     }
-
     var specialKeys = new Array();
     specialKeys.push(47); // for Forward Slash(/)
     specialKeys.push(8); //Backspace
@@ -172,6 +151,5 @@
         }
         return true;
     }
-
 </script>
 

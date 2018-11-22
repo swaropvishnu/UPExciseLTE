@@ -1,17 +1,18 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.Models;
 using System.Data;
 using UPExciseLTE.DAL;
 using UPExciseLTE.BLL;
-using System.IO;
-
+using UPExciseLTE.Filters;
+using System.Data.Entity.Infrastructure;
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class GatePassController : Controller
     {
      
@@ -152,11 +153,10 @@ namespace UPExciseLTE.Controllers
                 string extension = System.IO.Path.GetExtension(Request.Files["impCSVUpload"].FileName).ToLower();
                 if (extension == ".csv")
                 {
-                    UploadCSV ob = new UploadCSV();
                     string UploadedValue = "2";
                     System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
-                    ob.GetCSVDetails(file, UploadedValue);
-                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode,gatePassId);
+                    DataTable dt=CSV.GetCSVToDt(file);
+                    string str = new CommonDA().UploadCSV(gatePassId,dt,2);
                     TempData["Message"] = str;
                     var breweryToManufacturerGatePass = new BrewerytToManufacturerGatePass();
                     breweryToManufacturerGatePass.SP_Type = 2;

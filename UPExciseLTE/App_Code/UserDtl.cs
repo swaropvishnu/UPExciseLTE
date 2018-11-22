@@ -230,9 +230,13 @@ namespace UPExciseLTE
         public static DataSet VerifyUser(string UserName)
         {
             DataSet ds = new DataSet();
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@pUserName", UserName));
-            ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_VerifyUser", parameters.ToArray());
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@pUserName", UserName));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_VerifyUser", parameters.ToArray());
+            }
+            catch (Exception exp) { ds = null; }
             return ds;
         }
         public static DataSet VerifyApplicant(string UserName,short yojana_code )

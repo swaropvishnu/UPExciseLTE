@@ -39,29 +39,18 @@
                                     @Html.DisplayNameFor(model => model.LicenceNo)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.MRP)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.XFactoryPrice)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.AdditionalDuty)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInCase)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInBottleML)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.ExciseDuty)
                                 </th>
-
-
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MRP)
+                                </th>
+                                <th>Reason</th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             @foreach (var item in Model)
-                {
+                            {
                                 <tr>
 
                                     <td>
@@ -87,40 +76,34 @@
                                         @Html.DisplayFor(modelItem => item.LicenceNo)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.ExciseDuty)
+                                    </td>
+                                    <td>
                                         @Html.DisplayFor(modelItem => item.MRP)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.XFactoryPrice)
+                                        @Html.EditorFor(modelItem => item.Reason)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.AdditionalDuty)
+                                        <a href="@Url.Action("BrandMaster", "MasterForms", new { Code = item.brandID_incrpt })"><label class="btn blue">View</label></a>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.QuantityInCase)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.QuantityInBottleML)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ExciseDuty)
-                                    </td>
-
-                                    <td>
-                                        @if (item.IsFinal == false)
+                                        @if (item.BrandStatus == "P")
                                         {
-                                            <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId')">Freeze</button>
+                                            <button type="button" id="btn" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('@item.BrandId','A')">Freeze</button>
                                         }
-                                        @*@Html.ActionLink("Edit", "BrandMaster", new { id = item.BrandId })*@
+                                    </td>
+                                    <td>
+                                        @if (item.BrandStatus == "P")
+                                        {
+                                            <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId','R')">Reject</button>
+                                        }
                                     </td>
 
                                 </tr>
                             }
-
                         </table>
-
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -132,10 +115,24 @@
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
     }  
-    function FinalBrand(BrandId) {
+    function FinalBrand(BrandId, status) {
+        var reason = "";
+        if (status == "A") {
+            reason = "Brand freezed";
+            var r = confirm("Are You sure to freeze this Brand.");
+            if (r == false) {
+                return;
+            }
+        }
+        if (status == "R") {
+            var r = confirm("Are You sure to Reject this Brand.");
+            if (r == false) {
+                return;
+            }
+        }
         $.ajax({
             url: '/MasterForms/FinalBrand',
-            data: { 'BrandId': BrandId },
+            data: { 'BrandId': BrandId, 'status': status, 'reason': reason },
             datatype: "json",
             type: "GET",
             success: function (data) {

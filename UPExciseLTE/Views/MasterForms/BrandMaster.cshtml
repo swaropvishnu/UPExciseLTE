@@ -33,12 +33,12 @@
             }
         } else {
             if (charCode > 31
-                 && (charCode < 48 || charCode > 57))
+                && (charCode < 48 || charCode > 57))
                 return false;
         }
         return true;
     }
-    
+
     function setSelectedValue(selectObj, valueToSet) {
         for (var i = 0; i < selectObj.options.length; i++) {
             if (selectObj.options[i].text == valueToSet) {
@@ -51,7 +51,7 @@
         var LiquorType = $('#ddlState').val();
         if (LiquorType == "27") {
             document.getElementById("txtQuantityInBottleML").style.display = "none";
-            if (document.getElementById("txtQuantityInBottleML").value!="") {
+            if (document.getElementById("txtQuantityInBottleML").value != "") {
                 $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
             }
             document.getElementById("ddlQuantityInBottleML").style.display = "";
@@ -62,7 +62,7 @@
         }
     }
     function Validation() {
-        
+
         var ddlState = $('#ddlState').val();
         if (ddlState == -1) {
             alert("Please Select State First");
@@ -89,7 +89,8 @@
                 if (parseFloat(document.getElementById("txtStrength").value) < 0) {
                     alert("Please Enter Valid Strength");
                     document.getElementById("txtStrength").focus();
-                    return;}
+                    return;
+                }
             }
             catch {
                 alert("Please Enter Valid Strength");
@@ -143,20 +144,21 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                           @if (Model.SPType == 1)
-                           {
-                            <span><i class="fa fa-gift"></i>&nbsp; Brand Registration&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
-                           } else
-                           {
-                            <span><i class="fa fa-gift"></i>&nbsp; Update Brand&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
-                           }
+                            @if (Model.SPType == 1)
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp; Brand Registration&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                            else
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp; Update Brand&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            }
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             @Html.HiddenFor(m => m.BrandId)
                             @Html.HiddenFor(m => m.brandID_incrpt)
-                            @Html.HiddenFor(m =>m.SPType)
+                            @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">State</label>
@@ -167,7 +169,7 @@
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control",@readonly="true" })
+                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -183,28 +185,28 @@
                                 </div>
                             </div>
                             <div class="row">
-                                
+
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Strength of Alcohol</label>
                                     <div class="row">
                                         <div class="form-group  col-md-6">
                                             @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", })
-                                            </div>
-                                            <div class="form-group  col-md-6">
-                                                @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", onkeypress ="return isfloatNumber(this, event);", @readonly="true",   @onblur = "AlcoholCal();" }) @*4.9 Mild And above Strong*@
-                                            </div>
                                         </div>
+                                        <div class="form-group  col-md-6">
+                                            @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Liquor Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LiquorType, new List<SelectListItem> { new SelectListItem { Text = "Beer", Value = "BE" }}, new { @id = "ddlLiquorType", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LiquorType, new List<SelectListItem> { new SelectListItem { Text = "Beer", Value = "BE" } }, new { @id = "ddlLiquorType", @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">License Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LicenceType,new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLicense", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LicenceType, new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLicense", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -226,42 +228,22 @@
                                     <div>
                                         @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
 
-                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650",Selected=true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650", Selected = true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
                                     </div>
                                 </div>
-                               
-                            </div>
-                            <div class="row">
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">XFactoryPrice</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);" })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Consideration Fees</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "txtAdditionalDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly=true })
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">MRP</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.MRP, new { @id = "txtMRP", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly = true })
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Packaging Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })  
+                                        @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Excise Duty (Total) </label>
+                                    <label class="control-label">XFactoryPrice</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.ExciseDuty, new { @id = "txtExciseDuty", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @readonly = true })
+                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -271,14 +253,47 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.XFactoryPrice)</th>
+                                        <th>@Html.DisplayNameFor(model => model.ConsiderationFees)</th>
+                                        <th>@Html.DisplayNameFor(model => model.WHMargin)</th>
+                                        <th>@Html.DisplayNameFor(model => model.WHPrice)</th>
+                                        <th>@Html.DisplayNameFor(model => model.RetMargin)</th>
+                                        <th>@Html.DisplayNameFor(model => model.MaxRetPrice)</th>
+                                        <th>@Html.DisplayNameFor(model => model.MRP)</th>
+                                        <th>@Html.DisplayNameFor(model => model.AdditionalDuty)</th>
+                                        <th>@Html.DisplayNameFor(model => model.ExciseDuty)</th>
+                                        <th>@Html.DisplayNameFor(model => model.OriginalRetPrice)</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "lblXFactoryPrice", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.ConsiderationFees, new { @id = "lblConsiderationFees", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.WHMargin, new { @id = "lblWHMargin", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.WHPrice, new { @id = "lblWHPrice", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.RetMargin, new { @id = "lblRetMargin", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.MaxRetPrice, new { @id = "lblMaxRetPrice", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.MRP, new { @id = "lblMRP", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "lblAdditionalDuty", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.ExciseDuty, new { @id = "lblExciseDuty", @class = "form-control", @readonly = "true" })</td>
+                                        <td style="width:10%">@Html.TextBoxFor(m => m.OriginalRetPrice, new { @id = "lblOriginalRetPrice", @class = "form-control", @readonly = "true" })</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
-                                <button type="submit" class="btn green" onclick="Validation();">Submit</button>
+                                @if (Model.BrandStatus == "P")
+                                {
+                                    <button type="submit" class="btn green" onclick="Validation();">Submit</button>
+                                }
                                 <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go To Edit/Delete Brand</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                @if (Model.BrandStatus == "P")
+                                {
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                }
                             </div>
                         </center>
                     </div>
@@ -341,16 +356,23 @@
         if (txtXFactoryPrice != null && txtStrength != null && txtStrength != "" && txtXFactoryPrice != "" && txtXFactoryPrice != "0") {
             if (AlcoPer >5.0) {
                 ConsidrationFees = (txtXFactoryPrice *  SConsidrationFees / 100).toFixed(2);
-                MRP = (parseFloat(txtXFactoryPrice) + parseFloat(ConsidrationFees) + parseFloat(SWholeSaleMargin) + parseFloat(SRetailerMargin)).toFixed(2);
+                document.getElementById("lblWHMargin").value = SWholeSaleMargin;
+                document.getElementById("lblRetMargin").value = SRetailerMargin;
             }
             else {
                 ConsidrationFees = (txtXFactoryPrice * MConsidrationFees / 100).toFixed(2);
-                MRP = (parseFloat(txtXFactoryPrice) + parseFloat(ConsidrationFees) + parseFloat(MWholeSaleMargin) + parseFloat(MRetailerMargin)).toFixed(2);
+                document.getElementById("lblWHMargin").value = MWholeSaleMargin;
+                document.getElementById("lblRetMargin").value = SRetailerMargin;
             }
             FMRP = (Math.round(MRP / 10) * 10);
-            document.getElementById("txtAdditionalDuty").value = ConsidrationFees;
-            document.getElementById("txtMRP").value = FMRP;
-            document.getElementById("txtExciseDuty").value = (parseFloat(ConsidrationFees) + (parseFloat(FMRP) - parseFloat(MRP))).toFixed(2);
+            document.getElementById("lblXFactoryPrice").value = txtXFactoryPrice;
+            document.getElementById("lblConsiderationFees").value = ConsidrationFees;
+            document.getElementById("lblWHPrice").value = (parseFloat(ConsidrationFees) + parseFloat(document.getElementById("lblWHMargin").value) + parseFloat(txtXFactoryPrice)).toFixed(2);
+            document.getElementById("lblMaxRetPrice").value = (parseFloat(document.getElementById("lblWHPrice").value) + parseFloat(document.getElementById("lblRetMargin").value)).toFixed(2);
+            document.getElementById("lblMRP").value = (Math.round(parseFloat(document.getElementById("lblMaxRetPrice").value) / 10) * 10);
+            document.getElementById("lblAdditionalDuty").value = ((parseFloat(document.getElementById("lblMRP").value) - parseFloat(document.getElementById("lblMaxRetPrice").value))).toFixed(2);
+            document.getElementById("lblExciseDuty").value = ((parseFloat(document.getElementById("lblAdditionalDuty").value) + parseFloat(document.getElementById("lblConsiderationFees").value))).toFixed(2);
+            document.getElementById("lblOriginalRetPrice").value = (parseFloat(document.getElementById("lblAdditionalDuty").value) + parseFloat(document.getElementById("lblWHPrice").value));
         }
     }
 </script>

@@ -261,13 +261,10 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("LiquorType", brand.LiquorType));
                 cmd.Parameters.Add(new SqlParameter("LicenceType", brand.LicenceType));
                 cmd.Parameters.Add(new SqlParameter("LicenceNo", brand.LicenceNo));
-                cmd.Parameters.Add(new SqlParameter("MRP", brand.MRP));
                 cmd.Parameters.Add(new SqlParameter("XFactoryPrice", brand.XFactoryPrice));
-                cmd.Parameters.Add(new SqlParameter("AdditionalDuty", brand.AdditionalDuty));
                 cmd.Parameters.Add(new SqlParameter("QuantityInCase", brand.QuantityInCase));
                 cmd.Parameters.Add(new SqlParameter("QuantityInBottleML", brand.QuantityInBottleML));
                 cmd.Parameters.Add(new SqlParameter("PackagingType", brand.PackagingType));
-                cmd.Parameters.Add(new SqlParameter("ExciseDuty", brand.ExciseDuty));
                 cmd.Parameters.Add(new SqlParameter("Remark", brand.Remark));
                 cmd.Parameters.Add(new SqlParameter("StateId", brand.StateId));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
@@ -292,7 +289,7 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-        public string UpdateBrand(string dbName, int BrandId, int TypeId)
+        public string UpdateBrand(int BrandId, int TypeId,string Reason)
         {
             string str = "";
             con.Open();
@@ -302,9 +299,10 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("Proc_Update_Brand", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                cmd.Parameters.Add(new SqlParameter("dbName", dbName));
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
                 cmd.Parameters.Add(new SqlParameter("TypeId", TypeId));
+                cmd.Parameters.Add(new SqlParameter("Reason", Reason));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -537,7 +535,7 @@ namespace UPExciseLTE.DAL
 
 
         #endregion
-        public string UploadCSV(StringBuilder str,string UploadValue,string UploadBy,int TotalCase,int TotalBottels,StringBuilder QRCodeList,long gatePassId=0)
+        public string UploadCSV(long gatePassId,DataTable dbBarCode,int UploadValue)
         {
             con.Open();
             string result = "";
@@ -546,20 +544,15 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand();
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "Proc_Tbl_UploadProductionCSV";
+                cmd.CommandText = "Proc_InsertUploadCSV";
                 cmd.CommandTimeout = 3000;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
-                cmd.Parameters.Add(new SqlParameter("Query", str.ToString()));
-                cmd.Parameters.Add(new SqlParameter("CaseCodeList", QRCodeList.ToString()));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", gatePassId));
+                cmd.Parameters.Add(new SqlParameter("dbBarCode", dbBarCode));
                 cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
-                cmd.Parameters.Add(new SqlParameter("UploadedBy", UploadBy));
-                cmd.Parameters.Add(new SqlParameter("TotalCase", TotalCase));
-                cmd.Parameters.Add(new SqlParameter("TotalBottels", TotalBottels));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
-                if(gatePassId>0)
-                cmd.Parameters.Add(new SqlParameter("@GatePassId", gatePassId));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;

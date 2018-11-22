@@ -4,7 +4,6 @@ using System.Data;
 using System.Web.Mvc;
 using UPExciseLTE.DAL;
 using UPExciseLTE.Models;
-//using UPExciseLTE.App_Code;
 using ClosedXML.Excel;
 using System.IO;
 using UPExciseLTE.BLL;
@@ -98,12 +97,12 @@ namespace UPExciseLTE.Controllers
             List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
             return View(lstBrand);
         }
-        public string FinalBrand(string BrandId)
+        public string FinalBrand(string BrandId,string Status,string Reason)
         {
             string str = "";
             try
             {
-                str = new CommonDA().UpdateBrand("", int.Parse(BrandId), 1);
+                str = new CommonDA().UpdateBrand(int.Parse(BrandId), 1,Reason);
             }
             catch (Exception x)
             {
@@ -154,7 +153,7 @@ namespace UPExciseLTE.Controllers
             {
                 try
                 {
-                    str = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["AlcoholType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["state_name_u"].ToString().Trim();
+                    str = ds.Tables[0].Rows[0]["LiquorType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["LicenceNo"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInCase"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["QuantityInBottleML"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["AlcoholType"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["StateName"].ToString().Trim();
                 }
                 catch
                 {
@@ -334,11 +333,9 @@ namespace UPExciseLTE.Controllers
                 string extension = System.IO.Path.GetExtension(Request.Files["impCSVUpload"].FileName).ToLower();
                 if (extension == ".csv")
                 {
-                    UploadCSV ob = new UploadCSV();
-                    string UploadedValue = "1";
                     System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
-                    ob.GetCSVDetails(file, UploadedValue);
-                    string str = new CommonDA().UploadCSV(ob.InsertUploadManufProdQuery, UploadedValue, UserSession.LoggedInUserId.ToString(), ob.CaseCount, ob.QRCount, ob.ListQRCode);
+                    DataTable dt= CSV.GetCSVToDt(file);
+                    string str = new CommonDA().UploadCSV(-1,dt,1);
                     TempData["Message"] = str;
 
                 }

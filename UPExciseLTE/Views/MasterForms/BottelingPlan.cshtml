@@ -74,7 +74,7 @@
                                     @Html.DropDownListFor(m => m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1" }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">BBT</label>
+                                    <label class="control-label">Bottling Tank</label>
                                     @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4 hide">
@@ -82,7 +82,7 @@
                                     @Html.TextBoxFor(m => m.LiquorType, new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">BBT Balance</label>
+                                    <label class="control-label">Bottling Tank Balance</label>
                                     @Html.TextBox("txtBBTBalance","", new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
 

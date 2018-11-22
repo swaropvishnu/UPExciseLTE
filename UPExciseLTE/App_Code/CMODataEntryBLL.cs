@@ -632,15 +632,19 @@ namespace UPExciseLTE
 
         internal static void InsertErrLog(string UrlPage, string ErrMsg)
         {
-            // string Errid = objg.GetNewID_String("Err_Log", "ErrID", 8);
-            string IP = HttpContext.Current.Request.UserHostAddress.ToString();
-            string sql = "Insert into tbl_errorlog(IP,ErrPage,ErrLog) values(@IP,@ErrPage,@ErrLog)";
-            SqlParameter[] sqlparam = {
+            try
+            {
+                // string Errid = objg.GetNewID_String("Err_Log", "ErrID", 8);
+                string IP = HttpContext.Current.Request.UserHostAddress.ToString();
+                string sql = "Insert into tbl_errorlog(IP,ErrPage,ErrLog) values(@IP,@ErrPage,@ErrLog)";
+                SqlParameter[] sqlparam = {
                 new SqlParameter("@IP", IP),
                 new SqlParameter("@ErrPage", UrlPage),
                 new SqlParameter("@ErrLog", ErrMsg)
             };
-            SqlHelper.ExecuteNonQuery(CommonConfig.Conn(), CommandType.Text, sql, sqlparam);
+                SqlHelper.ExecuteNonQuery(CommonConfig.Conn(), CommandType.Text, sql, sqlparam);
+            }
+            catch (Exception exp) { }
         }
 
         //public static DataSet GetDashBoard(string ProcName, BO.UserBO objo, string p2, string p5, string p6, int flag)

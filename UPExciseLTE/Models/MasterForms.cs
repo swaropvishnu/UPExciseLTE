@@ -56,7 +56,11 @@ namespace UPExciseLTE.Models
         public string brandID_incrpt { get; set; } = "";
         [Display(Name = "Brewery Id")]
         public short BreweryId { get; set; } = -1;
+        [Display(Name = "Brewery Name")]
+        public string BreweryName { get; set; } = "";
         public int StateId { get; set; } = 27;
+        [Display(Name = "State Name")]
+        public string StateName { get; set; } = "";
         [Display(Name = "Brand Name")]
         public string BrandName { get; set; } = "";
         [Display(Name = "Brand Registration Number")]
@@ -71,25 +75,41 @@ namespace UPExciseLTE.Models
         public string LicenceType { get; set; } = "";
         [Display(Name = "Licence No")]
         public string LicenceNo { get; set; } = "";
-        [Display(Name = "MRP")]
-        public float MRP { get; set; } = 0;
+        [Display(Name = "Excise Tin")]
+        public string ExciseTin { get; set; } = "";
         [Display(Name = "XFactory Price")]
         public float XFactoryPrice { get; set; } = 0;
         [Display(Name = "Consideration Fees")]
+        public float ConsiderationFees { get; set; } = 0;
+        [Display(Name = "WholeSale Margin")]
+        public float WHMargin { get; set; } = 0;
+        [Display(Name = "WholeSale Price")]
+        public float WHPrice { get; set; } = 0;
+        [Display(Name = "Retailer Margin")]
+        public float RetMargin { get; set; } = 0;
+        [Display(Name = "Max Retailer  Price")]
+        public float MaxRetPrice { get; set; } = 0;
+        [Display(Name = "Additional Duty")]
         public float AdditionalDuty { get; set; } = 0;
+        [Display(Name = "Original Retailer  Price")]
+        public float OriginalRetPrice { get; set; } = 0;
+        [Display(Name = "Excise Duty")]
+        public float ExciseDuty { get; set; } = 0;
+        [Display(Name = "MRP")]
+        public float MRP { get; set; } = 0;
         [Display(Name = "Box-Size (Number of Bottles)")]
         public int QuantityInCase { get; set; } = 0;
         [Display(Name = "Quantity (In Bottle, In ml.)")]
         public int QuantityInBottleML { get; set; } = 650;
         [Display(Name = "Packaging Type")]
         public string PackagingType { get; set; } = "";
-        [Display(Name = "Excise Duty")]
-        public float ExciseDuty { get; set; } = 0;
         [Display(Name = "Remark")]
         public string Remark { get; set; } = "";
+        [Display(Name = "Reason")]
+        public string Reason { get; set; } = "";
         public int SPType { get; set; } = 1;
-        public bool IsFinal { get; set; } = false;
-        
+        [Display(Name = "Brand Status")]
+        public string BrandStatus { get; set; } = "P";
     }
     public class BottelingPlan
     {
@@ -182,9 +202,9 @@ namespace UPExciseLTE.Models
         public int IssuedFromUTId { get; set; } = -1;
         [Display(Name = "Unit Tank")]
         public string UnitTank { get; set; } = "";
-        [Display(Name = "Issued To BBT Id")]
+        [Display(Name = "Issued To BT Id")]
         public int BBTID { get; set; } = -1;
-        [Display(Name = "BBT Name")]
+        [Display(Name = "Bottling Tank Name")]
         public string BBTName { get; set; } = "";
         public string TransactionType { get; set; } = "R";
         [Display(Name = "Issue BL")]
@@ -203,11 +223,11 @@ namespace UPExciseLTE.Models
         public string TransferDate1 { get; set; }
         [Display(Name = "Previous UT Balance")]
         public string PrevBalanceUT { get; set; }
-        [Display(Name = "Previous BBT Balance")]
+        [Display(Name = "Previous BT Balance")]
         public string PrevBalanceBBT { get; set; }
         [Display(Name = "Current UT Balance")]
         public string CurrentBalanceUT { get; set; }
-        [Display(Name = "Previous BBT Balance")]
+        [Display(Name = "Current BT Balance")]
         public string CurrentBalanceBBT { get; set; }
         public Message Msg { get; set; }
     }

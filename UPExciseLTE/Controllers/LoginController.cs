@@ -16,6 +16,9 @@ using System.Web.Security;
 
 namespace UPExciseLTE.Controllers
 {
+    
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class LoginController : Controller
     {
         

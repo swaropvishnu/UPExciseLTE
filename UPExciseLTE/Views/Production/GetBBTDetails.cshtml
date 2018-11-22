@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.BBTFormation>
 
 @{
-    ViewBag.Title = "Edit/Delete Brand";
+    ViewBag.Title = "Edit/Delete Bottling Tank";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using (Html.BeginForm("GetBBTDetails", "Production", FormMethod.Post, new { @enctype = "multipart/form-data" }))
@@ -17,7 +17,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Edit/Delete BBT
+                            <i class="fa fa-gift"></i>Edit/Delete Bottling Tank
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
@@ -43,7 +43,7 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green">Search</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick='window.location.href = "@Url.Action("BBTFormation", "Production")";' >Go To BBT Formation</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick='window.location.href = "@Url.Action("BBTFormation", "Production")";' >Go To BT Master</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                             </div>
                         </center>

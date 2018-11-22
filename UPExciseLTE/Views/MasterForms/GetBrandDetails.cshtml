@@ -92,10 +92,6 @@
                                     @Html.DisplayNameFor(model => model.XFactoryPrice)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.AdditionalDuty)
-                                </th>
-                              
-                                <th>
                                     @Html.DisplayNameFor(model => model.ExciseDuty)
                                 </th>
                                 <th>
@@ -106,7 +102,7 @@
                                 <th></th>
                             </tr>
                             @foreach (var item in Model)
-                {
+                            {
                                 <tr>
 
                                     <td>
@@ -142,24 +138,24 @@
                                         @Html.DisplayFor(modelItem => item.XFactoryPrice)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.AdditionalDuty)
-                                    </td>
-                                   
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.ExciseDuty)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.MRP)
                                     </td>
+                                     
                                     <td>
-                                        @if (item.IsFinal == false)
+                                        @if (item.BrandStatus == "P")
                                         {
-                                            <a href="@Url.Action("BrandMaster","MasterForms", new {Code = item.brandID_incrpt })"><label class="btn blue">Edit</label></a>
+                                            <a href="@Url.Action("BrandMaster", "MasterForms", new { Code = item.brandID_incrpt })"><label class="btn blue">Edit</label></a>
                                         }
-
+                                        else
+                                        {
+                                            <a href="@Url.Action("BrandMaster","MasterForms", new {Code = item.brandID_incrpt })"><label class="btn blue">View</label></a>
+                                        }
                                     </td>
                                     <td>
-                                        @if (item.IsFinal == false)
+                                        @if (item.BrandStatus == "P")
                                         {
                                             <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId')">Delete</button>
                                         }

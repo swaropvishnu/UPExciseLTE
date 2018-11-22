@@ -115,29 +115,39 @@ namespace UPExciseLTE.BLL
             BrandMaster brand = new BrandMaster();
             try
             {
-                brand.AdditionalDuty = float.Parse(dr["AdditionalDuty"].ToString().Trim());
                 brand.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 brand.brandID_incrpt = new Crypto().Encrypt(dr["BrandId"].ToString().Trim());
+                brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                brand.BreweryName = dr["BreweryName"].ToString().Trim();
+                brand.StateId = int.Parse(dr["BrandId"].ToString().Trim());
+                brand.StateName = dr["StateName"].ToString().Trim();
                 brand.BrandName = dr["BrandName"].ToString().Trim();
                 brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
-                brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
-                brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
-                brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
-                brand.LicenceType = dr["LicenceType"].ToString().Trim();
-                brand.LiquorType = dr["LiquorType"].ToString().Trim();
-                brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
-                brand.QuantityInBottleML = int.Parse(dr["QuantityInBottleML"].ToString().Trim());
-                brand.QuantityInCase = int.Parse(dr["QuantityInCase"].ToString().Trim());
-                brand.Remark = dr["Remark"].ToString().Trim();
                 brand.Strength = float.Parse(dr["Strength"].ToString().Trim());
-                brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
-                brand.IsFinal = bool.Parse(dr["IsFinal"].ToString().Trim());
                 brand.AlcoholType = dr["AlcoholType"].ToString().Trim();
+                brand.LiquorType = dr["LiquorType"].ToString().Trim();
+                brand.LicenceType = dr["LicenceType"].ToString().Trim();
+                brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
+                brand.ExciseTin = dr["ExciseTin"].ToString().Trim();
+                brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
+                brand.ConsiderationFees = float.Parse(dr["ConsiderationFees"].ToString().Trim());
+                brand.WHMargin = float.Parse(dr["WHMargin"].ToString().Trim());
+                brand.WHPrice = float.Parse(dr["WHPrice"].ToString().Trim());
+                brand.RetMargin = float.Parse(dr["RetMargin"].ToString().Trim());
+                brand.MaxRetPrice = float.Parse(dr["MaxRetPrice"].ToString().Trim());
+                brand.AdditionalDuty = float.Parse(dr["AdditionalDuty"].ToString().Trim());
+                brand.OriginalRetPrice = float.Parse(dr["OriginalRetPrice"].ToString().Trim());
+                brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
+                brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
+                brand.QuantityInCase = int.Parse(dr["QuantityInCase"].ToString().Trim());
+                brand.QuantityInBottleML = int.Parse(dr["QuantityInBottleML"].ToString().Trim());
                 brand.PackagingType = dr["PackagingType"].ToString().Trim();
-                brand.StateId = int.Parse(dr["StateId"].ToString().Trim());
+                brand.Remark = dr["Remark"].ToString().Trim();
+                brand.Reason = dr["Reason"].ToString().Trim();
                 brand.SPType = 2;
+                brand.BrandStatus = dr["BrandStatus"].ToString().Trim();
             }
-            catch (Exception) { }
+            catch (Exception exp) { }
             return brand;
         }
         public List<BottelingPlan> GetBottelingPlanList(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
