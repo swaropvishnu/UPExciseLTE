@@ -58,7 +58,7 @@ namespace UPExciseLTE.Models
                             sb.Append(UploadedValue);
                             sb.Append(") ");
                             Split = line.Split(',');
-                            Barcode = Split[3];
+                            Barcode = Split[0];
                             bool alreadyExist = CaseCodelst.Contains(Barcode);
                             if (!alreadyExist)
                             {
