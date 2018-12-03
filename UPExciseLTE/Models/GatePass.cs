@@ -37,7 +37,7 @@ namespace UPExciseLTE.Models
 
         public string AgencyNameAndAddress { get; set; }
 
-        public string  LicenceNo { get; set; }
+        public string LicenceNo { get; set; }
 
         public string LicenceName { get; set; }
 
@@ -58,7 +58,7 @@ namespace UPExciseLTE.Models
         public string GatePassNo { get; set; }
 
         public string LicenseeLicenseNo { get; set; }
-        
+
         public string LicenseeLicenseNo1 { get; set; }
 
         public string LicenseeName { get; set; }
@@ -129,35 +129,35 @@ namespace UPExciseLTE.Models
 
         public string BrewaryName { get; set; }
         public string Revenue { get; set; }
-     
+
         public string Date { get; set; }
 
         public string FromDate { get; set; }
         public string VehicleNo { get; set; }
         public string Receiver { get; set; }
-   
+
         public string PassType { get; set; }
 
         public string PassTypeInformation { get; set; }
-        [Display(Name ="Size")]
+        [Display(Name = "Size")]
         public int Size { get; set; }
         [Display(Name = "Available Bottle")]
         public int AvailableBottle { get; set; }
 
         [Display(Name = "Available Box")]
         public int AvailableBox { get; set; }
-        [Display(Name ="Dispatch Box")]
+        [Display(Name = "Dispatch Box")]
         public int DispatchBox { get; set; }
-        [Display(Name ="Dispatch Bottle")]
+        [Display(Name = "Dispatch Bottle")]
         public int DispatchBottle { get; set; }
-        [Display(Name ="Duty")]
+        [Display(Name = "Duty")]
         public decimal Duty { get; set; }
-        [Display(Name ="Add Duty")]
+        [Display(Name = "Add Duty")]
         public decimal AddDuty { get; set; }
-        [Display(Name ="Calculated Duty")]
+        [Display(Name = "Calculated Duty")]
         public decimal CalculatedDuty { get; set; }
 
-        [Display(Name ="Calculated Additional Duty")]
+        [Display(Name = "Calculated Additional Duty")]
         public decimal CalculatedAdditionalDuty { get; set; }
 
         public int RowNum { get; set; }
@@ -222,7 +222,7 @@ namespace UPExciseLTE.Models
         public string To { get; set; } = "";
 
         public string From { get; set; } = "";
-       
+
         public int TotalBox { get; set; }
 
         public int TotalBottles { get; set; }
@@ -289,7 +289,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Route Details")]
         public string RouteDetails { get; set; }
 
-        public string UploadValue { get; set; }
+        public int UploadValue { get; set; }
 
         public int SP_Type { get; set; } = 1;
 
@@ -335,5 +335,5 @@ namespace UPExciseLTE.Models
         public string PassTypeInformation { get; set; }
 
     }
-     
+
 }

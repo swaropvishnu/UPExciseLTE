@@ -37,17 +37,23 @@ namespace UPExciseLTE.Controllers
 
         public ActionResult GatePassReport()
         {
-            //string qrcode = "";
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            //    QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(qrcode, QRCodeGenerator.ECCLevel.Q);
-            //    using (Bitmap bitMap = qrCode.GetGraphic(20))
-            //    {
-            //        bitMap.Save(ms, ImageFormat.Png);
-            //        ViewBag.QRCodeImage = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-            //    }
-            //}
+            int spType1 = 0;
+            int spType2 = 0;
+            if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 15)
+            {
+                spType1 = 5;
+                spType2 = 4;
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 45)
+            {
+                spType1 = 14;
+                spType2 = 13;
+            }
+            else if (Convert.ToInt32(UserSession.LoggedInUserLevelId) == 35)
+            {
+                spType1 = 16;
+                spType2 = 15;
+            }
             string qrcode = "EXCISE";
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
 
@@ -58,7 +64,7 @@ namespace UPExciseLTE.Controllers
 
             if (Request.QueryString["GatePass"] != null && Request.QueryString["GatePass"].Trim() != string.Empty)
             {
-                gatePass = new CommonBL().GenerateGatePass(long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim())));
+                gatePass = new CommonBL().GenerateGatePass(long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim())), spType1, spType2);
             }
             return View(gatePass);
         }

@@ -9,7 +9,7 @@ namespace UPExciseLTE.Models
     #region DynamicMenu
     public class MenuMst
     {
-        [Display(Name ="Menu Id")]
+        [Display(Name = "Menu Id")]
         public int MenuId { get; set; } = -1;
         [Display(Name = "Text")]
         public string Text { get; set; } = "";
@@ -36,7 +36,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Order By")]
         public int OrderBy { get; set; } = 1;
         [Display(Name = "Icon")]
-        public string Icon { get; set; }= "<i class='fa fa-plus-square'></i>";
+        public string Icon { get; set; } = "<i class='fa fa-plus-square'></i>";
         [Display(Name = "Yojana code")]
         public short yojana_code { get; set; } = -1;
         [Display(Name = "Is Print")]
@@ -110,6 +110,7 @@ namespace UPExciseLTE.Models
         public int SPType { get; set; } = 1;
         [Display(Name = "Brand Status")]
         public string BrandStatus { get; set; } = "P";
+        public string Status { get; set; } = "";
     }
     public class BottelingPlan
     {
@@ -118,12 +119,13 @@ namespace UPExciseLTE.Models
         public int PlanId { get; set; } = -1;
         public string EncPlanId { get; set; } = "";
         public int BBTId { get; set; }
+        public int BottlingLineId { get; set; } = -1;
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; } = -1;
         [Display(Name = "Plan Date")]
         public DateTime DateOfPlan { get; set; } = DateTime.Now;
         [Display(Name = "Plan Date")]
-        public string DateOfPlan1 { get; set; }
+        public string DateOfPlan1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
         [Display(Name = "Batch No")]
         public string BatchNo { get; set; } = "";
         [Display(Name = "Number Of Cases")]
@@ -148,6 +150,8 @@ namespace UPExciseLTE.Models
         public string Brand { get; set; }
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
+        [Display(Name = "BBT Bulk Liter")]
+        public float BBTBulkLiter { get; set; } = 0;
         public string Status { get; set; }
         public string State { get; set; }
         [Display(Name = "Bottle/ Can Capacity")]
@@ -166,18 +170,18 @@ namespace UPExciseLTE.Models
         public int WastageInNumber { get; set; }
         [Display(Name = "Wastage BL")]
         public float WastageBL { get; set; }
-        [Display(Name = "Is Production Final")]  
+        [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
         public Message Msg { get; set; }
     }
     public class UnitTank
     {
-        [Display (Name ="Unit Tank Id")]
+        [Display(Name = "Unit Tank Id")]
         public int UnitTankId { get; set; } = -1;
         public string Enc_UnitTankId { get; set; } = "";
         [Display(Name = "Brewery Id")]
-        public short BreweryId { get; set; }   
+        public short BreweryId { get; set; }
         [Display(Name = "Brewery")]
         public string Brewery { get; set; }
         [Display(Name = "Unit Tank Name")]
@@ -194,7 +198,7 @@ namespace UPExciseLTE.Models
     }
     public class UTTransferToBBT
     {
-        [Display(Name ="Sno")]
+        [Display(Name = "Sno")]
         public int Srno { get; set; }
         [Display(Name = "Transfer Id")]
         public int TransferId { get; set; } = -1;
@@ -218,9 +222,9 @@ namespace UPExciseLTE.Models
         [Display(Name = "Unit Tank Strength")]
         public string Strength { get; set; } = "";
         [Display(Name = "Transfer Date")]
-        public DateTime TransferDate { get; set; }
+        public DateTime TransferDate { get; set; } = DateTime.Now;
         [Display(Name = "Transfer Date")]
-        public string TransferDate1 { get; set; }
+        public string TransferDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
         [Display(Name = "Previous UT Balance")]
         public string PrevBalanceUT { get; set; }
         [Display(Name = "Previous BT Balance")]
@@ -231,7 +235,74 @@ namespace UPExciseLTE.Models
         public string CurrentBalanceBBT { get; set; }
         public Message Msg { get; set; }
     }
-     
+    public class BBTMaster
+    {
+        [Display(Name = "Bottling Tank Id")]
+        public int BBTId { get; set; } = -1;
+        public int UnitId { get; set; }
+        [Display(Name = "Bottling Tank Name")]
+        public string BBTName { get; set; } = "";
+        [Display(Name = "Bottling Tank Capacity")]
+        public decimal BBTCapacity { get; set; }
+        [Display(Name = "Bottling Tank Bulk Liter")]
+        public decimal BBTBulkLiter { get; set; }
+        public int SP_Type { get; set; } = 1;
+        [Display(Name = "Status")]
+        public string Status { get; set; } = "A";
+        [Display(Name = "Status")]
+        public string Status1 { get; set; } = "";
+        public Message Message { get; set; }
+        public string BBTId_Encript { get; set; } = "";
+    }
+    public class BottlingLine
+    {
+        public int BottlingLineId { get; set; } = -1;
+        public string EncBottlingLineId { get; set; } = "";
+        public int BBTId { get; set; } = -1;
+        public string BBT { get; set; } = "";
+        public short UnitId { get; set; } = -1;
+        public string BottlingLineName { get; set; } = "";
+        public string BottlingLineStatus { get; set; } = "A";
+        public int Type { get; set; } = 1;
+    }
+    public class GatePassDetails
+    {
+        public long GatePassId { get; set; } = -1;
+        public string EncGatePassId { get; set; } = "";
+        public DateTime FromDate { get; set; } = DateTime.Now;
+        public string FromDate1 { get; set; } = "";
+        public DateTime ToDate { get; set; } = DateTime.Now;
+        public string ToDate1 { get; set; } = "";
+        public string ToLicenseType { get; set; } = "";
+        public string ToLicenceNo { get; set; } = "";
+        public string ToConsigeeName { get; set; } = "";
+        public string FromLicenseType { get; set; } = "";
+        public string FromLicenceNo { get; set; } = "";
+        public string FromConsignorName { get; set; } = "";
+        public string ShopName { get; set; } = "";
+        public int ShopId { get; set; } = -1;
+        public string GatePassNo { get; set; } = "";
+        public string LicenseeNo { get; set; } = "";
+        public string VehicleNo { get; set; } = "";
+        public string DriverName { get; set; } = "";
+        public string LicenseeName { get; set; } = "";
+        public string LicenseeAddress { get; set; } = "";
+        public string AgencyNameAndAddress { get; set; } = "";
+        public string Address { get; set; } = "";
+        public float GrossWeight { get; set; } = 0;
+        public float TareWeight { get; set; } = 0;
+        public float NetWeight { get; set; } = 0;
+        public int district_code_census1 { get; set; } = -1;
+        public int district_code_census2 { get; set; } = -1;
+        public int district_code_census3 { get; set; } = -1;
+        public string RouteDetails { get; set; } = "";
+        public long GatePassSourceId { get; set; } = -1;
+        public string Receiver { get; set; } = "";
+        public int UploadValue { get; set; } = -1;
+        public int SP_Type { get; set; } = 1;
+        public string Status { get; set; } = "P";
+
+    }
 }
 
 

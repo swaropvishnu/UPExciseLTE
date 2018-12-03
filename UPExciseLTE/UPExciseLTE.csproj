@@ -6175,6 +6175,11 @@
     <Content Include="Views\MasterForms\UTTransferToBBT.cshtml" />
     <Content Include="Views\MasterForms\UTTransferToBBTDetails.cshtml" />
     <Content Include="Views\MasterForms\MenuMaster.cshtml" />
+    <Content Include="Views\MasterForms\BBTMaster.cshtml" />
+    <Content Include="Views\MasterForms\BottlingLine.cshtml" />
+    <Content Include="Views\MasterForms\GatePass.cshtml" />
+    <Content Include="Views\MasterForms\GetBBTDetails.cshtml" />
+    <Content Include="Views\MasterForms\UploadGatePassCSV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

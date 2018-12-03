@@ -1,5 +1,4 @@
 ﻿@model UPExciseLTE.Models.UnitTank
-@using System.Data;
 @{
     ViewBag.Title = "Unit Tank";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,6 +8,11 @@
     }
 }
 <script type="text/javascript">
+    $(document).ready(function () {
+        if (document.getElementById("txtUnitTank").value.trim()!="") {
+            document.getElementById("btnSubmit").innerHTML = "Update";
+        }
+    });
     function isfloatNumber(txt, evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode == 46) {
@@ -44,20 +48,20 @@
                             @Html.HiddenFor(model =>model.Type,new { @id="hfUnitTankType" } )
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Name</label>
-                                    @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank", @required = "required" } )
+                                    <label class="control-label">Unit Tank Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank"} )
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Capacity (in Liter)</label>
-                                    @Html.TextBoxFor(model => model.UnitTankCapacity, new {  @class = "form-control", @id = "txtUnitTankCapacity", @required = "required",@MaxLength="5" } )
+                                    <label class="control-label">Unit Tank Capacity (in Liter)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.UnitTankCapacity, new {  @class = "form-control", @id = "txtUnitTankCapacity", @required = "required",@MaxLength="5", onkeypress = "return isfloatNumber(this, event);" } )
                                 </div>
                                 @*<div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Bulk Liter</label>
                                     @Html.TextBoxFor(model => model.UnitTankBulkLiter, new {  @class = "form-control", @id = "txtUnitTankBulkLiter" } )
                                 </div>*@
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Strength</label>
-                                    @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required" })
+                                    <label class="control-label">Unit Tank Strength<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
                                 </div>
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
@@ -68,7 +72,7 @@
                             </div>
                             <center>
                                 <div>
-                                    <button type="submit" class="btn green">Save</button>
+                                    <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
                                     <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                                 </div>
                             </center>
@@ -135,6 +139,27 @@
                     alert("Error in Unit Tank Loading"); 
                 }
             });
+        } 
+    }
+    function Validate()
+    {
+        document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
+        document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
+        document.getElementById("txtUnitTankStrength").value = document.getElementById("txtUnitTankStrength").value.trim();
+        if (document.getElementById("txtUnitTank").value == "") {  
+            alert("Please Enter Unit Tank Name");
+            document.getElementById("txtUnitTank").focus();
+            return false;
+        } 
+        if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == "0") {
+            alert("Please Enter Unit Tank Capacity");
+            document.getElementById("txtUnitTankCapacity").focus();
+            return false; 
+        }
+        if (document.getElementById("txtUnitTankStrength").value == "" || document.getElementById("txtUnitTankStrength").value == "0") {
+            alert("Please Enter Unit Tank Strength");
+            document.getElementById("txtUnitTankStrength").focus();
+            return false;
         }
     }
 </script>

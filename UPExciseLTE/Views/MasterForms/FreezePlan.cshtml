@@ -80,7 +80,7 @@
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
                                         <td>
-                                            @if (item.Status == "FB")
+                                            @if (item.Status == "FB" && item.ProducedNumberOfCases>0)
                                             {
                                                 <button type="button"  class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="Confirm('@item.EncPlanId')">Freeze Production</button>
                                             }

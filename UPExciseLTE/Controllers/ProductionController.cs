@@ -15,7 +15,7 @@ namespace UPExciseLTE.Controllers
 
         #region BBTFormation
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult BBTFormation()
         {
             var bbtFormation = new Models.BBTFormation();
@@ -68,10 +68,10 @@ namespace UPExciseLTE.Controllers
             }
             return PartialView("~/Views/Shared/_ErrorMessage.cshtml", bbtFormation.Message);
         }
-
+        */
         #endregion
 
-   
+
 
 
     }

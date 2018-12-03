@@ -62,7 +62,13 @@
         }
     }
     function Validation() {
-
+        document.getElementById("txtBrandName").value = document.getElementById("txtBrandName").value.trim();
+        document.getElementById("txtBrandRegistrationNumber").value = document.getElementById("txtBrandRegistrationNumber").value.trim();
+        document.getElementById("txtStrength").value = document.getElementById("txtStrength").value.trim();
+        document.getElementById("txtLicenseNo").value = document.getElementById("txtLicenseNo").value.trim();
+        document.getElementById("txtQuantityInCase").value = document.getElementById("txtQuantityInCase").value.trim();
+        document.getElementById("txtXFactoryPrice").value = document.getElementById("txtXFactoryPrice").value.trim();
+        document.getElementById("txtRemarks").value = document.getElementById("txtRemarks").value.trim(); 
         var ddlState = $('#ddlState').val();
         if (ddlState == -1) {
             alert("Please Select State First");
@@ -72,65 +78,65 @@
         if (document.getElementById("txtBrandName").value == "") {
             alert("Please Enter Brand Name");
             document.getElementById("txtBrandName").focus();
-            return;
+            return false;
         }
         if (document.getElementById("txtBrandRegistrationNumber").value == "") {
             alert("Please Enter Brand Registration Number");
             document.getElementById("txtBrandRegistrationNumber").focus();
-            return;
+            return false;
         }
         if (document.getElementById("txtStrength").value == "") {
             alert("Please Enter Strength");
             document.getElementById("txtStrength").focus();
-            return;
+            return false;
         } else {
             try {
                 parseFloat(document.getElementById("txtStrength").value);
                 if (parseFloat(document.getElementById("txtStrength").value) < 0) {
                     alert("Please Enter Valid Strength");
                     document.getElementById("txtStrength").focus();
-                    return;
+                    return false;
                 }
             }
             catch {
                 alert("Please Enter Valid Strength");
                 document.getElementById("txtStrength").focus();
-                return;
+                return false;
             }
         }
         if (document.getElementById("txtLicenseNo").value == "") {
             alert("Please Enter License No");
             document.getElementById("txtLicenseNo").focus();
-            return;
+            return false;
         }
         if (document.getElementById("txtQuantityInCase").value == "" && document.getElementById("txtQuantityInCase").value == "0") {
             alert("Please Enter Quantity in Case");
             document.getElementById("txtQuantityInCase").focus();
-            return;
+            return false;
         } else {
             try {
                 parseInt(document.getElementById("txtQuantityInCase").value);
             }
             catch{alert("Please Enter valid Quantity");
                 document.getElementById("txtQuantityInCase").focus();
-                return;
+                return false;
             }
         }
         if (document.getElementById("txtQuantityInBottleML").value == "0" && document.getElementById("txtQuantityInBottleML").value == "") {
             alert("Please Enter Quantity In Bottle ML")
             document.getElementById("txtQuantityInBottleML").focus();
-            return;
+            return false;
         }
         if (document.getElementById("txtXFactoryPrice").value == "0" && document.getElementById("txtXFactoryPrice").value == "") {
             alert("Please Enter X Factory Price")
             document.getElementById("txtXFactoryPrice").focus();
-            return;
+            return false;
         } else {
             try {
                 parseFloat("Please Enter X Factory Price");
             } catch{alert("Please Enter valid X Factory Price");
                 document.getElementById("txtXFactoryPrice").focus();
-                return;
+                return false;
             }
         }
     }
@@ -161,7 +167,7 @@
                             @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">State</label>
+                                    <label class="control-label">State<b style="color:red; font-weight:800">*</b> </label>
                                     <div>
                                         @Html.DropDownListFor(m => m.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control" })
                                     </div>
@@ -173,24 +179,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Brand Name</label>
-                                    @Html.TextBoxFor(m => m.BrandName, new { @id = "txtBrandName", @class = "form-control", @required = "required" })
+                                    <label class="control-label">Brand Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BrandName, new { @id = "txtBrandName", @class = "form-control", @required = "required", @MaxLength = "150" })
 
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Brand Registration Number</label>
+                                    <label class="control-label">Brand Registration Number<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.BrandRegistrationNumber, new { @id = "txtBrandRegistrationNumber", @class = "form-control", @required = "required" })
+                                        @Html.TextBoxFor(m => m.BrandRegistrationNumber, new { @id = "txtBrandRegistrationNumber", @class = "form-control", @required = "required", @MaxLength = "150" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
 
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label">Strength of Alcohol</label>
+                                    <label class="control-label">Strength of Alcohol<b style="color:red; font-weight:800">*</b></label>
                                     <div class="row">
-                                        <div class="form-group  col-md-6">
-                                            @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", })
+                                        <div class="form-group  col-md-6"> 
+                                            @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "3" })
                                         </div>
                                         <div class="form-group  col-md-6">
                                             @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
@@ -212,21 +218,21 @@
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">License No</label>
+                                    <label class="control-label">License No<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.LicenceNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required" })
+                                        @Html.TextBoxFor(m => m.LicenceNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @MaxLength = "50" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Box-Size (Number of Bottles)</label>
+                                    <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required" })
+                                        @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "5" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Quantity (In Bottle, In ml.)</label>
+                                    <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none" })
+                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none", @MaxLength = "5" })
 
                                         @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650", Selected = true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
                                     </div>
@@ -241,15 +247,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">XFactoryPrice</label>
+                                    <label class="control-label">XFactoryPrice<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required" })
+                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Remark</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.Remark, new { @id = "txtRemarks", @class = "form-control" })
+                                        @Html.TextBoxFor(m => m.Remark, new { @id = "txtRemarks", @class = "form-control", @MaxLength = "100" })
                                     </div>
                                 </div>
                             </div>
@@ -285,14 +291,36 @@
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
-                                @if (Model.BrandStatus == "P")
+                                @if (Request.QueryString["Mode"] != null)
                                 {
-                                    <button type="submit" class="btn green" onclick="Validation();">Submit</button>
+                                    if (Request.QueryString["Mode"].ToString().Trim() == "V")
+                                    {
+                                        <a href="@Url.Action("FinalizeBrand", "MasterForms",null)"><label class="btn blue">Back</label></a>
+                                    }
+                                    else
+                                    {
+                                        if (Model.BrandStatus == "P")
+                                        {
+                                            <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
+                                        }
+                                        <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go To Edit/Delete Brand</button>
+                                        if (Model.BrandStatus == "P")
+                                        {
+                                            <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                        }
+                                    }
                                 }
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go To Edit/Delete Brand</button>
-                                @if (Model.BrandStatus == "P")
+                                else
                                 {
-                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                    if (Model.BrandStatus == "P")
+                                    {
+                                        <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
+                                    }
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go To Edit/Delete Brand</button>
+                                    if (Model.BrandStatus == "P")
+                                    {
+                                        <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                    }
                                 }
                             </div>
                         </center>

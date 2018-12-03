@@ -25,7 +25,7 @@
                             <i class="fa fa-gift"></i>Generate And Download QR Code
                         </div>
                     </div>
-                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                    <div class="portlet-body form" style="background-color: #f5f5f5;display:none">
                         <div class="form-body">
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -112,7 +112,7 @@
                                             @Html.DisplayFor(modelItem => item.BulkLiter)
                                         </td>
                                         <td>
-                                            @if (item.IsQRGenerated == false)
+                                            @if (item.IsQRGenerated == false && item.Status!= "PB")
                                             {
                                                 <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Generate QR Code</button>
                                             }
@@ -122,11 +122,11 @@
                                             }
                                         </td>
                                         <td>
-                                            @if (item.IsQRGenerated == false)
+                                            @if (item.IsQRGenerated == false && item.Status != "PB")
                                             {
                                                 <button type="button" class="btn green" disabled="disabled">Download QR Code</button>
                                             }
-                                            else
+                                            else if (item.IsQRGenerated == true)
                                             {
                                                 <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>  
                                                 <button type="button" class="btn green"  onclick="Click('@item.EncPlanId')">Download QR Code</button>

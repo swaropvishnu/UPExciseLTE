@@ -9,6 +9,8 @@ using System.IO;
 using UPExciseLTE.BLL;
 using UPExciseLTE.Filters;
 using System.Data.Entity.Infrastructure;
+using System.Web;
+using System.Text;
 
 namespace UPExciseLTE.Controllers
 {
@@ -19,7 +21,7 @@ namespace UPExciseLTE.Controllers
     {
         public ActionResult MenuMaster()
         {
-            List<MenuMst> lstMst = new CommonDA().GetMenuMaster(-1,-1,"Z","Z","Z");
+            List<MenuMst> lstMst = new CommonDA().GetMenuMaster(-1, -1, "Z", "Z", "Z");
             return View(lstMst);
         }
         public ActionResult Index()
@@ -50,7 +52,7 @@ namespace UPExciseLTE.Controllers
             ViewBag.Msg = TempData["Message"];
             return View(Brand);
         }
-        public ActionResult BrandMaster(BrandMaster B) 
+        public ActionResult BrandMaster(BrandMaster B)
         {
 
             if (B.Remark == null)
@@ -97,12 +99,17 @@ namespace UPExciseLTE.Controllers
             List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
             return View(lstBrand);
         }
-        public string FinalBrand(string BrandId,string Status,string Reason)
+        public string FinalBrand(string BrandId, string Status, string Reason)
         {
             string str = "";
+            int TypeId = -1;
             try
             {
-                str = new CommonDA().UpdateBrand(int.Parse(BrandId), 1,Reason);
+                if (Status == "A")
+                { TypeId = 1; }
+                else
+                { TypeId = 3; }
+                str = new CommonDA().UpdateBrand(int.Parse(BrandId), TypeId, Reason);
             }
             catch (Exception x)
             {
@@ -115,7 +122,7 @@ namespace UPExciseLTE.Controllers
             string str = "";
             try
             {
-                str = new CommonDA().UpdateBrand("", int.Parse(BrandId), 2);
+                str = new CommonDA().UpdateBrand(int.Parse(BrandId), 2, "Deleted Brand");
             }
             catch (Exception x)
             {
@@ -129,6 +136,8 @@ namespace UPExciseLTE.Controllers
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
             ViewBag.BBT = CommonBL.fillBBT("S");
+            ViewBag.BottlingLine = CommonBL.EmptyDDl("S");
+            ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
                 return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
@@ -139,10 +148,9 @@ namespace UPExciseLTE.Controllers
             }
 
         }
-        public string GetBBTDetailsForDDl(string BBTID)
+        public ActionResult GetBottlingTankForddl(string ddlBBT)
         {
-            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
-            return bbtFormation.BBTBulkLiter.ToString();
+            return Json(CommonBL.BottlingLine("S", ddlBBT), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public string GetBrandDetailsForDDl(string BrandId)
@@ -308,7 +316,8 @@ namespace UPExciseLTE.Controllers
                 var str = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
-                    lstBotteling[0].Msg = Message.MsgSuccess(str);
+                    ViewBag.Msg = TempData["Msg"];
+                    //lstBotteling[0].Msg = Message.MsgSuccess(str);
                 }
             }
             return View(lstBotteling);
@@ -324,29 +333,33 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
-        [ActionName("UploadCSVFile")]
+
         [HttpPost]
-        public ActionResult UploadCSVFile1()
+        public ActionResult UploadCSVFile()
         {
-            if (Request.Files["impCSVUpload"].ContentLength > 0)
+            if (Request.Files.Count > 0)
             {
-                string extension = System.IO.Path.GetExtension(Request.Files["impCSVUpload"].FileName).ToLower();
-                if (extension == ".csv")
+                try
                 {
-                    System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
-                    DataTable dt= CSV.GetCSVToDt(file);
-                    string str = new CommonDA().UploadCSV(-1,dt,1);
-                    TempData["Message"] = str;
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
 
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = CSV.ValidateCSV(1, int.Parse(new Crypto().Decrypt(files.Keys[0])), -1, file);
+                    }
+                    return Json(str);
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["Message"] = "Please Upload Files in .csv format";
+                    return Json("Error occurred. Error details: " + ex.Message);
                 }
-
             }
-
-            return RedirectToAction("UploadCSV");
+            else
+            {
+                return Json("No files selected.");
+            }
         }
         /*
          [HttpGet]
@@ -389,6 +402,37 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpGet]
+        public ActionResult BottlingLine()
+        {
+            BottlingLine RM = new BottlingLine();
+            ViewBag.BBT = CommonBL.fillBBT("S");
+            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
+            {
+
+                RM = new CommonBL().GetBottlingLine(-1, -1, int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+            }
+            ViewBag.Msg = TempData["Msg"];
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            ViewBag.UnitTank = new CommonBL().GetBottlingLineDetails(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, -1, "Z");
+            return View(RM);
+        }
+        [HttpPost]
+        public ActionResult BottlingLine(BottlingLine RM)
+        {
+            string str = new CommonDA().InsertUpdateBottlingLine(RM);
+            TempData["Msg"] = str;
+            return RedirectToAction("BottlingLine");
+        }
+        public string UpdateBottlingLine(string UTId, string Status)
+        {
+            BottlingLine BL = new BottlingLine();
+            BL.BottlingLineId = int.Parse(new Crypto().Decrypt(UTId));
+            BL.BottlingLineStatus = Status;
+            BL.Type = 3;
+            string str = new CommonDA().InsertUpdateBottlingLine(BL);
+            return str;
+        }
+        [HttpGet]
         public ActionResult ReceiveUnitTank()
         {
             UTTransferToBBT UTBL = new UTTransferToBBT();
@@ -396,6 +440,7 @@ namespace UPExciseLTE.Controllers
             if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
+                ViewBag.Msg = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
                     UTBL.Msg = Message.MsgSuccess(str);
@@ -432,6 +477,7 @@ namespace UPExciseLTE.Controllers
             if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
+                ViewBag.Msg = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
                     UTTBBT.Msg = Message.MsgSuccess(str);
@@ -439,14 +485,19 @@ namespace UPExciseLTE.Controllers
             }
             return View(UTTBBT);
         }
+        /*public string GetBBTDetailsForDDl(string BBTID)
+        {
+            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
+            return bbtFormation.BBTBulkLiter.ToString();
+        }
+       */
         public string GetBBTForDDl(string BBTId)
         {
 
-            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), -1, "Z")[0];
+            BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), "A")[0];
             return bbtFormation.BBTBulkLiter.ToString() + "," + bbtFormation.BBTCapacity.ToString();
         }
         [HttpPost]
-        
         public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)
         {
             UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
@@ -463,5 +514,132 @@ namespace UPExciseLTE.Controllers
             List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "T", -1, -1);
             return View(lstUtBl);
         }
+        [HttpGet]
+        public ActionResult BBTMaster()
+        {
+            BBTMaster BBT = new BBTMaster();
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
+            {
+                BBT = new CommonBL().GetBBTMasterList(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "Z")[0];
+            }
+            if (TempData["Message"] != null)
+            {
+                var str = TempData["Message"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    ViewBag.Msg = TempData["Message"].ToString();
+                    BBT.Message = Message.MsgSuccess(str);
+                }
+            }
+            return View(BBT);
+        }
+        [HttpGet]
+        public ActionResult GetBBTDetails()
+        {
+
+            List<BBTMaster> bbtFormations = new List<BBTMaster>();
+            bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
+            return View(bbtFormations);
+        }
+        [HttpGet]
+        public ActionResult DeleteBBT(int bbtId)
+        {
+            /*var bbtFormation = new Models.BBTFormation();
+            bbtFormation.BBTId = bbtId;
+            bbtFormation.SP_Type = 3;
+            var str = new CommonDA().InsertUpdateBBT(bbtFormation);
+            bbtFormation = new BBTFormation();
+            if (!string.IsNullOrEmpty(str))
+            {
+                bbtFormation.Message = new Message();
+                bbtFormation.Message.MStatus = "info";
+                bbtFormation.Message.TextMessage = str;
+            }*/
+            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
+        }
+        [HttpPost]
+        public ActionResult BBTMaster(BBTMaster BBT)
+        {
+            var str = new CommonDA().InsertUpdateBBT(BBT);
+            TempData["Message"] = str;
+            return RedirectToAction("BBTMaster");
+        }
+        [HttpGet]
+        public ActionResult GatePass()
+        {
+            GatePassDetails GP = new GatePassDetails();
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 1, "P");
+
+            ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
+            ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
+            ViewBag.Districts = CommonBL.fillDistict("S");
+            ViewBag.FromLicenseTypes = CommonBL.fillLicenseTypes("S", "L1F");
+            ViewBag.ToLicenseTypes = CommonBL.fillLicenseTypes("S", "L1T");
+            return View(GP);
+        }
+        [HttpPost]
+        public ActionResult GatePass(GatePassDetails GP)
+        {
+            GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
+            GP.UploadValue = 1;
+            GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
+            GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
+            string str = new CommonDA().InsertUpdateGatePassDetails(GP);
+            TempData["Message"] = str;
+            return RedirectToAction("GatePass");
+        }
+        [HttpGet]
+        public ActionResult UploadGatePassCSV(string A, string B)
+        {
+            GatePassDetails GP = new GatePassDetails();
+            ViewBag.Brand = CommonBL.fillBrand("A");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 1, "P");
+            return View(GP);
+        }
+        [HttpPost]
+        public ActionResult UploadGatePassCSV()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = CSV.ValidateCSV(2, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+        public string GetGatePassUploadBrandDetails(string Gatepass)
+        {
+            long GatePass = long.Parse(Gatepass);
+            return new CommonBL().GetGatePassUploadBrandDetails(GatePass);
+        }
+        public string FinalGatePass(string Gatepass)
+        {
+            long GatePass = long.Parse(Gatepass);
+            return new CommonDA().FinalGatePass(GatePass);
+        }
+        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue)
+        {
+            long GatePass = long.Parse(GatePassId);
+            int Brand = int.Parse(BrandId);
+            return new CommonDA().UploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo);
+        }
+
     }
 }

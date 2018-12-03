@@ -225,154 +225,154 @@
                                 </center>
                             </div>
                         </div>
+                        <div style="display:none">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Second Step</div>
+                                <div class="panel-body">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="form-group  col-md-4">
+                                                <label class="control-label">@Html.DisplayNameFor(model => model.Brands)</label>
+                                                <div>
+                                                    @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)Model.Brands, new { @id = "ddlBrandId", @class = "form-control", @name = "ddlBrandId" })
+                                                </div>
+                                            </div>
 
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Second Step</div>
-                            <div class="panel-body">
-                                <div class="form-body">
-                                    <div class="row">
-                                        <div class="form-group  col-md-4">
-                                            <label class="control-label">@Html.DisplayNameFor(model => model.Brands)</label>
-                                            <div>
-                                                @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)Model.Brands, new { @id = "ddlBrandId", @class = "form-control", @name = "ddlBrandId" })
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label">&nbsp;</label>
+                                                <div>
+                                                    <input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" />
+                                                </div>
+
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">&nbsp;</label>
-                                            <div>
-                                                <input type="file" class="btn btn-primary required" name="impCSVUpload" id="impCSVUpload" value="Upload Gatepass" />
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    @*<div class="form-group  col-md-4">
+                                        @*<div class="form-group  col-md-4">
                             <label class="control-label">&nbsp;</label>
                             <div>
                                 <button type="button" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension1(this)">Save Gate Pass</button>
                             </div>
                         </div>*@
-                                </div>
-                                <center>
-                                    <div class="form-actions">
-                                        <button type="button" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension1(this)">Upload CSV</button>
-                                        @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                            <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
-                                    </div>
-                                </center>
-                            </div>
-
-                        </div>
-
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Third Step</div>
-                            <div class="panel-body">
-                                <div class="portlet-body">
-                                    <div class="table-scrollable">
-                                        <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    @*<th>
-                                            S.No
-                                        </th>*@
-                                                    <th>
-                                                        Brand
-                                                    </th>
-                                                    <th>
-                                                        Size
-                                                    </th>
-                                                    <th>
-                                                        Available Bottle
-                                                    </th>
-                                                    <th>
-                                                        Available Box
-                                                    </th>
-                                                    <th>
-                                                        Dispatch Box
-                                                    </th>
-                                                    <th>
-                                                        Dispatch Bottle
-                                                    </th>
-                                                    <th>
-                                                        Batch No
-                                                    </th>
-                                                    <th>
-                                                        Duty
-                                                    </th>
-                                                    <th>
-                                                        Add Duty
-                                                    </th>
-                                                    <th>
-                                                        Calculated Duty
-                                                    </th>
-                                                    <th>
-                                                        Calculated Additional Duty
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
-                                                {
-                                                    foreach (var item in Model.DistrictWholeSaleToRetailorList)
-                                                    {
-                                                        <tr>
-                                                            @*<td>
-                                                    @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style = "width:50px;", @disabled = "disabled" })
-                                                </td>*@
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-
-                                                                @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
-
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;", @onkeyPress = "return IsNumeric(event);" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;", @disabled = "disabled" })
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
                                     </div>
                                     <center>
                                         <div class="form-actions">
-                                            <button type="button" class="btn green" id="btnBMWholeComplete">Finalize Gate Pass</button>
+                                            <button type="button" class="btn green" id="btnBMCSVUpload" onclick="return ValidateExtension1(this)">Upload CSV</button>
                                             @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                            <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
                                         </div>
                                     </center>
                                 </div>
+
                             </div>
 
-                        </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Third Step</div>
+                                <div class="panel-body">
+                                    <div class="portlet-body">
+                                        <div class="table-scrollable">
+                                            <table id="tblBMWholeSale" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        @*<th>
+                                            S.No
+                                        </th>*@
+                                                        <th>
+                                                            Brand
+                                                        </th>
+                                                        <th>
+                                                            Size
+                                                        </th>
+                                                        <th>
+                                                            Available Bottle
+                                                        </th>
+                                                        <th>
+                                                            Available Box
+                                                        </th>
+                                                        <th>
+                                                            Dispatch Box
+                                                        </th>
+                                                        <th>
+                                                            Dispatch Bottle
+                                                        </th>
+                                                        <th>
+                                                            Batch No
+                                                        </th>
+                                                        <th>
+                                                            Duty
+                                                        </th>
+                                                        <th>
+                                                            Add Duty
+                                                        </th>
+                                                        <th>
+                                                            Calculated Duty
+                                                        </th>
+                                                        <th>
+                                                            Calculated Additional Duty
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.DistrictWholeSaleToRetailorList.Count() > 0)
+                                                {
+                                                    foreach (var item in Model.DistrictWholeSaleToRetailorList)
+                                                    {
+                                                            <tr>
+                                                                @*<td>
+                                                    @Html.TextBoxFor(modelItem => item.RowNum, new { @id = "lblRowNum", @class = "form-control RowNum", @name = "RowNum", @style = "width:50px;", @disabled = "disabled" })
+                                                </td>*@
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.Brand, new { @id = "lblBrand", @class = "form-control Brand", @name = "Brand", @style = "width:200px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
 
+                                                                    @Html.TextBoxFor(modelItem => item.Size, new { @id = "lblSize", @class = "form-control Size", @name = "Size", @style = "width:50px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.AvailableBottle, new { @id = "lblAvailableBottle", @class = "form-control AvailableBottle", @name = "AvailableBottle", @style = "width:80px;", @disabled = "disabled" })
+
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.AvailableBox, new { @id = "lblAvailableBox", @class = "form-control AvailableBox", @name = "AvailableBox", @style = "width:50px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.DispatchBox, new { @id = "txtDispatchBox", @class = "DispatchBox form-control ", @placeholder = "Dispatch Box", @name = "DispatchBox", @style = "width:100px;", @onkeyPress = "return IsNumeric(event);" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.DispatchBottle, new { @id = "lblDispatchBottle", @class = "form-control DispatchBottle", @name = "DispatchBottle", @style = "width:100px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.BatchNo, new { @id = "txtBatchNo", @class = "form-control BatchNo", @placeholder = "Batch No", @name = "BatchNo", @style = "width:100px;" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.Duty, new { @id = "lblDuty", @class = "form-control Duty", @name = "Duty", @style = "width:100px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.AddDuty, new { @id = "lblAddDuty", @class = "form-control AddDuty", @name = "AddDuty", @style = "width:100px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.CalculatedDuty, new { @id = "lblCalculatedDuty", @class = "form-control CalculatedDuty", @name = "CalculatedDuty", @style = "width:80px;", @disabled = "disabled" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(modelItem => item.CalculatedAdditionalDuty, new { @id = "lblCalculatedAdditionalDuty", @class = "form-control CalculatedAdditionalDuty", @name = "CalculatedAdditionalDuty", @style = "width:80px;", @disabled = "disabled" })
+                                                                </td>
+                                                            </tr>
+                                                    }
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <center>
+                                            <div class="form-actions">
+                                                <button type="button" class="btn green" id="btnBMWholeComplete">Finalize Gate Pass</button>
+                                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Brand Details</button>*@
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
 
                         @*<div class="portlet-body">
                 <div class="table-scrollable">

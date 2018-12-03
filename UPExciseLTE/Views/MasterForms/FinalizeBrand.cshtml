@@ -82,21 +82,21 @@
                                         @Html.DisplayFor(modelItem => item.MRP)
                                     </td>
                                     <td>
-                                        @Html.EditorFor(modelItem => item.Reason)
+                                        @Html.TextBox("txtReason","", new { @id =item.brandID_incrpt })
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("BrandMaster", "MasterForms", new { Code = item.brandID_incrpt })"><label class="btn blue">View</label></a>
+                                        <a href="@Url.Action("BrandMaster", "MasterForms", new { Code = item.brandID_incrpt,Mode='V' })"><label class="btn blue">View</label></a>
                                     </td>
                                     <td>
                                         @if (item.BrandStatus == "P")
                                         {
-                                            <button type="button" id="btn" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('@item.BrandId','A')">Freeze</button>
+                                            <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('@item.BrandId','A','@item.brandID_incrpt')">Freeze</button>
                                         }
                                     </td>
                                     <td>
                                         @if (item.BrandStatus == "P")
                                         {
-                                            <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId','R')">Reject</button>
+                                            <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('@item.BrandId','R','@item.brandID_incrpt')">Reject</button>
                                         }
                                     </td>
 
@@ -115,24 +115,31 @@
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
     }  
-    function FinalBrand(BrandId, status) {
+    function FinalBrand(BrandId, status,txtId) {
         var reason = "";
         if (status == "A") {
             reason = "Brand freezed";
             var r = confirm("Are You sure to freeze this Brand.");
             if (r == false) {
-                return;
+                return false;
             }
         }
-        if (status == "R") {
+        else if (status == "R") {
             var r = confirm("Are You sure to Reject this Brand.");
             if (r == false) {
-                return;
+                return false;
             }
+           
+            var Reason = document.getElementById(txtId).value;
+            if (Reason.trim() == "") {
+                alert("Please Enter Reason of rejection");
+                return false;
+            }
+           
         }
         $.ajax({
             url: '/MasterForms/FinalBrand',
-            data: { 'BrandId': BrandId, 'status': status, 'reason': reason },
+            data: { 'BrandId': BrandId, 'status': status, 'reason': Reason },
             datatype: "json",
             type: "GET",
             success: function (data) {
