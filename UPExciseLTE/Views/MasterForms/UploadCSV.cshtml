@@ -26,11 +26,14 @@
         }
     }
     <script type="text/javascript">
-        $("#danger-alert").show();
+        $(document).ready(function () {
+            $("#danger-alert").show();
+        });
         $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
             $("#danger-alert").slideUp(500);
         });
-        function ValidateCSV(PlanId) {
+        function ValidateCSV() {
+            var PlanId = document.getElementById("txtPopEncPlanId").value;
             // Checking whether FormData is available in browser
             if (window.FormData !== undefined) {
 
@@ -68,10 +71,11 @@
         function ShowPopup() {
             $('#myModal2').modal('show');
         }
-        function UploadCSV(BrandId) {
+        function UploadCSV() {
+            var BrandId = document.getElementById("txtPopBrandId").value;
             $.ajax({
                 url: '/MasterForms/UploadVerifedCSV',
-                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1},
+                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1 },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
@@ -81,6 +85,15 @@
                     alert("Error in Upload CSV Loading");
                 }
             });
+        }
+        function UploadCSVPOPUP(EncPlanId, PlanId, BrandId, DateOfPlan1, Brand)
+        {
+            document.getElementById("txtPopPlanId").value = PlanId;
+            document.getElementById("txtPopEncPlanId").value = EncPlanId;
+            document.getElementById("txtPopBrandId").value = BrandId;
+            document.getElementById("txtPopPlanDate").value = DateOfPlan1;
+            document.getElementById("txtPopBrandName").value = Brand;
+            $('#myModal3').modal('show');
         }
     </script>
     <div class="page-content-inner">
@@ -155,7 +168,7 @@
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
                                         <td>
-                                            <button type="button" class="btn green" id="btnUpload" onclick="UploadCSV('@item.EncPlanId','@item.BrandId');">Upload CSV</button>
+                                            <button type="button" class="btn green" id="btnUpload" onclick="UploadCSVPOPUP('@item.EncPlanId','@item.PlanId','@item.BrandId','@item.DateOfPlan1','@item.Brand');">Upload CSV</button>
                                             @*<input type="file" class="btn btn-primary required" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" /><br />*@
                                             @*<button type="submit" class="btn green" onclick="return ValidateExtension(this)">Upload CSV</button>*@
                                             @*<button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV('@item.EncPlanId');" >Validate CSV</button>*@
@@ -165,17 +178,37 @@
                             </table>
                         </div>
                     </div>
-                    <div id="divResult"></div>
-                    <div class="form-body">
-                        <div id="divTable"></div>
-                    </div>
-                    <div id='myModal' class='modal fade' role='dialog'>
+                    <div id='myModal3' class='modal fade' role='dialog'>
                         <div class='modal-dialog'>
                             <div class='modal-content'>
                                 <div class='portlet box green'>
                                     <div class='portlet-title'><div class='caption'><div>Upload CSV</div></div><button type='button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'>
                                         <div>
                                             <div class='modal-body'>
+                                                <div class="row">
+                                                    @Html.Hidden("txtPopEncPlanId", "", new { @id = "txtPopEncPlanId" })
+                                                    @Html.Hidden("txtPopBrandId", "", new { @id = "txtPopBrandId" })
+                                                    <div class="form-group  col-md-2">
+                                                        <label class="control-label">PlanId</label>
+                                                        @Html.TextBox("txtPopPlanId", "", new { @id = "txtPopPlanId", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                    <div class="form-group  col-md-3">
+                                                        <label class="control-label">Plan Date</label>
+                                                        @Html.TextBox("txtPopPlanDate", "", new { @id = "txtPopPlanDate", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                    <div class="form-group  col-md-6">
+                                                        <label class="control-label">Brand Name</label>
+                                                        @Html.TextBox("txtPopBrandName", "", new { @id = "txtPopBrandName", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="file" class="btn green" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" />
+                                                </div>
+                                                <br />
+                                                <center>
+                                                    <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>
+                                                    <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>
+                                                </center>
                                             </div>
                                         </div>
                                     </div>
@@ -183,6 +216,11 @@
                             </div>
                         </div>
                     </div>
+                    <div id="divResult"></div>
+                    <div class="form-body">
+                        <div id="divTable"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
