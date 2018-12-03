@@ -13,7 +13,7 @@ using System.Text;
 
 namespace UPExciseLTE.DAL
 {
-    public class CommonDA
+    public class  CommonDA
     {
         #region Default
         SqlDataAdapter adap;
