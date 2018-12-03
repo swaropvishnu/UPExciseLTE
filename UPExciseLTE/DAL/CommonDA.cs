@@ -783,8 +783,6 @@ namespace UPExciseLTE.DAL
                         dt.Rows[i]["Duty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].Duty);
                         dt.Rows[i]["BatchNo"] = districtWholeSaleToRetailorModels[i].BatchNo;
                         dt.Rows[i]["DispatchBox"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].DispatchBox);
-
-
                     }
                 }
             }
@@ -850,6 +848,7 @@ namespace UPExciseLTE.DAL
         public string InsertUpdateGatePass(BrewerytToManufacturerGatePass gatePass=null,List<DistrictWholeSaleToRetailorModel> districtWholeSaleToRetailorModels=null)
         {
             DataTable dt = new DataTable();
+
             if (districtWholeSaleToRetailorModels != null)
             {
                 if (districtWholeSaleToRetailorModels.Count > 0)
@@ -880,8 +879,6 @@ namespace UPExciseLTE.DAL
                         dt.Rows[i]["Duty"] = Convert.ToDecimal(districtWholeSaleToRetailorModels[i].Duty);
                         dt.Rows[i]["BatchNo"] = districtWholeSaleToRetailorModels[i].BatchNo;
                         dt.Rows[i]["DispatchBox"] = Convert.ToInt32(districtWholeSaleToRetailorModels[i].DispatchBox);
-
-
                     }
                 }
             }
@@ -905,7 +902,6 @@ namespace UPExciseLTE.DAL
                     cmd.Parameters.Add(new SqlParameter("UploadValue", gatePass.UploadValue));
                 }
                 else
-
                 {
                     cmd.Parameters.Add(new SqlParameter("BrandId", null));
                     cmd.Parameters.Add(new SqlParameter("FromDate", gatePass.FromDate));
@@ -930,6 +926,14 @@ namespace UPExciseLTE.DAL
                     cmd.Parameters.Add(new SqlParameter("GatePassSource", gatePass.PassTypeInformation));
                     cmd.Parameters.Add(new SqlParameter("GatePassSourceId", UserSession.LoggedInUserLevelId.ToString()));
                     cmd.Parameters.Add(new SqlParameter("RouteDetails", gatePass.RouteDetails));
+
+
+                    cmd.Parameters.Add(new SqlParameter("ToLicenceTypeId", gatePass.ToLicenseTypeId));
+                    cmd.Parameters.Add(new SqlParameter("FromLicenceTypeId", gatePass.FromLicenseTypeId));
+                    cmd.Parameters.Add(new SqlParameter("ConsinorLicenseId",  4 )); //Convert.ToInt64( gatePass.ConsinorLicenseNo)));
+                    cmd.Parameters.Add(new SqlParameter("ConsineeLicenseId",  5   ));  ///Convert.ToInt64(gatePass.ConsineeLicenseNo)));
+
+
                     //cmd.Parameters.Add(new SqlParameter("tbl_GatePassBrandMapping", dt));
                 }
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
@@ -955,8 +959,6 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
-
-
 
         public DataSet GetGatePassDetails(int spType,long GatePassId=0,long brandId=0)
         {

@@ -195,15 +195,7 @@ namespace UPExciseLTE.Models
 
         public string LicenceName { get; set; }
 
-        public string Address { get; set; }
-
         public string MajorDistrictsInRoute { get; set; }
-
-        public decimal GrossWeight { get; set; }
-
-        public decimal TareWeight { get; set; }
-
-        public decimal NetWeight { get; set; }
 
         public string ShopName { get; set; }
 
@@ -215,24 +207,22 @@ namespace UPExciseLTE.Models
 
         public string LicenseeAddress { get; set; }
 
-      
-
         public IEnumerable<DistrictWholeSaleToRetailorModel> DistrictWholeSaleToRetailorList { get; set; }
 
         public string PassTypeInformation { get; set; }
+
         public Message Message { get; set; }
 
-        public decimal MDistrictId1 { get; set; }
-        public decimal MDistrictId2 { get; set; }
-        public decimal MDistrictId3 { get; set; }
-
         public long GatePassId { get; set; }
+
         public DateTime FromDate { get; set; } = DateTime.Now;
+
         public DateTime ToDate { get; set; } = DateTime.Now.AddDays(7);
+
         public string To { get; set; } = "";
+
         public string From { get; set; } = "";
        
-
         public int TotalBox { get; set; }
 
         public int TotalBottles { get; set; }
@@ -248,7 +238,7 @@ namespace UPExciseLTE.Models
         public decimal TotalBottleQuantity { get; set; }
 
 
-
+        // Brewary To Manufacturer WholeSale Gate Pass
 
         [Display(Name = "Date")]
         public string Date { get; set; } //= DateTime.Now;
@@ -303,6 +293,36 @@ namespace UPExciseLTE.Models
 
         public int SP_Type { get; set; } = 1;
 
+        public string Status { get; set; }
+
+
+        // Manufacturer To District WholeSale Gate Pass
+
+        [Display(Name = "License Type")]
+        public IEnumerable<SelectListItem> LicenseTypes { get; set; }
+
+        public IEnumerable<SelectListItem> Shops { get; set; }
+        [Display(Name = "From")]
+        public short FromLicenseTypeId { get; set; }
+
+        [Display(Name = "To")]
+        public short ToLicenseTypeId { get; set; }
+
+
+
+        [Display(Name = "Gross Weight")]
+        public decimal GrossWeight { get; set; }
+        [Display(Name = "Tare Weight")]
+        public decimal TareWeight { get; set; }
+        [Display(Name = "Net Weight")]
+        public decimal NetWeight { get; set; }
+        public decimal MDistrictId1 { get; set; }
+        public decimal MDistrictId2 { get; set; }
+        public decimal MDistrictId3 { get; set; }
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        //
 
 
     }

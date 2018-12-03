@@ -59,6 +59,18 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.PushName.ToString(), SelectType);
             return BrandList;
         }
+
+        public static List<SelectListItem> fillLicenseTypes(string SelectType)
+        {
+            List<SelectListItem> liceseList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", liceseList, "License", UserSession.PushName.ToString(), SelectType);
+            return liceseList;
+        }
+        
+
+
+
+
         public static LoginModal GetUserDetail(LoginModal objUserData)
         {
             try
@@ -329,10 +341,10 @@ namespace UPExciseLTE.BLL
 
 
 
-        public List<DistrictWholeSaleToRetailorModel> GetBMGatePassDetails(long gatePassId,long brandId)
+        public List<DistrictWholeSaleToRetailorModel> GetBMGatePassDetails(long gatePassId,long brandId,int spType)
         {
             var reportModels = new List<DistrictWholeSaleToRetailorModel>();
-            DataSet ds = new CommonDA().GetGatePassDetails(2,gatePassId,brandId);
+            DataSet ds = new CommonDA().GetGatePassDetails(spType, gatePassId,brandId);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -444,33 +456,58 @@ namespace UPExciseLTE.BLL
             return model;
         }
 
-        public BrewerytToManufacturerGatePass GetBreweryToManufacturerPassDetailsDetails()
+        public BrewerytToManufacturerGatePass GetBreweryToManufacturerPassDetailsDetails(int spType)
         {
             var reportModels = new BrewerytToManufacturerGatePass();
-            DataSet ds = new CommonDA().GetGatePassDetails(6);
+            DataSet ds = new CommonDA().GetGatePassDetails(spType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 reportModels.Date = ds.Tables[0].Rows[0]["Date"].ToString().Substring(0,11);
                 reportModels.ValidTill = ds.Tables[0].Rows[0]["ValidTill"].ToString().Trim().Substring(0, 11);
-                reportModels.FromLicenseType = ds.Tables[0].Rows[0]["FromLicenseType"].ToString();
-                reportModels.ToLicenseType = ds.Tables[0].Rows[0]["ToLicenseType"].ToString().Trim();
+                if(spType==6)
+                {
+                    reportModels.FromLicenseType = ds.Tables[0].Rows[0]["FromLicenseType"].ToString();
+                    reportModels.ToLicenseType = ds.Tables[0].Rows[0]["ToLicenseType"].ToString().Trim();
+                   
+                }
+                if(spType==7)
+                {
+                    reportModels.FromLicenseTypeId =short.Parse( ds.Tables[0].Rows[0]["FromLicenceTypeId"].ToString());
+                    reportModels.ToLicenseTypeId = short.Parse(ds.Tables[0].Rows[0]["ToLicenceTypeId"].ToString().Trim());
+                    reportModels.Address = ds.Tables[0].Rows[0]["Address"].ToString().Trim();
+                    reportModels.MDistrictId1 = decimal.Parse(ds.Tables[0].Rows[0]["MDistrictId1"].ToString());
+                    reportModels.MDistrictId2 = decimal.Parse(ds.Tables[0].Rows[0]["MDistrictId2"].ToString().Trim());
+                    reportModels.MDistrictId3 = decimal.Parse(ds.Tables[0].Rows[0]["MDistrictId3"].ToString().Trim());
+                    reportModels.GrossWeight = decimal.Parse(ds.Tables[0].Rows[0]["GrossWeight"].ToString().Trim());
+                    reportModels.TareWeight = decimal.Parse(ds.Tables[0].Rows[0]["TareWeight"].ToString().Trim());
+                }
+                if(spType==8)
+                {
+                    reportModels.ShopId=int.Parse( ds.Tables[0].Rows[0]["ShopId"].ToString());
+                    reportModels.GatePassNo = ds.Tables[0].Rows[0]["GatePassNo"].ToString();
+                    reportModels.LicenseeName = ds.Tables[0].Rows[0]["LicenseeName"].ToString();
+                    reportModels.LicenseeAddress= ds.Tables[0].Rows[0]["LicenseeAddress"].ToString();
+                }
                 if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["BrandId"].ToString()))
                     reportModels.BrandId = null;
                 else
                     reportModels.BrandId= Convert.ToInt64(ds.Tables[0].Rows[0]["BrandId"].ToString());
-
-                reportModels.ConsineeLicenseNo = ds.Tables[0].Rows[0]["ConsineeLicenseNo"].ToString().Trim();
-                reportModels.ConsinorLicenseNo = ds.Tables[0].Rows[0]["ConsinorLicenseNo"].ToString().Trim();
+                if(spType==6 || spType == 7)
+                {
+                    reportModels.ConsineeLicenseNo = ds.Tables[0].Rows[0]["ConsineeLicenseNo"].ToString().Trim();
+                    reportModels.ConsinorLicenseNo = ds.Tables[0].Rows[0]["ConsinorLicenseNo"].ToString().Trim();
+                    reportModels.ConsignorName = ds.Tables[0].Rows[0]["ConsignorName"].ToString().Trim();
+                }
+              
                 reportModels.VehicleNo = ds.Tables[0].Rows[0]["VehicleNo"].ToString().Trim();
                 reportModels.VehicleDriverName = ds.Tables[0].Rows[0]["VehicleDriverName"].ToString().Trim();
                 reportModels.AgencyNameAndAddress = ds.Tables[0].Rows[0]["AgencyNameAndAddress"].ToString().Trim();
                 reportModels.RouteDetails = ds.Tables[0].Rows[0]["RouteDetails"].ToString().Trim();
-                reportModels.ConsignorName = ds.Tables[0].Rows[0]["ConsignorName"].ToString().Trim();
                 reportModels.ConsigneeName = ds.Tables[0].Rows[0]["ConsigneeName"].ToString().Trim();
                 reportModels.GatePassId = Convert.ToInt64(ds.Tables[0].Rows[0]["GatePassId"].ToString().Trim());
+                reportModels.Status = ds.Tables[0].Rows[0]["Status"].ToString().Trim();
+               
                 reportModels.SP_Type = 6;
-
-
             }
             return reportModels;
         }
