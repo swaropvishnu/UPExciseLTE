@@ -12,23 +12,23 @@ namespace UPExciseLTE.Models
     {
         protected HttpSessionState session;
 
-        public UserManager(HttpSessionState httpSessionState)
-        {
-            session = httpSessionState;
-        }
+        //public UserManager(HttpSessionState httpSessionState)
+        //{
+        //    session = httpSessionState;
+        //}
 
         public UserManager()
         {
             session = HttpContext.Current.Session;
         }
 
-        public void Dispose()
-        {
-            session.Clear();
-            session.Abandon();
-        }
+        //public void Dispose()
+        //{
+        //    session.Clear();
+        //    session.Abandon();
+        //}
 
-       
+
         public DataTable tbl_Session
         {
             get

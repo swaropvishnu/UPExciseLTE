@@ -73,13 +73,17 @@
         }
         function UploadCSV() {
             var BrandId = document.getElementById("txtPopBrandId").value;
+            var PlanId = document.getElementById("txtPopPlanId").value;
             $.ajax({
                 url: '/MasterForms/UploadVerifedCSV',
-                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1 },
+                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     alert(data);
+                    $('#myModal3').modal('toggle')
+                    /*var modal = document.getElementById('myModal3');
+                    modal.style.display = "none";*/
                 },
                 error: function (data) {
                     alert("Error in Upload CSV Loading");
@@ -202,8 +206,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <input type="file" class="btn green" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" />
-                                                </div>
+                                                    <div class="form-group  col-md-3">
+                                                        <label class="control-label">Choose File</label>
+                                                        <input type="file" class="btn default" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" />
+                                                        </div>
+                                                    </div>
                                                 <br />
                                                 <center>
                                                     <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>

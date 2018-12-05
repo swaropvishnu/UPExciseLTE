@@ -1,0 +1,226 @@
+﻿.label
+{
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Arial;
+}
+.contents
+{
+    border: 1px dotted black;
+    padding: 5px;
+    width: 300px;
+}
+.name
+{
+    color: #18B5F0;
+}
+.left
+{
+   float: left;
+   width: 70px;
+}
+.PassType{
+    border-bottom:solid thin;
+border-top:solid thin;
+}
+
+
+.right
+{
+    float:left;
+    margin-left:50px;
+    /*margin-left:220px;*/
+    /*line-height:50px;*/
+}
+
+#VehicleNo{
+    margin-right:50px;
+}
+
+.qrCode
+{
+ float: right;
+ width:65px;
+ height:65px;
+ margin-top:3px;
+ /*line-height:50px;*/
+}
+.GatePassNo{
+    float:left;
+    margin-left:15px;
+}
+.Date {
+     float: left;
+     margin-left:300px;
+     /*margin-left:15px*/
+  
+}
+
+.validTill {
+     float: right;
+      margin-right:0px;
+}
+#ValidTill {
+    margin-right:100px;
+}
+.DutyPaid{
+     float: left;
+     margin-left:15px;
+}
+.ExportDuty{
+  float: right;
+  margin-right:165px;
+}
+
+.ConsirationFee{
+    float: left;
+     margin-left:15px;
+}
+.ConsineeFee{
+    float: right;
+     margin-right:140px;
+}
+.AuthorizeSign{   float: left;
+     margin-left:15px;}
+
+.ExciseInspector{   float: right;
+     margin-right:50px;}
+
+footer{
+    display:none;
+}
+header{
+    display:none
+}
+.clear
+{
+    clear: both;
+}
+
+
+ @media print
+      {
+         @page {
+           margin-top: 0;
+           margin-bottom: 0;
+         }
+         body  {
+           padding-top: 72px;
+           padding-bottom: 72px ;
+         }
+         th{
+            background-color:gray;
+         }
+      } 
+
+ /*@page {
+    size:A4 portrait;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin: 0;
+}*/
+
+ table {
+    margin-top: 0px;
+    border-collapse: separate;
+    border-spacing: 0px;
+    font:13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
+}
+
+table td,
+table th {
+    background-color: gray;
+    z-index: 1;
+    border-right: 0;
+    border-bottom: 0;
+    width: auto;
+    padding-left: 1px;
+    overflow: hidden;
+    height: auto;
+}
+
+table th:before,
+table td:before {
+    content: "";
+    padding: 0;
+    height: 1px;
+    line-height: 1px;
+    width: 1px;
+    margin: 10px -994px -996px -2px;
+    display: block;
+    border: 0;
+    z-index: -1;
+    position:relative;
+    top: -6px;
+}
+
+table th:before {
+    border-top: 999px solid #D6D6D6;
+    border-left: 999px solid #D6D6D6;
+}
+
+table td:before {
+    border-top: 999px solid #F9F9F9;
+    border-left: 999px solid #F9F9F9;
+}
+td div.grid_3{
+    overflow: hidden;
+}
+table .row td{
+    border-bottom: #d6d6d6 1px solid;
+    width: 110px;
+}
+
+
+
+#printablediv{
+    /*background-image: url('images/uttar_pradesh_government.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+     background-size: cover;*/ 
+ 
+}
+
+#abc {
+     background: url('images/uttar_pradesh_government.png')no-repeat fixed center;
+}
+
+
+
+#background{
+    position:absolute;
+    z-index:-1;
+    background:white;
+    display:block;
+    min-height:100%; 
+    min-width:100%;
+    color:yellow;
+}
+
+#content{
+    position:absolute;
+    z-index:5;
+}
+
+#bg-text
+{
+    color:lightgrey;
+    font-size:120px;
+    /*transform:rotate(300deg);
+    -webkit-transform:rotate(300deg);*/
+    position:center;
+    margin-left:250px;
+    margin-bottom:250px;
+    opacity: 0.2;
+    /*-webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;*/
+        background-repeat:no-repeat;
+        background-position:center; 
+          background-size: 100%;
+}
+
+

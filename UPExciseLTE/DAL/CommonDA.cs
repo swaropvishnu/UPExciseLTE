@@ -558,7 +558,7 @@ namespace UPExciseLTE.DAL
 
 
         #endregion
-        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo)
+        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo,int PlanId)
         {
             con.Open();
             string result = "";
@@ -575,6 +575,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
                 cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
                 cmd.Parameters.Add(new SqlParameter("BatchNo", BatchNo));
+                cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
@@ -1125,7 +1126,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status)
+        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive)
         {
             DataSet ds = new DataSet();
             try
@@ -1138,6 +1139,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("GatePassSourceId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
                 parameters.Add(new SqlParameter("UploadValue", UploadValue));
                 parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetGatePassDetailsG", parameters.ToArray());
             }
             catch (Exception)
@@ -1162,7 +1164,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string FinalGatePass(long GatePassId)
+        public string FinalGatePass(long GatePassId,short SP_Type)
         {
             string result = "";
             con.Open();
@@ -1174,6 +1176,7 @@ namespace UPExciseLTE.DAL
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -1193,5 +1196,6 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+        
     }
 }

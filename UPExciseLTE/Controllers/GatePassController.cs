@@ -221,7 +221,7 @@ namespace UPExciseLTE.Controllers
 
                     System.Web.HttpPostedFileBase file = Request.Files["impCSVUpload"];
                     DataTable dt = CSV.GetCSVToDt(file);
-                    string str = new CommonDA().UploadCSV(gatePassId, dt, UploadedValue, -1, "");
+                    string str = new CommonDA().UploadCSV(gatePassId, dt, UploadedValue, -1, "",1);
 
                     TempData["Message"] = str;
                     var msg = new CommonDA().InsertUpdateGatePass(breweryToManufacturerGatePass);

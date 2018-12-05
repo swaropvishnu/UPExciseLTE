@@ -66,7 +66,7 @@
         var BatchNo = document.getElementById("txtBatchNo").value;
         $.ajax({
             url: '/MasterForms/UploadVerifedCSV',
-            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo,'UploadValue':2 },
+            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 2, 'PlanId': -1},
             datatype: "json",
             type: "GET",
             success: function (data) {
@@ -202,7 +202,6 @@
                         <div class="form-body">
                             <div id="divTable"></div>
                         </div>
-                        <div id = 'myModal' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='portlet box green'><div class='portlet-title'><div class='caption'><div>Validation Summary</div></div><button type = 'button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'><div><div class='modal-body'>
                     </div>
                 </div>
             </div>

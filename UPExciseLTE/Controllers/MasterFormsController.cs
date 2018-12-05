@@ -569,7 +569,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult GatePass()
         {
             GatePassDetails GP = new GatePassDetails();
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 1, "P");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P");
 
             ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
             ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
@@ -582,7 +582,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult GatePass(GatePassDetails GP)
         {
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
-            GP.UploadValue = 1;
+            GP.UploadValue =2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
             GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
             string str = new CommonDA().InsertUpdateGatePassDetails(GP);
@@ -594,7 +594,7 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetails GP = new GatePassDetails();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 1, "P");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 1, "P","P");
             return View(GP);
         }
         [HttpPost]
@@ -627,18 +627,36 @@ namespace UPExciseLTE.Controllers
         public string GetGatePassUploadBrandDetails(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
-            return new CommonBL().GetGatePassUploadBrandDetails(GatePass);
+            return new CommonBL().GetGatePassUploadBrandDetailsTable(GatePass);
         }
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
-            return new CommonDA().FinalGatePass(GatePass);
+            return new CommonDA().FinalGatePass(GatePass,1);
         }
-        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue)
+        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue,string PlanId)
         {
             long GatePass = long.Parse(GatePassId);
             int Brand = int.Parse(BrandId);
-            return new CommonDA().UploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo);
+            int Plan = int.Parse(PlanId);
+            return new CommonDA().UploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo, Plan);
+        }
+        public ActionResult GetPassDetails()
+        {
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A","P");
+            return View(lstGPD);
+        }
+        public ActionResult ReceiveGatePassWH()
+        {
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A","P");
+            return View(lstGPD);
+        }
+        public string ReceiveGatePass(string GatePassId)
+        {
+            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId),2);
+            return str;
         }
 
     }

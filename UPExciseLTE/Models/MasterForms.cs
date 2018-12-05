@@ -268,6 +268,7 @@ namespace UPExciseLTE.Models
     public class GatePassDetails
     {
         public long GatePassId { get; set; } = -1;
+        public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
         public string FromDate1 { get; set; } = "";
@@ -301,7 +302,19 @@ namespace UPExciseLTE.Models
         public int UploadValue { get; set; } = -1;
         public int SP_Type { get; set; } = 1;
         public string Status { get; set; } = "P";
-
+        public int  TotalCase { get; set; } = 0;
+        public int TotalBottle { get; set; } = 0;
+        public decimal TotalBL { get; set; } = 0;
+        public decimal TotalConsiderationFees { get; set; } = 0;
+    }
+    public class GatePassBrandMapping
+    {
+        public short Srno { get; set; } = 1;
+        public string BrandName { get; set; } = "";
+        public string BatchNo { get; set; } = "";
+        public string DetailsDesc { get; set; } = "";
+        public decimal TotalBL { get; set; } = 0;
+        public decimal Strength { get; set; } = 0;
     }
 }
 

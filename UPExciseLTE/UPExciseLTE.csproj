@@ -235,6 +235,7 @@
   <ItemGroup>
     <Compile Include="App_Code\CMODataEntryBLL.cs" />
     <Compile Include="App_Code\CommonConfig.cs" />
+    <Content Include="App_Code\ConnectionConfig.cs" />
     <Compile Include="App_Code\Crypto.cs" />
     <Compile Include="App_Code\RandomImage.cs" />
     <Compile Include="App_Code\RealDataEmulator.cs" />
@@ -5619,6 +5620,7 @@
     <Content Include="Content\images\YOGI.PNG" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\js\main.js" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\vendor\animate\animate.css" />
     <Content Include="Content\vendor\animsition\css\animsition.css" />
     <Content Include="Content\vendor\animsition\css\animsition.min.css" />
@@ -6180,6 +6182,9 @@
     <Content Include="Views\MasterForms\GatePass.cshtml" />
     <Content Include="Views\MasterForms\GetBBTDetails.cshtml" />
     <Content Include="Views\MasterForms\UploadGatePassCSV.cshtml" />
+    <Content Include="Views\Report\GatePassReport - Copy.cshtml" />
+    <Content Include="Views\MasterForms\GetPassDetails.cshtml" />
+    <Content Include="Views\MasterForms\ReceiveGatePassWH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

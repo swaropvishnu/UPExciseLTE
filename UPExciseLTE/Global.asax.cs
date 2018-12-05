@@ -33,12 +33,13 @@ namespace UPExciseLTE
             //    //HttpContext.Current.Response.Redirect("~/ErrorPageS.aspx", false);
             //}
             //Server.ClearError();
-            HttpContext httpContext = HttpContext.Current;
+
+            //New Comment By Gaurav 04-12-2018 for Check Error
+
+            /*HttpContext httpContext = HttpContext.Current;
             if (httpContext != null)
             {
                 RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
-                /* When the request is ajax the system can automatically handle a mistake with a JSON response. 
-                   Then overwrites the default response */
                 if (requestContext.HttpContext.Request.IsAjaxRequest())
                 {
                     httpContext.Response.Clear();
@@ -78,7 +79,7 @@ namespace UPExciseLTE
                     var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
                     controller.Execute(rc);
                 }
-            }
+            }*/
         }
 
 

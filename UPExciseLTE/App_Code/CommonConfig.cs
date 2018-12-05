@@ -11,6 +11,7 @@ namespace UPExciseLTE
         {
             try
             {
+                
                 string Comm = System.Configuration.ConfigurationManager.ConnectionStrings["constr"].ToString();
                 return Comm;
             }

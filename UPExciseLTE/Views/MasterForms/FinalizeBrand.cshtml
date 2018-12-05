@@ -130,7 +130,7 @@
                 return false;
             }
            
-            var Reason = document.getElementById(txtId).value;
+            reason = document.getElementById(txtId).value;
             if (Reason.trim() == "") {
                 alert("Please Enter Reason of rejection");
                 return false;
@@ -139,7 +139,7 @@
         }
         $.ajax({
             url: '/MasterForms/FinalBrand',
-            data: { 'BrandId': BrandId, 'status': status, 'reason': Reason },
+            data: { 'BrandId': BrandId, 'status': status, 'reason': reason },
             datatype: "json",
             type: "GET",
             success: function (data) {
