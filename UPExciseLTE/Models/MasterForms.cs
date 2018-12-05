@@ -268,6 +268,7 @@ namespace UPExciseLTE.Models
     public class GatePassDetails
     {
         public long GatePassId { get; set; } = -1;
+        public short GatePassType { get; set; } = -1;
         public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
