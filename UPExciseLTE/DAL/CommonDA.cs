@@ -63,7 +63,6 @@ namespace UPExciseLTE.DAL
                 con.Dispose();
             }
         }
-
         internal DataSet ValidateCSV(int uploadValue, int planId, int brandId, DataTable dtCaseCode)
         {
             DataSet ds = new DataSet();
@@ -1107,6 +1106,10 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("SP_Type", GP.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("GatePassTypeID", GP.GatePassType));
+                cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
+                cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
+                cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -1164,7 +1167,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string FinalGatePass(long GatePassId,short SP_Type)
+        public string FinalGatePass(long GatePassId,short SP_Type,int DamageBottles)
         {
             string result = "";
             con.Open();
@@ -1177,6 +1180,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
+                cmd.Parameters.Add(new SqlParameter("DamageBottles", DamageBottles));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -1196,6 +1200,98 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        
+        public DataSet GetUnitDetails(short BreweryId, string BreweryName, string BreweryLicenseNo, short DistrictCode, short TehsilCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("BreweryName", BreweryName));
+                parameters.Add(new SqlParameter("BreweryLicenseNo", BreweryLicenseNo));
+                parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
+                parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrewery", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        internal string InsertUpdateFormFL21(FormFL21 FL)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateFormFL21", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("SPType", FL.SPType));
+                cmd.Parameters.Add(new SqlParameter("FL21Id", FL.FL21ID));
+                cmd.Parameters.Add(new SqlParameter("BrandId", FL.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BoxSize", FL.BoxSize));
+                cmd.Parameters.Add(new SqlParameter("Quantity", FL.QuantityInBottleML));
+                cmd.Parameters.Add(new SqlParameter("ConsignerName", FL.FromConsignorName));
+                cmd.Parameters.Add(new SqlParameter("ConsignerLicenseNo", FL.FromLicenceNo));
+                cmd.Parameters.Add(new SqlParameter("ConsignerAddress", FL.FromConsignorAddress));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeName", FL.ToConsigeeName));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeLicenseNo", FL.ToLicenceNo));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeAddress", FL.ToConsigeeAddress));
+                cmd.Parameters.Add(new SqlParameter("TotalCase", FL.TotalCase));
+                cmd.Parameters.Add(new SqlParameter("TotalBottle", FL.TotalBottle));
+                cmd.Parameters.Add(new SqlParameter("TotalBL", FL.TotalBL));
+                cmd.Parameters.Add(new SqlParameter("DutyCalculated", FL.DutyCalculated));
+                cmd.Parameters.Add(new SqlParameter("PermitFees", FL.PermitFees));
+                cmd.Parameters.Add(new SqlParameter("TotalFees", FL.TotalFees));
+                cmd.Parameters.Add(new SqlParameter("RateofPermit", FL.RateofPermit));
+                cmd.Parameters.Add(new SqlParameter("TransactionNo", FL.TransactionNo));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", FL.RouteDetails));
+                cmd.Parameters.Add(new SqlParameter("FL21Status", FL.FL21Status));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public DataSet GetFormFL21(int FormFL21Id, string FormFLStatus)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("FormFL21Id", FormFL21Id));
+                parameters.Add(new SqlParameter("FormFLStatus", FormFLStatus));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "SP_GetFormFL21", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
     }
 }

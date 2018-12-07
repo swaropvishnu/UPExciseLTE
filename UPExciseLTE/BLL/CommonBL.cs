@@ -26,6 +26,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserSession.LoggedInUserId.ToString().Trim(), "Z");
             return breweryList;
         }
+        public static List<SelectListItem> fillBreweryLiceName()
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BLN", UserSession.LoggedInUserId.ToString().Trim(), "Z");
+            return breweryList;
+        }
         public static List<SelectListItem> fillState(string SelectType)
         {
             List<SelectListItem> StateList = new List<SelectListItem>();
@@ -57,7 +63,7 @@ namespace UPExciseLTE.BLL
         public static List<SelectListItem> fillBrand(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.PushName.ToString(), SelectType);
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.LoggedInUserId.ToString(), SelectType);
             return BrandList;
         }
 
@@ -370,15 +376,34 @@ namespace UPExciseLTE.BLL
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    GPBM.Srno = short.Parse(ds.Tables[0].Rows[0]["Srno"].ToString().Trim());
-                    GPBM.BatchNo =  (ds.Tables[0].Rows[0]["BatchNo"].ToString().Trim());
-                    GPBM.BrandName = (ds.Tables[0].Rows[0]["BrandName"].ToString().Trim());
-                    GPBM.DetailsDesc = (ds.Tables[0].Rows[0]["DetailDesc"].ToString().Trim());
-                    GPBM.Strength = decimal.Parse((ds.Tables[0].Rows[0]["Strength"].ToString().Trim()));
-                    GPBM.TotalBL = decimal.Parse((ds.Tables[0].Rows[0]["TotalBL"].ToString().Trim()));
+                    GPBM=FillGatePassBrandDetails(ds.Tables[0].Rows[0]);
                 }
             }
             return GPBM;
+        }
+        public GatePassBrandMapping FillGatePassBrandDetails(DataRow dr)
+        {
+            GatePassBrandMapping GPBM = new GatePassBrandMapping();
+            GPBM.Srno = short.Parse(dr["Srno"].ToString().Trim());
+            GPBM.BatchNo = (dr["BatchNo"].ToString().Trim());
+            GPBM.BrandName = (dr["BrandName"].ToString().Trim());
+            GPBM.DetailsDesc = (dr["DetailDesc"].ToString().Trim());
+            GPBM.Strength = decimal.Parse((dr["Strength"].ToString().Trim()));
+            GPBM.TotalBL = decimal.Parse((dr["TotalBL"].ToString().Trim()));    
+            return GPBM;
+        }
+        public List<GatePassBrandMapping> GetGatePassBrandDetailsList(long GatePassId)
+        {
+            List<GatePassBrandMapping> lstGPBM = new List<GatePassBrandMapping>();
+            DataSet ds = new CommonDA().GetGatePassUploadBrandDetails(GatePassId);
+            if (ds != null)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstGPBM.Add(FillGatePassBrandDetails(dr));
+                }
+            }
+            return lstGPBM;
         }
         #endregion
 
@@ -767,16 +792,80 @@ namespace UPExciseLTE.BLL
                 GP.ToLicenseType = (dr["ToLicenseType"].ToString().Trim());
                 GP.UploadValue = int.Parse(dr["UploadValue"].ToString().Trim());
                 GP.VehicleNo = (dr["VehicleNo"].ToString().Trim());
-                //GP.FromLicenceNo = (dr["FromLicenceNo"].ToString().Trim());
-                //GP.ToLicenceNo = (dr["ToLicenceNo"].ToString().Trim());
-                GP.FromLicenceNo = (dr["FromConsignorName"].ToString().Trim());
+                GP.FromLicenceNo = (dr["FromLicenceNo"].ToString().Trim());
+                GP.ToLicenceNo = (dr["ToLicenceNo"].ToString().Trim());
                 GP.TotalCase = int.Parse(dr["TotalCase"].ToString().Trim());
                 GP.TotalBottle = int.Parse(dr["TotalBottle"].ToString().Trim());
                 GP.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());
                 GP.TotalConsiderationFees = decimal.Parse(dr["ConsiderationFees"].ToString().Trim());
+                GP.InBondValue = decimal.Parse(dr["InBondValue"].ToString().Trim());
+                GP.ExportDuty = decimal.Parse(dr["ExportDuty"].ToString().Trim());
+                GP.GatePassType = short.Parse(dr["GatePassTypeID"].ToString().Trim());
+                GP.CheckPostVia = (dr["CheckPostVia"].ToString().Trim());
+                GP.AdditionalConsiFees = decimal.Parse(dr["AdditionalConsiFees"].ToString().Trim());
             }
             catch (Exception) { }
             return GP;
+        }
+        public FormFL21 GetFormFL21(int FormFL21Id, string FormFLStatus)
+        {
+            DataSet ds = new CommonDA().GetFormFL21(FormFL21Id, FormFLStatus);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillFormFL21(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new FormFL21();
+            }
+        }
+        public List<FormFL21> GetFormFL21List(int FormFL21Id, string FormFLStatus)
+        {
+            List<FormFL21> lstGPD = new List<FormFL21>();
+            DataSet ds = new CommonDA().GetFormFL21(FormFL21Id, FormFLStatus);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstGPD.Add(FillFormFL21(dr));
+                }
+            }
+            return lstGPD;
+        }
+        private FormFL21 FillFormFL21(DataRow dr)
+        {
+            FormFL21 FL21 = new FormFL21();
+            try
+            {
+                FL21.BoxSize = int.Parse(dr["BoxSize"].ToString().Trim());
+                FL21.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                FL21.DutyCalculated= decimal.Parse(dr["DutyCalculated"].ToString().Trim());
+                FL21.EncFL21IDId= new Crypto().Encrypt(dr["FL21Id"].ToString().Trim());
+                FL21.FL21ID= int.Parse(dr["FL21Id"].ToString().Trim());
+                FL21.FL21Status= (dr["FL21Status"].ToString().Trim());
+                FL21.FromConsignorAddress= (dr["ConsignerAddress"].ToString().Trim());
+                FL21.FromConsignorName= (dr["ConsignerName"].ToString().Trim());
+                FL21.FromLicenceNo= (dr["ConsignerLicenseNo"].ToString().Trim());
+                FL21.PermitFees= decimal.Parse(dr["PermitFees"].ToString().Trim());
+                FL21.QuantityInBottleML= decimal.Parse(dr["Quantity"].ToString().Trim());
+                FL21.RateofPermit = decimal.Parse(dr["RateofPermit"].ToString().Trim());
+                FL21.RouteDetails =  (dr["RouteDetails"].ToString().Trim());
+                FL21.ToConsigeeAddress =  (dr["ConsigneeAddress"].ToString().Trim());
+                FL21.ToConsigeeName =  (dr["ConsigneeName"].ToString().Trim());
+                FL21.ToLicenceNo =  (dr["ConsigneeLicenseNo"].ToString().Trim());
+                FL21.TotalBL = decimal.Parse (dr["TotalBL"].ToString().Trim());
+                FL21.TotalBottle = int.Parse(dr["TotalBottle"].ToString().Trim());
+                FL21.TotalCase = int.Parse(dr["TotalCase"].ToString().Trim());
+                FL21.TotalFees = decimal.Parse(dr["TotalFees"].ToString().Trim());
+                FL21.TransactionNo =(dr["TransactionNo"].ToString().Trim());
+                FL21.Brand =(dr["BrandName"].ToString().Trim());
+                FL21.SPType = 2;
+                FL21.FL21Status1= (dr["FL21Status1"].ToString().Trim());
+                FL21.PackagingType= (dr["PackagingType"].ToString().Trim());
+                FL21.EntryDate1= (dr["EntryDate1"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return FL21;
         }
         #endregion
 

@@ -94,7 +94,14 @@
                                                 @Html.DisplayFor(modelItem => item.AgencyNameAndAddress)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassReport","Report", new {GatePass = item.EncGatePassId })'">Generate Gatepass</button>
+                                                @if (item.Status == "P")
+                                                {
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Dummy Gatepass</button>
+                                                }
+                                                else
+                                                {
+                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
+                                                }
                                             </td>
                                         </tr>
                                     }

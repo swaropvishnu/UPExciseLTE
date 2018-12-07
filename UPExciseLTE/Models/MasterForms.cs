@@ -307,6 +307,10 @@ namespace UPExciseLTE.Models
         public int TotalBottle { get; set; } = 0;
         public decimal TotalBL { get; set; } = 0;
         public decimal TotalConsiderationFees { get; set; } = 0;
+        public string CheckPostVia { get; set; } = "";
+        public decimal InBondValue { get; set; } = 0;
+        public decimal ExportDuty { get; set; } = 0;
+        public decimal AdditionalConsiFees { get; set; } = 0;
     }
     public class GatePassBrandMapping
     {

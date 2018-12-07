@@ -1,0 +1,127 @@
+﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
+
+@using (Html.BeginForm("FinalizeForm", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Finalize F.L. 21
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <table class="table table-striped table-bordered table-hover">
+                            <tr>
+                                <th>Brand Name</th>
+                                <th>Consigner Name</th>
+                                <th>Consignee Name</th>
+                                <th>Total Case</th>
+                                <th>Total Bottle/ Can</th>
+                                <th>Total Bulk Liter</th>
+                                <th>Duty Calculated</th>
+                                <th>Permit Fees (if any)</th>
+                                <th>Total Fees</th>
+                                <th>Import fee (per Ltr.)</th>
+                                <th>Transaction No</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromConsignorName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToConsigeeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalCase)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalBottle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalBL)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DutyCalculated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PermitFees)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalFees)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RateofPermit)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("FormFL21", "BWFL", new { Code = item.EncFL21IDId,Mode='V' })"><label class="btn blue">View</label></a>
+                                    </td>
+                                    <td>                                         
+                                       <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('A','@item.FL21ID')">Finalize</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" id="btnFreeze" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')">Reject</button>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+    function FinalBrand(status,FL21) {
+        var reason = "";
+        if (status == "A") {
+            reason = "Verify Form";
+            var r = confirm("Are You sure to finalize this Form.");
+            if (r == false) {
+                return false;
+            }
+        }
+        else if (status == "R") {
+            var r = confirm("Are You sure to Reject this Form.");
+            if (r == false) {
+                return false;
+            }
+
+            //reason = document.getElementById(txtId).value;
+            reason = "Reject Form";
+            //if (Reason.trim() == "") {
+            //    alert("Please Enter Reason of rejection");
+            //    return false;
+            //}
+
+        }
+        $.ajax({
+            url: '/BWFL/FinalFormFL21',
+            data: { 'FL21ID': FL21, 'status': status, 'reason': reason },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                window.location = "../BWFL/FinalizeFormFL21";
+            },
+            error: function (data) {
+                alert("Error in final F.L. 21 Loading");
+            }
+        });
+    }
+</script>

@@ -7,6 +7,15 @@
     {
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
+    string css = "";
+    if (UserSession.LoggedInUserId == 10)
+    {
+        css = "hide";
+    }
+    else
+    {
+        css = "row";
+    }
 }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
 <script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
@@ -68,8 +77,8 @@
                                     @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="row">
-                                
+                           
+                            <div class="@css">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
@@ -87,6 +96,7 @@
                                     @Html.DropDownListFor(m => m.BottlingLineId, (IEnumerable<SelectListItem>)ViewBag.BottlingLine, new { @id = "ddlBottlingLineId", @class = "form-control" })
                                 </div>
                             </div>
+                            
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">For Mapped/ Unmapped Data<b style="color:red; font-weight:800">*</b></label>
@@ -110,7 +120,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Number of Case<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();" })
+                                    @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();",@maxlength=5 })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label" id="lblBoxQuantity">Box-Size (Number of Bottles)</label>

@@ -1,0 +1,233 @@
+﻿@model UPExciseLTE.Models.FormFL21
+@{
+    ViewBag.Title = "FormFL21";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+
+</script>
+@using (Html.BeginForm("FormFL21", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary(true);
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            @if (Model.SPType == 1)
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp; FORM F.L. 21 Registration&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                            else
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp; Update FORM F.L. 21&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.SPType)
+                    @Html.HiddenFor(m => m.FL21ID, new { @id = "hfFL21ID" })
+                    @Html.HiddenFor(m => m.EncFL21IDId, new { @id = "hfEncFL21IDId" })
+                    @Html.HiddenFor(m => m.FL21Status, new { @id = "hfFL21Status" })
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m =>m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BoxSize, new { @id = "txtBoxSize", @class = "form-control ", @placeholder = "Box-Size (Number of Bottles)", @required = "required", @readonly = true })
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control ", @placeholder = "Quantity (In Bottle, In ml.)", @required = "required", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Consigner Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtFromConsignorName", @class = "form-control ", @placeholder = "Consigner Name", @required = "required", @readonly = true })
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Consigner License No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control ", @placeholder = "From Licence No", @required = "required", @readonly = true })
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Consigner Address<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextAreaFor(m => m.FromConsignorAddress, new { @id = "txtFromConsignorAddress", @class = "form-control ", @placeholder = "Consigner Address", @required = "required", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @MaxLength = 150 })
+                                    </div>
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @MaxLength = 50 })
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label" id="lblConsi">Consignee Address<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextAreaFor(m => m.ToConsigeeAddress, new { @id = "txtToConsigeeAddress", @class = "form-control ", @placeholder = "Consignee Address", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Total Case<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TotalCase, new { @onkeyPress = "return IsNumeric(event);", @onkeyUp = "CalculateBottle();",@id = "txtTotalCase", @class = "form-control ", @placeholder = "Total Case", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Total Bottle/ Can<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TotalBottle, new { @id = "txtTotalBottle",@readonly=true, @class = "form-control ", @placeholder = "Total Bottle/ Can", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Total Bulk Liter<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TotalBL, new { @id = "txtTotalBL", @readonly = true, @class = "form-control ", @placeholder = "Total Bulk Liter", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Duty Calculated</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.DutyCalculated, new { @id = "txtDutyCalculated", @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Permit Fees (if any)<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.PermitFees, new { @id = "txtPermitFees", @class = "form-control ", @placeholder = "Permit Fees(if any)", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control ", @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Import fee (per Ltr.)</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.RateofPermit, new { @id = "txtRateofPermit", @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Rate of Permit Fees", @MaxLength = 150 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TransactionNo, new { @id = "txtTransactionNo", @class = "form-control ", @placeholder = "Transaction No", @required = "required", @MaxLength = 50 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                @if (Request.QueryString["Mode"] != null)
+                                {
+                                    if (Request.QueryString["Mode"].ToString().Trim() == "V")
+                                    {
+                                        <a href="@Url.Action("FinalizeFormFL21", "BWFL", null)"><label class="btn blue">Back</label></a>
+                                    }
+                                }
+                                else
+                                {
+                                    if (Model.FL21Status == "P")
+                                    {
+                                        <button type="submit" class="btn green" id="btnSave">Save</button>
+                                    }
+                                }
+                            </div>
+                        </center>
+                        <div class="form-body">
+                            <div id="divTable"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                    }
+<script type="text/javascript">
+    $('#ddlBrand').change(function () {
+        var BrandId = $('#ddlBrand').val();
+        if (BrandId != "-1") {
+            BrandChange(BrandId);
+        }
+    });
+    function BrandChange(BrandId) {
+        $.ajax({
+            url: '/MasterForms/GetBrandDetailsForDDl',
+            data: { 'BrandId': BrandId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtBoxSize").value = res[3];
+                document.getElementById("txtQuantityInBottleML").value = res[4];
+            },
+            error: function (data) {
+                alert("Error in GetBrandDetailsForDDl Loading");
+            }
+        });
+    }
+    function CalculateBottle() {
+        var TotalCase = document.getElementById("txtTotalCase").value;
+        if (TotalCase == "") {
+            alert("Please Enter Total Case");
+            return;
+        }
+        var BoxSize = document.getElementById("txtBoxSize").value;
+        if (BoxSize.trim() == "" || BoxSize.trim() == "0") {
+            alert("Invalid Box Size");
+            return;
+        }
+        var QuantityInBottleML = document.getElementById("txtQuantityInBottleML").value;
+        if (QuantityInBottleML.trim() == "" || QuantityInBottleML.trim() == "0") {
+            alert("Invalid Quantity In Bottle ML");
+            return;
+        }
+        document.getElementById("txtTotalBottle").value = parseFloat(TotalCase) * parseFloat(BoxSize);
+        document.getElementById("txtTotalBL").value = parseFloat(TotalCase) * parseFloat(BoxSize) * parseFloat(QuantityInBottleML);
+    }
+</script>
+

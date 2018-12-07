@@ -247,6 +247,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\CommonBL.cs" />
+    <Compile Include="Controllers\BWFLController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\GatePassController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -264,6 +265,7 @@
       <DependentUpon>MenuHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\BBTFormation.cs" />
+    <Compile Include="Models\BWFL.cs" />
     <Compile Include="Models\GatePass.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
     <Compile Include="Models\LoginModal.cs" />
@@ -6185,6 +6187,11 @@
     <Content Include="Views\Report\GatePassReport - Copy.cshtml" />
     <Content Include="Views\MasterForms\GetPassDetails.cshtml" />
     <Content Include="Views\MasterForms\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\MasterForms\GatePassPreview.cshtml" />
+    <Content Include="Views\BWFL\FormFL21.cshtml" />
+    <Content Include="Views\BWFL\FinalizeFormFL21.cshtml" />
+    <Content Include="Views\BWFL\FormFL21List.cshtml" />
+    <Content Include="Views\BWFL\PreviewFL22.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
