@@ -6170,7 +6170,6 @@
     <Content Include="Views\Report\BarCodeProducution.cshtml" />
     <Content Include="Views\Production\BBTFormation.cshtml" />
     <Content Include="Views\MasterForms\GetFinalizedPlan.cshtml" />
-    <Content Include="Views\MasterForms\UpdateBottelingPlan.cshtml" />
     <Content Include="Views\Production\EditBBTFormation.cshtml" />
     <Content Include="Views\Production\GetBBTDetails.cshtml" />
     <Content Include="Views\GatePass\GatePass.cshtml" />

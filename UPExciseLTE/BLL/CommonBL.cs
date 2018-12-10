@@ -190,7 +190,7 @@ namespace UPExciseLTE.BLL
                 Plan.LicenceType = dr["LicenceType"].ToString().Trim();
                 Plan.Brand = dr["BrandName"].ToString().Trim();
                 Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
-                Plan.BulkLiter = float.Parse(dr["BulkLiter"].ToString().Trim());
+                Plan.BulkLitre = float.Parse(dr["BulkLiter"].ToString().Trim());
                 Plan.Status = dr["Status"].ToString().Trim();
                 Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
@@ -206,7 +206,7 @@ namespace UPExciseLTE.BLL
                 Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
                 Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
                 Plan.ProducedBoxQuantity = float.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
-                Plan.ProducedBulkLiter = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+                Plan.ProducedBulkLitre = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
                 Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
                 Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
                 Plan.WastageBL = float.Parse(dr["WastageBL"].ToString().Trim());
@@ -214,7 +214,7 @@ namespace UPExciseLTE.BLL
                 Plan.TotalRevenue = dr["TotalRevenue"].ToString().Trim();
                 Plan.Type = 2;
                 Plan.BBTId = int.Parse(dr["BBTID"].ToString().Trim());
-                Plan.BBTBulkLiter = float.Parse(dr["BBTBulkLiter"].ToString().Trim());
+                Plan.BBTBulkLitre = float.Parse(dr["BBTBulkLiter"].ToString().Trim());
             }
             catch (Exception) { }
             return Plan;
@@ -308,7 +308,7 @@ namespace UPExciseLTE.BLL
                 UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
                 UT.UnitTankName = (dr["UnitTankName"].ToString().Trim());
                 UT.UnitTankCapacity = float.Parse(dr["UnitTankCapacity"].ToString().Trim());
-                UT.UnitTankBulkLiter = float.Parse(dr["UnitTankBulkLiter"].ToString().Trim());
+                UT.UnitTankBulkLitre = float.Parse(dr["UnitTankBulkLiter"].ToString().Trim());
                 UT.UnitTankStrength = float.Parse(dr["UnitTankStrength"].ToString().Trim());
                 UT.Enc_UnitTankId = new Crypto().Encrypt(dr["UnitTankId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
@@ -681,7 +681,7 @@ namespace UPExciseLTE.BLL
             {
                 bbtFormation.BBTId = int.Parse(dr["BBTId"].ToString());
                 bbtFormation.BBTName = dr["BBTName"].ToString().Trim();
-                bbtFormation.BBTBulkLiter = decimal.Parse(dr["BBTBulkLiter"].ToString().Trim());
+                bbtFormation.BBTBulkLitre = decimal.Parse(dr["BBTBulkLiter"].ToString().Trim());
                 bbtFormation.BBTCapacity = decimal.Parse(dr["BBTCapacity"].ToString().Trim());
                 bbtFormation.Status1 = (dr["Status1"].ToString().Trim());
                 bbtFormation.BBTId_Encript = new Crypto().Encrypt(dr["BBTId"].ToString().Trim());

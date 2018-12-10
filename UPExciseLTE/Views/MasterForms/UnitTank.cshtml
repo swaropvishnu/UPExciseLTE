@@ -52,12 +52,12 @@
                                     @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Capacity (in Liter)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Unit Tank Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
                                 </div>
                                 @*<div class="form-group col-md-4">
-                                        <label class="control-label">Unit Tank Bulk Liter</label>
-                                        @Html.TextBoxFor(model => model.UnitTankBulkLiter, new {  @class = "form-control", @id = "txtUnitTankBulkLiter" } )
+                                        <label class="control-label">Unit Tank Bulk Litre</label>
+                                        @Html.TextBoxFor(model => model.UnitTankBulkLitre, new {  @class = "form-control", @id = "txtUnitTankBulkLitre" } )
                                     </div>*@
                                 @*<div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Strength<b style="color:red; font-weight:800">*</b></label>
@@ -82,8 +82,8 @@
                                 <tr>
                                     <th>Unit Tank Id</th>
                                     <th>Unit Tank Name</th>
-                                    <th>Unit Tank Capacity (in Liter)</th>
-                                    @*<th>Unit Tank Bulk Liter</th>*@
+                                    <th>Unit Tank Capacity (in Litre)</th>
+                                    @*<th>Unit Tank Bulk Litre</th>*@
                                     @*<th>Unit Tank Strength</th>*@
                                     <th></th>
                                     <th></th>
@@ -96,7 +96,7 @@
                                             <td>@dr.UnitTankId</td>
                                             <td>@dr.UnitTankName</td>
                                             <td>@dr.UnitTankCapacity</td>
-                                            @*<td>@dr.UnitTankBulkLiter</td>*@
+                                            @*<td>@dr.UnitTankBulkLitre</td>*@
                                             @*<td>@dr.UnitTankStrength</td>*@
                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
                                             @if (dr.Status == "A")

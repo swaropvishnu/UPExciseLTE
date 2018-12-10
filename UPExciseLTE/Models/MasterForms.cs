@@ -134,8 +134,8 @@ namespace UPExciseLTE.Models
         public short MappedOrNot { get; set; } = 0;
         [Display(Name = "Is Plan Final")]
         public short IsPlanFinal { get; set; } = 0;
-        [Display(Name = "Bulk Liter")]
-        public float BulkLiter { get; set; } = 0;
+        [Display(Name = "Bulk Litre")]
+        public float BulkLitre { get; set; } = 0;
         [Display(Name = "Liquor Type")]
         public string LiquorType { get; set; } = "";
         [Display(Name = "Licence Type")]
@@ -150,8 +150,8 @@ namespace UPExciseLTE.Models
         public string Brand { get; set; }
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
-        [Display(Name = "BBT Bulk Liter")]
-        public float BBTBulkLiter { get; set; } = 0;
+        [Display(Name = "BBT Bulk Litre")]
+        public float BBTBulkLitre { get; set; } = 0;
         public string Status { get; set; }
         public string State { get; set; }
         [Display(Name = "Bottle/ Can Capacity")]
@@ -162,8 +162,8 @@ namespace UPExciseLTE.Models
         public int ProducedNumberOfCases { get; set; }
         [Display(Name = "Produced Total Unit (Can/Bottles)")]
         public float ProducedBoxQuantity { get; set; }
-        [Display(Name = "Produced Bulk Liter")]
-        public float ProducedBulkLiter { get; set; }
+        [Display(Name = "Produced Bulk Litre")]
+        public float ProducedBulkLitre { get; set; }
         [Display(Name = "Produced Total Unit")]
         public int ProducedTotalUnit { get; set; }
         [Display(Name = "Wastage in Number")]
@@ -189,7 +189,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Unit Tank Capacity")]
         public float UnitTankCapacity { get; set; } = 0;
         [Display(Name = "Unit Tank Open Balance")]
-        public float UnitTankBulkLiter { get; set; } = 0;
+        public float UnitTankBulkLitre { get; set; } = 0;
         [Display(Name = "Unit Tank Strength")]
         public float UnitTankStrength { get; set; } = 0;
         [Display(Name = "Unit Tank Status")]
@@ -244,8 +244,8 @@ namespace UPExciseLTE.Models
         public string BBTName { get; set; } = "";
         [Display(Name = "Bottling Tank Capacity")]
         public decimal BBTCapacity { get; set; }
-        [Display(Name = "Bottling Tank Bulk Liter")]
-        public decimal BBTBulkLiter { get; set; }
+        [Display(Name = "Bottling Tank Bulk Litre")]
+        public decimal BBTBulkLitre { get; set; }
         public int SP_Type { get; set; } = 1;
         [Display(Name = "Status")]
         public string Status { get; set; } = "A";

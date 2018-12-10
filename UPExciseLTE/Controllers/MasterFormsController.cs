@@ -43,20 +43,34 @@ namespace UPExciseLTE.Controllers
             SelectListItem SLI = new SelectListItem();
             if (UserSession.PushName.Trim()== "be_unnao1")
             {
+                SLI = new SelectListItem();
                 SLI.Text = "FL3A";
                 SLI.Value = "FL3A";
+                lstLicense.Add(SLI);
+                SLI = new SelectListItem();
+                SLI.Text = "FL3";
+                SLI.Value = "FL3";
+                lstLicense.Add(SLI);
             }
             else if (UserSession.PushName.Trim() == "BWFL")
             {
+                SLI = new SelectListItem();
                 SLI.Text = "BWFL-2B";
                 SLI.Value = "BWFL-2B";
+                lstLicense.Add(SLI);
             }
             else 
             {
+                SLI = new SelectListItem();
                 SLI.Text = "FL3A";
                 SLI.Value = "FL3A";
+                lstLicense.Add(SLI);
+                SLI = new SelectListItem();
+                SLI.Text = "FL3";
+                SLI.Value = "FL3";
+                lstLicense.Add(SLI);
             }
-            lstLicense.Add(SLI);
+            
             ViewBag.LicenseType= lstLicense;
             DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -164,7 +178,7 @@ namespace UPExciseLTE.Controllers
             {
                 ViewBag.BBT = CommonBL.fillBBT("Z");
                 ViewBag.BottlingLine = CommonBL.BottlingLine("Z","3");
-                BP.BBTBulkLiter = 9999999;
+                BP.BBTBulkLitre = 9999999;
             }
             else
             {
@@ -481,7 +495,7 @@ namespace UPExciseLTE.Controllers
         public string GetUnitTankForDDl(string UnitTankId)
         {
             UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
-            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLiter.ToString();
+            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString();
         }
         [HttpPost]
         public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
@@ -518,14 +532,14 @@ namespace UPExciseLTE.Controllers
         /*public string GetBBTDetailsForDDl(string BBTID)
         {
             BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
-            return bbtFormation.BBTBulkLiter.ToString();
+            return bbtFormation.BBTBulkLitre.ToString();
         }
        */
         public string GetBBTForDDl(string BBTId)
         {
 
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), "A")[0];
-            return bbtFormation.BBTBulkLiter.ToString() + "," + bbtFormation.BBTCapacity.ToString();
+            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString();
         }
         [HttpPost]
         public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)

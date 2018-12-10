@@ -17,8 +17,8 @@ namespace UPExciseLTE.Models
         public string BBTName { get; set; } = "";
         [Display(Name = "BBT Capacity")]
         public decimal BBTCapacity { get; set; }
-        [Display(Name = "BBT Bulk Liter")]
-        public decimal BBTBulkLiter { get; set; }
+        [Display(Name = "BBT Bulk Litre")]
+        public decimal BBTBulkLitre { get; set; }
         public string LiquorType { get; set; } = "";
         public string LicenseType { get; set; } = "";
         public int SP_Type { get; set; } = 1;

@@ -83,8 +83,8 @@
                                             @Html.TextBoxFor(m => m.BottleCapacity, "", new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Bulk Liter</label>
-                                            @Html.TextBoxFor(m => m.BulkLiter, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
+                                            <label class="control-label">Bulk Litre</label>
+                                            @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -123,8 +123,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Bulk Liter</label>
-                                            @Html.TextBoxFor(m => m.ProducedBulkLiter, new { @id = "txtProducedBulkLiter", @class = "form-control", @required = "required", @readonly = false })
+                                            <label class="control-label">Produced Bulk Litre</label>
+                                            @Html.TextBoxFor(m => m.ProducedBulkLitre, new { @id = "txtProducedBulkLitre", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
 
                                         <div class="form-group col-md-4">
@@ -182,7 +182,7 @@
                 document.getElementById("txtProducedTotalUnitQuantity").value = TotalUnit;
                 document.getElementById("txtWastageInNumber").value = TotalUnitQuantity - TotalUnit;
                 document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
-                document.getElementById("txtProducedBulkLiter").value = (TotalUnit * Quantity) / 1000;
+                document.getElementById("txtProducedBulkLitre").value = (TotalUnit * Quantity) / 1000;
             }
         }
         function Validation()

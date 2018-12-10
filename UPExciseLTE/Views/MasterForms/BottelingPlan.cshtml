@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank Balance</label>
-                                    @Html.TextBoxFor(m => m.BBTBulkLiter, new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
+                                    @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line<b style="color:red; font-weight:800">*</b></label>
@@ -138,8 +138,8 @@
                                     @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" }) @*Mild or Strong not show percent*@
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Bulk Liter</label>
-                                    @Html.TextBoxFor(m => m.BulkLiter, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
+                                    <label class="control-label">Bulk Litre</label>
+                                    @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Total Unit (Cans/Bottles)</label>
@@ -282,7 +282,7 @@
             document.getElementById("lblBulkLitre").value = lblBulkLitre;
             document.getElementById("lblTotalUnitQuantity").value = TotalUnit;
             if (parseFloat(lblBulkLitre) > parseFloat(BBTBalance)) {
-                alert("Plan Bulk Liter not BBT Bulk Liter");
+                alert("Plan Bulk Litre not BBT Bulk Litre");
                 document.getElementById("txtNoOfCase").value = "0";
             }
         }

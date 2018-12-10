@@ -610,7 +610,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("BreweryId", UT.BreweryId));
                 cmd.Parameters.Add(new SqlParameter("UnitTankName", filter_bad_chars_rep(UT.UnitTankName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("UnitTankCapacity", UT.UnitTankCapacity));
-                cmd.Parameters.Add(new SqlParameter("UnitTankBulkLiter", UT.UnitTankBulkLiter));
+                cmd.Parameters.Add(new SqlParameter("UnitTankBulkLitre", UT.UnitTankBulkLitre));
                 cmd.Parameters.Add(new SqlParameter("UnitTankStrength", UT.UnitTankStrength));
                 cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(UT.Status.Trim())));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
@@ -728,7 +728,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("UnitId", bbtFormation.UnitId));
                 cmd.Parameters.Add(new SqlParameter("BBTName", filter_bad_chars_rep(bbtFormation.BBTName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("BBTCapacity", bbtFormation.BBTCapacity));
-                cmd.Parameters.Add(new SqlParameter("BBTBulkLiter", bbtFormation.BBTBulkLiter));
+                cmd.Parameters.Add(new SqlParameter("BBTBulkLitre", bbtFormation.BBTBulkLitre));
                 cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(bbtFormation.Status.Trim())));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId.ToString()));
