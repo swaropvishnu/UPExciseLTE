@@ -67,32 +67,32 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Consigner Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtFromConsignorName", @class = "form-control ", @placeholder = "Consigner Name", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtFromConsignorName", @class = "form-control ", @placeholder = "Consigner Name", @required = "required" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Consigner License No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control ", @placeholder = "From Licence No", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control ", @placeholder = "From Licence No", @required = "required"})
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Consigner Address<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextAreaFor(m => m.FromConsignorAddress, new { @id = "txtFromConsignorAddress", @class = "form-control ", @placeholder = "Consigner Address", @required = "required", @readonly = true })
+                                    @Html.TextAreaFor(m => m.FromConsignorAddress, new { @id = "txtFromConsignorAddress", @class = "form-control ", @placeholder = "Consigner Address", @required = "required" })
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @MaxLength = 150 })
+                                        @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @MaxLength = 150, @readonly = true })
                                     </div>
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @MaxLength = 50 })
+                                    @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @MaxLength = 50, @readonly = true })
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Address<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextAreaFor(m => m.ToConsigeeAddress, new { @id = "txtToConsigeeAddress", @class = "form-control ", @placeholder = "Consignee Address", @required = "required", @MaxLength = 250 })
+                                        @Html.TextAreaFor(m => m.ToConsigeeAddress, new { @id = "txtToConsigeeAddress", @class = "form-control ", @placeholder = "Consignee Address", @required = "required", @MaxLength = 250, @readonly = true })
                                     </div>
                                 </div>
                             </div>
@@ -118,30 +118,29 @@
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
+                                    <label class="control-label">Import Pass fee (per Ltr.)</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.RateofPermit, new { @id = "txtRateofPermit", onkeyup= "CalculateImportFees();", @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Rate of Permit Fees", @MaxLength = 150 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
                                     <label class="control-label">Duty Calculated</label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.DutyCalculated, new { @id = "txtDutyCalculated", @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
+                                        @Html.TextBoxFor(m => m.DutyCalculated, new { @id = "txtDutyCalculated", @readonly = true, @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Permit Fees (if any)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.PermitFees, new { @id = "txtPermitFees", @class = "form-control ", @placeholder = "Permit Fees(if any)", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
-
-                                    </div>
-                                </div>
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control ", @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                                        @Html.TextBoxFor(m => m.PermitFees, new { @id = "txtPermitFees", @class = "form-control", @placeholder = "Permit Fees(if any)", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Import fee (per Ltr.)</label>
+                                    <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.RateofPermit, new { @id = "txtRateofPermit", @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Rate of Permit Fees", @MaxLength = 150 })
+                                        @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control", @readonly = true, @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -164,14 +163,18 @@
                             <div class="form-actions">
                                 @if (Request.QueryString["Mode"] != null)
                                 {
-                                    if (Request.QueryString["Mode"].ToString().Trim() == "V")
+                                    if (Request.QueryString["Mode"].ToString().Trim() == "V" && UserSession.LoggedInUserLevelId.Trim() == "10")
                                     {
                                         <a href="@Url.Action("FinalizeFormFL21", "BWFL", null)"><label class="btn blue">Back</label></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("FormFL21List", "BWFL", null)"><label class="btn blue">Back</label></a>
                                     }
                                 }
                                 else
                                 {
-                                    if (Model.FL21Status == "P")
+                                    if (Model.FL21Status == "U")
                                     {
                                         <button type="submit" class="btn green" id="btnSave">Save</button>
                                     }
@@ -228,6 +231,13 @@
         }
         document.getElementById("txtTotalBottle").value = parseFloat(TotalCase) * parseFloat(BoxSize);
         document.getElementById("txtTotalBL").value = parseFloat(TotalCase) * parseFloat(BoxSize) * parseFloat(QuantityInBottleML);
+    }
+    function CalculateImportFees()
+    {
+        var ImportFees = document.getElementById("txtRateofPermit").value;
+        var TotalBL = document.getElementById("txtTotalBL").value;
+        document.getElementById("txtDutyCalculated").value = parseFloat(ImportFees) * parseFloat(TotalBL);
+        document.getElementById("txtTotalFees").value = parseFloat(ImportFees) * parseFloat(TotalBL);
     }
 </script>
 

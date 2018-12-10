@@ -29,7 +29,7 @@ namespace UPExciseLTE.Models
         public decimal RateofPermit { get; set; } = 0;
         public string TransactionNo { get; set; } = "";
         public string RouteDetails { get; set; } = "";
-        public string FL21Status { get; set; } = "P";
+        public string FL21Status { get; set; } = "U";
         public string FL21Status1 { get; set; } = "";
         public string PackagingType { get; set; } = "";
         public string EntryDate1 { get; set; } = "";

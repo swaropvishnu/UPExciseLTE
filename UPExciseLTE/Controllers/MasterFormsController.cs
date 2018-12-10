@@ -39,6 +39,25 @@ namespace UPExciseLTE.Controllers
             {
                 Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
             }
+            List<SelectListItem> lstLicense= new List<SelectListItem>();
+            SelectListItem SLI = new SelectListItem();
+            if (UserSession.PushName.Trim()== "be_unnao1")
+            {
+                SLI.Text = "FL3A";
+                SLI.Value = "FL3A";
+            }
+            else if (UserSession.PushName.Trim() == "BWFL")
+            {
+                SLI.Text = "BWFL-2B";
+                SLI.Value = "BWFL-2B";
+            }
+            else 
+            {
+                SLI.Text = "FL3A";
+                SLI.Value = "FL3A";
+            }
+            lstLicense.Add(SLI);
+            ViewBag.LicenseType= lstLicense;
             DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {

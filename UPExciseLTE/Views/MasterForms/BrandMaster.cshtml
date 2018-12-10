@@ -212,7 +212,7 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">License Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.LicenceType, new List<SelectListItem> { new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLicense", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.LicenceType, (IEnumerable<SelectListItem>)ViewBag.LicenseType, new { @id = "ddlLicense", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>

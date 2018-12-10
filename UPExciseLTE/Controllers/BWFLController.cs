@@ -30,9 +30,9 @@ namespace UPExciseLTE.Controllers
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
             if (FL21.FromConsignorName.Trim()==string.Empty)
             {
-                FL21.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                FL21.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
-                FL21.FromConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                FL21.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
+                FL21.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
+                FL21.ToConsigeeAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
             }
             if (TempData["str"]!=null)
             {
