@@ -971,6 +971,10 @@ namespace UPExciseLTE
                 {
                     distNames.Insert(0, new SelectListItem { Text = "--All--", Value = "-1" });
                 }
+                if (parm3 == "N")
+                {
+                    distNames.Insert(0, new SelectListItem { Text = "N.A.", Value = "-1" });
+                }
             }
             while (sdr.Read())
             {

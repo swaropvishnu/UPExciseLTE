@@ -3,13 +3,19 @@
 @{
     ViewBag.Title = "Edit/Delete Bottling Tank";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string str = ViewBag.Msg;
 }
 @using (Html.BeginForm("GetBBTDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    
+    if (str!=null && str.Trim() != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
     <div id="Msg">
-
     </div>
     <div class="page-content-inner">
         <div class="row ">
@@ -64,7 +70,14 @@
                                         <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster","MasterForms", new {Code = item.BBTId_Encript })'">Edit</button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="DeleteBBT('@item.BBTId')">Delete</button>
+                                        @if (item.Status == "A")
+                                        {
+                                           <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="DeleteBBT('@item.BBTId','D')">Deactive</button>
+                                        }
+                                        else
+                                        {
+                                           <button type="button" class="btn green" onclick="DeleteBBT('@item.BBTId','A')">Active</button>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -82,26 +95,17 @@
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
     }*@
-    function DeleteBBT(BBTId) {
+    function DeleteBBT(BBTId,status) {
         debugger;
         $.ajax({
             url: '/MasterForms/DeleteBBT',
-            data: { 'bbtId': BBTId },
+            data: { 'bbtId': BBTId, 'status': status },
             datatype: "html",
             type: "GET",
             success: function (data) {
-                debugger;
-                $("#Msg").html(data);
-                $("#danger-alert").show();
-                $("#danger-alert").fadeTo(3000, 500).slideUp(500, function () {
-                    $("#danger-alert").slideUp(500);
-                });
-
-                setTimeout(function () {
-                    window.location = "../MasterForms/GetBBTDetails";
-                }, 3000);
-
-            },
+                alert(data);
+                location.reload();
+                },
             error: function (data) {
                 alert("Error in final brand Loading");
             }

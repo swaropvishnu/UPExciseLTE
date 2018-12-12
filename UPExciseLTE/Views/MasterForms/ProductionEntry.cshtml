@@ -132,11 +132,19 @@
                                             @Html.TextBoxFor(m => m.ProducedTotalUnit, new { @id = "txtProducedTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Wastage in Number</label>
+                                            <label class="control-label">Wastage QR Code (in Number)</label>
                                             @Html.TextBoxFor(m => m.WastageInNumber, new { @id = "txtWastageInNumber", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row">                                        
+                                        <div class="form-group col-md-4">
+                                            <label class="control-label">Before Bottling BBT Balance</label>
+                                            @Html.TextBoxFor(m => m.BeforeBBTBal, new { @id = "txtBeforeBBTBal", @class = "form-control", @required = "required", @readonly = false })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="control-label">After Bottling BBT Balance</label>
+                                            @Html.TextBoxFor(m => m.AfterBBTBal, new { @id = "txtAfterBBTBal", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "WastageCal();" })
+                                        </div>
                                         <div class="form-group col-md-4">
                                             <label class="control-label">Wastage BL</label>
                                             @Html.TextBoxFor(m => m.WastageBL, new { @id = "txtWastageBL", @class = "form-control", @required = "required", @readonly = false })
@@ -181,7 +189,7 @@
                 var TotalUnit = NoofCase * txtBottleInCase;
                 document.getElementById("txtProducedTotalUnitQuantity").value = TotalUnit;
                 document.getElementById("txtWastageInNumber").value = TotalUnitQuantity - TotalUnit;
-                document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
+                //document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
                 document.getElementById("txtProducedBulkLitre").value = (TotalUnit * Quantity) / 1000;
             }
         }
@@ -192,5 +200,22 @@
                 document.getElementById("txtProducedNumberOfCases").focus();
                 return false;
             }
+            if (document.getElementById("txtAfterBBTBal").value.trim() == "" || parseFloat(document.getElementById("txtAfterBBTBal").value.trim()) <= 0) {
+                alert("Please Enter After BBT Balance");
+                document.getElementById("txtAfterBBTBal").focus();
+                return false;
+            }
+        }
+        function WastageCal()
+        {
+            var BeforeBal = (document.getElementById("txtBeforeBBTBal").value.trim());
+            var AfterBal = (document.getElementById("txtAfterBBTBal").value.trim());
+            if (AfterBal > BeforeBal) {
+                alert("After BBT Balance cannot greater then Before BBT Balance");
+                document.getElementById("txtAfterBBTBal").focus();
+                document.getElementById("txtAfterBBTBal").value="";
+                return false;
+            }
+            document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal).toFixed(2);
         }
     </script>

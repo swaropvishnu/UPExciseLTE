@@ -215,6 +215,8 @@ namespace UPExciseLTE.BLL
                 Plan.Type = 2;
                 Plan.BBTId = int.Parse(dr["BBTID"].ToString().Trim());
                 Plan.BBTBulkLitre = float.Parse(dr["BBTBulkLiter"].ToString().Trim());
+                Plan.BeforeBBTBal =(dr["BeforeBBTBal"].ToString().Trim());
+                Plan.AfterBBTBal = decimal.Parse(dr["AfterBBTBal"].ToString().Trim());
             }
             catch (Exception) { }
             return Plan;
@@ -686,7 +688,7 @@ namespace UPExciseLTE.BLL
                 bbtFormation.Status1 = (dr["Status1"].ToString().Trim());
                 bbtFormation.BBTId_Encript = new Crypto().Encrypt(dr["BBTId"].ToString().Trim());
                 bbtFormation.SP_Type = 2;
-                bbtFormation.Status = dr["Status"].ToString().Trim();
+                bbtFormation.Status = dr["BBTStatus"].ToString().Trim();
             }
             catch (Exception) { }
             return bbtFormation;

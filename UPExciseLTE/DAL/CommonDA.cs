@@ -439,6 +439,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("ProducedNumberOfCases", BP.ProducedNumberOfCases));
                 cmd.Parameters.Add(new SqlParameter("IsProductionFinal", BP.IsProductionFinal));
                 cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
+                cmd.Parameters.Add(new SqlParameter("AfterBBTBal", BP.AfterBBTBal));
                 cmd.Parameters.Add(new SqlParameter("c_user_id_production", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip_production", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac_production", MacAddress));
@@ -489,6 +490,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName",  UserSession.PushName));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetQRCOde", parameters.ToArray());
             }
@@ -785,6 +787,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("TransactionType", filter_bad_chars_rep(UTBL.TransactionType.Trim())));
                 cmd.Parameters.Add(new SqlParameter("IssueBL", UTBL.IssueBL));
                 cmd.Parameters.Add(new SqlParameter("Wastage", UTBL.Wastage));
+                cmd.Parameters.Add(new SqlParameter("NetTransfer", UTBL.NetTransfer));
                 cmd.Parameters.Add(new SqlParameter("TransferDate", UTBL.TransferDate));
                 cmd.Parameters.Add(new SqlParameter("Remark", filter_bad_chars_rep(UTBL.Remark.Trim())));
                 cmd.Parameters.Add(new SqlParameter("macId", MacAddress));

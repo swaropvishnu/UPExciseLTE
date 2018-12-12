@@ -583,16 +583,31 @@ namespace UPExciseLTE.Controllers
         {
 
             List<BBTMaster> bbtFormations = new List<BBTMaster>();
+            if (TempData["Msg"] != null)
+            {
+                var str = TempData["Msg"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    ViewBag.Msg = TempData["Msg"].ToString();
+                }
+            }
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
-        [HttpGet]
-        public ActionResult DeleteBBT(int bbtId)
+         
+        public string DeleteBBT(string bbtId,string status)
         {
+            BBTMaster bbt = new BBTMaster();
+            bbt.BBTId = int.Parse(bbtId);
+            bbt.Status = status;
+            bbt.SP_Type =4;
+            string str = new CommonDA().InsertUpdateBBT(bbt);
+
+            return str;
             /*var bbtFormation = new Models.BBTFormation();
             bbtFormation.BBTId = bbtId;
             bbtFormation.SP_Type = 3;
-            var str = new CommonDA().InsertUpdateBBT(bbtFormation);
+            
             bbtFormation = new BBTFormation();
             if (!string.IsNullOrEmpty(str))
             {
@@ -600,7 +615,7 @@ namespace UPExciseLTE.Controllers
                 bbtFormation.Message.MStatus = "info";
                 bbtFormation.Message.TextMessage = str;
             }*/
-            return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
+            //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
         [HttpPost]
         public ActionResult BBTMaster(BBTMaster BBT)
@@ -617,16 +632,21 @@ namespace UPExciseLTE.Controllers
 
             //ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
             //ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
-            List <SelectListItem> lstBR = CommonBL.fillBreweryLiceName();
+            //List <SelectListItem> lstBR = CommonBL.fillBreweryLiceName();
+            ViewBag.Msg = TempData["Message"];
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
             if (GP.FromConsignorName.Trim()==string.Empty)
             {
-                GP.FromLicenceNo = lstBR[0].Value;
-                GP.FromConsignorName = lstBR[0].Text;
-                GP.ToLicenceNo = lstBR[0].Value;
-                GP.ToConsigeeName = lstBR[0].Text;
+                if (ds!=null && ds.Tables[0].Rows.Count>0)
+                {
+                    GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim() ;
+                    GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
+                    GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
+                    GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
+                    GP.Address = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                }   
             }
-           
-            ViewBag.Districts = CommonBL.fillDistict("S");
+            ViewBag.Districts = CommonBL.fillDistict("N");
             ViewBag.FromLicenseTypes = CommonBL.fillLicenseTypes("S", "L1F");
             ViewBag.ToLicenseTypes = CommonBL.fillLicenseTypes("S", "L1T");
             return View(GP);

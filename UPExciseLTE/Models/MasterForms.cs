@@ -131,7 +131,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Number Of Cases")]
         public int NumberOfCases { get; set; } = 0;
         [Display(Name = "Mapped Unmapped")]
-        public short MappedOrNot { get; set; } = 0;
+        public short MappedOrNot { get; set; } = 1;
         [Display(Name = "Is Plan Final")]
         public short IsPlanFinal { get; set; } = 0;
         [Display(Name = "Bulk Litre")]
@@ -173,6 +173,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
+        public string BeforeBBTBal { get; set; } = "";
+        public decimal AfterBBTBal { get; set; } = 0;
         public Message Msg { get; set; }
     }
     public class UnitTank
@@ -223,6 +225,7 @@ namespace UPExciseLTE.Models
         public string Strength { get; set; } = "";
         [Display(Name = "Transfer Date")]
         public DateTime TransferDate { get; set; } = DateTime.Now;
+        public decimal NetTransfer { get; set; } = 0;
         [Display(Name = "Transfer Date")]
         public string TransferDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
         [Display(Name = "Previous UT Balance")]
@@ -244,7 +247,7 @@ namespace UPExciseLTE.Models
         public string BBTName { get; set; } = "";
         [Display(Name = "Bottling Tank Capacity")]
         public decimal BBTCapacity { get; set; }
-        [Display(Name = "Bottling Tank Bulk Litre")]
+        [Display(Name = "Bottling Balance (in B.L.)")] 
         public decimal BBTBulkLitre { get; set; }
         public int SP_Type { get; set; } = 1;
         [Display(Name = "Status")]

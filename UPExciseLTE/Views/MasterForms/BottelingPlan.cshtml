@@ -101,7 +101,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">For Mapped/ Unmapped Data<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1" }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1",Selected=true }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">License Type</label>
@@ -208,10 +208,11 @@
 
             dateFormat: "dd/mm/yy",
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            minDate: '0d'
         });
     });
-
+    
     $('#ddlBrand').change(function () {
         var BrandId = $('#ddlBrand').val();
         if (BrandId != "-1") {
