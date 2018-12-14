@@ -244,13 +244,11 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("@UserProfileImage", SqlDbType.VarBinary).Value = objUserData.UserImage);
                 cmd.ExecuteNonQuery();
                 result = "Success";
-
             }
             catch
             {
                 result = "Failed";
-                throw;
-
+                throw; 
             }
             finally
             {
@@ -348,6 +346,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("DbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("BrandId", BrandId));
                 parameters.Add(new SqlParameter("LiquorType", filter_bad_chars_rep(LiquorType.Trim())));
                 parameters.Add(new SqlParameter("LicenceType", filter_bad_chars_rep(LicenceType.Trim())));
@@ -1227,7 +1226,10 @@ namespace UPExciseLTE.DAL
         internal string InsertUpdateFormFL21(FormFL21 FL)
         {
             string result = "";
+            string result1 = "";
             con.Open();
+            int check = 0, FL21Id = -1,Count=0;
+             
             SqlTransaction tran = con.BeginTransaction();
             try
             {
@@ -1256,15 +1258,65 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("TransactionNo", FL.TransactionNo));
                 cmd.Parameters.Add(new SqlParameter("RouteDetails", FL.RouteDetails));
                 cmd.Parameters.Add(new SqlParameter("FL21Status", FL.FL21Status));
+                cmd.Parameters.Add(new SqlParameter("TransactionDate", FL.TransactionDate));
+                cmd.Parameters.Add(new SqlParameter("FromPermitDate", FL.FromPermitDate));
+                cmd.Parameters.Add(new SqlParameter("ToPermitDate", FL.ToPermitDate));
+                cmd.Parameters.Add(new SqlParameter("Bankname", FL.Bankname));
                 cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["FL21Id"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["FL21Id"].Size = 256;
                 cmd.ExecuteNonQuery();
                 result = cmd.Parameters["Msg"].Value.ToString().Trim();
-                tran.Commit();
+                FL21Id = int.Parse(cmd.Parameters["FL21Id"].Value.ToString().Trim());
+                cmd.Dispose();
+                if (result.Contains("Successfully"))
+                {
+                    foreach (FL21BrandMapp FL21BM in FL.lstFL21)
+                    {
+                        Count++;
+                        cmd = new SqlCommand("PROC_InsertFL21BrandMapp", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(new SqlParameter("DBName", UserSession.PushName));
+                        cmd.Parameters.Add(new SqlParameter("FL21Id", FL21Id));
+                        cmd.Parameters.Add(new SqlParameter("BrandId", FL21BM.BrandId));
+                        cmd.Parameters.Add(new SqlParameter("BoxSize", FL21BM.BoxSize));
+                        cmd.Parameters.Add(new SqlParameter("Quantity", FL21BM.Quantity));
+                        cmd.Parameters.Add(new SqlParameter("TotalCase", FL21BM.TotalCase));
+                        cmd.Parameters.Add(new SqlParameter("TotalBottle", FL21BM.TotalBottle));
+                        cmd.Parameters.Add(new SqlParameter("TotalBL", FL21BM.TotalBL));
+                        cmd.Parameters.Add(new SqlParameter("DutyCalculated", FL21BM.DutyCalculated));
+                        cmd.Parameters.Add(new SqlParameter("PermitFees", FL21BM.PermitFees));
+                        cmd.Parameters.Add(new SqlParameter("TotalFees", FL21BM.TotalFees));
+                        cmd.Parameters.Add(new SqlParameter("RateofPermit", FL21BM.RateofPermit));
+                        cmd.Parameters.Add(new SqlParameter("IsFirst", Count==1?true:false));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.ExecuteNonQuery();
+                        result1 = cmd.Parameters["Msg"].Value.ToString().Trim();
+                        if (!result1.Contains("Successfully"))
+                        {
+                            result = result1;
+                            check++;
+                            break;
+                        }
+                        cmd.Dispose();
+                    }
+                }
+                if (check == 0)
+                {
+                    tran.Commit();
+                }
+                else
+                {
+                    tran.Rollback();
+                }
             }
             catch (Exception exp)
             {
@@ -1295,6 +1347,42 @@ namespace UPExciseLTE.DAL
                 ds = null;
             }
             return ds;
+        }
+        public string InsertUpdateChallan(Challan Ch)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateChallan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("ChallanId", Ch.ChallanId));
+                cmd.Parameters.Add(new SqlParameter("BankName", Ch.BankName));
+                cmd.Parameters.Add(new SqlParameter("ChallanPhoto", SqlDbType.VarBinary).Value = Ch.ChallanPhoto);
+                cmd.Parameters.Add(new SqlParameter("FL21Ids", Ch.FL21Ids));
+                cmd.Parameters.Add(new SqlParameter("TotalFees", Ch.TotalFees));
+                cmd.Parameters.Add(new SqlParameter("TransactionDate", Ch.TransactionDate));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
         }
     }
 }

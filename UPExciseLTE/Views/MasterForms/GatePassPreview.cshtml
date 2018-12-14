@@ -4,533 +4,237 @@
     ViewBag.Title = "GatePassPreview";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br />
-<body>
-    <div class="page-content-inner">
-        <div class="row ">
-            <div class="col-md-12">
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-gift"></i>@ViewBag.PassType Report
-                        </div>
-                    </div>
-                    <div class="portlet-body form" style="background-color:#f5f5f5;">
-                        <div class="form-body" id="printablediv">
-                            <div class="form-group col-md-12">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img src="~/Img/uttar_pradesh_government.png" style="width:80px; height:80px;" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="row">
-                                            <h1><strong>Uttar Pradesh Excise Department</strong></h1>
-                                        </div>
-                                        <div class="row" style="margin-left:29%">
-                                            <centre><b>@ViewBag.PassType</b></centre>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        @if (ViewBag.QRCodeImage != null)
-                                        {
-                                            <centre>
-                                                <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" class="QRCodeImg" />
-                                            </centre>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <hr />
-                            </div>
-                            @*<div style="background-image:url('/Img/uttar_pradesh_government.png'); background-size: cover;">*@
-                            <div>
-                                <div class="form-group col-md-4">
-                                    <div>
-                                        <label class="control-label">No. : </label>
-                                        @Html.DisplayFor(Model => Model.GatePassNo)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4">
+<style>
+    .footer {
+        width: 100%;
+        position: relative;
+        page-break-inside: avoid !important;
+        page-break-before: auto !important;
+        padding-bottom: 100px;
+        /*position: fixed;*/
+    }
+</style>
+@*<link href="../Content/style.css" rel="stylesheet" type="text/css" />*@
+<script type="text/javascript">
 
-                                    <div>
-                                        <label class="control-label">Date : </label>
-                                        @Model.FromDate1 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <div>
-                                        <label class="control-label">Valid Till : </label>
-
-                                        @Model.ToDate1 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">1. Name of Consignor : </label>
-
-                                        @Html.DisplayFor(Model => Model.FromConsignorName)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">2. Name of Consignee : </label>
-
-                                        @Html.DisplayFor(Model => Model.ToConsigeeName)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">3. Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Html.DisplayFor(Model => Model.CheckPostVia) ) Vehicle No : </label>
-
-                                        @Html.DisplayFor(Model => Model.VehicleNo)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">4. Number / date of Permit, if any :        </label>
-
-                                        @Html.DisplayFor(Model => Model.FromDate1)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div>
-                                        <label class="control-label">5. Duty Paid / In Bond </label>
-
-                                        @Html.DisplayFor(Model => Model.InBondValue)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div>
-                                        <label class="control-label">6. Export Duty : Rs. </label>
-
-                                        @Html.DisplayFor(Model => Model.ExportDuty)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div>
-                                        <label class="control-label">7. Consideration Fee Rs. </label>
-
-                                        @Html.DisplayFor(Model => Model.TotalConsiderationFees)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div>
-                                        <label class="control-label">Addl. Consi. Fee Rs. </label>
-
-                                        @Html.DisplayFor(Model => Model.AdditionalConsiFees)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">8. Vehicle Agency Details </label>
-
-                                        @Html.DisplayFor(Model => Model.AgencyNameAndAddress)
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <label class="control-label">It should be returned within 90 days after verification by competent authority. </label>
-
-
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div>
-                                        <h4><strong>FOR DETAILS BELOW :</strong></h4>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-
-                                    <div class="portlet-body form" style="background-color:#f5f5f5">
-                                        <div class="table-scrollable">
-
-                                            <table id="myDatatable" class="table table-striped table-bordered table-hover">
-                                                <thead style="background-color:darkgray">
-                                                    <tr>
-                                                        <th>S.N</th>
-                                                        <th>Description of Foreign Liquor</th>
-                                                        <th>Batch No</th>
-                                                        <th>Bottles, Flask Quantity <br /> Contained in each</th>
-                                                        <th><div style="margin-left:12%">Total Litres</div><hr /><div style="margin-left:39%">BL</div></th>
-                                                        <th>Alcoholic Strength</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @*@foreach (var item in Model.DistrictWholeSaleToRetailorList)
-                                                        {
-                                                            <tr>
-                                                                <td>
-                                                                    @Html.DisplayFor(modelItem => item.RowNum)
-                                                                </td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Brand)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.BatchNo)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.BottleQuantity)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.TotalLitres)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.AlcoholicStrength)</td>
-                                                            </tr>
-                                                        }*@
-
-                                                    @foreach (GatePassBrandMapping item in ViewBag.GetGatePassBrandDetailsList)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.Srno)
-                                                            </td>
-                                                            <td>@Html.DisplayFor(modelItem => item.BrandName)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.BatchNo)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.DetailsDesc)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.TotalBL)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.Strength)</td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="2"></td>
-                                                        <td>Total :</td>
-                                                        <td>@Model.TotalBottle</td>
-                                                        <td>@Model.TotalBL</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                &nbsp;  <br />&nbsp;<br />&nbsp;<br />&nbsp;<br />@*&nbsp;<br />&nbsp;<br />*@@*&nbsp;<br />&nbsp;<br />&nbsp;<br />*@
-
-                                <div class="form-group col-md-6">
-                                    <label class="control-label">Signature of Authorised Signatory </label>
-                                    <div>
-                                        Wave Distilleries & Breweried <br />
-                                        Limited Aligarh
-                                        @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6" style="text-align:right">
-                                    <label class="control-label">Excise Inspector </label>
-                                    <div>
-                                        (In-Charge) <br />
-                                        (Dept. Of Excise)
-                                        @*@Html.TextBox("26/09/2018", new { @id = "txtVehicleDriverName1", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })*@
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="clear:both"></div>
-                            <center>
-                                <div class="form-actions">
-                                    <button type="button" id="btnPrint" class="btn green">Print</button>
-                                </div>
-                            </center>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-<div id="dvContents" style="display:none;">
-    <div class="portlet-body form" style="background-color:#f5f5f5;">
-        <div class="form-body" id="printablediv">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="left">
-                        <img src="~/Img/uttar_pradesh_government.png" />
-                    </div>
-                    <div class="right">
-                        <div class="row">
-                            <h1><strong>Uttar Pradesh Excise Department</strong></h1>
-                        </div>
-                        @*<div class="row" style="margin-left:50%">
-                                <centre><b>@ViewBag.PassType</b></centre>
-                            </div>*@
-                    </div>
-                    <div class="qrCode">
-                        @if (ViewBag.QRCodeImage != null)
+    function PrintPanel() {
+        var panel = document.getElementById("divPrint");
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>GatePass B-12</title>');
+        printWindow.document.write('<link href="../Content/PrintCss.css" rel="stylesheet" />');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(panel.innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        setTimeout(function () {
+            printWindow.print();
+        }, 500);
+        return false;
+    }
+</script>
+<link href="~/Content/PrintCss.css" rel="stylesheet" />
+<div style="text-align:right;width:100%;background-color:white;">
+    <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
+</div>
+<div style="width:100%;background-color:white" id="divPrint">
+    <div id="body">
+        <center>
+            <table style="width:95%;background-color:white;text-orientation:upright">
+                <tr>
+                    <td colspan="4">
+                        @if (Model.Status == "P")
                         {
-                            <centre>
-                                <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" class="QRCodeImg" style="border-bottom:solid thin" />
-                            </centre>
+                        <div style="text-align:center">
+                            <h1 style="text-align:center"><strong>Draft Gate Pass Not Valid</strong></h1>
+                        </div>
                         }
-                    </div>
-                </div>
-            </div>
-            @*<div>*@
-            <div class="PassType row">
-                <div class="row" style="margin-left:50%">
-                    <centre><b>@ViewBag.PassType</b></centre>
-                </div>
-            </div>
-            @*<hr />*@
-            @*</div>*@
-            <br />
-            <div>
-                <div class="row">
-
-                    <div class="GatePassNo">
-                        <div>
-                            <label class="control-label">No. : </label>
-                            @Html.DisplayFor(Model => Model.GatePassNo)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div style="width:10%;float:left">
+                            <img src="~/Img/uttar_pradesh_government.png" style="height:100px;width: 100px;" />
                         </div>
-                    </div>
-                    <div class="Date">
-
-                        <label class="control-label">Date</label>
-                        <label id="date" class="control-label">: </label>
-                        @Model.FromDate1 
-
-                    </div>
-
-                    <div class="validTill">
-
-                        <label class="control-label">Valid Till :</label>
-
-                        <span id="ValidTill">@Model.ToDate1</span>
-
-                    </div>
-                </div>
-                <div id="background">
-                    <img id="bg-text" src="~/Img/uttar_pradesh_government.png" />
-                </div>
-                @*<div class="row">
-                        <div class="col-md-12">
-                            <div>
-                                <label class="control-label">No.&nbsp;&nbsp; : </label>
-                                @Html.DisplayFor(Model => Model.GatePassNo)
-                            </div>
+                        <div style="width:80%;float:left;padding-top:20px">
+                            <h1 style="text-align:center"><strong>Uttar Pradesh Excise Department</strong></h1>
                         </div>
-                    </div>*@
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">1. Name of Consignor : </label>
-
-                            @Html.DisplayFor(Model => Model.FromConsignorName)
+                        <div style="width:10%;float:left">
+                            @if (ViewBag.QRCodeImage != null)
+                            {
+                            <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
+                            }
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">2. Name of Consignee : </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center;border-top: 2px solid;border-bottom: 2px solid;"><b>@ViewBag.PassType</b></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><br /></td>
+                </tr>
+            </table>
+            @*<div class="bg"></div>*@
+            <table style="width:95%;background-color:white;text-orientation:upright" class="bg">
+                <tr>
+                    <td colspan="4">
+                        <div style="width:33%;float:left"><b>No.</b> : @Model.GatePassNo </div>
+                        <div style="width:33%;float:left;text-align:center"><b>Date:</b> @Model.FromDate1 </div>
+                        <div style="width:33%;float:left"><b>Valid Till:</b> @Model.ToDate1 </div>
+                        @*<div id="background">
+                                <img id="bg-text" src="~/Img/uttar_pradesh_government.png" />
+                            </div>*@
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>1.</b></td>
+                    <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>2.</b></td>
+                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>3.</b></td>
+                    <td colspan="3"><b>Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Model.CheckPostVia ) Vehicle No :</b>  @Model.VehicleNo </td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>4.</b></td>
+                    <td colspan="3"><b>Number / date of Permit, if any : </b> @Model.FromDate1</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>5.</b></td>
+                    <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
+                    <td></td>
+                    <td><b>6. Export Duty : Rs. </b>: @Model.ExportDuty</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>7.</b></td>
+                    <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                    <td></td>
+                    <td><b>Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>8.</b></td>
+                    <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><b>It should be returned within 90 days after verification by competent authority.</b></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><h4><strong>FOR DETAILS BELOW :</strong></h4></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <table style="width:100%" border="1">
+                            <thead>
+                                <tr>
+                                    <th style="padding:10px">S.N</th>
+                                    <th style="padding:10px">Description of Foreign Liquor</th>
+                                    <th style="padding:10px">Batch No</th>
+                                    <th style="padding:10px">Bottles, Flask Quantity <br /> Contained in each</th>
+                                    <th style="padding:10px">Total Litres (BL)</th>
+                                    <th style="padding:10px">Alcoholic Strength</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (GatePassBrandMapping item in ViewBag.GetGatePassBrandDetailsList)
+                                {
+                                    <tr style="border-bottom:1px solid #47494c">
+                                        <td style="padding:10px">
+                                            @Html.DisplayFor(modelItem => item.Srno)
+                                        </td>
+                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.BrandName)</td>
+                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.BatchNo)</td>
+                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.DetailsDesc)</td>
+                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.TotalBL)</td>
+                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.Strength)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr style="border-bottom:1px solid #47494c">
+                                    <td colspan="2" style="padding:10px"></td>
+                                    <td style="padding:10px;padding:10px">Total :</td>
+                                    <td style="padding:10px;padding:10px">@Model.TotalBottle</td>
+                                    <td style="padding:10px;padding:10px">@Model.TotalBL</td>
+                                    <td style="padding:10px;padding:10px"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
 
-                            @Html.DisplayFor(Model => Model.ToConsigeeName)
+            </table>
+
+        </center>
+    </div>
+    <footer class="footer">
+        <center>
+            <table style="width:95%;background-color:white;text-orientation:upright">
+                <tr>
+                    <td colspan="4">
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div style="float:left">
+                            <b>Signature of Authorised Signatory</b>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">3. Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Html.DisplayFor(Model => Model.CheckPostVia) ) Vehicle No &nbsp;&nbsp;: </label>
-                            <span> @Html.DisplayFor(Model => Model.VehicleNo)</span>
+                        <div style="float:right">
+                            <b>Excise Inspector</b>
                         </div>
-                    </div>
-                </div>
+                    </td>
+                </tr>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">4. Number / date of Permit, if any :        </label>
-
-                           @Model.FromDate1 
+                <tr>
+                    <td colspan="4">
+                        <div style="float:left">
+                            Wave Distilleries & Breweried
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="DutyPaid">
-                        <div>
-                            <label class="control-label">5. Duty Paid / In Bond &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
-
-                            @Model.InBondValue 
+                        <div style="float:right">
+                            (In-Charge)
                         </div>
-                    </div>
-
-
-                    <div class="ExportDuty">
-                        <div>
-                            <label class="control-label">6. Export Duty&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;: </label>Rs.
-
-                           @Model.ExportDuty 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="ConsirationFee">
-                        <div>
-                            <label class="control-label">7. Consideration Fee Rs.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
-                            @Html.DisplayFor(Model => Model.TotalConsiderationFees)
-                        </div>
-                    </div>
-
-                    <div class="ConsineeFee">
-                        <div>
-                            <label>Addl. Consi. Fee.&nbsp;&nbsp;&nbsp;&nbsp;: </label>Rs.
-                           @Model.AdditionalConsiFees 
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">8. Vehicle Agency Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
-                            @Html.DisplayFor(Model => Model.AgencyNameAndAddress)
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <label class="control-label">It should be returned within 90 days after verification by competent authority. </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <h4><strong>FOR DETAILS BELOW :</strong></h4>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-
-                        <div class="portlet-body form" style="background-color:#f5f5f5">
-                            <div class="table-scrollable">
-
-                                <table id="myDatatable" class="table table-striped table-bordered table-hover">
-                                    <thead style="background-color:darkgray">
-                                        <tr>
-                                            <th>S.N</th>
-                                            <th>Description of Foreign Liquor</th>
-                                            <th>Batch No</th>
-                                            <th>Bottles, Flask Quantity <br /> Contained in each</th>
-                                            <th>Total Litres(BL)</th>
-                                            <th>Alcoholic Strength</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       @foreach (GatePassBrandMapping item in ViewBag.GetGatePassBrandDetailsList)
-                                       {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Srno)
-                                                </td>
-                                                <td>@Html.DisplayFor(modelItem => item.BrandName)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.BatchNo)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.DetailsDesc)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.TotalBL)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Strength)</td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2"></td>
-                                            <td>Total :</td>
-                                            <td>@Model.TotalBottle</td>
-                                            <td>@Model.TotalBL</td>
-                                            <td></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                &nbsp;  <br />&nbsp;<br /><br />&nbsp;<br /><hr />
-                <div class="row">
-                    <div class="AuthorizeSign">
-                        <label class="control-label">Signature of Authorised Signatory </label>
-                        <div>
-                            Wave Distilleries & Breweried <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div style="float:left">
                             Limited Aligarh
                         </div>
-                    </div>
-                    <div class="ExciseInspector" style="text-align:right">
-                        <label class="control-label">Excise Inspector </label>
-                        <div>
-                            (In-Charge) <br />
+                        <div style="float:right">
                             (Dept. Of Excise)
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </footer>
 </div>
-
-
-<script language="javascript" type="text/javascript">
-    $(function () {
-        $('.DispatchBottle,.AvailableBox,.DispatchBottle,.CalculatedDuty,.CalculatedAdditionalDuty').prop('readonly', true);
-        var $tblrows = $("#tblBMWholeSale tbody tr");
-        $tblrows.each(function (index) {
-            var $tblrow = $(this);
-            debugger;
-            $tblrow.find('.DispatchBox').on('change', function () {
-                debugger;
-                //var dispatchBox = $tblrow.find("[id=txtDispatchBox]").val();
-                //var availableBox = $tblrow.find("[id=lblAvailableBox]").val();
-                //var size = $tblrow.find("[id=lblSize]").val();
-                //var duty = $tblrow.find("[id=lblDuty]").val();
-                //var addDuty = $tblrow.find("[id=lblAddDuty]").val();
-                //var dispatchBottle = parseInt(dispatchBox) * parseInt(size);
-                //var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
-                //var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
-                //$('#lblDispatchBottle').val(dispatchBottle);
-                //$('#lblCalculatedDuty').val(calculatedDuty.toFixed(2));
-                //$('#lblCalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
-
-                var dispatchBox = $tblrow.find("[name='item.DispatchBox']").val();
-                var availableBox = $tblrow.find("[name='item.AvailableBox']").val();
-                var size = $tblrow.find("[name='item.Size']").val();
-                var duty = $tblrow.find("[name='item.Duty']").val();
-                var addDuty = $tblrow.find("[name='item.AddDuty']").val();
-                var dispatchBottle = parseInt(dispatchBox, 10) * parseInt(size, 10);
-                var calculatedDuty = parseFloat(dispatchBottle) * parseFloat(duty);
-                var calculatedAdditionalDuty = parseFloat(dispatchBottle) * parseFloat(addDuty);
-                $tblrow.find('.DispatchBottle').val(dispatchBottle);
-                $tblrow.find('.CalculatedDuty').val(calculatedDuty.toFixed(2));
-                $tblrow.find('.CalculatedAdditionalDuty').val(calculatedAdditionalDuty.toFixed(2));
-
-            });
-        });
-    });
-
-    $(function () {
-        $("#btnPrint").click(function () {
-            var contents = $("#dvContents").html();
-            var frame1 = $('<iframe />');
-            frame1[0].name = "frame1";
-            frame1.css({ "position": "absolute", "top": "0px" });
-            $("body").append(frame1);
-            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
-            frameDoc.document.open();
-            //Create a new HTML document.
-            frameDoc.document.write('<html><head><title> </title>');
-            frameDoc.document.write('</head><body>');
-            //Append the external CSS file.
-            frameDoc.document.write('<link href="../Content/bootstrap.min.css" rel="stylesheet" type="text/css" />');
-            frameDoc.document.write('<link href="../Content/style.css" rel="stylesheet" type="text/css" />');
-            //Append the DIV contents.
-            frameDoc.document.write(contents);
-            frameDoc.document.write('</body></html>');
-            frameDoc.document.close();
-            setTimeout(function () {
-                window.frames["frame1"].focus();
-                window.frames["frame1"].print();
-                frame1.remove();
-            }, 500);
-        });
-    });
-</script> 

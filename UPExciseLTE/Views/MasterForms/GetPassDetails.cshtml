@@ -96,7 +96,7 @@
                                             <td>
                                                 @if (item.Status == "P")
                                                 {
-                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Dummy Gatepass</button>
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
                                                 }
                                                 else
                                                 {

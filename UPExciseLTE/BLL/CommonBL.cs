@@ -363,7 +363,7 @@ namespace UPExciseLTE.BLL
                         sb.Append("<td>"); sb.Append(dr["Strength"]); sb.Append("</td>");
                         sb.Append("</tr>");
                     }
-
+                    sb.Append("</table></div>");
 
                 }
             }
@@ -814,7 +814,7 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetFormFL21(FormFL21Id, FormFLStatus);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                return FillFormFL21(ds.Tables[0].Rows[0]);
+                return FillFormFL21(ds.Tables[0].Rows[0],ds.Tables[1]);
             }
             else
             {
@@ -829,12 +829,12 @@ namespace UPExciseLTE.BLL
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    lstGPD.Add(FillFormFL21(dr));
+                    lstGPD.Add(FillFormFL21(dr,null));
                 }
             }
             return lstGPD;
         }
-        private FormFL21 FillFormFL21(DataRow dr)
+        private FormFL21 FillFormFL21(DataRow dr,DataTable dt)
         {
             FormFL21 FL21 = new FormFL21();
             try
@@ -865,6 +865,32 @@ namespace UPExciseLTE.BLL
                 FL21.FL21Status1= (dr["FL21Status1"].ToString().Trim());
                 FL21.PackagingType= (dr["PackagingType"].ToString().Trim());
                 FL21.EntryDate1= (dr["EntryDate1"].ToString().Trim());
+                FL21.TransactionDate = DateTime.Parse(dr["TransactionDate"].ToString().Trim());
+                FL21.TransactionDate1 = (dr["TransactionDate1"].ToString().Trim());
+                FL21.FromPermitDate = DateTime.Parse(dr["FromPermitDate"].ToString().Trim());
+                FL21.FromPermitDate1 = (dr["FromPermitDate1"].ToString().Trim());
+                FL21.ToPermitDate = DateTime.Parse(dr["ToPermitDate"].ToString().Trim());
+                FL21.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
+                FL21.Bankname = (dr["Bankname"].ToString().Trim());
+                foreach (DataRow dtdr in dt.Rows)
+                {
+                    FL21BrandMapp FL21BM = new FL21BrandMapp();
+                    FL21BM.SrNo = int.Parse(dtdr["SrNo"].ToString().Trim());
+                    FL21BM.BoxSize = int.Parse(dtdr["BoxSize"].ToString().Trim());
+                    FL21BM.Brand =  (dtdr["BrandName"].ToString().Trim());
+                    FL21BM.BrandId = int.Parse(dtdr["BrandId"].ToString().Trim());
+                    FL21BM.DutyCalculated = decimal.Parse(dtdr["DutyCalculated"].ToString().Trim());
+                    FL21BM.FL21BrandMappId = long.Parse(dtdr["FL21BrandMappId"].ToString().Trim());
+                    FL21BM.PermitFees = decimal.Parse(dtdr["PermitFees"].ToString().Trim());
+                    FL21BM.Quantity = decimal.Parse(dtdr["Quantity"].ToString().Trim());
+                    FL21BM.RateofPermit = decimal.Parse(dtdr["RateofPermit"].ToString().Trim());
+                    FL21BM.TotalBL = decimal.Parse(dtdr["TotalBL"].ToString().Trim());
+                    FL21BM.TotalBottle = int.Parse(dtdr["TotalBottle"].ToString().Trim());
+                    FL21BM.TotalCase = int.Parse(dtdr["TotalCase"].ToString().Trim());
+                    FL21BM.TotalFees = decimal.Parse(dtdr["TotalFees"].ToString().Trim());
+                    FL21.lstFL21.Add(FL21BM);
+                }
+                
             }
             catch (Exception) { }
             return FL21;

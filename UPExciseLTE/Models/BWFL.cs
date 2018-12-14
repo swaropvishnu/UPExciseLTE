@@ -33,5 +33,38 @@ namespace UPExciseLTE.Models
         public string FL21Status1 { get; set; } = "";
         public string PackagingType { get; set; } = "";
         public string EntryDate1 { get; set; } = "";
+        public DateTime? TransactionDate { get; set; } = DateTime.Parse("01-Jan-1990");
+        public string TransactionDate1 { get; set; } = "";
+        public string Bankname { get; set; } = "";
+        public DateTime FromPermitDate { get; set; }= DateTime.Parse("01-Jan-1990");
+        public string FromPermitDate1 { get; set; } = "";
+        public DateTime ToPermitDate { get; set; } = DateTime.Parse("01-Jan-1990");
+        public string ToPermitDate1 { get; set; } = "";
+        public List<FL21BrandMapp> lstFL21 { get; set; } = new List<FL21BrandMapp>();
+    }
+    public class FL21BrandMapp 
+    {
+        public long FL21BrandMappId { get; set; }
+        public int SrNo { get; set; }
+        public int BrandId { get; set; }
+        public string Brand { get; set; }
+        public int BoxSize { get; set; }
+        public decimal Quantity { get; set; }
+        public int TotalCase { get; set; }
+        public int TotalBottle { get; set; }
+        public decimal TotalBL { get; set; }
+        public decimal DutyCalculated { get; set; }
+        public decimal PermitFees { get; set; }
+        public decimal TotalFees { get; set; }
+        public decimal RateofPermit { get; set; }
+    }
+    public class Challan
+    {
+        public int ChallanId { get; set; }
+        public string BankName { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public decimal TotalFees { get; set; }
+        public string FL21Ids { get; set; }
+        public byte[] ChallanPhoto { get; set; }
     }
 }

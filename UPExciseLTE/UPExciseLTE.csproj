@@ -5622,6 +5622,7 @@
     <Content Include="Content\images\YOGI.PNG" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\js\main.js" />
+    <Content Include="Content\PrintCss.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\vendor\animate\animate.css" />
     <Content Include="Content\vendor\animsition\css\animsition.css" />
