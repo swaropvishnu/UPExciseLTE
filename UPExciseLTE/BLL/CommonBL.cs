@@ -872,6 +872,7 @@ namespace UPExciseLTE.BLL
                 FL21.ToPermitDate = DateTime.Parse(dr["ToPermitDate"].ToString().Trim());
                 FL21.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
                 FL21.Bankname = (dr["Bankname"].ToString().Trim());
+                FL21.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL21BrandMapp FL21BM = new FL21BrandMapp();
@@ -894,6 +895,36 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return FL21;
+        }
+        public Challan GetChallan(int ChallanId)
+        {
+            DataSet ds = new CommonDA().GetChallan(ChallanId);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillChallan(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new Challan();
+            }
+        }
+        private Challan FillChallan(DataRow dr)
+        {
+            Challan CH = new Challan();
+            try
+            {
+                CH.BankName = dr["BankName"].ToString().Trim(); 
+                CH.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim()); 
+                CH.ChallanPhoto = (Byte[])(dr["ChallanPhoto"]);
+                //"data:image/png;base64," + Convert.ToBase64String(objUserData.UserImage, 0)
+                CH.FileExt= dr["FileExt"].ToString().Trim();
+                CH.FL21Ids = dr["FL21Ids"].ToString().Trim();
+                CH.TotalFees = decimal.Parse(dr["TotalFees"].ToString().Trim());
+                CH.TransactionDate = DateTime.Parse(dr["TransactionDate"].ToString().Trim());
+                CH.TransactionNo = dr["TransactionNo"].ToString().Trim();
+            }
+            catch (Exception) { }
+            return CH;
         }
         #endregion
 

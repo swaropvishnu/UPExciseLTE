@@ -153,24 +153,56 @@ namespace UPExciseLTE.Controllers
             sb.Append("</table></div>");
             return sb.ToString();
         }
-        public ActionResult FormFL21List(string hfFormId, HttpPostedFileBase fileChallan, string txtTotalFees,string txtBankName,string txtTransactionDate)
+        public ActionResult FormFL21List(string hfFormId, HttpPostedFileBase fileChallan, string txtTotalFees,string txtBankName,string txtTransactionDate,string txtTransactionNo)
         {
             Challan Ch = new Challan();
-            Ch.BankName = txtBankName.Trim();
-            Ch.ChallanId = -1;
-            Ch.FL21Ids = hfFormId.Trim();
-            Ch.TransactionDate = CommonBL.Setdate(txtTransactionDate.Trim());
-            Ch.TotalFees = decimal.Parse(txtTotalFees.Trim());
-            Byte[] img = null;
-            if (fileChallan != null && fileChallan.ContentLength > 0)
-            {   /*****IMG-DB-CODE******/
-                int FileSize = fileChallan.ContentLength;
-                img = new Byte[FileSize];
-                fileChallan.InputStream.Read(img, 0, FileSize);
-                Ch.ChallanPhoto = img;
+            try
+            {
+               
+                Ch.BankName = txtBankName.Trim();
+                Ch.ChallanId = -1;
+                Ch.FL21Ids = hfFormId.Trim();
+                Ch.TransactionDate = CommonBL.Setdate(txtTransactionDate.Trim());
+                Ch.TotalFees = decimal.Parse(txtTotalFees.Trim());
+                Ch.TransactionNo = txtTransactionNo;
+                Byte[] img = null;
+                if (fileChallan != null && fileChallan.ContentLength > 0)
+                {   /*****IMG-DB-CODE******/
+                    int FileSize = fileChallan.ContentLength;
+                    string[] extSplit = fileChallan.FileName.Split('.');
+                    string ext = extSplit[extSplit.Length - 1];
+                    img = new Byte[FileSize];
+                    fileChallan.InputStream.Read(img, 0, FileSize);
+                    Ch.ChallanPhoto = img;
+                    Ch.FileExt = ext;
+                }
             }
+            catch { }
             string str = new CommonDA().InsertUpdateChallan(Ch); 
             return RedirectToAction("FormFL21List");
+        }
+        public string PreviewChallan(string ChallanId)
+        {
+            StringBuilder sb = new StringBuilder();
+            Challan Ch = new CommonBL().GetChallan(int.Parse(ChallanId));
+            string base64PDF = System.Convert.ToBase64String(Ch.ChallanPhoto, 0, Ch.ChallanPhoto.Length);
+            if (Ch.FileExt.Trim().Contains("pdf"))
+            {
+                sb.Append("<embed src = 'data:application/pdf;base64, );");
+                sb.Append(base64PDF);
+                sb.Append(" type = 'application /pdf' width = '100%' height = '500' />");
+                //sb.Append("window.open('data:application/pdf;base64,'");
+                //sb.Append(base64PDF);
+                //sb.Append(")");
+            }
+            else {
+                sb.Append("<img src = '" + "data:image/");
+                sb.Append(Ch.FileExt);
+                sb.Append(";base64,");
+                sb.Append(base64PDF);
+                sb.Append("' style = 'width:75px ,height:65px' /> ");
+            }
+            return sb.ToString();
         }
     }
 }

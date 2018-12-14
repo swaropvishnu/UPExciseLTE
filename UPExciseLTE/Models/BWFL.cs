@@ -40,6 +40,7 @@ namespace UPExciseLTE.Models
         public string FromPermitDate1 { get; set; } = "";
         public DateTime ToPermitDate { get; set; } = DateTime.Parse("01-Jan-1990");
         public string ToPermitDate1 { get; set; } = "";
+        public int ChallanId { get; set; } = -1;
         public List<FL21BrandMapp> lstFL21 { get; set; } = new List<FL21BrandMapp>();
     }
     public class FL21BrandMapp 
@@ -60,11 +61,13 @@ namespace UPExciseLTE.Models
     }
     public class Challan
     {
-        public int ChallanId { get; set; }
-        public string BankName { get; set; }
-        public DateTime TransactionDate { get; set; }
-        public decimal TotalFees { get; set; }
-        public string FL21Ids { get; set; }
+        public int ChallanId { get; set; } = -1;
+        public string BankName { get; set; } = "";
+        public DateTime TransactionDate { get; set; } = DateTime.Now;
+        public decimal TotalFees { get; set; } = 0;
+        public string FL21Ids { get; set; } = "-1";
         public byte[] ChallanPhoto { get; set; }
+        public string FileExt { get; set; } = "";
+        public string TransactionNo { get; set; } = "";
     }
 }

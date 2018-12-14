@@ -1361,10 +1361,12 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("ChallanId", Ch.ChallanId));
                 cmd.Parameters.Add(new SqlParameter("BankName", Ch.BankName));
-                cmd.Parameters.Add(new SqlParameter("ChallanPhoto", SqlDbType.VarBinary).Value = Ch.ChallanPhoto);
+                cmd.Parameters.Add(new SqlParameter("ChallanPhoto", Ch.ChallanPhoto));
                 cmd.Parameters.Add(new SqlParameter("FL21Ids", Ch.FL21Ids));
                 cmd.Parameters.Add(new SqlParameter("TotalFees", Ch.TotalFees));
                 cmd.Parameters.Add(new SqlParameter("TransactionDate", Ch.TransactionDate));
+                cmd.Parameters.Add(new SqlParameter("FileExt", Ch.FileExt));
+                cmd.Parameters.Add(new SqlParameter("TransactionNo", Ch.TransactionNo));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -1383,6 +1385,22 @@ namespace UPExciseLTE.DAL
                 con.Dispose();
             }
             return result;
+        }
+        public DataSet GetChallan(int ChallanId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("ChallanId", ChallanId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetChallan", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
         }
     }
 }

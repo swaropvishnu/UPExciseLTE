@@ -16,17 +16,17 @@
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <table class="table table-striped table-bordered table-hover">
                             <tr>
-                                <th>Brand Name</th>
+                                <th>Form Id</th>
                                 <th>Consigner Name</th>
                                 <th>Consignee Name</th>
-                                <th>Total Case</th>
-                                <th>Total Bottle/ Can</th>
                                 <th>Total Bulk Litre</th>
                                 <th>Duty Calculated</th>
                                 <th>Permit Fees (if any)</th>
                                 <th>Total Fees</th>
                                 <th>Import fee (per Ltr.)</th>
                                 <th>Transaction No</th>
+                                <th>Bank Name</th>
+                                <th>Challan Slip</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -35,19 +35,13 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Brand)
+                                        @Html.DisplayFor(modelItem => item.FL21ID)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.FromConsignorName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ToConsigeeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TotalCase)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TotalBottle)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TotalBL)
@@ -68,10 +62,16 @@
                                         @Html.DisplayFor(modelItem => item.TransactionNo)
                                     </td>
                                     <td>
+                                        @Html.DisplayFor(modelItem => item.Bankname)
+                                    </td>
+                                    <td>
+                                        <a href="#" id="hrefChallan" onclick="ShowChallan('@item.ChallanId');">View</a>
+                                    </td>
+                                    <td>
                                         <a href="@Url.Action("FormFL21", "BWFL", new { Code = item.EncFL21IDId,Mode='V' })"><label class="btn blue">View</label></a>
                                     </td>
-                                    <td>                                         
-                                       <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('A','@item.FL21ID')">Finalize</button>
+                                    <td>
+                                        <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('A','@item.FL21ID')">Finalize</button>
                                     </td>
                                     <td>
                                         <button type="button" id="btnFreeze" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')">Reject</button>
@@ -79,6 +79,76 @@
                                 </tr>
                             }
                         </table>
+                        <div id='myModal2' class='modal fade' role='dialog'>
+                            <div class='modal-dialog'>
+                                <div class='modal-content'>
+                                    <div class='portlet box green'>
+                                        <div class='portlet-title'><div class='caption'><div>Finalize F.L. 21</div></div><button type='button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'>
+                                            <div>
+                                                <div class='modal-body'>
+                                                    <div class="row">
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Form Id<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopFormId", "", new { @id = "txtPopFormId", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Consigner Name<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopConsignerName", "", new { @id = "txtPopConsignerName", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Consignee Name<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopConsigneeName", "", new { @id = "txtTotalFees", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Total BL<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopTotalBL", "", new { @id = "txtPopTotalBL", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Transaction Fees<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopTotalFees", "", new { @id = "txtPopTotalFees", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopTransNo", "", new { @id = "txtPopTransNo", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Valid From Date<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopFromDate", "", new { @id = "txtPopFromDate", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Valid To Date<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtPopToDate", "", new { @id = "txtPopToDate", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                    </div>
+                                                    <center>
+                                                        <input type="button" onclick="FinalBrand('A', document.getElementById('txtPopTotalBL').value)" value="Finalize Form" />
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id='myModal3' class='modal fade' role='dialog'>
+                            <div class='modal-dialog'>
+                                <div class='modal-content'>
+                                    <div class='portlet box green'>
+                                        <div class='portlet-title'><div class='caption'><div>Challan Preview</div></div><button type='button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'>
+                                            <div>
+                                                <div class='modal-body'>
+                                                    <div id="divChallan"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,12 +157,49 @@
 
 }
 <script type="text/javascript">
-    function FinalBrand(status,FL21) {
+    function ShowChallan(ChallanId) {
+        $.ajax({
+            url: '/BWFL/PreviewChallan',
+            data: { 'ChallanId': ChallanId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                document.getElementById("divChallan").innerHTML = data;
+                //window.open("data:application/pdf;base64," + data);
+                $('#myModal3').modal('show');
+            },
+            error: function (data) {
+                alert("Error in Show Challan Loading");
+            }
+        });
+    }
+    function FinalizeForm(FormId, ConsignerName, ConsigneeName, TotalBL, TotalFees, TransNo) {
+        document.getElementById("txtPopFormId").value = FormId;
+        document.getElementById("txtPopConsignerName").value = ConsignerName;
+        document.getElementById("txtPopConsigneeName").value = ConsigneeName;
+        document.getElementById("txtPopTotalBL").value = TotalBL;
+        document.getElementById("txtPopTotalFees").value = TotalFees;
+        document.getElementById("txtPopTransNo").value = TransNo;
+        $('#myModal2').modal('show');
+    }
+    function FinalBrand(status, FL21) {
         var reason = "";
         if (status == "A") {
             reason = "Verify Form";
             var r = confirm("Are You sure to finalize this Form.");
             if (r == false) {
+                return false;
+            }
+            txtPopFromDate = document.getElementById("txtPopFromDate").value;
+            if (txtPopFromDate == '') {
+                alert("Please Enter Valid From Date");
+                document.getElementById("txtPopFromDate").focus();
+                return false;
+            }
+            txtPopToDate = document.getElementById("txtPopToDate").value;
+            if (txtPopToDate == '') {
+                alert("Please Enter Valid To Date");
+                document.getElementById("txtPopToDate").focus();
                 return false;
             }
         }
