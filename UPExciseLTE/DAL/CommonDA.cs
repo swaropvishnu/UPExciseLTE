@@ -467,6 +467,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("FromDate", FromDate));
                 parameters.Add(new SqlParameter("ToDate", ToDate));
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
@@ -511,7 +512,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("PROC_GenerateQRCode", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
-                cmd.Parameters.Add(new SqlParameter("dbName", dbName));
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
@@ -725,6 +726,7 @@ namespace UPExciseLTE.DAL
                 cmd = new SqlCommand("Proc_InsertUpdateBBT", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("BBTId", bbtFormation.BBTId));
                 cmd.Parameters.Add(new SqlParameter("UnitId", bbtFormation.UnitId));
                 cmd.Parameters.Add(new SqlParameter("BBTName", filter_bad_chars_rep(bbtFormation.BBTName.Trim())));
@@ -759,6 +761,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("BBTId", bbtId));
                 parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 parameters.Add(new SqlParameter("Status", status));
@@ -1137,6 +1140,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
                 parameters.Add(new SqlParameter("FromDate", FromDate));

@@ -210,12 +210,13 @@
         {
             var BeforeBal = (document.getElementById("txtBeforeBBTBal").value.trim());
             var AfterBal = (document.getElementById("txtAfterBBTBal").value.trim());
+            var ProductionUse = (document.getElementById("txtProducedBulkLitre").value.trim());
             if (AfterBal > BeforeBal) {
                 alert("After BBT Balance cannot greater then Before BBT Balance");
                 document.getElementById("txtAfterBBTBal").focus();
                 document.getElementById("txtAfterBBTBal").value="";
                 return false;
             }
-            document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal).toFixed(2);
+            document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal - ProductionUse).toFixed(2);
         }
     </script>

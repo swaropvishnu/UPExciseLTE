@@ -91,9 +91,9 @@ namespace UPExciseLTE.Models
         public float MaxRetPrice { get; set; } = 0;
         [Display(Name = "Additional Duty")]
         public float AdditionalDuty { get; set; } = 0;
-        [Display(Name = "Original Retailer  Price")]
+        [Display(Name = "Actual Maximum WholeSale Price")]
         public float OriginalRetPrice { get; set; } = 0;
-        [Display(Name = "Excise Duty")]
+        [Display(Name = "Total Consideration Fees")]
         public float ExciseDuty { get; set; } = 0;
         [Display(Name = "MRP")]
         public float MRP { get; set; } = 0;

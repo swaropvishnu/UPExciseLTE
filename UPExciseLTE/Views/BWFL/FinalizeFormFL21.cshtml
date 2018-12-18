@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
 
+
+ 
 @using (Html.BeginForm("FinalizeForm", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -71,10 +74,11 @@
                                         <a href="@Url.Action("FormFL21", "BWFL", new { Code = item.EncFL21IDId,Mode='V' })"><label class="btn blue">View</label></a>
                                     </td>
                                     <td>
-                                        <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('A','@item.FL21ID')">Finalize</button>
+                                        <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalizeForm('@item.FL21ID','@item.FromConsignorName','@item.ToConsigeeName','@item.TotalBL','@item.TotalFees','@item.TransactionNo')" >Finalize</button>
                                     </td>
                                     <td>
-                                        <button type="button" id="btnFreeze" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')">Reject</button>
+                                        
+                                        <button type="button" id="btnFreeze" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')" >Reject</button>
                                     </td>
                                 </tr>
                             }
@@ -97,7 +101,7 @@
                                                         </div>
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Consignee Name<b style="color:red; font-weight:800">*</b></label>
-                                                            @Html.TextBox("txtPopConsigneeName", "", new { @id = "txtTotalFees", @class = "form-control", @readonly = true })
+                                                            @Html.TextBox("txtPopConsigneeName", "", new { @id = "txtPopConsigneeName", @class = "form-control", @readonly = true })
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -117,15 +121,15 @@
                                                     <div class="row">
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Valid From Date<b style="color:red; font-weight:800">*</b></label>
-                                                            @Html.TextBox("txtPopFromDate", "", new { @id = "txtPopFromDate", @class = "form-control", @readonly = true })
+                                                            @Html.TextBox("txtPopFromDate", "", new { @id = "txtPopFromDate", @class = "form-control", @maxlength="10",@placeHolder="dd/MM/yyyy" })
                                                         </div>
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Valid To Date<b style="color:red; font-weight:800">*</b></label>
-                                                            @Html.TextBox("txtPopToDate", "", new { @id = "txtPopToDate", @class = "form-control", @readonly = true })
+                                                            @Html.TextBox("txtPopToDate", "", new { @id = "txtPopToDate", @class = "form-control", @maxlength = "10", @placeHolder = "dd/MM/yyyy" })
                                                         </div>
                                                     </div>
                                                     <center>
-                                                        <input type="button" onclick="FinalBrand('A', document.getElementById('txtPopTotalBL').value)" value="Finalize Form" />
+                                                        <input type="button" onclick="FinalBrand('A', document.getElementById('txtPopFormId').value)" value="Finalize Form" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" />
                                                     </center>
                                                 </div>
                                             </div>
@@ -183,7 +187,7 @@
         $('#myModal2').modal('show');
     }
     function FinalBrand(status, FL21) {
-        var reason = "";
+        var reason = "", txtPopFromDate = "", txtPopToDate="";
         if (status == "A") {
             reason = "Verify Form";
             var r = confirm("Are You sure to finalize this Form.");
@@ -219,7 +223,7 @@
         }
         $.ajax({
             url: '/BWFL/FinalFormFL21',
-            data: { 'FL21ID': FL21, 'status': status, 'reason': reason },
+            data: { 'FL21ID': FL21, 'status': status, 'reason': reason, 'FromDate': txtPopFromDate, 'ToDate': txtPopToDate },
             datatype: "json",
             type: "GET",
             success: function (data) {

@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Web.Mvc;
+using UPExciseLTE.Models;
 //using System.Web.Mvc;
 
 namespace UPExciseLTE
@@ -950,11 +951,12 @@ namespace UPExciseLTE
                 if (parm2.Length > 0 && parm2 != "")
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
-                    parameters.Add(new SqlParameter("@Parm3", parm3));
+                    parameters.Add(new SqlParameter("@Parm3", parm3)); 
                 if(districtId1>0)
                     parameters.Add(new SqlParameter("@DistrictId1", districtId1));
                 if (districtId2 >0)
                     parameters.Add(new SqlParameter("@DistrictId2", districtId2));
+                    parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else

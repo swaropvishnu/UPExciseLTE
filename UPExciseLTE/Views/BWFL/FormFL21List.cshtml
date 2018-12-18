@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div style="text-align:left;float:left;padding-left:20px">
-                                    <button type="button" id="btnGenerateChallan" class="btn blue" disabled>Generate Challan</button>
+                                    <button type="button" id="btnGenerateChallan" class="btn blue" style="display:none"  disabled >Generate Challan</button>
                                     <button type="button" id="btnUploadChallan" class="btn danger" disabled style="background-color:crimson; color:white" onclick="ShowPopup();">Upload Challan</button>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@
                                                         </div>
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Transaction Date<b style="color:red; font-weight:800">*</b></label>
-                                                            @Html.TextBox("txtTransactionDate", "", new { @id = "txtTransactionDate", @class = "form-control" })
+                                                            @Html.TextBox("txtTransactionDate", "", new { @id = "txtTransactionDate", @class = "form-control", @placeHolder = "dd/MM/yyyy" })
                                                         </div>
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>

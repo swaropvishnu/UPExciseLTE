@@ -1,6 +1,14 @@
 ﻿.bg {
-    background-image: url("../Img/Draft.jpg");
+    background-image: url("../Img/uttar_pradesh_government2.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
+.tableCss tbody > tr > td {
+    border: 1px solid black;
+}
+
+.tableCss tbody > tr > th {
+    border: 1px solid black;
+    background-color: #f1efef
+}   

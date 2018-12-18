@@ -72,16 +72,21 @@ namespace UPExciseLTE.Controllers
         {
             return View(new CommonBL().GetFormFL21List(-1, "P"));
         }
-        public string FinalFormFL21(string FL21ID, string status, string reason)
+        public string FinalFormFL21(string FL21ID, string status, string reason,string FromDate,string ToDate)
         {
             string str = "";
             try
             {
+                
                 FormFL21 FL21 = new FormFL21();
                 FL21.FL21ID = int.Parse(FL21ID);
                 FL21.SPType = 3;
                 FL21.FL21Status = status;
-                
+                if (status=="A")
+                {
+                    FL21.FromPermitDate = CommonBL.Setdate(FromDate);
+                    FL21.ToPermitDate = CommonBL.Setdate(ToDate);
+                }
                 str = new CommonDA().InsertUpdateFormFL21(FL21);
             }
             catch (Exception x)

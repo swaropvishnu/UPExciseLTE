@@ -173,18 +173,13 @@ namespace UPExciseLTE.Controllers
             BottelingPlan BP = new BottelingPlan();
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-           
-            if (UserSession.LoggedInUserId == 10)
-            {
-                ViewBag.BBT = CommonBL.fillBBT("Z");
-                ViewBag.BottlingLine = CommonBL.BottlingLine("Z","3");
-                BP.BBTBulkLitre = 9999999;
-            }
-            else
-            {
-                ViewBag.BBT = CommonBL.fillBBT("S");
-                ViewBag.BottlingLine = CommonBL.EmptyDDl("S");
-            }
+            List<SelectListItem> lstBBT = CommonBL.fillBBT("Z");
+            ViewBag.BBT = lstBBT;
+            BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
+
+            ViewBag.BottlingLine = CommonBL.BottlingLine("Z", lstBBT[0].Value);
+            BP.BBTBulkLitre = float.Parse(bbtFormation.BBTBulkLitre.ToString());
+            
             ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {

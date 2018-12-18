@@ -9,6 +9,7 @@
             var panel = document.getElementById("divPrint");
             var printWindow = window.open('', '', 'height=400,width=800');
             printWindow.document.write('<html><head><title>FORM F.L.-22</title>');
+            printWindow.document.write('<link href="../Content/PrintCss.css" rel="stylesheet" />');
             printWindow.document.write('</head><body >');
             printWindow.document.write(panel.innerHTML);
             printWindow.document.write('</body></html>');
@@ -19,6 +20,8 @@
             return false;
         }
 </script>
+ 
+<link href="~/Content/PrintCss.css" rel="stylesheet" />
 <div style="text-align:right;width:100%;background-color:white;">
     <button id="btnPrint" onclick="PrintPanel();"  class="btn green" style="margin-right:50px;margin-top:50px">Print FL 22</button>
 </div>
@@ -26,140 +29,146 @@
     <center>
         <table style="width:85%;background-color:white;text-orientation:upright">
             <tr>
-                <td colspan="4" style="text-align:center"> <h2><strong> FORM F.L.-22</strong></h2></td>
+                <td colspan="4" style="text-align:center;font-size:24.0pt;font-family:'Times New Roman';font-weight:bold;margin: 0cm;margin-bottom:.0001pt;"> FORM F.L.-22</td>
             </tr>
             <tr>
-                <td colspan="4" style="text-align:center"> <h2>Lucknow District, Uttar Pradesh</h2></td>
+                <td colspan="4" style="text-align:center;font-size:18.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">Lucknow District, Uttar Pradesh</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="3">Permit for the import of Beer No</td>
-                <td>Dated</td>
+                <td colspan="4" style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">Permit for the import of Beer No:- @Html.DisplayFor(model => model.FL21ID)</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>Current to</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="2" valign="top" style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">Dated:- @Html.DisplayFor(model => model.FromPermitDate1)</td>
+                <td colspan="2" valign="top" style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">Current to:- @Html.DisplayFor(model => model.ToPermitDate1)</td>
             </tr>
             <tr>
-                <td style="width:4%">1.</td>
-                <td>Name and Address of consigner</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.FromConsignorName)</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.FromConsignorAddress)</td>
+                <td style="width:4%;font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">1.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" rowspan="2" valign="top">Name and Address of consigner</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">@Html.DisplayFor(model => model.FromConsignorName)</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">@Html.DisplayFor(model => model.FromConsignorAddress)</td>
             </tr>
             <tr>
-                <td>2.</td>
-                <td>Name and Address of consignee</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.ToConsigeeName)</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.ToConsigeeAddress)</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">2.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"  rowspan="2" valign="top">Name and Address of consignee</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">@Html.DisplayFor(model => model.ToConsigeeName)</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">@Html.DisplayFor(model => model.ToConsigeeAddress)</td>
             </tr>
             <tr>
-                <td>3.</td>
-                <td>Description of Beer</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.Brand) (@Html.DisplayFor(model => model.QuantityInBottleML) ml.)</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">3.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Description of Beer</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" colspan="2">&nbsp;</td>
+                
             </tr>
             <tr>
-                <td>4.</td>
-                <td>Quantity of Each Kind of Beer</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.Brand) (@Html.DisplayFor(model => model.TotalCase)  C/s (@Html.DisplayFor(model => model.TotalBottle) @Html.DisplayFor(model => model.PackagingType))</td>
+                <td style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td colspan="3" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">
+                    <table style="width:100%"  class="tableCss">
+                        <tr>
+                            <th style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"> <span style='margin-left:5px'> SNo</span> </th>
+                            <th style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"> <span style='margin-left:5px'> Brand Name</span></th>
+                            <th style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"> <span style='margin-left:5px'> No of Cases</span></th>
+                            <th style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"> <span style='margin-left:5px'> Total Bottles</span></th>
+                            <th style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"> <span style='margin-left:5px'> Total BL</span></th>
+                        </tr>
+                        @for (int i = 0; i < Model.lstFL21.Count; i++)
+                        {
+                            <tr>
+                                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"><span style='margin-left:5px'>@(i + 1)</span></td>
+                                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"><span style='margin-left:5px'>@Model.lstFL21[i].Brand (@Model.lstFL21[i].Quantity ml.)</span></td>
+                                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"><span style='margin-left:5px'>@Model.lstFL21[i].TotalCase</span></td>
+                                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"><span style='margin-left:5px'>@Model.lstFL21[i].TotalBottle</span></td>
+                                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;"><span style='margin-left:5px'>@Model.lstFL21[i].TotalBL</span></td>
+                            </tr>
+                        }
+                    </table>
+                </td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.TotalBL) B.L.</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">4.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Route</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">@Html.DisplayFor(model => model.RouteDetails)</td>
             </tr>
             <tr>
-                <td>5.</td>
-                <td>Route</td>
-                <td>&nbsp;</td>
-                <td>@Html.DisplayFor(model => model.RouteDetails)</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">5.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Rate of Duty per Bottle/Litre</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;@*@Html.DisplayFor(model => model.RateofPermit)*@</td>
             </tr>
             <tr>
-                <td>6.</td>
-                <td>Rate of Duty per Bottle/Litre</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;@*@Html.DisplayFor(model => model.RateofPermit)*@</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">6.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Rate of permit fee (if any) per quart bottle</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Import fee @@ @Html.DisplayFor(model => model.RateofPermit)/- per Ltr.</td>
             </tr>
             <tr>
-                <td>7.</td>
-                <td>Rate of permit fee (if any) per quart bottle</td>
-                <td>&nbsp;</td>
-                <td>Import fee @@ @Html.DisplayFor(model => model.RateofPermit)/- per Ltr.</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">7.</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" rowspan="2" valign="top">Amount of permit fee paid (if any)</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Rs.@Html.DisplayFor(model => model.TotalFees)/- T.C.No.@Html.DisplayFor(model => model.TransactionNo), Dated @Html.DisplayFor(model => model.EntryDate1)</td>
             </tr>
             <tr>
-                <td>8.</td>
-                <td>Amount of permit fee paid (if any)</td>
-                <td>&nbsp;</td>
-                <td>Rs.@Html.DisplayFor(model => model.TotalFees)/- T.C.No.@Html.DisplayFor(model => model.TransactionNo), Dated @Html.DisplayFor(model => model.EntryDate1)</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
+                <td style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">SBI GOVT. BUSSINESS BRANCH LUCKNOW</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>SBI GOVT. BUSSINESS BRANCH LUCKNOW</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4"  style="font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top">Under Bond</td>
             </tr>
             <tr>
-                <td colspan="4">Under Bond</td>
+                <td colspan="4" style="font-size:10.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4" style="text-align:right;font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top"><strong>DISTRICT EXCISE OFFICER</strong> </td>
             </tr>
             <tr>
-                <td colspan="4" style="text-align:right"><strong>DISTRICT EXCISE OFFICER</strong> </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align:right"><strong>Lucknow</strong> </td>
+                <td colspan="4" style="text-align:right;font-size:12.0pt;font-family:'Times New Roman';margin: 0cm;margin-bottom:.0001pt;" valign="top"><strong>Lucknow</strong> </td>
             </tr>
         </table>
     </center>

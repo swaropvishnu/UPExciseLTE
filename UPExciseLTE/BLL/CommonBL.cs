@@ -133,7 +133,7 @@ namespace UPExciseLTE.BLL
                 brand.brandID_incrpt = new Crypto().Encrypt(dr["BrandId"].ToString().Trim());
                 brand.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
                 brand.BreweryName = dr["BreweryName"].ToString().Trim();
-                brand.StateId = int.Parse(dr["BrandId"].ToString().Trim());
+                brand.StateId = int.Parse(dr["StateId"].ToString().Trim());
                 brand.StateName = dr["StateName"].ToString().Trim();
                 brand.BrandName = dr["BrandName"].ToString().Trim();
                 brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
@@ -162,7 +162,7 @@ namespace UPExciseLTE.BLL
                 brand.BrandStatus = dr["BrandStatus"].ToString().Trim();
                 brand.Status = dr["Status1"].ToString().Trim();
             }
-            catch (Exception exp) { }
+            catch (Exception) { }
             return brand;
         }
         public List<BottelingPlan> GetBottelingPlanList(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
