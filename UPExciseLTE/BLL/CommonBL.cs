@@ -809,6 +809,8 @@ namespace UPExciseLTE.BLL
                 GP.GatePassType = short.Parse(dr["GatePassTypeID"].ToString().Trim());
                 GP.CheckPostVia = (dr["CheckPostVia"].ToString().Trim());
                 GP.AdditionalConsiFees = decimal.Parse(dr["AdditionalConsiFees"].ToString().Trim());
+                GP.FromLicenseType1 = (dr["FromLicenseType1"].ToString().Trim());
+                GP.ToLicenseType1 = (dr["ToLicenseType1"].ToString().Trim());
             }
             catch (Exception) { }
             return GP;
@@ -876,7 +878,7 @@ namespace UPExciseLTE.BLL
                 FL21.ToPermitDate = DateTime.Parse(dr["ToPermitDate"].ToString().Trim());
                 FL21.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
                 FL21.Bankname = (dr["Bankname"].ToString().Trim());
-                FL21.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
+                FL21.Reason = (dr["Reason"].ToString().Trim());
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL21BrandMapp FL21BM = new FL21BrandMapp();

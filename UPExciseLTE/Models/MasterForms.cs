@@ -283,6 +283,9 @@ namespace UPExciseLTE.Models
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
+        public string ToLicenseType1 { get; set; } = "";
+        public string FromLicenseType1 { get; set; } = "";
+
         public string ToLicenceNo { get; set; } = "";
         public string ToConsigeeName { get; set; } = "";
         public string FromLicenseType { get; set; } = "";

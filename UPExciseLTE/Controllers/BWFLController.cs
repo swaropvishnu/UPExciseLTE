@@ -70,7 +70,15 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult FinalizeFormFL21()
         {
-            return View(new CommonBL().GetFormFL21List(-1, "P"));
+            string status = "F";
+            if (Request.QueryString["V"]!=null)
+            {
+                if (Request.QueryString["V"].ToString().Trim()!=String.Empty)
+                {
+                    status = Request.QueryString["V"].ToString().Trim();
+                }
+            }
+            return View(new CommonBL().GetFormFL21List(-1, status));
         }
         public string FinalFormFL21(string FL21ID, string status, string reason,string FromDate,string ToDate)
         {
@@ -82,6 +90,7 @@ namespace UPExciseLTE.Controllers
                 FL21.FL21ID = int.Parse(FL21ID);
                 FL21.SPType = 3;
                 FL21.FL21Status = status;
+                FL21.Reason = reason;
                 if (status=="A")
                 {
                     FL21.FromPermitDate = CommonBL.Setdate(FromDate);

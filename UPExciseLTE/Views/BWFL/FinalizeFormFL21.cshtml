@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
 
-
- 
 @using (Html.BeginForm("FinalizeForm", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -13,7 +11,21 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Finalize F.L. 21
+                            @if (Request.QueryString["V"] != null)
+                            {
+                                if (Request.QueryString["V"].ToString().Trim() != String.Empty)
+                                {
+                                    if (Request.QueryString["V"].ToString().Trim() == "F")
+                                    {
+                                        <span><i class="fa fa-gift"></i>Form 21 application approval before challan Fees</span>
+                                    }
+                                    else if (Request.QueryString["V"].ToString().Trim() == "P")
+                                    {
+                                        <span><i class="fa fa-gift"></i>Form 21 application approval after challan Fees</span>
+                                    }
+                                }
+                            }
+                            
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
@@ -27,9 +39,13 @@
                                 <th>Permit Fees (if any)</th>
                                 <th>Total Fees</th>
                                 <th>Import fee (per Ltr.)</th>
+                                @if (Request.QueryString["V"].ToString().Trim() == "P")
+                                {
                                 <th>Transaction No</th>
                                 <th>Bank Name</th>
                                 <th>Challan Slip</th>
+                                }
+                                <th>Reason (Mandatory for Rejection)</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -61,6 +77,8 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.RateofPermit)
                                     </td>
+                                    @if (Request.QueryString["V"].ToString().Trim() == "P")
+                                    {
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TransactionNo)
                                     </td>
@@ -70,15 +88,29 @@
                                     <td>
                                         <a href="#" id="hrefChallan" onclick="ShowChallan('@item.ChallanId');">View</a>
                                     </td>
+                                    }
                                     <td>
-                                        <a href="@Url.Action("FormFL21", "BWFL", new { Code = item.EncFL21IDId,Mode='V' })"><label class="btn blue">View</label></a>
+                                        @Html.TextBox("txtReason", "", new { @id = "txtReason_"+item.FL21ID , @class = "form-control",@width="100px",@MaxLength=150})
                                     </td>
                                     <td>
-                                        <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalizeForm('@item.FL21ID','@item.FromConsignorName','@item.ToConsigeeName','@item.TotalBL','@item.TotalFees','@item.TransactionNo')" >Finalize</button>
+                                        @if (Request.QueryString["V"].Trim() == "F")
+                                        {
+                                            <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalBrand('V','@item.FL21ID')">Verify Form</button>
+                                        }
+                                        else if (Request.QueryString["V"].Trim() == "P")
+                                        {
+                                            <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalizeForm('@item.FL21ID','@item.FromConsignorName','@item.ToConsigeeName','@item.TotalBL','@item.TotalFees','@item.TransactionNo')">Finalize</button>
+                                        }
                                     </td>
                                     <td>
-                                        
-                                        <button type="button" id="btnFreeze" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')" >Reject</button>
+                                    @if (Request.QueryString["V"].Trim() == "F")
+                                    {
+                                      <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')" >Reject Form</button>
+                                    }
+                                    else if (Request.QueryString["V"].Trim() == "P")
+                                    {
+                                        <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('C','@item.FL21ID')">Reject Challan</button>
+                                    }
                                     </td>
                                 </tr>
                             }
@@ -187,7 +219,16 @@
         $('#myModal2').modal('show');
     }
     function FinalBrand(status, FL21) {
-        var reason = "", txtPopFromDate = "", txtPopToDate="";
+        var reason = "", txtPopFromDate = "01/01/1900", txtPopToDate = "01/01/1900";
+        if (status == "R" || status == "C") {
+            var txtReasonId = 'txtReason_' + FL21;
+            reason = document.getElementById(txtReasonId).value
+            if (reason == "") {
+                alert("Please Enter Reason");
+                document.getElementById(txtReasonId).focus();
+                return false;
+            }
+        }
         if (status == "A") {
             reason = "Verify Form";
             var r = confirm("Are You sure to finalize this Form.");
@@ -212,14 +253,7 @@
             if (r == false) {
                 return false;
             }
-
-            //reason = document.getElementById(txtId).value;
-            reason = "Reject Form";
-            //if (Reason.trim() == "") {
-            //    alert("Please Enter Reason of rejection");
-            //    return false;
-            //}
-
+           // reason = "Reject Form";
         }
         $.ajax({
             url: '/BWFL/FinalFormFL21',
@@ -228,7 +262,12 @@
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../BWFL/FinalizeFormFL21";
+                if (status == 'V') {
+                    window.location = "../BWFL/FinalizeFormFL21?V=F";
+                }
+                else {
+                    window.location = "../BWFL/FinalizeFormFL21?V=P";
+                }
             },
             error: function (data) {
                 alert("Error in final F.L. 21 Loading");

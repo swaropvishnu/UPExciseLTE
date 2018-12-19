@@ -30,11 +30,11 @@
                                     @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Botteling Line Name<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Botteling Line Type<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Bottling Line Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.LineType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Automatic", Value = "A" }, new SelectListItem { Text = "Semi Automatic", Value = "S" }, new SelectListItem { Text = "Manual", Value = "M" } }, new { @id = "ddlLineType", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4" style="display:none;">

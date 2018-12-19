@@ -41,6 +41,7 @@ namespace UPExciseLTE.Models
         public DateTime ToPermitDate { get; set; } = DateTime.Parse("01-Jan-1990");
         public string ToPermitDate1 { get; set; } = "";
         public int ChallanId { get; set; } = -1;
+        public string Reason { get; set; } = "";
         public List<FL21BrandMapp> lstFL21 { get; set; } = new List<FL21BrandMapp>();
     }
     public class FL21BrandMapp 

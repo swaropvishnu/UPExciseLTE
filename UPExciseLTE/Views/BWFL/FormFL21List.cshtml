@@ -43,6 +43,7 @@
                                 <th>Total Fees</th>
                                 <th>Import fee (per Ltr.)</th>
                                 <th>Status</th>
+                                <th>Reason</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -50,7 +51,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @if (item.FL21Status == "F")
+                                        @if (item.FL21Status == "V" || item.FL21Status == "C")
                                         {
                                             <input type="checkbox" id="@item.FL21ID" onclick="CheckCheck('@item.FL21ID','@item.TotalFees');" name="chkSelect" />
                                         }
@@ -89,6 +90,9 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.FL21Status1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Reason)
                                     </td>
                                     <td>
                                         @if (item.FL21Status == "U")

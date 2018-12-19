@@ -92,14 +92,14 @@
                 </tr>
                 <tr>
                     <td><b>1.</b></td>
-                    <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName</td>
+                    <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName (@Model.FromLicenseType1)</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>2.</b></td>
-                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName</td>
+                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName (@Model.ToLicenseType1)</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
@@ -113,7 +113,7 @@
                 </tr>
                 <tr>
                     <td><b>4.</b></td>
-                    <td colspan="3"><b>Number / date of Permit, if any : </b> @Model.FromDate1</td>
+                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.FromDate1</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
@@ -131,13 +131,13 @@
                     <td><b>7.</b></td>
                     <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
                     <td></td>
-                    <td><b>Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                    <td><b>8. Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>8.</b></td>
+                    <td><b>9.</b></td>
                     <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
                 </tr>
                 <tr>
@@ -162,7 +162,7 @@
                                     <th style="padding:10px">Batch No</th>
                                     <th style="padding:10px">Bottles X No of Case X Quantity (in ml.)<br /> Contained in each</th>
                                     <th style="padding:10px">Total Litres (BL)</th>
-                                    <th style="padding:10px">Alcoholic Strength</th>
+                                    <th style="padding:10px">Alcoholic Strength (%)</th>
                                 </tr>
                             </thead>
                             <tbody>

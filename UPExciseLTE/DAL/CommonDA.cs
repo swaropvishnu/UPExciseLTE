@@ -1271,6 +1271,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("FromPermitDate", FL.FromPermitDate));
                 cmd.Parameters.Add(new SqlParameter("ToPermitDate", FL.ToPermitDate));
                 cmd.Parameters.Add(new SqlParameter("Bankname", FL.Bankname));
+                cmd.Parameters.Add(new SqlParameter("Reason", FL.Reason));
                 cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
