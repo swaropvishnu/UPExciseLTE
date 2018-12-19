@@ -58,6 +58,7 @@ namespace UPExciseLTE.Models
         public short BreweryId { get; set; } = -1;
         [Display(Name = "Brewery Name")]
         public string BreweryName { get; set; } = "";
+        [Display(Name = "State / Location of Parent Unit")]
         public int StateId { get; set; } = 27;
         [Display(Name = "State Name")]
         public string StateName { get; set; } = "";
@@ -97,7 +98,7 @@ namespace UPExciseLTE.Models
         public float ExciseDuty { get; set; } = 0;
         [Display(Name = "MRP")]
         public float MRP { get; set; } = 0;
-        [Display(Name = "Box-Size (Number of Bottles)")]
+        [Display(Name = "Box-Size (Number of Bottles / Cans)")]
         public int QuantityInCase { get; set; } = 0;
         [Display(Name = "Quantity (In Bottle, In ml.)")]
         public int QuantityInBottleML { get; set; } = 650;
@@ -260,6 +261,9 @@ namespace UPExciseLTE.Models
     public class BottlingLine
     {
         public int BottlingLineId { get; set; } = -1;
+        public string LineType { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
+        public string LineType1 { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
+        public int CapacityNoOfCasePerHour { get; set; } = 0;
         public string EncBottlingLineId { get; set; } = "";
         public int BBTId { get; set; } = -1;
         public string BBT { get; set; } = "";

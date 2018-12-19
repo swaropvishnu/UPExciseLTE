@@ -243,7 +243,18 @@ namespace UPExciseLTE.Models
                 LoggedInUser.PushName = value;
             }
         }
-
+        public static string dbAddress
+        {
+            get
+            {
+                return LoggedInUser.dbAddress;
+            }
+            set
+            {
+                LoggedInUser.dbAddress = value;
+            }
+        }
+        
         public static string LoggedInUserAccess
         {
             get

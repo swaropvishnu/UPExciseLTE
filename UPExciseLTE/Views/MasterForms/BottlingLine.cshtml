@@ -33,12 +33,22 @@
                                     <label class="control-label">Botteling Line Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
                                 </div>
-                                 
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling Line Type<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.LineType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Automatic", Value = "A" }, new SelectListItem { Text = "Semi Automatic", Value = "S" }, new SelectListItem { Text = "Manual", Value = "M" } }, new { @id = "ddlLineType", @class = "form-control" })
+                                </div>
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
                                         @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Capactity (No Of Case Per Hour)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);" })
+
                                 </div>
                             </div>
                             <center>
@@ -54,6 +64,8 @@
                                     <th>Bottling Line Id</th>
                                     <th>BBT Name</th>
                                     <th>Bottling Line Name</th>
+                                    <th>Bottling Line Type</th>
+                                    <th>Capacity (No Of Case Per Hour)</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -65,7 +77,10 @@
                                             <td>@dr.BottlingLineId</td>
                                             <td>@dr.BBT</td>
                                             <td>@dr.BottlingLineName</td>
-                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
+                                            <td>@dr.LineType1</td>
+                                            <td>@dr.CapacityNoOfCasePerHour</td>
+                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
+                                            
                                             @if (dr.BottlingLineStatus == "A")
                                             {
                                                 <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
@@ -86,8 +101,7 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status)
-    {
+    function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
             window.location.assign("../masterforms/BottlingLine?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
@@ -108,15 +122,41 @@
             });
         }
     }
-    function Validate()
-    {
+    function Validate() {
         document.getElementById("txtBottlingLineName").value = document.getElementById("txtBottlingLineName").value.trim();
-        
+
         if (document.getElementById("txtBottlingLineName").value == "") {
             alert("Please Enter Bottling Line Name");
             document.getElementById("txtBottlingLineName").focus();
             return false;
         }
         
+        var LineType = $('#ddlLineType').val();
+        if (LineType.trim() == "-1" || LineType.trim() == "") {
+            alert("Please Select Line Type");
+            $('#ddlLineType').focus();
+            return false;
+        }
+
+        if (document.getElementById("txtCapacityNoOfCasePerHour").value == "" || document.getElementById("txtCapacityNoOfCasePerHour").value == "0") {
+            alert("Please Enter Capacity No Of Case Per Hour");
+            document.getElementById("txtCapacityNoOfCasePerHour").focus();
+            return false;
+        }
+
+    }
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
     }
 </script>

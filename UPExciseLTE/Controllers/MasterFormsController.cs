@@ -702,12 +702,13 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePass(GatePass,1,0);
         }
-        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue,string PlanId)
+        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue,string PlanId,string BLID)
         {
             long GatePass = long.Parse(GatePassId);
             int Brand = int.Parse(BrandId);
             int Plan = int.Parse(PlanId);
-            return new CommonDA().UploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo, Plan);
+            short BottlingLineId = short.Parse(BLID);
+            return new CommonDA().UploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo, Plan, BottlingLineId);
         }
         public ActionResult GetPassDetails()
         {

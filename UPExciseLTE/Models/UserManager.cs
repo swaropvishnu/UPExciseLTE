@@ -275,6 +275,17 @@ namespace UPExciseLTE.Models
                 tbl_Session.Rows[0]["PushName"] = value;
             }
         }
+        public string dbAddress
+        {
+            get
+            {
+                return tbl_Session.Rows[0]["dbAddress"].ToString();
+            }
+            set
+            {
+                tbl_Session.Rows[0]["dbAddress"] = value;
+            }
+        }
         //public string Sec_Code
         //{
         //    get

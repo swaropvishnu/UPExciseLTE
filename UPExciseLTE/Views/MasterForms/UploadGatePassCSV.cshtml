@@ -66,7 +66,7 @@
         var BatchNo = document.getElementById("txtBatchNo").value;
         $.ajax({
             url: '/MasterForms/UploadVerifedCSV',
-            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 2, 'PlanId': -1},
+            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 2, 'PlanId': -1,'BLID':-1},
             datatype: "json",
             type: "GET",
             success: function (data) {
@@ -131,6 +131,18 @@
                                 <i class="fa fa-gift"></i> &nbsp; Update CSV (Brewery To Manufacturer Wholesale)&nbsp;
                             </span>
                                 }
+                                else
+                                {
+                                    <span>
+                                        <i class="fa fa-gift"></i> &nbsp; Gatepass Upload CSV for Dispatch&nbsp;
+                                    </span>
+                                }
+                            }
+                            else
+                            {
+                                <span>
+                                    <i class="fa fa-gift"></i> &nbsp; Gatepass Upload CSV for Dispatch&nbsp;
+                                </span>
                             }
                         </div>
                     </div>
@@ -149,7 +161,7 @@
                                     @Html.EditorFor(m => m.FromDate1, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @readonly = "true" } })
                                 </div>
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label">To Till Date<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Valid Till Date<b style="color:red; font-weight:800">*</b></label>
                                     @Html.EditorFor(m => m.ToDate1, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = "true" } })
                                 </div>
                             </div>

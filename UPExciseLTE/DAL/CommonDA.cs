@@ -18,7 +18,9 @@ namespace UPExciseLTE.DAL
         #region Default
         SqlDataAdapter adap;
         SqlCommand cmd;
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
+        //SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
+        SqlConnection con = new SqlConnection(CommonConfig.Conn());
+       
         internal LoginModal GetUserDetail(LoginModal objUserData)
         {
             DataTable dt = new DataTable();
@@ -559,7 +561,7 @@ namespace UPExciseLTE.DAL
 
 
         #endregion
-        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo,int PlanId)
+        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo,int PlanId,short BottlingLineId)
         {
             con.Open();
             string result = "";
@@ -577,6 +579,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
                 cmd.Parameters.Add(new SqlParameter("BatchNo", BatchNo));
                 cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BottlingLineId));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
@@ -654,6 +657,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("BottlingLineId", RM.BottlingLineId));
                 cmd.Parameters.Add(new SqlParameter("BottlingLineName", filter_bad_chars_rep(RM.BottlingLineName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("BottlingLineStatus", filter_bad_chars_rep(RM.BottlingLineStatus.Trim())));
+                cmd.Parameters.Add(new SqlParameter("CapacityNoOfCasePerHour", (RM.CapacityNoOfCasePerHour)));
+                cmd.Parameters.Add(new SqlParameter("LineType", (RM.LineType.Trim())));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));

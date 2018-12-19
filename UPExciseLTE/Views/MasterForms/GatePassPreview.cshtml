@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "GatePassPreview";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string Img = "../Img/uttar_pradesh_government2.png";
+    if (Model.Status == "P")
+    {
+        Img = "../Img/Draft.jpg";
+    }
 }
 <style>
     .footer {
@@ -44,9 +49,9 @@
                     <td colspan="4">
                         @if (Model.Status == "P")
                         {
-                        <div style="text-align:center">
-                            <h1 style="text-align:center"><strong>Draft Gate Pass Not Valid</strong></h1>
-                        </div>
+                            <div style="text-align:center">
+                                <h1 style="text-align:center"><strong>Draft Gate Pass Not Valid</strong></h1>
+                            </div>
                         }
                     </td>
                 </tr>
@@ -61,7 +66,7 @@
                         <div style="width:10%;float:left">
                             @if (ViewBag.QRCodeImage != null)
                             {
-                            <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
+                                <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
                             }
                         </div>
                     </td>
@@ -73,16 +78,13 @@
                     <td colspan="4"><br /></td>
                 </tr>
             </table>
-            @*<div class="bg"></div>*@
-            <table style="width:95%;background-color:white;text-orientation:upright" class="bg">
+
+            <table style="width:95%;background-color:white;text-orientation:upright;background-image: url('@Img');" class="bg">
                 <tr>
                     <td colspan="4">
                         <div style="width:33%;float:left"><b>No.</b> : @Model.GatePassNo </div>
                         <div style="width:33%;float:left;text-align:center"><b>Date:</b> @Model.FromDate1 </div>
                         <div style="width:33%;float:left"><b>Valid Till:</b> @Model.ToDate1 </div>
-                        @*<div id="background">
-                                <img id="bg-text" src="~/Img/uttar_pradesh_government.png" />
-                            </div>*@
                     </td>
                 </tr>
                 <tr>
@@ -158,7 +160,7 @@
                                     <th style="padding:10px">S.N</th>
                                     <th style="padding:10px">Description of Foreign Liquor</th>
                                     <th style="padding:10px">Batch No</th>
-                                    <th style="padding:10px">Bottles, Flask Quantity <br /> Contained in each</th>
+                                    <th style="padding:10px">Bottles X No of Case X Quantity (in ml.)<br /> Contained in each</th>
                                     <th style="padding:10px">Total Litres (BL)</th>
                                     <th style="padding:10px">Alcoholic Strength</th>
                                 </tr>
@@ -217,7 +219,7 @@
                 <tr>
                     <td colspan="4">
                         <div style="float:left">
-                            Wave Distilleries & Breweried
+                            @Model.FromConsignorName
                         </div>
                         <div style="float:right">
                             (In-Charge)
@@ -227,7 +229,7 @@
                 <tr>
                     <td colspan="4">
                         <div style="float:left">
-                            Limited Aligarh
+                            &nbsp;
                         </div>
                         <div style="float:right">
                             (Dept. Of Excise)

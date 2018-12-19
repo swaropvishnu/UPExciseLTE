@@ -75,11 +75,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Box-Size (Number of Bottles)</label>
+                                            <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
                                             @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Quantity In Bottle (in ml.)</label>
+                                            <label class="control-label">Quantity In Bottle / Can (in ml.)</label>
                                             @Html.TextBoxFor(m => m.BottleCapacity, "", new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
                                         </div>
                                         <div class="form-group col-md-4">
@@ -112,12 +112,12 @@
                                             @Html.TextBoxFor(m => m.ProducedNumberOfCases, new { @id = "txtProducedNumberOfCases", @class = "form-control", @required = "required", @onkeyUp = "Calculation();", @onkeyPress = "return IsNumeric(event);" })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Box-Size (Number of Bottles)</label>
+                                            <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
                                             @Html.TextBoxFor(m => m.ProducedBoxQuantity, new { @id = "txtProducedQunatityInCaseExport", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Quantity In Bottle (in ml.)</label>
+                                            <label class="control-label">Produced Quantity In Bottle/ Can (in ml.)</label>
                                             @Html.TextBoxFor(m => m.BottleCapacity, new { @id = "txtBottleCapacity", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
                                     </div>
@@ -138,22 +138,30 @@
                                     </div>
                                     <div class="row">                                        
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Before Bottling BBT Balance</label>
+                                            <label class="control-label">Before Bottling BBT Balance (in BL)</label>
                                             @Html.TextBoxFor(m => m.BeforeBBTBal, new { @id = "txtBeforeBBTBal", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">After Bottling BBT Balance</label>
+                                            <label class="control-label">After Bottling BBT Balance  (in BL)</label>
                                             @Html.TextBoxFor(m => m.AfterBBTBal, new { @id = "txtAfterBBTBal", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "WastageCal();" })
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Wastage BL</label>
+                                            <label class="control-label">Bottling Wastage BL</label>
                                             @Html.TextBoxFor(m => m.WastageBL, new { @id = "txtWastageBL", @class = "form-control", @required = "required", @readonly = false })
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
                                     <center>
                                         <div class="form-actions">
-                                            <button type="submit" class="btn green" onclick="return Validation();">Save</button>
+                                            @if (Model.DateOfPlan.Date >= DateTime.Now.Date)
+                                            {
+                                                <button type="submit" class="btn green" onclick="return Validation();">Save</button>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:red;font-size:20px;font-weight:700">Production Plan Expired</span>
+                                                <br />
+                                            }
                                             <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Production Details</button>
                                         </div>
                                     </center>
@@ -210,6 +218,7 @@
         {
             var BeforeBal = (document.getElementById("txtBeforeBBTBal").value.trim());
             var AfterBal = (document.getElementById("txtAfterBBTBal").value.trim());
+
             var ProductionUse = (document.getElementById("txtProducedBulkLitre").value.trim());
             if (AfterBal > BeforeBal) {
                 alert("After BBT Balance cannot greater then Before BBT Balance");
@@ -217,6 +226,13 @@
                 document.getElementById("txtAfterBBTBal").value="";
                 return false;
             }
-            document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal - ProductionUse).toFixed(2);
+            if ((BeforeBal - AfterBal - ProductionUse) < 0) {
+                alert("Invalid After Bottling BBT Balance");
+                document.getElementById("txtAfterBBTBal").value = "";
+                document.getElementById("txtWastageBL").value = 0;
+            }
+            else {
+                document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal - ProductionUse).toFixed(2);
+            }
         }
     </script>

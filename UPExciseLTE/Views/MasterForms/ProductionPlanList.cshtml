@@ -118,7 +118,14 @@
                                         <td>
                                             @if (item.Status == "FB")
                                             {
-                                                <button type="button" class="btn green" onclick="load('@item.EncPlanId')">Production Entry</button>
+                                                if (item.DateOfPlan.Date >= DateTime.Now.Date)
+                                                {
+                                                    <button type="button" class="btn green" onclick="load('@item.EncPlanId')">Production Entry</button>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color:red">Plan Expired</span>
+                                                }
                                             }
                                         </td>
                                     </tr>

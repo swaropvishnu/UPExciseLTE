@@ -186,6 +186,7 @@ namespace UPExciseLTE.BLL
                 Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
                 Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
                 Plan.DateOfPlan1 = (dr["DateOfPlan1"].ToString().Trim());
+                Plan.DateOfPlan = DateTime.Parse(dr["DateOfPlan"].ToString().Trim());
                 Plan.LiquorType = dr["LiquorType"].ToString().Trim();
                 Plan.LicenceType = dr["LicenceType"].ToString().Trim();
                 Plan.Brand = dr["BrandName"].ToString().Trim();
@@ -295,6 +296,9 @@ namespace UPExciseLTE.BLL
                 RW.BBTId = int.Parse((dr["BBTId"].ToString().Trim()));
                 RW.BBT = dr["BBTName"].ToString().Trim();
                 RW.UnitId = short.Parse((dr["UnitId"].ToString().Trim()));
+                RW.LineType = ((dr["LineType"].ToString().Trim()));
+                RW.LineType1 = ((dr["LineType1"].ToString().Trim()));
+                RW.CapacityNoOfCasePerHour = int.Parse((dr["CapacityNoOfCasePerHour"].ToString().Trim()));
                 RW.Type = 2;
                 RW.EncBottlingLineId = new Crypto().Encrypt(dr["BottlingLineId"].ToString().Trim());
             }

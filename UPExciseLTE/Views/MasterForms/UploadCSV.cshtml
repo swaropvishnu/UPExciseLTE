@@ -74,9 +74,10 @@
         function UploadCSV() {
             var BrandId = document.getElementById("txtPopBrandId").value;
             var PlanId = document.getElementById("txtPopPlanId").value;
+            var BottlingPlanId = $('#ddlPopBottlingLine').val()
             $.ajax({
                 url: '/MasterForms/UploadVerifedCSV',
-                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId },
+                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
@@ -90,14 +91,50 @@
                 }
             });
         }
-        function UploadCSVPOPUP(EncPlanId, PlanId, BrandId, DateOfPlan1, Brand)
-        {
+        function UploadCSVPOPUP(EncPlanId, PlanId, BrandId, DateOfPlan1, Brand,BBTId) {
             document.getElementById("txtPopPlanId").value = PlanId;
             document.getElementById("txtPopEncPlanId").value = EncPlanId;
             document.getElementById("txtPopBrandId").value = BrandId;
             document.getElementById("txtPopPlanDate").value = DateOfPlan1;
             document.getElementById("txtPopBrandName").value = Brand;
+            document.getElementById("hfPopBBTId").value = BBTId;
+          
             $('#myModal3').modal('show');
+        }
+        function CheckRadioSpecifyLine()
+        {
+            if (document.getElementById("rbYes").checked) {
+                FillBottlingLine();
+                document.getElementById("ddlPopBottlingLine").disabled = false;
+                document.getElementById("dibBL").style.display = "block";
+               
+            }
+            else {
+                $('#ddlPopBottlingLine').empty();
+                var district = '';
+                district = district + '<option value=-1>--None--</option>';
+                $('#ddlPopBottlingLine').append(district);
+                document.getElementById("ddlPopBottlingLine").disabled = true;
+                document.getElementById("dibBL").style.display = "none";
+            }
+        }
+        function FillBottlingLine()
+        {
+            $.ajax({
+                type: "post",
+                url: "/MasterForms/GetBottlingTankForddl",
+                data: { ddlBBT: document.getElementById("hfPopBBTId").value },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlPopBottlingLine').empty();
+                    var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlPopBottlingLine').append(district);
+                }
+            });
         }
     </script>
     <div class="page-content-inner">
@@ -172,7 +209,7 @@
                                             @Html.DisplayFor(modelItem => item.WastageBL)
                                         </td>
                                         <td>
-                                            <button type="button" class="btn green" id="btnUpload" onclick="UploadCSVPOPUP('@item.EncPlanId','@item.PlanId','@item.BrandId','@item.DateOfPlan1','@item.Brand');">Upload CSV</button>
+                                            <button type="button" class="btn green" id="btnUpload" onclick="UploadCSVPOPUP('@item.EncPlanId','@item.PlanId','@item.BrandId','@item.DateOfPlan1','@item.Brand','@item.BBTId');">Upload CSV</button>
                                             @*<input type="file" class="btn btn-primary required" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" /><br />*@
                                             @*<button type="submit" class="btn green" onclick="return ValidateExtension(this)">Upload CSV</button>*@
                                             @*<button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV('@item.EncPlanId');" >Validate CSV</button>*@
@@ -191,6 +228,7 @@
                                             <div class='modal-body'>
                                                 <div class="row">
                                                     @Html.Hidden("txtPopEncPlanId", "", new { @id = "txtPopEncPlanId" })
+                                                    @Html.Hidden("hfPopBBTId", "", new { @id = "hfPopBBTId" })
                                                     @Html.Hidden("txtPopBrandId", "", new { @id = "txtPopBrandId" })
                                                     <div class="form-group  col-md-2">
                                                         <label class="control-label">PlanId</label>
@@ -204,32 +242,48 @@
                                                         <label class="control-label">Brand Name</label>
                                                         @Html.TextBox("txtPopBrandName", "", new { @id = "txtPopBrandName", @class = "form-control", @readonly = true })
                                                     </div>
+
                                                 </div>
                                                 <div class="row">
-                                                    <div class="form-group  col-md-3">
+                                                    <div class="form-group  col-md-6">
+                                                        <label class="control-label">Specify Line</label><br />
+                                                        <input type="radio" id="rbYes" name="rbLine" value="Yes" onclick="CheckRadioSpecifyLine();" />Yes
+                                                        <input type="radio" id="rbNo" name="rbLine" value="No" checked="checked" onclick="CheckRadioSpecifyLine();" />No
+                                                    </div>
+                                                    <div class="form-group  col-md-6" id="dibBL" style="display:none">
+                                                        <label class="control-label">Bottling Line</label>
+                                                        <select id="ddlPopBottlingLine" class="form-control" disabled> <option value="-1">--None--</option> </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group  col-md-6">
                                                         <label class="control-label">Choose File</label>
                                                         <input type="file" class="btn default" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass" />
-                                                        </div>
                                                     </div>
+                                                    
+                                                </div>
+
+                                               
+                                                <div class="clearfix"></div>
                                                 <br />
                                                 <center>
                                                     <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>
                                                     <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>
                                                 </center>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="divResult"></div>
-                    <div class="form-body">
-                        <div id="divTable"></div>
-                    </div>
-                    
                 </div>
+                <div id="divResult"></div>
+                <div class="form-body">
+                    <div id="divTable"></div>
+                </div>
+
             </div>
         </div>
+    </div>
     </div>
 }

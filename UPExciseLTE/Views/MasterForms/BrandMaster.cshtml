@@ -167,7 +167,20 @@
                             @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">State<b style="color:red; font-weight:800">*</b> </label>
+                                   
+                                    @if (UserSession.LoggedInUserLevelId != "50" && UserSession.LoggedInUserLevelId != "55")
+                                    {
+                                        <label class="control-label">
+                                            State<b style="color:red; font-weight:800">*</b>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label">
+                                            State / Location of Parent Unit<b style="color:red; font-weight:800">*</b>
+                                        </label>
+                                    }
+
                                     <div>
                                         @Html.DropDownListFor(m => m.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control" })
                                     </div>
@@ -224,7 +237,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Box-Size (Number of Bottles / Cans)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "5" })
                                     </div>
@@ -397,7 +410,7 @@
             document.getElementById("lblConsiderationFees").value = ConsidrationFees;
             document.getElementById("lblWHPrice").value = (parseFloat(ConsidrationFees) + parseFloat(document.getElementById("lblWHMargin").value) + parseFloat(txtXFactoryPrice)).toFixed(2);
             document.getElementById("lblMaxRetPrice").value = (parseFloat(document.getElementById("lblWHPrice").value) + parseFloat(document.getElementById("lblRetMargin").value)).toFixed(2);
-            document.getElementById("lblMRP").value = (Math.round(parseFloat(document.getElementById("lblMaxRetPrice").value) / 10) * 10);
+            document.getElementById("lblMRP").value = (Math.ceil(parseFloat(document.getElementById("lblMaxRetPrice").value) / 10) * 10);
             document.getElementById("lblAdditionalDuty").value = ((parseFloat(document.getElementById("lblMRP").value) - parseFloat(document.getElementById("lblMaxRetPrice").value))).toFixed(2);
             document.getElementById("lblExciseDuty").value = ((parseFloat(document.getElementById("lblAdditionalDuty").value) + parseFloat(document.getElementById("lblConsiderationFees").value))).toFixed(2);
             document.getElementById("lblOriginalRetPrice").value = (parseFloat(document.getElementById("lblAdditionalDuty").value) + parseFloat(document.getElementById("lblWHPrice").value));

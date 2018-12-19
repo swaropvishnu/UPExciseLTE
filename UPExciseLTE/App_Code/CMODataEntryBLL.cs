@@ -957,6 +957,7 @@ namespace UPExciseLTE
                 if (districtId2 >0)
                     parameters.Add(new SqlParameter("@DistrictId2", districtId2));
                     parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                    parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
