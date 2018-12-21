@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
-
+ 
 @using (Html.BeginForm("FormFL21List", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div style="text-align:left;float:left;padding-left:20px">
-                                    <button type="button" id="btnGenerateChallan" class="btn blue" style="display:none"  disabled >Generate Challan</button>
+                                    <button type="button" id="btnGenerateChallan" class="btn blue"  disabled onclick="funSave()" >Generate Challan</button>
                                     <button type="button" id="btnUploadChallan" class="btn danger" disabled style="background-color:crimson; color:white" onclick="ShowPopup();">Upload Challan</button>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                     <td>
                                         @if (item.FL21Status == "V" || item.FL21Status == "C")
                                         {
-                                            <input type="checkbox" id="@item.FL21ID" onclick="CheckCheck('@item.FL21ID','@item.TotalFees');" name="chkSelect" />
+                                            <input type="checkbox" id="@item.FL21ID" onclick="CheckCheck('@item.FL21ID','@item.TotalFees','@item.FromConsignorName','@item.FromLicenceNo','@item.FromConsignorAddress');" name="chkSelect" />
                                         }
                                     </td>
                                     <td>
@@ -101,7 +101,7 @@
                                         }
                                         else
                                         {
-                                            <a href="@Url.Action("FormFL21","BWFL", new {Code = item.EncFL21IDId,Mode='V' })"><label class="btn blue">View</label></a>
+                                            <a href="@Url.Action("FormFL21", "BWFL", new { Code = item.EncFL21IDId, Mode = 'V' })"><label class="btn blue">View</label></a>
                                         }
                                     </td>
                                     <td>
@@ -166,6 +166,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" value="" id="hfDetails" />
 }
 <script type="text/javascript">
     function validateForm()
@@ -195,7 +196,7 @@
             document.getElementById("txtBankName").focus();
             return false;
         }
-       
+
         fileChallan = document.getElementById("fileChallan").value;
         if (fileChallan == "") {
             alert("Please Upload File");
@@ -203,10 +204,12 @@
             return false;
         }
     }
-    function CheckCheck(Id, TotalTax)
+    
+    function CheckCheck(Id, TotalTax, FromConsignorName, FromLicenceNo,FromConsignorAddress)
     {
         //document.getElementById("lblTotalFee").innerHTML += TotalTax;
         //var CheckBox = document.getElementsByName("chkSelect");
+
         var CheckList = $('#mytable').find('input[type="checkbox"]:checked'); //...
         document.getElementById("hfFormId").value = "";
         document.getElementById("lblTotalFee").innerText = "0";
@@ -229,7 +232,8 @@
             document.getElementById("btnGenerateChallan").disabled = true;
             document.getElementById("btnUploadChallan").disabled = true;
         }
-       
+        document.getElementById("hfDetails").value = FromConsignorName + "#" + FromLicenceNo + "#" + FromConsignorAddress + "#" + document.getElementById("lblTotalFee").innerText;
+        
     }
     function ShowPopup()
     {
@@ -263,5 +267,16 @@
                 alert("Error in final F.L. 21 Loading");
             }
         });
+    }
+</script>
+<script>
+    function funSave() {
+        var Details = document.getElementById('hfDetails').value;
+        @{ 
+            //new Crypto().
+          
+        }
+        Details = new UPExciseLTE.Crypto()
+        window.location.href = "../bwfl/PreviewChallanForm?R=" + TotalFee;
     }
 </script>

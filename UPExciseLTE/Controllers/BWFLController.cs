@@ -218,5 +218,9 @@ namespace UPExciseLTE.Controllers
             }
             return sb.ToString();
         }
+        public ActionResult PreviewChallanForm()
+        {
+            return View();
+        }
     }
 }

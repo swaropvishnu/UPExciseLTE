@@ -6191,6 +6191,7 @@
     <Content Include="Views\BWFL\FinalizeFormFL21.cshtml" />
     <Content Include="Views\BWFL\FormFL21List.cshtml" />
     <Content Include="Views\BWFL\PreviewFL22.cshtml" />
+    <Content Include="Views\BWFL\PreviewChallanForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
