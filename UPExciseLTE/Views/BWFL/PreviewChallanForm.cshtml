@@ -2,17 +2,18 @@
 @{
     ViewBag.Title = "Challan";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string Amount = "";
-    if (Request.QueryString["R"]!=null)
-    {
-        if (Request.QueryString["R"].ToString().Trim()!=string.Empty)
-        {
-            Amount = Request.QueryString["R"].ToString().Trim();
-        }
-    }
-    string data= TempData["demo"].ToString().Trim();
 }
 <script type="text/javascript">
+    window.onload = function ()
+    {
+        var value = localStorage.getItem("Key").split("#");
+        document.getElementById("lblConsinor").innerText = value[0] + " (" + value[1] + ")";
+        document.getElementById("lblAddress").innerText = value[2];
+        document.getElementById("lblAmount").innerText = value[3];
+        document.getElementById("lblAmount1").innerText = value[3];
+        document.getElementById("lblAmount2").innerText = value[3];
+        document.getElementById("lblAmount3").innerText = value[3];
+    }
     function PrintPanel() {
         var panel = document.getElementById("divPrint");
         var printWindow = window.open('', '', 'height=400,width=800');
@@ -56,7 +57,11 @@
             <li>
                 <p>
                     <span class="SubHeadingLeft">जिस व्यक्ति ( पदनाम यदि आवश्यक हो ) या संख्या</span>
-                    <span class="SubHeadingRight">@*Celibrity Breweries Pvt Ltd (AAccc8086D) BWFL-2B*@...................................................................................................................</span>
+                    <span class="SubHeadingRight">
+                        <label id="lblConsinor"></label>
+                    @*Celibrity Breweries Pvt Ltd (AAccc8086D) BWFL-2B*@
+                    @*...................................................................................................................*@
+                    </span>
                 </p>
                 <p>
                     <span class="SubHeadingLeft">के नाम से धनराशि जमा की जा रही है उसका</span>
@@ -65,7 +70,11 @@
             <li>
                 <p>
                     <span class="SubHeadingLeft">पता</span>
-                    <span class="SubHeadingRight">@*Avadh city, nabi kot nandana lucknow-226201*@...................................................................................................................</span>
+                    <span class="SubHeadingRight">
+                        <label id="lblAddress"></label>
+                     @*Avadh city, nabi kot nandana lucknow-226201*@
+                    @*...................................................................................................................*@
+                    </span>
                 </p>
             </li>
             <li>
@@ -90,13 +99,13 @@
             <li>
                 <p>
                     <span class="SubHeadingLeft">चालान की सकल राशि</span>
-                    <span class="SubHeadingRight">रु0 - @Amount @*1152000*@/-</span>
+                    <span class="SubHeadingRight">रु0 - <label id="lblAmount"></label> @*1152000*@/-</span>
                 </p>
             </li>
             <li>
                 <p>
                     <span class="SubHeadingLeft">चालान की निबल राशि</span>
-                    <span class="SubHeadingRight">रु0 - @Amount @*1152000*@/-</span>
+                    <span class="SubHeadingRight">रु0 -<label id="lblAmount1"></label> @*1152000*@/-</span>
                 </p>
             </li>
             <li>
@@ -225,7 +234,7 @@
                         &nbsp;
                     </td>
                     <td colspan="4" class="td">
-                        @Amount
+                        <label id="lblAmount2"></label>
                     </td>
                 </tr>
                 <tr>
@@ -239,7 +248,7 @@
                         &nbsp;
                     </td>
                     <td colspan="4" class="td">
-                      @Amount
+                        <label id="lblAmount3"></label>
                     </td>
                 </tr>
             </table>

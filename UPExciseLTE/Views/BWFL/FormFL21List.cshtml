@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
- 
+ @{ 
+     
+ }
 @using (Html.BeginForm("FormFL21List", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -272,11 +274,7 @@
 <script>
     function funSave() {
         var Details = document.getElementById('hfDetails').value;
-        @{ 
-            //new Crypto().
-          
-        }
-        Details = new UPExciseLTE.Crypto()
-        window.location.href = "../bwfl/PreviewChallanForm?R=" + TotalFee;
+        localStorage.setItem("Key", Details);
+        window.location.href = "../bwfl/PreviewChallanForm";
     }
 </script>
