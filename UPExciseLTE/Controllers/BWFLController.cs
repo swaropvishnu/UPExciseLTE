@@ -146,7 +146,7 @@ namespace UPExciseLTE.Controllers
             Session["lstFL21BrandMapp"] = lstFL21BrandMapp;
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>Brand Name</th><th>Box Size</th><th>Quantity (In Bottle, In ml.)</th><th>Total Case</th><th>Total Bottle</th><th>Total BL</th><th>Import Pass fee (per Ltr.)</th><th>Duty Calculated</th></tr>");
+            sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>Brand Name</th><th>Box Size</th><th>Capacity of Bottle/ Can (in ml.)</th><th>Total Case</th><th>Total Bottle</th><th>Total BL</th><th>Import Pass fee (per Ltr.)</th><th>Duty Calculated</th></tr>");
             int count = 0;
             foreach (FL21BrandMapp FL21BM in lstFL21BrandMapp)
             {

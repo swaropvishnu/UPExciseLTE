@@ -932,6 +932,36 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return CH;
         }
+        public StorageVAT GetStorageVAT(short BreweryId, short StorageVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetUnitTank(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillStorageVAT(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new StorageVAT();
+            }
+        }
+        private StorageVAT FillStorageVAT(DataRow dr)
+        {
+            StorageVAT UT = new StorageVAT();
+            try
+            {
+                UT.StorageVATId = int.Parse(dr["StorageVATId"].ToString().Trim());
+                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.StorageVATName = (dr["StorageVATName"].ToString().Trim());
+                UT.StorageVATCapacity = float.Parse(dr["StorageVATCapacity"].ToString().Trim());
+                UT.StorageVATBulkLitre = float.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
+                UT.StorageVATStrength = float.Parse(dr["StorageVATStrength"].ToString().Trim());
+                UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+            }
+            catch (Exception) { }
+            return UT;
+        }
         #endregion
 
 

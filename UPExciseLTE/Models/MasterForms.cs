@@ -100,7 +100,7 @@ namespace UPExciseLTE.Models
         public float MRP { get; set; } = 0;
         [Display(Name = "Box-Size (Number of Bottles / Cans)")]
         public int QuantityInCase { get; set; } = 0;
-        [Display(Name = "Quantity (In Bottle, In ml.)")]
+        [Display(Name = "Capacity of Bottle/ Can (in ml.)")]
         public int QuantityInBottleML { get; set; } = 650;
         [Display(Name = "Packaging Type")]
         public string PackagingType { get; set; } = "";

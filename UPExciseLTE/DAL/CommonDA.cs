@@ -20,7 +20,7 @@ namespace UPExciseLTE.DAL
         SqlCommand cmd;
         //SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
         SqlConnection con = new SqlConnection(CommonConfig.Conn());
-       
+
         internal LoginModal GetUserDetail(LoginModal objUserData)
         {
             DataTable dt = new DataTable();
@@ -250,7 +250,7 @@ namespace UPExciseLTE.DAL
             catch
             {
                 result = "Failed";
-                throw; 
+                throw;
             }
             finally
             {
@@ -492,7 +492,7 @@ namespace UPExciseLTE.DAL
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("dbName",  UserSession.PushName));
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetQRCOde", parameters.ToArray());
             }
@@ -561,7 +561,7 @@ namespace UPExciseLTE.DAL
 
 
         #endregion
-        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo,int PlanId,short BottlingLineId)
+        public string UploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo, int PlanId, short BottlingLineId)
         {
             con.Open();
             string result = "";
@@ -1139,7 +1139,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive)
+        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
         {
             DataSet ds = new DataSet();
             try
@@ -1178,7 +1178,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string FinalGatePass(long GatePassId,short SP_Type,int DamageBottles)
+        public string FinalGatePass(long GatePassId, short SP_Type, int DamageBottles)
         {
             string result = "";
             con.Open();
@@ -1237,8 +1237,8 @@ namespace UPExciseLTE.DAL
             string result = "";
             string result1 = "";
             con.Open();
-            int check = 0, FL21Id = -1,Count=0;
-             
+            int check = 0, FL21Id = -1, Count = 0;
+
             SqlTransaction tran = con.BeginTransaction();
             try
             {
@@ -1304,7 +1304,7 @@ namespace UPExciseLTE.DAL
                         cmd.Parameters.Add(new SqlParameter("PermitFees", FL21BM.PermitFees));
                         cmd.Parameters.Add(new SqlParameter("TotalFees", FL21BM.TotalFees));
                         cmd.Parameters.Add(new SqlParameter("RateofPermit", FL21BM.RateofPermit));
-                        cmd.Parameters.Add(new SqlParameter("IsFirst", Count==1?true:false));
+                        cmd.Parameters.Add(new SqlParameter("IsFirst", Count == 1 ? true : false));
                         cmd.Parameters.Add(new SqlParameter("Msg", ""));
                         cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                         cmd.Parameters["Msg"].Size = 256;
@@ -1411,6 +1411,65 @@ namespace UPExciseLTE.DAL
                 ds = null;
             }
             return ds;
+        }
+        public DataSet GetStorageVAT(short BreweryId, short StorageVATId, string status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("StorageVATId", StorageVATId));
+                parameters.Add(new SqlParameter("status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_GetStorageVAT", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public string InsertUpdateStorageVAT(StorageVAT SV)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_InsertUpdateStorageVAT", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("StorageVATId", SV.StorageVATId));
+                cmd.Parameters.Add(new SqlParameter("BreweryId", SV.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("StorageVATName", filter_bad_chars_rep(SV.StorageVATName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("StorageVATCapacity", SV.StorageVATCapacity));
+                cmd.Parameters.Add(new SqlParameter("StorageVATBulkLitre", SV.StorageVATBulkLitre));
+                cmd.Parameters.Add(new SqlParameter("StorageVATStrength", SV.StorageVATStrength));
+                cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(SV.Status.Trim())));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Type", SV.Type));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
         }
     }
 }

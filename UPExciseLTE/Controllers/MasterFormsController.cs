@@ -35,42 +35,134 @@ namespace UPExciseLTE.Controllers
         public ActionResult BrandMaster()
         {
             BrandMaster Brand = new BrandMaster();
-            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
-            {
-                Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
-            }
-            List<SelectListItem> lstLicense= new List<SelectListItem>();
+            List<SelectListItem> lstLicense = new List<SelectListItem>();
+            List<SelectListItem> lstLiquor = new List<SelectListItem>();
             SelectListItem SLI = new SelectListItem();
-            if (UserSession.PushName.Trim()== "be_unnao1")
+            SelectListItem LT = new SelectListItem();
+            //if (UserSession.PushName.Trim()== "be_unnao1")
+            if (UserSession.LoggedInUserLevelId.Trim() == "15") //ex BreweryUnnao1
             {
-                SLI = new SelectListItem();
-                SLI.Text = "FL3A";
-                SLI.Value = "FL3A";
-                lstLicense.Add(SLI);
                 SLI = new SelectListItem();
                 SLI.Text = "FL3";
                 SLI.Value = "FL3";
                 lstLicense.Add(SLI);
+
+                SLI = new SelectListItem();
+                SLI.Text = "FL3A";
+                SLI.Value = "FL3A";
+                lstLicense.Add(SLI);
+
+                LT = new SelectListItem();
+                LT.Text = "Beer";
+                LT.Value = "BE";
+                lstLiquor.Add(LT);
             }
-            else if (UserSession.PushName.Trim() == "BWFL")
+            else if (UserSession.LoggedInUserLevelId.Trim() == "50") // ex BWFLLucknow1
             {
                 SLI = new SelectListItem();
                 SLI.Text = "BWFL-2B";
                 SLI.Value = "BWFL-2B";
                 lstLicense.Add(SLI);
+
+                LT = new SelectListItem();
+                LT.Text = "Beer";
+                LT.Value = "BE";
+                lstLiquor.Add(LT);
+
             }
-            else 
+            else if (UserSession.LoggedInUserLevelId.Trim() == "25") // ex PD2_Unnao1
             {
                 SLI = new SelectListItem();
-                SLI.Text = "FL3A";
-                SLI.Value = "FL3A";
+                SLI.Text = "PD-2";
+                SLI.Value = "PD-2";
                 lstLicense.Add(SLI);
+
+                LT.Text = "Country Liquor";
+                LT.Value = "CL";
+                lstLiquor.Add(LT);
+
+            }
+
+            else
+            {
                 SLI = new SelectListItem();
                 SLI.Text = "FL3";
                 SLI.Value = "FL3";
                 lstLicense.Add(SLI);
+
+                SLI = new SelectListItem();
+                SLI.Text = "FL3A";
+                SLI.Value = "FL3A";
+                lstLicense.Add(SLI);
+
+                LT = new SelectListItem();
+                LT.Text = "Beer";
+                LT.Value = "BE";
+                lstLiquor.Add(LT);
+
+            }
+            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
+            {
+                Brand = new CommonBL().GetBrand(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "", "", "", -1, -1, -1, "Z");
+                if (Brand.LicenceType!=string.Empty)
+                {
+                    if (Brand.LicenceType== "FL3A" || Brand.LicenceType == "FL3")
+                    {
+                        lstLicense.Clear();
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL3";
+                        SLI.Value = "FL3";
+                        lstLicense.Add(SLI);
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL3A";
+                        SLI.Value = "FL3A";
+                        lstLicense.Add(SLI);
+
+                    }
+                    else if (Brand.LicenceType == "BWFL-2B")
+                    {
+                        lstLicense.Clear();
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "BWFL-2B";
+                        SLI.Value = "BWFL-2B";
+                        lstLicense.Add(SLI);
+                    }
+                    else if (Brand.LicenceType == "PD-2")
+                    {
+                        lstLicense.Clear();
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "PD-2";
+                        SLI.Value = "PD-2";
+                        lstLicense.Add(SLI);
+                    }
+                }
+                if (Brand.LiquorType!=string.Empty)
+                {
+                    if (Brand.LiquorType=="BE")
+                    {
+                        lstLiquor.Clear();
+                        LT = new SelectListItem();
+                        LT.Text = "Beer";
+                        LT.Value = "BE";
+                        lstLiquor.Add(LT);
+                    }
+                    else if (Brand.LiquorType == "CL")
+                    {
+                        lstLiquor.Clear();
+                        LT = new SelectListItem();
+                        LT.Text = "Country Liquor";
+                        LT.Value = "CL";
+                        lstLiquor.Add(LT);
+                    }
+
+                }
             }
             
+            ViewBag.LiquorType = lstLiquor;
             ViewBag.LicenseType= lstLicense;
             DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
