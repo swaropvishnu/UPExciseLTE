@@ -935,7 +935,104 @@ namespace UPExciseLTE.BLL
         #endregion
 
 
+        #region FL2D
 
+        public FormFL33 GetFormFL33(int FormFL33Id, string FormFLStatus)
+        {
+            DataSet ds = new CommonDA().GetFormFL33(FormFL33Id, FormFLStatus);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillFormFL33(ds.Tables[0].Rows[0], ds.Tables[1]);
+            }
+            else
+            {
+                return new FormFL33();
+            }
+        }
+
+
+
+        private FormFL33 FillFormFL33(DataRow dr, DataTable dt)
+        {
+            FormFL33 FL33 = new FormFL33();
+            try
+            {
+                FL33.BoxSize = int.Parse(dr["BoxSize"].ToString().Trim());
+                FL33.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                FL33.DutyCalculated = decimal.Parse(dr["DutyCalculated"].ToString().Trim());
+                FL33.EncFL33IDId = new Crypto().Encrypt(dr["FL33Id"].ToString().Trim());
+                FL33.FL33ID = int.Parse(dr["FL33Id"].ToString().Trim());
+                FL33.FL33Status = (dr["FL33Status"].ToString().Trim());
+                FL33.FromConsignorAddress = (dr["ConsignerAddress"].ToString().Trim());
+                FL33.FromConsignorName = (dr["ConsignerName"].ToString().Trim());
+                FL33.FromLicenceNo = (dr["ConsignerLicenseNo"].ToString().Trim());
+                FL33.PermitFees = decimal.Parse(dr["PermitFees"].ToString().Trim());
+                FL33.QuantityInBottleML = decimal.Parse(dr["Quantity"].ToString().Trim());
+                FL33.RateofPermit = decimal.Parse(dr["RateofPermit"].ToString().Trim());
+                FL33.RouteDetails = (dr["RouteDetails"].ToString().Trim());
+                FL33.ToConsigeeAddress = (dr["ConsigneeAddress"].ToString().Trim());
+                FL33.ToConsigeeName = (dr["ConsigneeName"].ToString().Trim());
+                FL33.ToLicenceNo = (dr["ConsigneeLicenseNo"].ToString().Trim());
+                FL33.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());
+                FL33.TotalBottle = int.Parse(dr["TotalBottle"].ToString().Trim());
+                FL33.TotalCase = int.Parse(dr["TotalCase"].ToString().Trim());
+                FL33.TotalFees = decimal.Parse(dr["TotalFees"].ToString().Trim());
+                FL33.TransactionNo = (dr["TransactionNo"].ToString().Trim());
+                FL33.Brand = (dr["BrandName"].ToString().Trim());
+                FL33.SPType = 2;
+                FL33.FL33Status1 = (dr["FL33Status1"].ToString().Trim());
+                FL33.PackagingType = (dr["PackagingType"].ToString().Trim());
+                FL33.EntryDate1 = (dr["EntryDate1"].ToString().Trim());
+                FL33.TransactionDate = DateTime.Parse(dr["TransactionDate"].ToString().Trim());
+                FL33.TransactionDate1 = (dr["TransactionDate1"].ToString().Trim());
+                FL33.FromPermitDate = DateTime.Parse(dr["FromPermitDate"].ToString().Trim());
+                FL33.FromPermitDate1 = (dr["FromPermitDate1"].ToString().Trim());
+                FL33.ToPermitDate = DateTime.Parse(dr["ToPermitDate"].ToString().Trim());
+                FL33.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
+                FL33.Bankname = (dr["Bankname"].ToString().Trim());
+                FL33.Reason = (dr["Reason"].ToString().Trim());
+                foreach (DataRow dtdr in dt.Rows)
+                {
+                    FL33BrandMapp FL33BM = new FL33BrandMapp();
+                    FL33BM.SrNo = int.Parse(dtdr["SrNo"].ToString().Trim());
+                    FL33BM.BoxSize = int.Parse(dtdr["BoxSize"].ToString().Trim());
+                    FL33BM.Brand = (dtdr["BrandName"].ToString().Trim());
+                    FL33BM.BrandId = int.Parse(dtdr["BrandId"].ToString().Trim());
+                    FL33BM.DutyCalculated = decimal.Parse(dtdr["DutyCalculated"].ToString().Trim());
+                    FL33BM.FL33BrandMappId = long.Parse(dtdr["FL33BrandMappId"].ToString().Trim());
+                    FL33BM.PermitFees = decimal.Parse(dtdr["PermitFees"].ToString().Trim());
+                    FL33BM.Quantity = decimal.Parse(dtdr["Quantity"].ToString().Trim());
+                    FL33BM.RateofPermit = decimal.Parse(dtdr["RateofPermit"].ToString().Trim());
+                    FL33BM.TotalBL = decimal.Parse(dtdr["TotalBL"].ToString().Trim());
+                    FL33BM.TotalBottle = int.Parse(dtdr["TotalBottle"].ToString().Trim());
+                    FL33BM.TotalCase = int.Parse(dtdr["TotalCase"].ToString().Trim());
+                    FL33BM.TotalFees = decimal.Parse(dtdr["TotalFees"].ToString().Trim());
+                    FL33.lstFL33.Add(FL33BM);
+                }
+
+            }
+            catch (Exception) { }
+            return FL33;
+        }
+
+
+        public List<FormFL33> GetFormFL33List(int FormFL33Id, string FormFLStatus)
+        {
+            List<FormFL33> lstGPD = new List<FormFL33>();
+            DataSet ds = new CommonDA().GetFormFL33(FormFL33Id, FormFLStatus);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstGPD.Add(FillFormFL33(dr, null));
+                }
+            }
+            return lstGPD;
+        }
+
+        
+
+        #endregion FL2D
 
     }
 }
