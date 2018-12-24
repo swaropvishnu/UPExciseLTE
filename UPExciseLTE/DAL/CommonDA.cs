@@ -1565,7 +1565,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("ChallanId", ChFL2D.ChallanId));
                 cmd.Parameters.Add(new SqlParameter("BankName", ChFL2D.BankName));
                 cmd.Parameters.Add(new SqlParameter("ChallanPhoto", ChFL2D.ChallanPhoto));
-                cmd.Parameters.Add(new SqlParameter("FL21Ids", ChFL2D.FL21Ids));
+                cmd.Parameters.Add(new SqlParameter("FL21Ids", ChFL2D.FL33Ids));
                 cmd.Parameters.Add(new SqlParameter("TotalFees", ChFL2D.TotalFees));
                 cmd.Parameters.Add(new SqlParameter("TransactionDate", ChFL2D.TransactionDate));
                 cmd.Parameters.Add(new SqlParameter("FileExt", ChFL2D.FileExt));

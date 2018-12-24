@@ -1,8 +1,284 @@
-﻿
+﻿@model IEnumerable<UPExciseLTE.Models.FormFL33>
+
 @{
     ViewBag.Title = "FormFL33List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>FormFL33List</h2>
+@using (Html.BeginForm("FormFL33List", "FL2D", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Edit/ Delete F.L. 33
+                        </div>
+                    </div>
+                    <input type="hidden" id="hfFormId" value="" name="hfFormId" />
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="span10">&nbsp;</div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div style="text-align:left;float:left;padding-left:20px">
+                                    <button type="button" id="btnGenerateChallan" class="btn blue" disabled onclick="funSave()">Generate Challan</button>
+                                    <button type="button" id="btnUploadChallan" class="btn danger" disabled style="background-color:crimson; color:white" onclick="ShowPopup();">Upload Challan</button>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div style="text-align:right;padding-right:15px;float:right">
+                                    <b>Total Fees:-<label id="lblTotalFee">0</label></b>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover" id="mytable">
+                            <tr>
+                                <th>Select</th>
+                                <th>F.L.33 Form No</th>
+                                <th>Consigner Name</th>
+                                @*<th>Consignee Name</th>*@
+                                <th>Total Case</th>
+                                <th>Total Bottle/ Can</th>
+                                <th>Total Bulk Litre</th>
+                                <th>Duty Calculated</th>
+                                <th>Permit Fees (if any)</th>
+                                <th>Total Fees</th>
+                                <th>Import fee (per Ltr.)</th>
+                                <th>Status</th>
+                                <th>Reason</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (item.FL33Status == "V" || item.FL33Status == "C")
+                                        {
+                                            <input type="checkbox" id="@item.FL33ID" onclick="CheckCheck('@item.FL33ID','@item.TotalFees','@item.FromConsignorName','@item.FromLicenceNo','@item.FromConsignorAddress');" name="chkSelect" />
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FL33ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromConsignorName)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.ToConsigeeName)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalCase)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalBottle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalBL)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DutyCalculated)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PermitFees)
+                                    </td>
+                                    <td>
+                                        <span id="span_@item.FL33ID">
+                                            @Html.DisplayFor(modelItem => item.TotalFees, "TotalFees")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RateofPermit)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FL33Status1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Reason)
+                                    </td>
+                                    <td>
+                                        @if (item.FL33Status == "U")
+                                        {
+                                            <a href="@Url.Action("FormFL33", "FL2D", new { Code = item.EncFL33IDId })"><label class="btn blue">Edit</label></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("FormFL33", "FL2D", new { Code = item.EncFL33IDId, Mode = 'V' })"><label class="btn blue">View</label></a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.FL33Status == "A")
+                                        {
+                                            <a href="@Url.Action("PreviewFL22", "FL2D", new { Code = item.EncFL33IDId })"><label class="btn blue">Print Form FL22</label></a>
+                                            @*<button type="button" id="btnPrintForm" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="PrintForm('@item.FL33ID')">Print Form FL22</button>*@
+                                        }
+                                        else if (item.FL33Status == "U")
+                                        {
+                                            <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('F','@item.FL33ID')">Final Form</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                        <div id='myModal3' class='modal fade' role='dialog'>
+                            <div class='modal-dialog'>
+                                <div class='modal-content'>
+                                    <div class='portlet box green'>
+                                        <div class='portlet-title'><div class='caption'><div>Upload Challan</div></div><button type='button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'>
+                                            <div>
+                                                <div class='modal-body'>
+                                                    <div class="row">
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtTotalFees", "", new { @id = "txtTotalFees", @class = "form-control", @readonly = true })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Transaction Date<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtTransactionDate", "", new { @id = "txtTransactionDate", @class = "form-control", @placeHolder = "dd/MM/yyyy" })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextBox("txtTransactionNo", "", new { @id = "txtTransactionNo", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Bank Name<b style="color:red; font-weight:800">*</b></label>
+                                                            @Html.TextArea("txtBankName", "", new { @id = "txtBankName", @class = "form-control" })
+                                                        </div>
+                                                        <div class="form-group  col-md-4">
+                                                            <label class="control-label">Choose Challan<b style="color:red; font-weight:800">*</b></label>
+                                                            <input type="file" class="btn default" accept=".pdf,.jpg,.jpeg" name="fileChallan" id="fileChallan" value="Choose Challan" />
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <center>
+                                                        <button type="submit" class="btn green" id="btnUpload" onclick="return validateForm();">Upload Challan</button>
+                                                        <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="" id="hfDetails" />
+}
+<script type="text/javascript">
+    function validateForm()
+    {
+        txtTotalFees=document.getElementById("txtTotalFees").value
+        if (txtTotalFees == "" || txtTotalFees == "0") {
+            alert("Ïnvalid Total Fees");
+            return false;
+        }
+        txtTransactionDate = document.getElementById("txtTransactionDate").value
+        if (txtTransactionDate == "" ) {
+            alert("Please Enter Transaction Date");
+            document.getElementById("txtTransactionDate").focus();
+            return false;
+        }
+        document.getElementById("txtTransactionNo").value = document.getElementById("txtTransactionNo").value.trim();
+        txtTransactionNo = document.getElementById("txtTransactionNo").value
+        if (txtTransactionNo == "") {
+            alert("Please Enter Transaction No");
+            document.getElementById("txtTransactionNo").focus();
+            return false;
+        }
+        document.getElementById("txtBankName").value = document.getElementById("txtBankName").value.trim();
+        txtBankName = document.getElementById("txtBankName").value
+        if (txtBankName == "") {
+            alert("Please Enter Bank Name");
+            document.getElementById("txtBankName").focus();
+            return false;
+        }
+
+        fileChallan = document.getElementById("fileChallan").value;
+        if (fileChallan == "") {
+            alert("Please Upload File");
+            document.getElementById("fileChallan").focus();
+            return false;
+        }
+    }
+
+    function CheckCheck(Id, TotalTax, FromConsignorName, FromLicenceNo,FromConsignorAddress)
+    {
+        //document.getElementById("lblTotalFee").innerHTML += TotalTax;
+        //var CheckBox = document.getElementsByName("chkSelect");
+
+        var CheckList = $('#mytable').find('input[type="checkbox"]:checked'); //...
+        document.getElementById("hfFormId").value = "";
+        document.getElementById("lblTotalFee").innerText = "0";
+        for (var i = 0; i < CheckList.length; i++) {
+            if (i!=0) {
+                document.getElementById("hfFormId").value += ",";
+            }
+            document.getElementById("hfFormId").value += CheckList[i].id;
+            var SpanId = "span_" + CheckList[i].id;
+            document.getElementById("lblTotalFee").innerText = parseFloat(document.getElementById("lblTotalFee").innerText)+parseFloat(document.getElementById(SpanId).innerText);
+            //alert(CheckList[1].id);
+        }
+        document.getElementById("lblTotalFee").value = document.getElementById("lblTotalFee").innerText;
+        if (document.getElementById("lblTotalFee").value != "0") {
+            document.getElementById("btnGenerateChallan").disabled = false;
+            document.getElementById("btnUploadChallan").disabled = false;
+        }
+        else
+        {
+            document.getElementById("btnGenerateChallan").disabled = true;
+            document.getElementById("btnUploadChallan").disabled = true;
+        }
+        document.getElementById("hfDetails").value = FromConsignorName + "#" + FromLicenceNo + "#" + FromConsignorAddress + "#" + document.getElementById("lblTotalFee").innerText;
+
+    }
+    function ShowPopup()
+    {
+        document.getElementById("txtTotalFees").value = document.getElementById("lblTotalFee").value;
+        $('#myModal3').modal('show');
+    }
+    function FinalBrand(status, FL33) {
+        var reason = "";
+        if (status == "F") {
+            reason = "Final Form";
+            var r = confirm("Are You sure to Final this Form.");
+            if (r == false) {
+                return false;
+            }
+        }
+        $.ajax({
+            url: '/FL2D/FinalFormFL33',
+            data: { 'FL33ID': FL33, 'status': status, 'reason': reason },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                if (status == "F") {
+                    window.location = "../FL2D/FormFL33List";
+                }
+                else {
+                    window.location = "../FL2D/FinalFormFL33";
+                }
+            },
+            error: function (data) {
+                alert("Error in final F.L. 33 Loading");
+            }
+        });
+    }
+</script>
+<script>
+    function funSave() {
+        var Details = document.getElementById('hfDetails').value;
+        localStorage.setItem("Key", Details);
+        window.location.href = "../FL2D/PreviewChallanForm";
+    }
+</script>
 
