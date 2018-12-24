@@ -250,6 +250,7 @@
     <Compile Include="Controllers\BWFLController.cs" />
     <Compile Include="Controllers\CLController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FL2DController.cs" />
     <Compile Include="Controllers\GatePassController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MasterFormsController.cs" />
@@ -267,6 +268,7 @@
     </Compile>
     <Compile Include="Models\BBTFormation.cs" />
     <Compile Include="Models\BWFL.cs" />
+    <Compile Include="Models\FL2D.cs" />
     <Compile Include="Models\CL.cs" />
     <Compile Include="Models\GatePass.cs" />
     <Compile Include="Models\CaptchaImageResult.cs" />
@@ -6194,6 +6196,11 @@
     <Content Include="Views\BWFL\FormFL21List.cshtml" />
     <Content Include="Views\BWFL\PreviewFL22.cshtml" />
     <Content Include="Views\BWFL\PreviewChallanForm.cshtml" />
+    <Content Include="Views\FL2D\FormFL33.cshtml" />
+    <Content Include="Views\FL2D\FinalizeFormFL33.cshtml" />
+    <Content Include="Views\FL2D\FormFL33List.cshtml" />
+    <Content Include="Views\FL2D\PreviewFL34.cshtml" />
+    <Content Include="Views\FL2D\PreviewChallanFormFL2D.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

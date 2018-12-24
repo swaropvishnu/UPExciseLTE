@@ -1051,6 +1051,8 @@ namespace UPExciseLTE.DAL
             return str;
         }
 
+
+
         public DataSet GetGatePassDetails(int spType, long GatePassId = 0, long brandId = 0)
         {
             DataSet ds = new DataSet();
@@ -1412,6 +1414,184 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+
+
+
+
+        #region FL2D
+        
+
+        public DataSet GetFormFL33(int FormFL33Id, string FormFLStatus)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("FormFL33Id", FormFL33Id));
+                parameters.Add(new SqlParameter("FormFLStatus", FormFLStatus));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "SP_GetFormFL33", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+
+
+
+        public string InsertUpdateFormFL33(FormFL33 FL2D)
+        {
+            string result = "";
+            string result1 = "";
+            con.Open();
+            int check = 0, FL33Id = -1, Count = 0;
+
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateFormFL21", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("SPType", FL2D.SPType));
+                cmd.Parameters.Add(new SqlParameter("FL21Id", FL2D.FL33ID));
+                cmd.Parameters.Add(new SqlParameter("BrandId", FL2D.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BoxSize", FL2D.BoxSize));
+                cmd.Parameters.Add(new SqlParameter("Quantity", FL2D.QuantityInBottleML));
+                cmd.Parameters.Add(new SqlParameter("ConsignerName", FL2D.FromConsignorName));
+                cmd.Parameters.Add(new SqlParameter("ConsignerLicenseNo", FL2D.FromLicenceNo));
+                cmd.Parameters.Add(new SqlParameter("ConsignerAddress", FL2D.FromConsignorAddress));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeName", FL2D.ToConsigeeName));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeLicenseNo", FL2D.ToLicenceNo));
+                cmd.Parameters.Add(new SqlParameter("ConsigneeAddress", FL2D.ToConsigeeAddress));
+                cmd.Parameters.Add(new SqlParameter("TotalCase", FL2D.TotalCase));
+                cmd.Parameters.Add(new SqlParameter("TotalBottle", FL2D.TotalBottle));
+                cmd.Parameters.Add(new SqlParameter("TotalBL", FL2D.TotalBL));
+                cmd.Parameters.Add(new SqlParameter("DutyCalculated", FL2D.DutyCalculated));
+                cmd.Parameters.Add(new SqlParameter("PermitFees", FL2D.PermitFees));
+                cmd.Parameters.Add(new SqlParameter("TotalFees", FL2D.TotalFees));
+                cmd.Parameters.Add(new SqlParameter("RateofPermit", FL2D.RateofPermit));
+                cmd.Parameters.Add(new SqlParameter("TransactionNo", FL2D.TransactionNo));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", FL2D.RouteDetails));
+                cmd.Parameters.Add(new SqlParameter("FL21Status", FL2D.FL33Status));
+                cmd.Parameters.Add(new SqlParameter("TransactionDate", FL2D.TransactionDate));
+                cmd.Parameters.Add(new SqlParameter("FromPermitDate", FL2D.FromPermitDate));
+                cmd.Parameters.Add(new SqlParameter("ToPermitDate", FL2D.ToPermitDate));
+                cmd.Parameters.Add(new SqlParameter("Bankname", FL2D.Bankname));
+                cmd.Parameters.Add(new SqlParameter("Reason", FL2D.Reason));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["FL33Id"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.Parameters["FL33Id"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                FL33Id = int.Parse(cmd.Parameters["FL33Id"].Value.ToString().Trim());
+                cmd.Dispose();
+                if (result.Contains("Successfully"))
+                {
+                    foreach (FL33BrandMapp FL33BM in FL2D.lstFL33)
+                    {
+                        Count++;
+                        cmd = new SqlCommand("PROC_InsertFL21BrandMapp", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(new SqlParameter("DBName", UserSession.PushName));
+                        cmd.Parameters.Add(new SqlParameter("FL21Id", FL33Id));
+                        cmd.Parameters.Add(new SqlParameter("BrandId", FL33BM.BrandId));
+                        cmd.Parameters.Add(new SqlParameter("BoxSize", FL33BM.BoxSize));
+                        cmd.Parameters.Add(new SqlParameter("Quantity", FL33BM.Quantity));
+                        cmd.Parameters.Add(new SqlParameter("TotalCase", FL33BM.TotalCase));
+                        cmd.Parameters.Add(new SqlParameter("TotalBottle", FL33BM.TotalBottle));
+                        cmd.Parameters.Add(new SqlParameter("TotalBL", FL33BM.TotalBL));
+                        cmd.Parameters.Add(new SqlParameter("DutyCalculated", FL33BM.DutyCalculated));
+                        cmd.Parameters.Add(new SqlParameter("PermitFees", FL33BM.PermitFees));
+                        cmd.Parameters.Add(new SqlParameter("TotalFees", FL33BM.TotalFees));
+                        cmd.Parameters.Add(new SqlParameter("RateofPermit", FL33BM.RateofPermit));
+                        cmd.Parameters.Add(new SqlParameter("IsFirst", Count == 1 ? true : false));
+                        cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                        cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                        cmd.Parameters["Msg"].Size = 256;
+                        cmd.ExecuteNonQuery();
+                        result1 = cmd.Parameters["Msg"].Value.ToString().Trim();
+                        if (!result1.Contains("Successfully"))
+                        {
+                            result = result1;
+                            check++;
+                            break;
+                        }
+                        cmd.Dispose();
+                    }
+                }
+                if (check == 0)
+                {
+                    tran.Commit();
+                }
+                else
+                {
+                    tran.Rollback();
+                }
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+
+        public string InsertUpdateChallanFL2D(FL2DChallan ChFL2D)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateChallan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("ChallanId", ChFL2D.ChallanId));
+                cmd.Parameters.Add(new SqlParameter("BankName", ChFL2D.BankName));
+                cmd.Parameters.Add(new SqlParameter("ChallanPhoto", ChFL2D.ChallanPhoto));
+                cmd.Parameters.Add(new SqlParameter("FL21Ids", ChFL2D.FL33Ids));
+                cmd.Parameters.Add(new SqlParameter("TotalFees", ChFL2D.TotalFees));
+                cmd.Parameters.Add(new SqlParameter("TransactionDate", ChFL2D.TransactionDate));
+                cmd.Parameters.Add(new SqlParameter("FileExt", ChFL2D.FileExt));
+                cmd.Parameters.Add(new SqlParameter("TransactionNo", ChFL2D.TransactionNo));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+
+
+        #endregion
         public DataSet GetStorageVAT(short BreweryId, short StorageVATId, string status)
         {
             DataSet ds = new DataSet();
