@@ -1431,7 +1431,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("FormFL33Id", FormFL33Id));
                 parameters.Add(new SqlParameter("FormFLStatus", FormFLStatus));
                 parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "SP_GetFormFL33", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_proc_GetFormFL33", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1452,12 +1452,12 @@ namespace UPExciseLTE.DAL
             SqlTransaction tran = con.BeginTransaction();
             try
             {
-                cmd = new SqlCommand("PROC_InsertUpdateFormFL21", con);
+                cmd = new SqlCommand("FL2D_proc_InsertUpdateFormFL33", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("SPType", FL2D.SPType));
-                cmd.Parameters.Add(new SqlParameter("FL21Id", FL2D.FL33ID));
+                cmd.Parameters.Add(new SqlParameter("FL33Id", FL2D.FL33ID));
                 cmd.Parameters.Add(new SqlParameter("BrandId", FL2D.BrandId));
                 cmd.Parameters.Add(new SqlParameter("BoxSize", FL2D.BoxSize));
                 cmd.Parameters.Add(new SqlParameter("Quantity", FL2D.QuantityInBottleML));
@@ -1476,7 +1476,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("RateofPermit", FL2D.RateofPermit));
                 cmd.Parameters.Add(new SqlParameter("TransactionNo", FL2D.TransactionNo));
                 cmd.Parameters.Add(new SqlParameter("RouteDetails", FL2D.RouteDetails));
-                cmd.Parameters.Add(new SqlParameter("FL21Status", FL2D.FL33Status));
+                cmd.Parameters.Add(new SqlParameter("FL33Status", FL2D.FL33Status));
                 cmd.Parameters.Add(new SqlParameter("TransactionDate", FL2D.TransactionDate));
                 cmd.Parameters.Add(new SqlParameter("FromPermitDate", FL2D.FromPermitDate));
                 cmd.Parameters.Add(new SqlParameter("ToPermitDate", FL2D.ToPermitDate));
@@ -1499,11 +1499,11 @@ namespace UPExciseLTE.DAL
                     foreach (FL33BrandMapp FL33BM in FL2D.lstFL33)
                     {
                         Count++;
-                        cmd = new SqlCommand("PROC_InsertFL21BrandMapp", con);
+                        cmd = new SqlCommand("FL2D_proc_InsertFL33BrandMapp", con);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Transaction = tran;
                         cmd.Parameters.Add(new SqlParameter("DBName", UserSession.PushName));
-                        cmd.Parameters.Add(new SqlParameter("FL21Id", FL33Id));
+                        cmd.Parameters.Add(new SqlParameter("FL33Id", FL33Id));
                         cmd.Parameters.Add(new SqlParameter("BrandId", FL33BM.BrandId));
                         cmd.Parameters.Add(new SqlParameter("BoxSize", FL33BM.BoxSize));
                         cmd.Parameters.Add(new SqlParameter("Quantity", FL33BM.Quantity));
@@ -1558,7 +1558,7 @@ namespace UPExciseLTE.DAL
             SqlTransaction tran = con.BeginTransaction();
             try
             {
-                cmd = new SqlCommand("PROC_InsertUpdateChallan", con);
+                cmd = new SqlCommand("FL2D_proc_InsertUpdateChallan", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));

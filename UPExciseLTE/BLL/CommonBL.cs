@@ -879,6 +879,7 @@ namespace UPExciseLTE.BLL
                 FL21.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
                 FL21.Bankname = (dr["Bankname"].ToString().Trim());
                 FL21.Reason = (dr["Reason"].ToString().Trim());
+                FL21.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL21BrandMapp FL21BM = new FL21BrandMapp();
@@ -1021,6 +1022,7 @@ namespace UPExciseLTE.BLL
                 FL33.ToPermitDate1 = (dr["ToPermitDate1"].ToString().Trim());
                 FL33.Bankname = (dr["Bankname"].ToString().Trim());
                 FL33.Reason = (dr["Reason"].ToString().Trim());
+                FL33.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL33BrandMapp FL33BM = new FL33BrandMapp();

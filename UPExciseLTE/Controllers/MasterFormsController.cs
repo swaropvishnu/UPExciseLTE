@@ -82,7 +82,18 @@ namespace UPExciseLTE.Controllers
                 lstLiquor.Add(LT);
 
             }
+            else if (UserSession.LoggedInUserLevelId.Trim() == "55") // ex BWFL2D
+            {
+                SLI = new SelectListItem();
+                SLI.Text = "PD-2";
+                SLI.Value = "PD-2";
+                lstLicense.Add(SLI);
 
+                LT.Text = "Foreign Liquor";
+                LT.Value = "FL";
+                lstLiquor.Add(LT);
+
+            }
             else
             {
                 SLI = new SelectListItem();
@@ -156,6 +167,14 @@ namespace UPExciseLTE.Controllers
                         LT = new SelectListItem();
                         LT.Text = "Country Liquor";
                         LT.Value = "CL";
+                        lstLiquor.Add(LT);
+                    }
+                    else if (Brand.LiquorType == "FL")
+                    {
+                        lstLiquor.Clear();
+                        LT = new SelectListItem();
+                        LT.Text = "Foreign Liquor";
+                        LT.Value = "FL";
                         lstLiquor.Add(LT);
                     }
 

@@ -1,0 +1,125 @@
+﻿@model UPExciseLTE.Models.BBTMaster
+
+@{
+    ViewBag.Title = "BBTMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("BBTMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.BBTId)
+    @Html.HiddenFor(model => model.SP_Type)
+    if (Model != null && Model.Message != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Message.MStatus))
+        {
+            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
+        }
+    }
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            @if (Model.SP_Type == 1)
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp;Bottling Tank Master&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                            else
+                            {
+                                <span><i class="fa fa-gift"></i>&nbsp; Update Bottling Tank&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Bottling Tank Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Name", @MaxLength = "150" })
+                                    </div>
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Bottling Tank Capacity (Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Capacity", @onkeyPress = "return IsNumeric(event);", @MaxLength = "5" })
+                                    </div>
+                                </div>
+                                <div class="form-group  col-md-4 display-hide">
+                                    <label class="control-label">Opening Balance(BL)</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBulkLitre", @class = "form-control", @required = "required", @Placeholder = "Bottling TankOpening Balance", @onkeypress = "return isfloatNumber(this, event);" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <label class="control-label">Brewery</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green" onclick="return Validation();">Save</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="window.location.href='@Url.Action("GetBBTDetails","MasterForms")'">Go to Bottling Tank List</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+    function Validation()
+    {
+        document.getElementById("txtBBTName").value=document.getElementById("txtBBTName").value.trim();
+        if (document.getElementById("txtBBTName").value.trim() == "") {
+            alert("Please Enter BBT Name");
+            return false;
+        }
+        if (document.getElementById("txtBBTCapacity").value.trim() == "" || parseFloat(document.getElementById("txtBBTCapacity").value.trim()) <= 0) {
+            alert("Please Enter valid BBT Capacity");
+            return false;
+        }
+    }
+</script>
+
