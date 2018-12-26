@@ -1610,7 +1610,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string InsertUpdateStorageVAT(StorageVAT SV)
+        public string InsertUpdateStorageVAT(StorageVATCL SV)
         {
             string result = "";
             con.Open();
@@ -1651,5 +1651,8 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+
+
+
     }
 }

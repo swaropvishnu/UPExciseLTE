@@ -33,19 +33,14 @@ namespace UPExciseLTE.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult StorageVATCL(UnitTank UT)
+        public ActionResult StorageVATCL(StorageVATCL UT)
         {
-            string str = new CommonDA().InsertUpdateUnitTank(UT);
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVAT");
         }
 
-        //public ActionResult UnitTank(UnitTank UT)
-        //{
-        //    string str = new CommonDA().InsertUpdateUnitTank(UT);
-        //    TempData["Msg"] = str;
-        //    return RedirectToAction("UnitTank");
-        //}
+       
 
         public ActionResult BottelingPlan()
         {
@@ -367,7 +362,7 @@ namespace UPExciseLTE.Controllers
             return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString();
         }
         [HttpPost]
-        public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
+        public ActionResult ReceiveStorageVAT(UTTransferToBBT UTBL)
         {
             UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
             string str = new CommonDA().InsertUTTransferToBBT(UTBL);
@@ -375,7 +370,7 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("ReceiveUnitTank");
         }
         [HttpGet]
-        public ActionResult UnitTankRecevDetails()
+        public ActionResult StorageVATRecevDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
             List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
@@ -411,7 +406,7 @@ namespace UPExciseLTE.Controllers
             return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString();
         }
         [HttpPost]
-        public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)
+        public ActionResult StorageVATTransferToBV(UTTransferToBBT UTTBBT)
         {
             UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
             UTTBBT.TransactionType = "T";
@@ -420,7 +415,7 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("UTTransferToBBT");
         }
         [HttpGet]
-        public ActionResult UTTransferToBBTDetails()
+        public ActionResult StorageVATTransferToBVDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
             ViewBag.BBT = CommonBL.fillBBT("A");
