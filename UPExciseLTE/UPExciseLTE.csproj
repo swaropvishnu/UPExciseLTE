@@ -6218,15 +6218,13 @@
     <Content Include="Views\CL\BottelingVATCL.cshtml" />
     <Content Include="Views\CL\GatePassCL.cshtml" />
     <Content Include="Views\CL\GatePassPreviewCL.cshtml" />
-    <Content Include="Views\CL\GetBBTDetails.cshtml" />
-    <Content Include="Views\CL\GetFinalizedPlan.cshtml" />
+    <Content Include="Views\CL\GetBottelingVATDetailsCL.cshtml" />
     <Content Include="Views\CL\GetPassDetailsCL.cshtml" />
-    <Content Include="Views\CL\ReceiveGatePassWH.cshtml" />
     <Content Include="Views\CL\BlendingVATCL.cshtml" />
     <Content Include="Views\CL\UploadGatePassCSVCL.cshtml" />
     <Content Include="Views\CL\z_StorageTrBV.cshtml" />
     <Content Include="Views\CL\StorageVATTransferToBVDetailsCL.cshtml" />
-    <Content Include="Views\CL\BlendingVATtfBottelingVAT.cshtml" />
+    <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

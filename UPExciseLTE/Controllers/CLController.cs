@@ -443,7 +443,7 @@ namespace UPExciseLTE.Controllers
             return View(BBT);
         }
         [HttpGet]
-        public ActionResult GetBBTDetails()
+        public ActionResult GetBottelingVATDetailsCL()
         {
 
             List<BBTMaster> bbtFormations = new List<BBTMaster>();
@@ -639,7 +639,7 @@ namespace UPExciseLTE.Controllers
 
         #region New for CL
 
-        public ActionResult BlendingVATtfBottelingVAT()
+        public ActionResult BlendingVATtfBottelingVATCL()
         {
                 return View();
         }
