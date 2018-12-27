@@ -1,12 +1,12 @@
-﻿@model IEnumerable<UPExciseLTE.Models.UTTransferToBBTCL>
+﻿@model UPExciseLTE.Models.SVTransferToBV
 @{
-    ViewBag.Title = "StorageVATTransferToBV";
+    ViewBag.Title = "StorageVATTransferToBVCL";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("UTTransferToBBT", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("StorageVATTransferToBVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()
     if (Model.Msg != null)
     {
         if (!string.IsNullOrEmpty(Model.Msg.MStatus))
@@ -14,14 +14,14 @@
             <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
             @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Msg)
         }
-    }
+    }*@
     <div class="page-content-inner">
         <div class="row">
             <div class="col-md-12">
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span><i class="fa fa-gift"></i>&nbsp; Unit Tank Transfer To Bottling Tank&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            <span><i class="fa fa-gift"></i>&nbsp; Storage VAT Transfer To Blending VAT&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -32,39 +32,39 @@
                                     @Html.TextBoxFor(m => m.TransferDate1, new { @id = "txtTransferDate", @class = "form-control", @required = "required", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.IssuedFromUTId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control" })
+                                    <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.IssuedFromStorageVATId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Balance</label>
+                                    <label class="control-label">Storage VAT Balance</label>
                                     @Html.TextBox("txtUTBal", "", new { @id = "txtUTBal", @class = "form-control", @readonly = true })
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BBTID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
+                                    <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BlendingVATID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling Tank Balance</label>
+                                    <label class="control-label">Blending VAT Balance</label>
                                     @Html.TextBox("txtBBTBal", "", new { @id = "txtBBTBal", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling Tank Capacity</label>
+                                    <label class="control-label">Blending VAT Capacity</label>
                                     @Html.TextBox("txtBBTCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Transfer form UT BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Transfer form SV BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Received in BBT BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Received in BV BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Tank Transfer Wastage BL</label>
+                                    <label class="control-label">Tank Transfer Wastage AL</label>
                                     @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
 

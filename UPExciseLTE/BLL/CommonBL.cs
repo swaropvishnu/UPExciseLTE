@@ -1160,9 +1160,9 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return UT;
         }
-        public List<SVTransferToBT> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
+        public List<SVTransferToBV> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
         {
-            List<SVTransferToBT> UnitTankBLDetailList = new List<SVTransferToBT>();
+            List<SVTransferToBV> UnitTankBLDetailList = new List<SVTransferToBV>();
             DataSet ds = new CommonDA().GetSVTransferToBV(FromDate, ToDate, StorageVATId, Status, UnitId, BledingVATId);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
@@ -1173,9 +1173,9 @@ namespace UPExciseLTE.BLL
             }
             return UnitTankBLDetailList;
         }
-        private SVTransferToBT GetSVTransferToBTDetail(DataRow dr)
+        private SVTransferToBV GetSVTransferToBTDetail(DataRow dr)
         {
-            SVTransferToBT UTBL = new SVTransferToBT();
+            SVTransferToBV UTBL = new SVTransferToBV();
             try
             {
                 UTBL.Srno = int.Parse(dr["Srno"].ToString().Trim());
@@ -1194,6 +1194,27 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return UTBL;
+        }
+
+        public static List<SelectListItem> fillStorageVAT(string Select)
+        {
+            List<SelectListItem> unitList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", unitList, "SV", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return unitList;
+        }
+
+        public static List<SelectListItem> fillBottelingVAT(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Blending", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
+        }
+
+        public static List<SelectListItem> fillBlendingVAT(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Botteling", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
         }
         #endregion CL BAL
 

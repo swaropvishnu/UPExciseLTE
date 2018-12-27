@@ -1814,7 +1814,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public string InsertStorageVatTransferToBlendingVat(SVTransferToBT StorageVATBL)
+        public string InsertStorageVatTransferToBlendingVat(SVTransferToBV StorageVATBL)
         {
             string result = "";
             con.Open();

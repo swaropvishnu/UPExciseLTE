@@ -1,9 +1,200 @@
-﻿@model 
+﻿@model UPExciseLTE.Models.SVTransferToBV
 
 @{
     ViewBag.Title = "BlendingVATtfBottelingVAT";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>BlendingVATtfBottelingVAT</h2>
+@using (Html.BeginForm("StorageVATTransferToBVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @*@Html.AntiForgeryToken()
+        if (Model.Msg != null)
+        {
+            if (!string.IsNullOrEmpty(Model.Msg.MStatus))
+            {
+                <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+                @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Msg)
+            }
+        }*@
+    <div class="page-content-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; Blending VAT Transfer To Botteling VAT&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Date<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.TransferDate1, new { @id = "txtTransferDate", @class = "form-control", @required = "required", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.IssuedFromBlendingVATId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlIssuedFromBlendingVATId", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT Balance</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BottelingVATID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBottelingId", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling VAT Balance</label>
+                                    @Html.TextBox("txtBottelingBal", "", new { @id = "txtBBTBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling VAT Capacity</label>
+                                    @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Transfer form Blending BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Received in Botteling BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Tank Transfer Wastage AL</label>
+                                    @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function Validation()
+    {
+        if (document.getElementById("txtWastageBL").value.trim()=="") {
+            document.getElementById("txtWastageBL").value = 0;
+        }
+        var UnitTankId = $('#ddlUnitTank').val();
+        if (UnitTankId == "-1") {
+            alert("Please Select Unit Tank");
+            $('#ddlUnitTank').focus();
+            return false;
+        }
+        var BottlingTank = $('#ddlBBT').val();
+        if (BottlingTank == "-1") {
+            alert("Please Select Bottling Tank");
+            $('#ddlBBT').focus();
+            return false;
+        }
+        if (document.getElementById("txtTransferBL").value.trim() == "" || parseFloat(document.getElementById("txtTransferBL").value.trim()) <= 0) {
+            alert("Please Enter Valid Transfer Bulk Litre");
+            document.getElementById("txtTransferBL").focus();
+            return false;
+        }
+    }
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+    $('#ddlUnitTank').change(function () {
+        var UnitTankId = $('#ddlUnitTank').val();
+        if (UnitTankId != "-1") {
+            UnitTankChange(UnitTankId);
+        }
+    });
+    function UnitTankChange(UnitTankId) {
+        $.ajax({
+            url: '/MasterForms/GetUnitTankForDDl',
+            data: { 'UnitTankId': UnitTankId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtUTBal").value = res[2];
+            },
+            error: function (data) {
+                alert("Error in GetUnitTankForDDl Loading");
+            }
+        });
+    }
+    $('#ddlBBT').change(function () {
+        var BBTId = $('#ddlBBT').val();
+        if (BBTId != "-1") {
+            BBTChange(BBTId);
+        }
+    });
+    function BBTChange(BBTId) {
+        $.ajax({
+            url: '/MasterForms/GetBBTForDDl',
+            data: { 'BBTId': BBTId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtBBTBal").value = res[0];
+                document.getElementById("txtBBTCapacity").value = res[1];
+            },
+            error: function (data) {
+                alert("Error in GetBBTForDDl Loading");
+            }
+        });
+    }
+    function CheckTransfer()
+    {
+        var UnitTankBal = parseFloat(document.getElementById("txtUTBal").value);
+        var TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
+        if (TransferBL > UnitTankBal) {
+            alert("Max Transfer BL is " + UnitTankBal);
+            document.getElementById("txtTransferBL").value = UnitTankBal;
+            TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
+        }
+        var NetTransfer = parseFloat(document.getElementById("txtNetTransfer").value);
+        if (NetTransfer > TransferBL) {
+            alert("Net Transfer Cannot greater then Transfer BL");
+            document.getElementById("txtNetTransfer").value = "";
+            document.getElementById("txtNetTransfer").focus();
+            return;
+        }
+        /*if (WastageBL > (TransferBL*9.0/100.0)) {
+            alert("Wastage BL not greater then " + (TransferBL * 9.0 / 100.0)+" BL");
+            document.getElementById("txtWastageBL").value = (TransferBL * 9.0 / 100.0);
+            WastageBL = (TransferBL * 9.0 / 100.0);
+        }*/
+        var BBTCapacity = parseFloat(document.getElementById("txtBBTCapacity").value);
+        var BBTBalance = parseFloat(document.getElementById("txtBBTBal").value);
+        if ((NetTransfer + BBTBalance) > BBTCapacity) {
+            alert("Max Transfer is not greater than" + (BBTCapacity - BBTBalance));
+        }
+        document.getElementById("txtWastageBL").value = TransferBL-NetTransfer;
+    }
+</script>
+
 
