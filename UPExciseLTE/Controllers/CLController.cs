@@ -411,22 +411,22 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateBottlingLineCL(BL);
             return str;
         }
-        [HttpGet]
-        public ActionResult ReceiveUnitTank()
-        {
-            UTTransferToBBT UTBL = new UTTransferToBBT();
-            ViewBag.UnitTank = CommonBL.fillUnitTank("S");
-            if (TempData["Message"] != null)
-            {
-                var str = TempData["Message"].ToString();
-                ViewBag.Msg = TempData["Message"].ToString();
-                if (!string.IsNullOrEmpty(str))
-                {
-                    UTBL.Msg = Message.MsgSuccess(str);
-                }
-            }
-            return View(UTBL);
-        }
+        //[HttpGet]
+        //public ActionResult ReceiveUnitTank()
+        //{
+        //    UTTransferToBBT UTBL = new UTTransferToBBT();
+        //    ViewBag.UnitTank = CommonBL.fillUnitTank("S");
+        //    if (TempData["Message"] != null)
+        //    {
+        //        var str = TempData["Message"].ToString();
+        //        ViewBag.Msg = TempData["Message"].ToString();
+        //        if (!string.IsNullOrEmpty(str))
+        //        {
+        //            UTBL.Msg = Message.MsgSuccess(str);
+        //        }
+        //    }
+        //    return View(UTBL);
+        //}
         public string GetUnitTankForDDl(string UnitTankId)
         {
             UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
@@ -435,10 +435,22 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult ReceiveStorageVATCL()
         {
-            return View();
+            SVTransferToBV SVBL = new SVTransferToBV();
+            ViewBag.UnitTank = CommonBL.fillStorageVAT("S");
+            if (TempData["Message"] != null)
+            {
+                var str = TempData["Message"].ToString();
+                ViewBag.Msg = TempData["Message"].ToString();
+                if (!string.IsNullOrEmpty(str))
+                {
+                    SVBL.Msg = Message.MsgSuccess(str);
+                }
+            }
+            return View(SVBL);
+            //return View();
         }
         [HttpPost]
-        public ActionResult ReceiveStorageVATCL(SVTransferToBT UTBL)
+        public ActionResult ReceiveStorageVATCL(SVTransferToBV UTBL)
         {
             UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
             string str = new CommonDA().InsertStorageVatTransferToBlendingVat(UTBL);
@@ -449,25 +461,25 @@ namespace UPExciseLTE.Controllers
         public ActionResult StorageVATRecevDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
-            List<SVTransferToBT> lstUtBl = new CommonBL().GetSVTransferToBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
+            List<SVTransferToBV> lstUtBl = new CommonBL().GetSVTransferToBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
             return View(lstUtBl);
         }
         [HttpGet]
-        public ActionResult StorageVATTransferToBV()
+        public ActionResult StorageVATTransferToBVCL()
         {
-            UTTransferToBBTCL UTTBBT = new Models.UTTransferToBBTCL();
-            ViewBag.UnitTank = CommonBL.fillUnitTank("S");
-            ViewBag.BBT = CommonBL.fillBBT("S");
+            SVTransferToBV SVBV = new Models.SVTransferToBV();
+            ViewBag.UnitTank = CommonBL.fillStorageVAT("S");
+            ViewBag.BBT = CommonBL.fillBlendingVAT("S");
             if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
                 ViewBag.Msg = TempData["Message"].ToString();
                 if (!string.IsNullOrEmpty(str))
                 {
-                    UTTBBT.Msg = Message.MsgSuccess(str);
+                    SVBV.Msg = Message.MsgSuccess(str);
                 }
             }
-            return View(UTTBBT);
+            return View(SVBV);
         }
         
         public string GetBVForDDl(string BVId)

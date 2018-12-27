@@ -29,25 +29,41 @@ namespace UPExciseLTE.Models
         public int Type { get; set; } = 1;
 
     }
-    public class SVTransferToBT
+    public class SVTransferToBV
     {
+        public float StorageVATCapacity { get; set; } = 0;
+        [Display(Name = "Storage VAT Open Balance")]
+        public float StorageVATStrength { get; set; } = 0;
+        [Display(Name = "Storage VAT Status")]
         public decimal Wastage { get; set; }
         public int ReceiveFrom { get; set; }
         public DateTime TransferDate { get; set; }
         public string TransferDate1 { get; set; }
         public int IssuedFromStorageVATId { get; set; }
+
+        public int IssuedFromBlendingVATId { get; set; }
         public int BlendingVATID { get; set; }
+
+        public int BottelingVATID { get; set; }
         public string TransactionType { get; set; }
         public decimal IssueBL { get; set; }
         public decimal NetTransfer { get; set; }
         public string Remark { get; set; }
         public int Srno { get; internal set; }
-        public string StorageVAT { get; internal set; }
-        public string BlendingVAT { get; internal set; }
-        public string PrevBalanceBV { get; internal set; }
-        public string PrevBalanceSV { get; internal set; }
-        public string CurrentBalanceSV { get; internal set; }
-        public string CurrentBalanceBV { get; internal set; }
+        public string StorageVAT { get;  set; }
+        public string BlendingVAT { get;  set; }
+        public string PrevBalanceBV { get;  set; }
+        public string PrevBalanceSV { get;  set; }
+        public string CurrentBalanceSV { get;  set; }
+        public string CurrentBalanceBV { get;  set; }
+        public Message Msg { get; set; }
+
+        public int WastageInLiter { get; set; }
+        //[Display(Name = "Wastage AL")]
+
+        public int WortReceiveSource { get; set; }
+        //[Display(Name = "Source")]
+
     }
     public class BlendingVATCL
     {
