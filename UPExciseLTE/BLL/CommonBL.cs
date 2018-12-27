@@ -1122,7 +1122,7 @@ namespace UPExciseLTE.BLL
         }
         public BottelingVATCL GetBottelingVAT(short BreweryId, short BottelingVATId, string status)
         {
-            DataSet ds = new CommonDA().GetBottelingVAT(BreweryId, BottelingVATId, status);
+            DataSet ds = new CommonDA().GetBottelingVATDetails(BreweryId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillBottelingVAT(ds.Tables[0].Rows[0]);
@@ -1135,7 +1135,7 @@ namespace UPExciseLTE.BLL
         public List<BottelingVATCL> GetBottelingVATList(short BreweryId, short BottelingVATId, string status)
         {
             List<BottelingVATCL> lstSVATCL = new List<BottelingVATCL>();
-            DataSet ds = new CommonDA().GetBottelingVAT(BreweryId, BottelingVATId, status);
+            DataSet ds = new CommonDA().GetBottelingVATDetails(BreweryId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 lstSVATCL.Add(FillBottelingVAT(ds.Tables[0].Rows[0]));
@@ -1194,6 +1194,141 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return UTBL;
+        }
+        public static List<SelectListItem> fillBottelingVATCL(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BVT", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
+        }
+        public List<BottelingPlanCL> GetBottelingPlanListCL(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+            List<BottelingPlanCL> lstPlan = new List<BottelingPlanCL>();
+            DataSet ds = new CommonDA().GetBottelingPlanDetailCL(FromDate, ToDate, BreweryId, BrandId, Mapped, BatchNo, PlanId, Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstPlan.Add(FillBottlingPlanCL(dr));
+                }
+            }
+            return lstPlan;
+        }
+        private BottelingPlanCL FillBottlingPlanCL(DataRow dr)
+        {
+            BottelingPlanCL Plan = new BottelingPlanCL();
+            try
+            {
+                Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+                Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
+                Plan.DateOfPlan1 = (dr["DateOfPlan1"].ToString().Trim());
+                Plan.DateOfPlan = DateTime.Parse(dr["DateOfPlan"].ToString().Trim());
+                Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+                Plan.LicenceType = dr["LicenceType"].ToString().Trim();
+                Plan.Brand = dr["BrandName"].ToString().Trim();
+                Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+                Plan.BulkLitre = float.Parse(dr["BulkLiter"].ToString().Trim());
+                Plan.Status = dr["Status"].ToString().Trim();
+                Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
+                Plan.BatchNo = (dr["BatchNo"].ToString().Trim());
+                Plan.LiquorType = (dr["Liquor"].ToString().Trim());
+                Plan.LicenceType = (dr["LicenceType"].ToString().Trim());
+                Plan.LicenseNo = (dr["LicenceNo"].ToString().Trim());
+                Plan.State = (dr["state_name_u"].ToString().Trim());
+                Plan.BottleCapacity = (dr["QuantityInBottle"].ToString().Trim());
+                Plan.Strength = (dr["Strength"].ToString().Trim());
+                Plan.TotalUnitQuantity = int.Parse((dr["TotalUnit"].ToString().Trim()));
+                Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
+                Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
+                Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
+                Plan.ProducedBoxQuantity = float.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+                Plan.ProducedBulkLitre = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+                Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
+                Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
+                Plan.WastageBL = float.Parse(dr["WastageBL"].ToString().Trim());
+                Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
+                Plan.TotalRevenue = dr["TotalRevenue"].ToString().Trim();
+                Plan.Type = 2;
+                Plan.BVId = int.Parse(dr["BottelingVATId"].ToString().Trim());
+                Plan.BVBulkLitre = float.Parse(dr["BVBulkLitre"].ToString().Trim());
+                Plan.BeforeBVBal = (dr["BeforeBVBal"].ToString().Trim());
+                Plan.AfterBVBal = decimal.Parse(dr["AfterBVBal"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return Plan;
+        }
+        public BottelingPlanCL GetBottelingPlanCL(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+
+            DataSet ds = new CommonDA().GetBottelingPlanDetailCL(FromDate, ToDate, BreweryId, BrandId, Mapped, BatchNo, PlanId, Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottlingPlanCL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottelingPlanCL();
+            }
+        }
+        public List<BottelingVATCL> BottelingVATList(short UnitId,short BVID, string status)
+        {
+            var bbtFormationList = new List<BottelingVATCL>();
+            DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId,BVID, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    bbtFormationList.Add(FillBottelingVAT(dr));
+                }
+            }
+            return bbtFormationList;
+        }
+        public BottlingLineCL GetBottlingLineCL(short BreweryId, int BBTID, int LineId, string status)
+        {
+            DataSet ds = new CommonDA().GetBottlingLine(BreweryId, BBTID, LineId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottlingLineCL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottlingLineCL();
+            }
+        }
+        
+        private BottlingLineCL FillBottlingLineCL(DataRow dr)
+        {
+            BottlingLineCL RW = new BottlingLineCL();
+            try
+             {
+                RW.BottlingLineId = int.Parse(dr["BottlingLineId"].ToString().Trim());
+                RW.BottlingLineName = (dr["BottlingLineName"].ToString().Trim());
+                RW.BottlingLineStatus = (dr["BottlingLineStatus"].ToString().Trim());
+                RW.BBTId = int.Parse((dr["BBTId"].ToString().Trim()));
+                RW.BBT = dr["BBTName"].ToString().Trim();
+                RW.UnitId = short.Parse((dr["UnitId"].ToString().Trim()));
+                RW.LineType = ((dr["LineType"].ToString().Trim()));
+                RW.LineType1 = ((dr["LineType1"].ToString().Trim()));
+                RW.CapacityNoOfCasePerHour = int.Parse((dr["CapacityNoOfCasePerHour"].ToString().Trim()));
+                RW.Type = 2;
+                RW.EncBottlingLineId = new Crypto().Encrypt(dr["BottlingLineId"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return RW;
+        }
+        public List<BottlingLineCL> GetBottlingLineDetailsCL(short BreweryId, int BBTID, int LineId, string status)
+        {
+            List<BottlingLineCL> lstUnitTank = new List<BottlingLineCL>();
+            DataSet ds = new CommonDA().GetBottlingLine(BreweryId, BBTID, LineId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstUnitTank.Add(FillBottlingLineCL(dr));
+                }
+            }
+            return lstUnitTank;
         }
         #endregion CL BAL
 

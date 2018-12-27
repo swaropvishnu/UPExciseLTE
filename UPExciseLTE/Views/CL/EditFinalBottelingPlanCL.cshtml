@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit/Finalize Botteling Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("BrandMaster", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditFinalBottelingPlan", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

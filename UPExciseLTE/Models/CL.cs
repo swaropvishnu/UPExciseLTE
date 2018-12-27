@@ -112,7 +112,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Plan Id")]
         public int PlanId { get; set; } = -1;
         public string EncPlanId { get; set; } = "";
-        public int BBTId { get; set; }
+        public int BVId { get; set; }
         public int BottlingLineId { get; set; } = -1;
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; } = -1;
@@ -145,7 +145,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
         [Display(Name = "BBT Bulk Litre")]
-        public float BBTBulkLitre { get; set; } = 0;
+        public float BVBulkLitre { get; set; } = 0;
         public string Status { get; set; }
         public string State { get; set; }
         [Display(Name = "Bottle/ Can Capacity")]
@@ -167,8 +167,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
-        public string BeforeBBTBal { get; set; } = "";
-        public decimal AfterBBTBal { get; set; } = 0;
+        public string BeforeBVBal { get; set; } = "";
+        public decimal AfterBVBal { get; set; } = 0;
         public Message Msg { get; set; }
     }
     

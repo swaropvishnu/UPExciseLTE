@@ -712,7 +712,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("LineId", LineId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBottlingLine", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1755,7 +1755,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetBottelingVAT(short BreweryId, short BottelingVATId, string status)
+        public DataSet GetBottelingVATDetails(short BreweryId, short BottelingVATId, string status)
         {
             DataSet ds = new DataSet();
             try
@@ -1871,6 +1871,180 @@ namespace UPExciseLTE.DAL
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
             }
             catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public DataSet GetBottelingPlanDetailCL(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", ToDate));
+                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("BrandId", BrandId));
+                parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("Mapped", filter_bad_chars_rep(Mapped.Trim())));
+                parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BatchNo.Trim())));
+                parameters.Add(new SqlParameter("PlanId", PlanId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottelingPlanDetail", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        internal string InsertUpdatePlanCL(BottelingPlanCL BP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_InsertUpdatePlan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BP.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BottelingVATId", BP.BVId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BP.BottlingLineId));
+                cmd.Parameters.Add(new SqlParameter("DateOfPlan", BP.DateOfPlan));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BP.BatchNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("NumberOfCases", BP.NumberOfCases));
+                cmd.Parameters.Add(new SqlParameter("MappedOrNot", BP.MappedOrNot));
+                cmd.Parameters.Add(new SqlParameter("IsPlanFinal", BP.IsPlanFinal));
+                cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        internal string GenerateQRCodeCL(int PlanId, string UserId, string dbName)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_GenerateQRCode", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public DataSet GetQRCOdeCL(int PlanId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("PlanId", PlanId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetQRCOde", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        internal string InsertUpdateProductionPlanCL(BottelingPlanCL BP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_InsertUpdateProductionPlan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
+                cmd.Parameters.Add(new SqlParameter("ProducedNumberOfCases", BP.ProducedNumberOfCases));
+                cmd.Parameters.Add(new SqlParameter("IsProductionFinal", BP.IsProductionFinal));
+                cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
+                cmd.Parameters.Add(new SqlParameter("AfterBVBal", BP.AfterBVBal));
+                cmd.Parameters.Add(new SqlParameter("c_user_id_production", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip_production", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac_production", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        internal DataSet ValidateCSVCL(int uploadValue, int planId, int brandId, DataTable dtCaseCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("dbBarCode", dtCaseCode));
+                parameters.Add(new SqlParameter("UploadValue", uploadValue));
+                parameters.Add(new SqlParameter("PlanId", planId));
+                parameters.Add(new SqlParameter("BrandId", brandId));
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_ValidateCSV", parameters.ToArray());
+            }
+            catch (Exception exp)
             {
                 ds = null;
             }

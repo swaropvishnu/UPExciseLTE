@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -10,11 +11,15 @@ using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
+using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
 using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class CLController : Controller
     {
         [HttpGet]
@@ -109,22 +114,46 @@ namespace UPExciseLTE.Controllers
         }
         public ActionResult BottelingPlanCL()
         {
-            BottelingPlan BP = new BottelingPlan();
+            BottelingPlanCL BP = new BottelingPlanCL();
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-            List<SelectListItem> lstBBT = CommonBL.fillBBT("Z");
+            List<SelectListItem> lstBBT = CommonBL.fillBottelingVATCL("S");
             ViewBag.BBT = lstBBT;
-            BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
+            //BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
 
-            ViewBag.BottlingLine = CommonBL.BottlingLine("Z", lstBBT[0].Value);
-            BP.BBTBulkLitre = float.Parse(bbtFormation.BBTBulkLitre.ToString());
+            //ViewBag.BottlingLine = CommonBL.BottlingLine("Z", lstBBT[0].Value);
+            //BP.BBTBulkLitre = float.Parse(bbtFormation.BBTBulkLitre.ToString());
 
             ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
-                BP = (new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
+                BP = (new CommonBL().GetBottelingPlanCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "", "", int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "PB"));
             }
             return View(BP);
+        }
+        [HttpPost]
+        public ActionResult BottelingPlanCL(BottelingPlanCL BP)
+        {
+            try
+            {
+                BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);
+            }
+            catch
+            {
+                ViewBag.Msg = "Invalid Date. Please use dd/MM/yyyy format.";
+                return View(BP);
+            }
+
+            string str = new CommonDA().InsertUpdatePlanCL(BP);
+            TempData["Message"] = str;
+            if (BP.Type == 1)
+            {
+                return RedirectToAction("BottelingPlanCL");
+            }
+            else
+            {
+                return RedirectToAction("BottelingPlanCL", new { A = BP.EncPlanId });
+            }
         }
         public ActionResult GetBottlingTankForddl(string ddlBBT)
         {
@@ -148,46 +177,23 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        [HttpPost]
-        public ActionResult BottelingPlanCL(BottelingPlan BP)
-        {
-            try
-            {
-                BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);
-            }
-            catch
-            {
-                ViewBag.Msg = "Invalid Date. Please use dd/MM/yyyy format.";
-                return View(BP);
-            }
-
-            string str = new CommonDA().InsertUpdatePlan(BP);
-            TempData["Message"] = str;
-            if (BP.Type == 1)
-            {
-                return RedirectToAction("BottelingPlan");
-            }
-            else
-            {
-                return RedirectToAction("BottelingPlan", new { A = BP.EncPlanId });
-            }
-        }
+        
         [HttpGet]
         public ActionResult EditFinalBottelingPlanCL()
         {
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "PB"));
+            return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "PB"));
         }
         public string FinalizePlan(string PlanId)
         {
             string str = "";
             try
             {
-                BottelingPlan Plan = new BottelingPlan();
+                BottelingPlanCL Plan = new BottelingPlanCL();
                 PlanId = new Crypto().Decrypt(PlanId);
                 Plan.Type = 3;
                 Plan.PlanId = int.Parse(PlanId);
                 Plan.IsPlanFinal = 1;
-                str = new CommonDA().InsertUpdatePlan(Plan);
+                str = new CommonDA().InsertUpdatePlanCL(Plan);
             }
             catch (Exception x)
             {
@@ -200,13 +206,13 @@ namespace UPExciseLTE.Controllers
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(DateTime.Now, DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
+            return View(new CommonBL().GetBottelingPlanListCL(DateTime.Now, DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
         }
         [HttpGet]
         public ActionResult GenerateQRCodeCL()
         {
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
+            return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
         }
         public string GenreateQR(string PlanId)
         {
@@ -215,7 +221,7 @@ namespace UPExciseLTE.Controllers
             {
                 PlanId = new Crypto().Decrypt(PlanId);
                 string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
-                str = new CommonDA().GenerateQRCode(int.Parse(PlanId), UserId, "");
+                str = new CommonDA().GenerateQRCodeCL(int.Parse(PlanId), UserId, "");
             }
             catch (Exception x)
             {
@@ -228,7 +234,7 @@ namespace UPExciseLTE.Controllers
         {
             PlanId = new Crypto().Decrypt(PlanId);
             DataSet ds = new DataSet();
-            ds = new CommonDA().GetQRCOde(int.Parse(PlanId));
+            ds = new CommonDA().GetQRCOdeCL(int.Parse(PlanId));
 
             using (XLWorkbook wb = new XLWorkbook())
             {
@@ -243,29 +249,29 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult ProductionPlanListCL()
         {
-            List<BottelingPlan> BPList = new List<BottelingPlan>();
+            List<BottelingPlanCL> BPList = new List<BottelingPlanCL>();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
+            return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
         }
         public ActionResult ProductionEntryCL(string A)
         {
             ViewBag.Msg = "";
             A = new Crypto().Decrypt(A);
             int Planid = int.Parse(A);
-            return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", Planid, "FB"));
+            return View(new CommonBL().GetBottelingPlanCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", Planid, "FB"));
         }
         [HttpPost]
-        public ActionResult ProductionEntryCL(BottelingPlan BP)
+        public ActionResult ProductionEntryCL(BottelingPlanCL BP)
         {
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             BP.Type = 1;
-            string str = new CommonDA().InsertUpdateProductionPlan(BP);
-            return RedirectToAction("ProductionEntry", new { A = BP.EncPlanId });
+            string str = new CommonDA().InsertUpdateProductionPlanCL(BP);
+            return RedirectToAction("ProductionEntryCL", new { A = BP.EncPlanId });
         }
         [HttpGet]
         public ActionResult FreezePlanCL()
         {
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
+            return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
         }
         public string FreezePlanSuccess(string PlanId)
         {
@@ -273,11 +279,11 @@ namespace UPExciseLTE.Controllers
             try
             {
                 PlanId = new Crypto().Decrypt(PlanId);
-                BottelingPlan Plan = new BottelingPlan();
+                BottelingPlanCL Plan = new BottelingPlanCL();
                 Plan.Type = 2;
                 Plan.PlanId = int.Parse(PlanId);
                 Plan.IsProductionFinal = 1;
-                str = new CommonDA().InsertUpdateProductionPlan(Plan);
+                str = new CommonDA().InsertUpdateProductionPlanCL(Plan);
             }
             catch (Exception x)
             {
@@ -288,7 +294,7 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult UploadCSVCL()
         {
-            List<BottelingPlan> lstBotteling = new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "FP");
+            List<BottelingPlanCL> lstBotteling = new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, -1, "Z", "", -1, "FP");
             if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
@@ -305,7 +311,7 @@ namespace UPExciseLTE.Controllers
         {
 
             ViewBag.Brand = CommonBL.fillBrand("A");
-            return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
+            return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
         }
         public ActionResult Track_staus()
         {
@@ -325,7 +331,7 @@ namespace UPExciseLTE.Controllers
 
                         HttpFileCollectionBase files = Request.Files;
                         HttpPostedFileBase file = files[0];
-                        str = CSV.ValidateCSV(1, int.Parse(new Crypto().Decrypt(files.Keys[0])), -1, file);
+                        str = CSV.ValidateCSVCL(1, int.Parse(new Crypto().Decrypt(files.Keys[0])), -1, file);
                     }
                     return Json(str);
                 }
@@ -377,16 +383,16 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult BottlingLineCL()
         {
-            BottlingLine RM = new BottlingLine();
-            ViewBag.BBT = CommonBL.fillBBT("S");
+            BottlingLineCL RM = new BottlingLineCL();
+            ViewBag.BBT = CommonBL.fillBottelingVATCL("S");
             if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
             {
 
-                RM = new CommonBL().GetBottlingLine(short.Parse(CommonBL.fillBrewery()[0].Value), -1, int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+                RM = new CommonBL().GetBottlingLineCL(short.Parse(CommonBL.fillBrewery()[0].Value), -1, int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
             }
             ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
-            ViewBag.UnitTank = new CommonBL().GetBottlingLineDetails(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, -1, "Z");
+            ViewBag.UnitTank = new CommonBL().GetBottlingLineDetailsCL(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, -1, "Z");
             return View(RM);
         }
         [HttpPost]
@@ -394,15 +400,15 @@ namespace UPExciseLTE.Controllers
         {
             string str = new CommonDA().InsertUpdateBottlingLineCL(RM);
             TempData["Msg"] = str;
-            return RedirectToAction("BottlingLine");
+            return RedirectToAction("BottlingLineCL");
         }
         public string UpdateBottlingLineCL(string UTId, string Status)
         {
-            BottlingLine BL = new BottlingLine();
+            BottlingLineCL BL = new BottlingLineCL();
             BL.BottlingLineId = int.Parse(new Crypto().Decrypt(UTId));
             BL.BottlingLineStatus = Status;
             BL.Type = 3;
-            string str = new CommonDA().InsertUpdateBottlingLine(BL);
+            string str = new CommonDA().InsertUpdateBottlingLineCL(BL);
             return str;
         }
         [HttpGet]
@@ -463,17 +469,12 @@ namespace UPExciseLTE.Controllers
             }
             return View(UTTBBT);
         }
-        /*public string GetBBTDetailsForDDl(string BBTID)
-        {
-            BBTFormation bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTID), -1, "A")[0];
-            return bbtFormation.BBTBulkLitre.ToString();
-        }
-       */
-        public string GetBBTForDDl(string BBTId)
+        
+        public string GetBVForDDl(string BVId)
         {
 
-            BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), "A")[0];
-            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString();
+            BottelingVATCL bbtFormation = new CommonBL().BottelingVATList(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A")[0];
+            return bbtFormation.BottelingVATBulkLitre.ToString() + "," + bbtFormation.BottelingVATCapacity.ToString();
         }
         [HttpPost]
         public ActionResult StorageVATTransferToBV(UTTransferToBBT UTTBBT)
