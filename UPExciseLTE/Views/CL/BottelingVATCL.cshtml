@@ -1,98 +1,19 @@
-﻿@model UPExciseLTE.Models.BBTMaster
+﻿@model UPExciseLTE.Models.BottelingVATCL
 
 @{
-    ViewBag.Title = "BBTMaster";
+    ViewBag.Title = "BottelingVATCL";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-@using (Html.BeginForm("BBTMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.BBTId)
-    @Html.HiddenFor(model => model.SP_Type)
-    if (Model != null && Model.Message != null)
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
-        if (!string.IsNullOrEmpty(Model.Message.MStatus))
-        {
-            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
-            @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Message)
-        }
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
-    <div class="page-content-inner">
-        <div class="row ">
-            <div class="col-md-12">
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            @if (Model.SP_Type == 1)
-                            {
-                                <span><i class="fa fa-gift"></i>&nbsp;Bottling Tank Master&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
-                            }
-                            else
-                            {
-                                <span><i class="fa fa-gift"></i>&nbsp; Update Bottling Tank&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
-                            }
-                        </div>
-                    </div>
-                    <div class="portlet-body form" style="background-color:#f5f5f5">
-                        <div class="form-body">
-                            <div class="row">
-                                <div class="form-group  col-md-4">
-                                    <label class="control-label">Bottling Tank Name<b style="color:red; font-weight:800">*</b></label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Name", @MaxLength = "150" })
-                                    </div>
-                                </div>
-                                <div class="form-group  col-md-4">
-                                    <label class="control-label">Bottling Tank Capacity (Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Capacity", @onkeyPress = "return IsNumeric(event);", @MaxLength = "5" })
-                                    </div>
-                                </div>
-                                <div class="form-group  col-md-4 display-hide">
-                                    <label class="control-label">Opening Balance(BL)</label>
-                                    <div>
-                                        @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBulkLitre", @class = "form-control", @required = "required", @Placeholder = "Bottling TankOpening Balance", @onkeypress = "return isfloatNumber(this, event);" })
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4" style="display:none;">
-                                    <label class="control-label">Brewery</label>
-                                    <div>
-                                        @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="clear:both"></div>
-                        <center>
-                            <div class="form-actions">
-                                <button type="submit" class="btn green" onclick="return Validation();">Save</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="window.location.href='@Url.Action("GetBBTDetails","MasterForms")'">Go to Bottling Tank List</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                            </div>
-                        </center>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 }
 <script type="text/javascript">
-    var specialKeys = new Array();
-    specialKeys.push(47); // for Forward Slash(/)
-    specialKeys.push(8); //Backspace
-    specialKeys.push(9); // Tab
-    specialKeys.push(37); // for left Arrow
-    //  specialKeys.push(39); // for Right Arrow
-    function IsNumeric(e) {
-        var keyCode = e.which ? e.which : e.keyCode
-        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
-        if (ret == false) {
-            //alert("Only numaric value allowed.");
+    $(document).ready(function () {
+        if (document.getElementById("txtUnitTank").value.trim() != "") {
+            document.getElementById("btnSubmit").innerHTML = "Update";
         }
-        return ret;
-    }
+    });
     function isfloatNumber(txt, evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode == 46) {
@@ -104,22 +25,136 @@
             }
         } else {
             if (charCode > 31
-                 && (charCode < 48 || charCode > 57))
+                && (charCode < 48 || charCode > 57))
                 return false;
         }
         return true;
     }
-    function Validation()
-    {
-        document.getElementById("txtBBTName").value=document.getElementById("txtBBTName").value.trim();
-        if (document.getElementById("txtBBTName").value.trim() == "") {
-            alert("Please Enter BBT Name");
-            return false;
+</script>
+@using (Html.BeginForm("BottelingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; Botteling VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.BottelingVATId, new { @id = "hfUnitTankId" })
+                            @Html.HiddenFor(model => model.Type, new { @id = "hfUnitTankType" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling VAT Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BottelingVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Botteling VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BottelingVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
+                                </div>
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Botteling VAT Bulk Litre</label>
+                                        @Html.TextBoxFor(model => model.UnitTankBulkLitre, new {  @class = "form-control", @id = "txtUnitTankBulkLitre" } )
+                                    </div>*@
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Botteling VAT Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
+                                    </div>*@
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <label class="control-label">Brewery</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <center>
+                                <div>
+                                    <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                </div>
+                            </center>
+                        </div>
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+                                    <th>Botteling VAT Id</th>
+                                    <th>Botteling VAT Name</th>
+                                    <th>Botteling VAT Capacity (in Bulk Litre)</th>
+                                    @*<th>Botteling VAT Bulk Litre</th>*@
+                                    @*<th>Botteling VAT Strength</th>*@
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                @if (ViewBag.BottelingVATCL != null)
+                                {
+                                    foreach (BottelingVATCL dr in (ViewBag.BottelingVATCL as List<BottelingVATCL>))
+                                    {
+                                        <tr>
+                                            <td>@dr.BottelingVATId</td>
+                                            <td>@dr.BottelingVATName</td>
+                                            <td>@dr.BottelingVATCapacity</td>
+                                            @*<td>@dr.UnitTankBulkLitre</td>*@
+                                            @*<td>@dr.UnitTankStrength</td>*@
+                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','E')">Edit</button></td>
+                                            @if (dr.Status == "A")
+                                            {
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','D')">Deactive</button></td>
+                                            }
+                                            else
+                                            {
+                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','A')">Active</button></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function UnitTankDetails(UTId, Status) {
+        if (Status == 'E') {
+            window.location.assign("../CL/BottelingVATCL?A=" + UTId)
+            //window.location("UnitTank?A=" + UTId);
         }
-        if (document.getElementById("txtBBTCapacity").value.trim() == "" || parseFloat(document.getElementById("txtBBTCapacity").value.trim()) <= 0) {
-            alert("Please Enter valid BBT Capacity");
-            return false;
+        else {
+            $.ajax({
+                url: '/CL/UpdateBottelingVAT',
+                data: { 'UTId': UTId, 'Status': Status },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    alert(data);
+                    window.location = "../CL/BottelingVATCL";
+                },
+                error: function (data) {
+                    alert("Error in Botteling VAT Loading");
+                }
+            });
         }
     }
-</script>
+    function Validate() {
+        document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
+        document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
+        document.getElementById("txtUnitTankStrength").value = document.getElementById("txtUnitTankStrength").value.trim();
+        if (document.getElementById("txtUnitTank").value == "") {
+            alert("Please Enter Botteling VAT Name");
+            document.getElementById("txtUnitTank").focus();
+            return false;
+        }
+        if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == "0") {
+            alert("Please Enter Botteling VAT Capacity");
+            document.getElementById("txtUnitTankCapacity").focus();
+            return false;
+        }
 
+    }
+</script>

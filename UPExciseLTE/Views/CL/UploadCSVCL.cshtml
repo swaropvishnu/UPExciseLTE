@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlanCL>
 
 @{
     ViewBag.Title = "Upload CSV File";
@@ -9,7 +9,7 @@
     }
 }
 
-@using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadCSVFileCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -50,7 +50,7 @@
                 }
                 fileData.append(PlanId, files[0])
                 $.ajax({
-                    url: '/MasterForms/UploadCSVFile',
+                    url: '/CL/UploadCSVFile',
                     type: "POST",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
@@ -76,7 +76,7 @@
             var PlanId = document.getElementById("txtPopPlanId").value;
             var BottlingPlanId = $('#ddlPopBottlingLine').val()
             $.ajax({
-                url: '/MasterForms/UploadVerifedCSV',
+                url: '/CL/UploadVerifedCSV',
                 data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId },
                 datatype: "json",
                 type: "GET",
@@ -122,7 +122,7 @@
         {
             $.ajax({
                 type: "post",
-                url: "/MasterForms/GetBottlingTankForddl",
+                url: "/CL/GetBottlingTankForddl",
                 data: { ddlBBT: document.getElementById("hfPopBBTId").value },
                 datatype: "json",
                 traditional: true,

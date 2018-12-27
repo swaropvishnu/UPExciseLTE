@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -25,6 +26,83 @@ namespace UPExciseLTE.Models
         public float StorageVATStrength { get; set; } = 0;
         [Display(Name = "Storage VAT Status")]
         public string Status { get; set; } = "";
+        public int Type { get; set; } = 1;
+
+    }
+    public class SVTransferToBT
+    {
+        public decimal Wastage { get; set; }
+        public int ReceiveFrom { get; set; }
+        public DateTime TransferDate { get; set; }
+        public string TransferDate1 { get; set; }
+        public int IssuedFromStorageVATId { get; set; }
+        public int BlendingVATID { get; set; }
+        public string TransactionType { get; set; }
+        public decimal IssueBL { get; set; }
+        public decimal NetTransfer { get; set; }
+        public string Remark { get; set; }
+        public int Srno { get; internal set; }
+        public string StorageVAT { get; internal set; }
+        public string BlendingVAT { get; internal set; }
+        public string PrevBalanceBV { get; internal set; }
+        public string PrevBalanceSV { get; internal set; }
+        public string CurrentBalanceSV { get; internal set; }
+        public string CurrentBalanceBV { get; internal set; }
+    }
+    public class BlendingVATCL
+    {
+        [Display(Name = "Blending VAT Id")]
+        public int BlendingVATId { get; set; } = -1;
+        public string Enc_BlendingVATId { get; set; } = "";
+        [Display(Name = "Brewery Id")]
+        public short BreweryId { get; set; }
+        [Display(Name = "Brewery")]
+        public string Brewery { get; set; }
+        [Display(Name = "Blending VAT Name")]
+        public string BlendingVATName { get; set; } = "";
+        [Display(Name = "Blending VAT Capacity")]
+        public float BlendingVATCapacity { get; set; } = 0;
+        [Display(Name = "Blending VAT Open Balance")]
+        public float BlendingVATBulkLitre { get; set; } = 0;
+        [Display(Name = "Blending VAT Strength")]
+        public float BlendingVATStrength { get; set; } = 0;
+        [Display(Name = "Blending VAT Status")]
+        public string Status { get; set; } = "";
+        public int Type { get; set; } = 1;
+    }
+    public class BottelingVATCL
+    {
+        [Display(Name = "Botteling VAT Id")]
+        public int BottelingVATId { get; set; } = -1;
+        public string Enc_BottelingVATId { get; set; } = "";
+        [Display(Name = "Brewery Id")]
+        public short BreweryId { get; set; }
+        [Display(Name = "Brewery")]
+        public string Brewery { get; set; }
+        [Display(Name = "Botteling VAT Name")]
+        public string BottelingVATName { get; set; } = "";
+        [Display(Name = "Botteling VAT Capacity")]
+        public float BottelingVATCapacity { get; set; } = 0;
+        [Display(Name = "Botteling VAT Open Balance")]
+        public float BottelingVATBulkLitre { get; set; } = 0;
+        [Display(Name = "Botteling VAT Strength")]
+        public float BottelingVATStrength { get; set; } = 0;
+        [Display(Name = "Botteling VAT Status")]
+        public string Status { get; set; } = "";
+        public int Type { get; set; } = 1;
+    }
+    public class BottlingLineCL
+    {
+        public int BottlingLineId { get; set; } = -1;
+        public string LineType { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
+        public string LineType1 { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
+        public int CapacityNoOfCasePerHour { get; set; } = 0;
+        public string EncBottlingLineId { get; set; } = "";
+        public int BBTId { get; set; } = -1;
+        public string BBT { get; set; } = "";
+        public short UnitId { get; set; } = -1;
+        public string BottlingLineName { get; set; } = "";
+        public string BottlingLineStatus { get; set; } = "A";
         public int Type { get; set; } = 1;
     }
 
@@ -93,27 +171,7 @@ namespace UPExciseLTE.Models
         public decimal AfterBBTBal { get; set; } = 0;
         public Message Msg { get; set; }
     }
-    public class UnitTankCL
-    {
-        [Display(Name = "Unit Tank Id")]
-        public int UnitTankId { get; set; } = -1;
-        public string Enc_UnitTankId { get; set; } = "";
-        [Display(Name = "Brewery Id")]
-        public short BreweryId { get; set; }
-        [Display(Name = "Brewery")]
-        public string Brewery { get; set; }
-        [Display(Name = "Unit Tank Name")]
-        public string UnitTankName { get; set; } = "";
-        [Display(Name = "Unit Tank Capacity")]
-        public float UnitTankCapacity { get; set; } = 0;
-        [Display(Name = "Unit Tank Open Balance")]
-        public float UnitTankBulkLitre { get; set; } = 0;
-        [Display(Name = "Unit Tank Strength")]
-        public float UnitTankStrength { get; set; } = 0;
-        [Display(Name = "Unit Tank Status")]
-        public string Status { get; set; } = "";
-        public int Type { get; set; } = 1;
-    }
+    
     public class UTTransferToBBTCL
     {
         [Display(Name = "Sno")]
@@ -154,39 +212,7 @@ namespace UPExciseLTE.Models
         public string CurrentBalanceBBT { get; set; }
         public Message Msg { get; set; }
     }
-    public class BBTMasterCL
-    {
-        [Display(Name = "Bottling Tank Id")]
-        public int BBTId { get; set; } = -1;
-        public int UnitId { get; set; }
-        [Display(Name = "Bottling Tank Name")]
-        public string BBTName { get; set; } = "";
-        [Display(Name = "Bottling Tank Capacity")]
-        public decimal BBTCapacity { get; set; }
-        [Display(Name = "Bottling Balance (in B.L.)")]
-        public decimal BBTBulkLitre { get; set; }
-        public int SP_Type { get; set; } = 1;
-        [Display(Name = "Status")]
-        public string Status { get; set; } = "A";
-        [Display(Name = "Status")]
-        public string Status1 { get; set; } = "";
-        public Message Message { get; set; }
-        public string BBTId_Encript { get; set; } = "";
-    }
-    public class BottlingLineCL
-    {
-        public int BottlingLineId { get; set; } = -1;
-        public string LineType { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
-        public string LineType1 { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
-        public int CapacityNoOfCasePerHour { get; set; } = 0;
-        public string EncBottlingLineId { get; set; } = "";
-        public int BBTId { get; set; } = -1;
-        public string BBT { get; set; } = "";
-        public short UnitId { get; set; } = -1;
-        public string BottlingLineName { get; set; } = "";
-        public string BottlingLineStatus { get; set; } = "A";
-        public int Type { get; set; } = 1;
-    }
+    
     public class GatePassDetailsCL
     {
         public long GatePassId { get; set; } = -1;
@@ -261,4 +287,3 @@ namespace UPExciseLTE.Models
 
 
 
-}

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlanCL>
 
 @{
     ViewBag.Title = "Generate And Download QR Code";
@@ -7,12 +7,12 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-@using (Html.BeginForm("Export", "MasterForms", FormMethod.Post))
+@using (Html.BeginForm("Export", "CL", FormMethod.Post))
 {
     <input type="hidden" id="hfid" name="PlanId" />
     <input type="submit" value="Export" style="display:none" id="btnDownload" />
 }
-@using (Html.BeginForm("GenerateQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GenerateQRCodeCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -181,13 +181,13 @@
     }
     function GenreateQR(PlanId) {
         $.ajax({
-            url: '/MasterForms/GenreateQR',
+            url: '/CL/GenreateQR',
             data: { 'PlanId': PlanId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../MasterForms/GenerateQRCode";
+                window.location = "../CL/GenerateQRCodeCL";
             },
             error: function (data) {
                 alert("Error in Finalize Plan Loading");
@@ -196,13 +196,13 @@
     }
     //function DownloadExcel(PlanId) {
     //    $.ajax({
-    //        url: '/MasterForms/DownloadExcel',
+    //        url: '/CL/DownloadExcel',
     //        data: { 'PlanId': PlanId },
     //        datatype: "json",
     //        type: "GET",
     //        success: function (data) {
     //            alert(data);
-    //            window.location = "../MasterForms/GenerateQRCode";
+    //            window.location = "../CL/GenerateQRCode";
     //        },
     //        error: function (data) {
     //            alert("Error in Finalize Plan Loading");

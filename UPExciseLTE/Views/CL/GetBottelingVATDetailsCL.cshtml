@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UPExciseLTE.Models.BBTMaster>
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingVATCL>
 
 @{
     ViewBag.Title = "Edit/Delete Bottling Tank";
@@ -6,7 +6,7 @@
 
     string str = ViewBag.Msg;
 }
-@using (Html.BeginForm("GetBBTDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GetBottelingVATDetailsCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -67,7 +67,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster","MasterForms", new {Code = item.BBTId_Encript })'">Edit</button>
+                                        <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster","CL", new {Code = item.BBTId_Encript })'">Edit</button>
                                     </td>
                                     <td>
                                         @if (item.Status == "A")
@@ -92,13 +92,13 @@
 <script src="~/Scripts/CommonScript.js"></script>
 <script type="text/javascript">
     @*function BrandMaster() {
-        var url = '@Url.Action("BrandMaster", "MasterForms", null)';
+        var url = '@Url.Action("BrandMaster", "CL", null)';
         window.location.href = url;
     }*@
     function DeleteBBT(BBTId,status) {
         debugger;
         $.ajax({
-            url: '/MasterForms/DeleteBBT',
+            url: '/CL/DeleteBBT',
             data: { 'bbtId': BBTId, 'status': status },
             datatype: "html",
             type: "GET",

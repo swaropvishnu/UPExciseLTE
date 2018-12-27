@@ -933,36 +933,7 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return CH;
         }
-        public StorageVAT GetStorageVAT(short BreweryId, short StorageVATId, string status)
-        {
-            DataSet ds = new CommonDA().GetUnitTank(BreweryId, StorageVATId, status);
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-            {
-                return FillStorageVAT(ds.Tables[0].Rows[0]);
-            }
-            else
-            {
-                return new StorageVAT();
-            }
-        }
-        private StorageVAT FillStorageVAT(DataRow dr)
-        {
-            StorageVAT UT = new StorageVAT();
-            try
-            {
-                UT.StorageVATId = int.Parse(dr["StorageVATId"].ToString().Trim());
-                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
-                UT.StorageVATName = (dr["StorageVATName"].ToString().Trim());
-                UT.StorageVATCapacity = float.Parse(dr["StorageVATCapacity"].ToString().Trim());
-                UT.StorageVATBulkLitre = float.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
-                UT.StorageVATStrength = float.Parse(dr["StorageVATStrength"].ToString().Trim());
-                UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
-                UT.Status = (dr["Status"].ToString().Trim());
-                UT.Type = 2;
-            }
-            catch (Exception) { }
-            return UT;
-        }
+        
         #endregion
 
 
@@ -1062,9 +1033,170 @@ namespace UPExciseLTE.BLL
             return lstGPD;
         }
 
-        
+
 
         #endregion FL2D
+
+
+        #region CL BAL
+
+        public StorageVATCL GetStorageVAT(short BreweryId, short StorageVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetStorageVAT(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillStorageVAT(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new StorageVATCL();
+            }
+        }
+        public  List<StorageVATCL> GetStorageVATList(short BreweryId, short StorageVATId, string status)
+        {
+            List<StorageVATCL> lstSVATCL = new List<StorageVATCL>();
+            DataSet ds = new CommonDA().GetStorageVAT(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                lstSVATCL.Add(FillStorageVAT(ds.Tables[0].Rows[0]));
+            }
+            return lstSVATCL;
+        }
+        private StorageVATCL FillStorageVAT(DataRow dr)
+        {
+            StorageVATCL UT = new StorageVATCL();
+            try
+            {
+                UT.StorageVATId = int.Parse(dr["StorageVATId"].ToString().Trim());
+                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.StorageVATName = (dr["StorageVATName"].ToString().Trim());
+                UT.StorageVATCapacity = float.Parse(dr["StorageVATCapacity"].ToString().Trim());
+                UT.StorageVATBulkLitre = float.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
+                UT.StorageVATStrength = float.Parse(dr["StorageVATStrength"].ToString().Trim());
+                UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public BlendingVATCL GetBlendingVAT(short BreweryId, short BlendingVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetBlendingVAT(BreweryId, BlendingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBlendingVAT(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BlendingVATCL();
+            }
+        }
+        public List<BlendingVATCL> GetBlendingVATList(short BreweryId, short BlendingVATId, string status)
+        {
+            List<BlendingVATCL> lstSVATCL = new List<BlendingVATCL>();
+            DataSet ds = new CommonDA().GetBlendingVAT(BreweryId, BlendingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                lstSVATCL.Add(FillBlendingVAT(ds.Tables[0].Rows[0]));
+            }
+            return lstSVATCL;
+        }
+        private BlendingVATCL FillBlendingVAT(DataRow dr)
+        {
+            BlendingVATCL UT = new BlendingVATCL();
+            try
+            {
+                UT.BlendingVATId = int.Parse(dr["BlendingVATId"].ToString().Trim());
+                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.BlendingVATName = (dr["BlendingVATName"].ToString().Trim());
+                UT.BlendingVATCapacity = float.Parse(dr["BlendingVATCapacity"].ToString().Trim());
+                UT.BlendingVATBulkLitre = float.Parse(dr["BlendingVATBulkLiter"].ToString().Trim());
+                UT.BlendingVATStrength = float.Parse(dr["BlendingVATStrength"].ToString().Trim());
+                UT.Enc_BlendingVATId = new Crypto().Encrypt(dr["BlendingVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public BottelingVATCL GetBottelingVAT(short BreweryId, short BottelingVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetBottelingVAT(BreweryId, BottelingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottelingVAT(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottelingVATCL();
+            }
+        }
+        public List<BottelingVATCL> GetBottelingVATList(short BreweryId, short BottelingVATId, string status)
+        {
+            List<BottelingVATCL> lstSVATCL = new List<BottelingVATCL>();
+            DataSet ds = new CommonDA().GetBottelingVAT(BreweryId, BottelingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                lstSVATCL.Add(FillBottelingVAT(ds.Tables[0].Rows[0]));
+            }
+            return lstSVATCL;
+        }
+        private BottelingVATCL FillBottelingVAT(DataRow dr)
+        {
+            BottelingVATCL UT = new BottelingVATCL();
+            try
+            {
+                UT.BottelingVATId = int.Parse(dr["BottelingVATId"].ToString().Trim());
+                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.BottelingVATName = (dr["BottelingVATName"].ToString().Trim());
+                UT.BottelingVATCapacity = float.Parse(dr["BottelingVATCapacity"].ToString().Trim());
+                UT.BottelingVATBulkLitre = float.Parse(dr["BottelingVATBulkLiter"].ToString().Trim());
+                UT.BottelingVATStrength = float.Parse(dr["BottelingVATStrength"].ToString().Trim());
+                UT.Enc_BottelingVATId = new Crypto().Encrypt(dr["BottelingVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public List<SVTransferToBT> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
+        {
+            List<SVTransferToBT> UnitTankBLDetailList = new List<SVTransferToBT>();
+            DataSet ds = new CommonDA().GetSVTransferToBV(FromDate, ToDate, StorageVATId, Status, UnitId, BledingVATId);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    UnitTankBLDetailList.Add(GetSVTransferToBTDetail(dr));
+                }
+            }
+            return UnitTankBLDetailList;
+        }
+        private SVTransferToBT GetSVTransferToBTDetail(DataRow dr)
+        {
+            SVTransferToBT UTBL = new SVTransferToBT();
+            try
+            {
+                UTBL.Srno = int.Parse(dr["Srno"].ToString().Trim());
+                UTBL.IssuedFromStorageVATId = int.Parse(dr["IssuedFromStorageVATId"].ToString().Trim());
+                UTBL.StorageVAT = (dr["StorageVAT"].ToString().Trim());
+                UTBL.BlendingVATID = int.Parse(dr["BlendingVATID"].ToString().Trim());
+                UTBL.BlendingVAT = (dr["BlendingVAT"].ToString().Trim());
+                UTBL.IssueBL = decimal.Parse(dr["IssueBL"].ToString().Trim());
+                UTBL.Wastage = decimal.Parse(dr["Wastage"].ToString().Trim());
+                UTBL.TransferDate1 = dr["TransferDate"].ToString().Trim();
+                UTBL.Remark = dr["Remark"].ToString().Trim();
+                UTBL.PrevBalanceBV = dr["PrevBalanceBV"].ToString().Trim();
+                UTBL.PrevBalanceSV = dr["PrevBalanceSV"].ToString().Trim();
+                UTBL.CurrentBalanceSV = dr["CurrentBalanceSV"].ToString().Trim();
+                UTBL.CurrentBalanceBV = dr["CurrentBalanceBV"].ToString().Trim();
+            }
+            catch (Exception) { }
+            return UTBL;
+        }
+        #endregion CL BAL
+
 
     }
 }

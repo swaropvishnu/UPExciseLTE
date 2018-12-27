@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.GatePassDetails
+﻿@model UPExciseLTE.Models.GatePassDetailsCL
 @{
     ViewBag.Title = "Upload GatePass CSV";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,7 +39,7 @@
                 fileData.append(files[i].name, files[i]);
             }*/
             $.ajax({
-                url: '/MasterForms/UploadGatePassCSV',
+                url: '/CL/UploadGatePassCSVCL',
                 type: "POST",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
@@ -65,7 +65,7 @@
         var BrandId = $('#ddlBrand').val();
         var BatchNo = document.getElementById("txtBatchNo").value;
         $.ajax({
-            url: '/MasterForms/UploadVerifedCSV',
+            url: '/CL/UploadVerifedCSV',
             data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 2, 'PlanId': -1,'BLID':-1},
             datatype: "json",
             type: "GET",
@@ -81,7 +81,7 @@
     function GatePassUploadBrandDetails() {
         var GatePassId = document.getElementById("hfGatePassId").value;
         $.ajax({
-            url: '/MasterForms/GetGatePassUploadBrandDetails',
+            url: '/CL/GetGatePassUploadBrandDetails',
             data: { 'Gatepass': GatePassId },
             datatype: "json",
             type: "GET",
@@ -98,7 +98,7 @@
         if (r == true) {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/MasterForms/FinalGatePass',
+                url: '/CL/FinalGatePass',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
@@ -112,7 +112,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("UploadGatePassCSV", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadGatePassCSVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -204,7 +204,7 @@
                             <center>
                                 <div class="form-actions">
                                     <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();" >Validate CSV</button>
-                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../masterforms/GatePass'">Back To Gatepass Details</button>
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../CL/GatePass'">Back To Gatepass Details</button>
                                     <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
                                 </div>
                             </center>

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlanCL>
 
 @{
     ViewBag.Title = "Freeze Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("FreezePlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FreezePlanCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -99,13 +99,13 @@
 <script type="text/javascript">
     function FreezePlan(PlanId) {
         $.ajax({
-            url: '/MasterForms/FreezePlanSuccess',
+            url: '/CL/FreezePlanSuccess',
             data: { 'PlanId': PlanId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../MasterForms/FreezePlan";
+                window.location = "../CL/FreezePlanCL";
             },
             error: function (data) {
                 alert("Error in Finalize Plan Loading");

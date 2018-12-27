@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlanCL>
 
 @{
     ViewBag.Title = "Edit/Search Plan";
@@ -8,7 +8,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-@using (Html.BeginForm("SearchPlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("SearchPlanCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -122,11 +122,11 @@
 <script type="text/javascript">
     function load(PlanId)
     {
-        window.location = "../MasterForms/UpdateBottelingPlan?A=" + PlanId;
+        window.location = "../CL/UpdateBottelingPlanCL?A=" + PlanId;
     }
     function Production(PlanId)
     {
-        window.location = "../MasterForms/ProductionEntry?A=" + PlanId;
+        window.location = "../CL/ProductionEntryCL?A=" + PlanId;
     }
     $(document).ready(function () {
         
@@ -145,13 +145,13 @@
     });
     function FinalizePlan(PlanId) {
         $.ajax({
-            url: '/MasterForms/FinalizePlan',
+            url: '/CL/FinalizePlan',
             data: { 'PlanId': PlanId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../MasterForms/BottelingPlanList";
+                window.location = "../CL/BottelingPlanListCL";
             },
             error: function (data) {
                 alert("Error in Finalize Plan Loading");
@@ -160,13 +160,13 @@
     }
     function FreezePlan(PlanId) {
         $.ajax({
-            url: '/MasterForms/FreezePlan',
+            url: '/CL/FreezePlan',
             data: { 'PlanId': PlanId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../MasterForms/BottelingPlanList";
+                window.location = "../CL/BottelingPlanListCL";
             },
             error: function (data) {
                 alert("Error in Finalize Plan Loading");

@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.BottlingLine
+﻿@model UPExciseLTE.Models.BottlingLineCL
 @{
     ViewBag.Title = "Botteling Line Master";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +8,7 @@
     }
 }
  
-@using (Html.BeginForm("BottlingLine", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottlingLineCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -71,7 +71,7 @@
                                 </tr>
                                 @if (ViewBag.UnitTank != null)
                                 {
-                                    foreach (BottlingLine dr in (ViewBag.UnitTank as List<BottlingLine>))
+                                    foreach (BottlingLineCL dr in (ViewBag.UnitTank as List<BottlingLineCL>))
                                     {
                                         <tr>
                                             <td>@dr.BottlingLineId</td>
@@ -103,18 +103,18 @@
 <script type="text/javascript">
     function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
-            window.location.assign("../masterforms/BottlingLine?A=" + UTId)
+            window.location.assign("../CL/BottlingLineCL?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
         }
         else {
             $.ajax({
-                url: '/MasterForms/UpdateBottlingLine',
+                url: '/CL/UpdateBottlingLine',
                 data: { 'UTId': UTId, 'Status': Status },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     alert(data);
-                    window.location = "../MasterForms/BottlingLine";
+                    window.location = "../CL/BottlingLineCL";
                 },
                 error: function (data) {
                     alert("Error in Bottling Line Loading");

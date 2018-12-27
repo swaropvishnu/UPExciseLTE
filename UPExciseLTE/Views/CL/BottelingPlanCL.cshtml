@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.BottelingPlan
+﻿@model UPExciseLTE.Models.BottelingPlanCL
 
 @{
     ViewBag.Title = "Bottling Plan";
@@ -39,7 +39,7 @@
     }
 
 </script>
-@using (Html.BeginForm("BottelingPlan", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottelingPlanCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     <div class="page-content-inner">
@@ -198,7 +198,7 @@
         }
     }
     function GetBrandDetail() {
-        var url = '@Url.Action("EditFinalBottelingPlan", "MasterForms", null)';
+        var url = '@Url.Action("EditFinalBottelingPlanCL", "CL", null)';
         window.location.href = url;
     }
 </script>
@@ -223,7 +223,7 @@
    
     function BrandChange(BrandId) {
         $.ajax({
-            url: '/MasterForms/GetBrandDetailsForDDl',
+            url: '/CL/GetBrandDetailsForDDl',
             data: { 'BrandId': BrandId },
             datatype: "json",
             type: "GET",
@@ -251,7 +251,7 @@
     });
     function BBTChange(ddlBBTID) {
         $.ajax({
-            url: '/MasterForms/GetBBTForDDl',
+            url: '/CL/GetBBTForDDl',
             data: { 'BBTID': ddlBBTID },
             datatype: "json",
             type: "GET",
@@ -292,7 +292,7 @@
     $('#ddlBBT').change(function () {
         $.ajax({
             type: "post",
-            url: "/MasterForms/GetBottlingTankForddl",
+            url: "/CL/GetBottlingTankForddl",
             data: { ddlBBT: $('#ddlBBT').val() },
             datatype: "json",
             traditional: true,

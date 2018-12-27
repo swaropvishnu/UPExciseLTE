@@ -15,7 +15,6 @@ using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
-   
     public class CLController : Controller
     {
         [HttpGet]
@@ -28,7 +27,7 @@ namespace UPExciseLTE.Controllers
             }
             ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
-            ViewBag.UnitTank = new CommonBL().GetStorageVAT(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
+            ViewBag.StorageVATList = new CommonBL().GetStorageVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
             return View(UT);
         }
         [HttpPost]
@@ -39,9 +38,75 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("StorageVAT");
         }
-
-       
-
+        public string UpdateStorageVAT(string UTId, string Status)
+        {
+            StorageVATCL UT = new StorageVATCL();
+            UT.StorageVATId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+            UT.Type = 3;
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
+            return str;
+        }
+        [HttpGet]
+        public ActionResult BlendingVATCL()
+        {
+            BlendingVATCL UT = new BlendingVATCL();
+            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
+            {
+                UT = new CommonBL().GetBlendingVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+            }
+            ViewBag.Msg = TempData["Msg"];
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            ViewBag.BlendingVATCL = new CommonBL().GetBlendingVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
+            return View(UT);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BlendingVATCL(BlendingVATCL UT)
+        {
+            string str = new CommonDA().InsertUpdateBlendingVAT(UT);
+            TempData["Msg"] = str;
+            return RedirectToAction("BlendingVATCL");
+        }
+        public string UpdateBlendingVAT(string UTId, string Status)
+        {
+            BlendingVATCL UT = new BlendingVATCL();
+            UT.BlendingVATId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+            UT.Type = 3;
+            string str = new CommonDA().InsertUpdateBlendingVAT(UT);
+            return str;
+        }
+        [HttpGet]
+        public ActionResult BottelingVATCL()
+        {
+            BottelingVATCL UT = new BottelingVATCL();
+            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
+            {
+                UT = new CommonBL().GetBottelingVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+            }
+            ViewBag.Msg = TempData["Msg"];
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            ViewBag.BottelingVATCL = new CommonBL().GetBottelingVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
+            return View(UT);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BottelingVATCL(BottelingVATCL UT)
+        {
+            string str = new CommonDA().InsertUpdateBottelingVAT(UT);
+            TempData["Msg"] = str;
+            return RedirectToAction("BottelingVATCL");
+        }
+        public string UpdateBottelingVAT(string UTId, string Status)
+        {
+            BottelingVATCL UT = new BottelingVATCL();
+            UT.BottelingVATId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+            UT.Type = 3;
+            string str = new CommonDA().InsertUpdateBottelingVAT(UT);
+            return str;
+        }
         public ActionResult BottelingPlanCL()
         {
             BottelingPlan BP = new BottelingPlan();
@@ -327,7 +392,7 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult BottlingLineCL(BottlingLineCL RM)
         {
-            string str = new CommonDA().InsertUpdateBottlingLine(RM);
+            string str = new CommonDA().InsertUpdateBottlingLineCL(RM);
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLine");
         }
@@ -361,11 +426,16 @@ namespace UPExciseLTE.Controllers
             UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
             return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString();
         }
+        [HttpGet]
+        public ActionResult ReceiveStorageVATCL()
+        {
+            return View();
+        }
         [HttpPost]
-        public ActionResult ReceiveStorageVATCL(UTTransferToBBT UTBL)
+        public ActionResult ReceiveStorageVATCL(SVTransferToBT UTBL)
         {
             UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
-            string str = new CommonDA().InsertUTTransferToBBT(UTBL);
+            string str = new CommonDA().InsertStorageVatTransferToBlendingVat(UTBL);
             TempData["Message"] = str;
             return RedirectToAction("ReceiveUnitTank");
         }
@@ -373,7 +443,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult StorageVATRecevDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
-            List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
+            List<SVTransferToBT> lstUtBl = new CommonBL().GetSVTransferToBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
             return View(lstUtBl);
         }
         [HttpGet]
@@ -422,26 +492,7 @@ namespace UPExciseLTE.Controllers
             List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "T", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
             return View(lstUtBl);
         }
-        [HttpGet]
-        public ActionResult BottelingVATCL()
-        {
-            BBTMaster BBT = new BBTMaster();
-            ViewBag.Brewery = CommonBL.fillBrewery();
-            if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
-            {
-                BBT = new CommonBL().GetBBTMasterList(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "Z")[0];
-            }
-            if (TempData["Message"] != null)
-            {
-                var str = TempData["Message"].ToString();
-                if (!string.IsNullOrEmpty(str))
-                {
-                    ViewBag.Msg = TempData["Message"].ToString();
-                    BBT.Message = Message.MsgSuccess(str);
-                }
-            }
-            return View(BBT);
-        }
+        
         [HttpGet]
         public ActionResult GetBottelingVATDetailsCL()
         {
@@ -481,13 +532,7 @@ namespace UPExciseLTE.Controllers
             }*/
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
-        [HttpPost]
-        public ActionResult BottelingVATCL(BBTMaster BBT)
-        {
-            var str = new CommonDA().InsertUpdateBBT(BBT);
-            TempData["Message"] = str;
-            return RedirectToAction("BBTMaster");
-        }
+        
         [HttpGet]
         public ActionResult GatePassCL()
         {

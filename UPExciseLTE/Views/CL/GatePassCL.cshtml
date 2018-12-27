@@ -1,7 +1,7 @@
-﻿@model UPExciseLTE.Models.GatePassDetails
+﻿@model UPExciseLTE.Models.GatePassDetailsCL
 
 @{
-    ViewBag.Title = "GatePass";
+    ViewBag.Title = "GatePassCL";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
@@ -46,7 +46,7 @@
     function GatePassUploadBrandDetails() {
         var GatePassId = document.getElementById("hfGatePassId").value;
         $.ajax({
-            url: '/MasterForms/GetGatePassUploadBrandDetails',
+            url: '/CL/GetGatePassUploadBrandDetails',
             data: { 'Gatepass': GatePassId },
             datatype: "json",
             type: "GET",
@@ -63,13 +63,13 @@
         if (r == true) {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/MasterForms/FinalGatePass',
+                url: '/CL/FinalGatePass',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     alert(data);
-                    window.location.href = '../masterforms/GatePass';
+                    window.location.href = '../CL/GatePassCL';
                 },
                 error: function (data) {
                     alert("Error in GatePass Upload Brand Details Loading");
@@ -78,7 +78,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("GatePass", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GatePassCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
     @Html.ValidationSummary(true);
@@ -256,7 +256,7 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green" id="btnSave" onclick="Validation();">Save</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../masterforms/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../CL/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
                             </div>
                         </center>
