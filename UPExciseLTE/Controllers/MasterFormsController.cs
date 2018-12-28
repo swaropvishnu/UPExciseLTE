@@ -289,7 +289,7 @@ namespace UPExciseLTE.Controllers
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
 
             ViewBag.BottlingLine = CommonBL.BottlingLine("Z", lstBBT[0].Value);
-            BP.BBTBulkLitre = float.Parse(bbtFormation.BBTBulkLitre.ToString());
+            BP.BBTBulkLitre = decimal.Parse(bbtFormation.BBTBulkLitre.ToString());
             
             ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)

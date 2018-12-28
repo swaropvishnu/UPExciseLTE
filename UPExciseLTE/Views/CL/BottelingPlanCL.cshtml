@@ -247,8 +247,8 @@
     });
     function BBTChange(ddlBBTID) {
         $.ajax({
-            url: '/CL/GetBVForDDl',
-            data: { 'BVId': ddlBBTID },
+            url: '/CL/GetBottlingTankForddl',
+            data: { 'BTID': ddlBBTID },
             datatype: "json",
             type: "GET",
             success: function (data) {

@@ -1607,7 +1607,7 @@ namespace UPExciseLTE.DAL
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("StorageVATId", SV.StorageVATId));
-                cmd.Parameters.Add(new SqlParameter("BreweryId", SV.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("UnitId", SV.UnitId));
                 cmd.Parameters.Add(new SqlParameter("StorageVATName", filter_bad_chars_rep(SV.StorageVATName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("StorageVATCapacity", SV.StorageVATCapacity));
                 cmd.Parameters.Add(new SqlParameter("StorageVATBulkLitre", SV.StorageVATBulkLitre));
@@ -1644,7 +1644,7 @@ namespace UPExciseLTE.DAL
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("UnitID", BreweryId));
                 parameters.Add(new SqlParameter("StorageVATId", StorageVATId));
                 parameters.Add(new SqlParameter("status", status));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetStorageVAT", parameters.ToArray());
@@ -1655,14 +1655,14 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public DataSet GetBlendingVAT(short BreweryId, short BlendingVATId, string status)
+        public DataSet GetBlendingVAT(short Unitid, short BlendingVATId, string status)
         {
             DataSet ds = new DataSet();
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("Unitid", Unitid));
                 parameters.Add(new SqlParameter("BlendingVATId", BlendingVATId));
                 parameters.Add(new SqlParameter("status", status));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetBlendingVAT", parameters.ToArray());
@@ -1685,7 +1685,7 @@ namespace UPExciseLTE.DAL
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("BlendingVATId", SV.BlendingVATId));
-                cmd.Parameters.Add(new SqlParameter("BreweryId", SV.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("UnitId", SV.UnitId));
                 cmd.Parameters.Add(new SqlParameter("BlendingVATName", filter_bad_chars_rep(SV.BlendingVATName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("BlendingVATCapacity", SV.BlendingVATCapacity));
                 cmd.Parameters.Add(new SqlParameter("BlendingVATBulkLitre", SV.BlendingVATBulkLitre));
@@ -1726,7 +1726,7 @@ namespace UPExciseLTE.DAL
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("BottelingVATId", SV.BottelingVATId));
-                cmd.Parameters.Add(new SqlParameter("BreweryId", SV.BreweryId));
+                cmd.Parameters.Add(new SqlParameter("UnitId", SV.UnitId));
                 cmd.Parameters.Add(new SqlParameter("BottelingVATName", filter_bad_chars_rep(SV.BottelingVATName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("BottelingVATCapacity", SV.BottelingVATCapacity));
                 cmd.Parameters.Add(new SqlParameter("BottelingVATBulkLitre", SV.BottelingVATBulkLitre));
@@ -1755,14 +1755,14 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetBottelingVATDetails(short BreweryId, short BottelingVATId, string status)
+        public DataSet GetBottelingVATDetails(short UnitId, short BottelingVATId, string status)
         {
             DataSet ds = new DataSet();
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
-                parameters.Add(new SqlParameter("BreweryId", BreweryId));
+                parameters.Add(new SqlParameter("UnitId", UnitId));
                 parameters.Add(new SqlParameter("BottelingVATId", BottelingVATId));
                 parameters.Add(new SqlParameter("status", status));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetBottelingVAT", parameters.ToArray());
@@ -1814,28 +1814,51 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public string InsertStorageVatTransferToBlendingVat(SVTransferToBV StorageVATBL)
+        public string InsertTankTransferDetail(TankTransferDetail TTD)
         {
             string result = "";
             con.Open();
             SqlTransaction tran = con.BeginTransaction();
             try
             {
-                cmd = new SqlCommand("CL_proc_InsertStorageVatTransferToBlendingVat", con);
+                cmd = new SqlCommand("CL_proc_InsertTankTransferDetail", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
-                cmd.Parameters.Add(new SqlParameter("IssuedFromStorageVATId", StorageVATBL.IssuedFromStorageVATId));
-                cmd.Parameters.Add(new SqlParameter("BlendingVATID", StorageVATBL.BlendingVATID));
-                cmd.Parameters.Add(new SqlParameter("TransactionType", filter_bad_chars_rep(StorageVATBL.TransactionType.Trim())));
-                cmd.Parameters.Add(new SqlParameter("IssueBL", StorageVATBL.IssueBL));
-                cmd.Parameters.Add(new SqlParameter("Wastage", StorageVATBL.Wastage));
-                cmd.Parameters.Add(new SqlParameter("NetTransfer", StorageVATBL.NetTransfer));
-                cmd.Parameters.Add(new SqlParameter("TransferDate", StorageVATBL.TransferDate));
-                cmd.Parameters.Add(new SqlParameter("Remark", filter_bad_chars_rep(StorageVATBL.Remark.Trim())));
-                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
-                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
-                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("TransferId", TTD.TransferId));
+                cmd.Parameters.Add(new SqlParameter("IssuedFromSVId", TTD.IssuedFromSVId));
+                cmd.Parameters.Add(new SqlParameter("IssuedFromBlendingId", TTD.IssuedFromBlendingId));
+                cmd.Parameters.Add(new SqlParameter("BottlingVATId", TTD.BottlingVATId));
+                cmd.Parameters.Add(new SqlParameter("SpiritTypeId", TTD.SpiritTypeId));
+                cmd.Parameters.Add(new SqlParameter("BrandID", TTD.BrandID));
+                cmd.Parameters.Add(new SqlParameter("TransactionType", TTD.TransactionType));
+                cmd.Parameters.Add(new SqlParameter("SourceSV", TTD.SourceSV));
+                cmd.Parameters.Add(new SqlParameter("PrevBalanceSV", TTD.PrevBalanceSV));
+                cmd.Parameters.Add(new SqlParameter("PrevBalanceBlendingV", TTD.PrevBalanceBlendingV));
+                cmd.Parameters.Add(new SqlParameter("PrevBalanceBottlingV", TTD.PrevBalanceBottlingV));
+                cmd.Parameters.Add(new SqlParameter("IssueBL", TTD.IssueBL));
+                cmd.Parameters.Add(new SqlParameter("CurrentBalanceSV", TTD.CurrentBalanceSV));
+                cmd.Parameters.Add(new SqlParameter("CurrentBalanceBledingV", TTD.CurrentBalanceBledingV));
+                cmd.Parameters.Add(new SqlParameter("CurrentBalanceBottlingV", TTD.CurrentBalanceBottlingV));
+                cmd.Parameters.Add(new SqlParameter("PrevALSV", TTD.PrevALSV));
+                cmd.Parameters.Add(new SqlParameter("PrevALBlendingV", TTD.PrevALBlendingV));
+                cmd.Parameters.Add(new SqlParameter("PrevALBottlingV", TTD.PrevALBottlingV));
+                cmd.Parameters.Add(new SqlParameter("IssueAL", TTD.IssueAL));
+                cmd.Parameters.Add(new SqlParameter("CurrentALSV", TTD.CurrentALSV));
+                cmd.Parameters.Add(new SqlParameter("CurrentALBledingV", TTD.CurrentALBledingV));
+                cmd.Parameters.Add(new SqlParameter("CurrentALBottlingV", TTD.CurrentALBottlingV));
+                cmd.Parameters.Add(new SqlParameter("dipForm", TTD.dipForm));
+                cmd.Parameters.Add(new SqlParameter("dipTo", TTD.dipTo));
+                cmd.Parameters.Add(new SqlParameter("Wastage", TTD.Wastage));
+                cmd.Parameters.Add(new SqlParameter("TransferDate", TTD.TransferDate));
+                cmd.Parameters.Add(new SqlParameter("IsFinal", TTD.IsFinal));
+                cmd.Parameters.Add(new SqlParameter("Dip", TTD.Dip));
+                cmd.Parameters.Add(new SqlParameter("Temperature", TTD.Temperature));
+                cmd.Parameters.Add(new SqlParameter("Indication", TTD.Indication));
+                cmd.Parameters.Add(new SqlParameter("Remark", filter_bad_chars_rep(TTD.Remark.Trim())));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;

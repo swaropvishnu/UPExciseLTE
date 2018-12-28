@@ -1,21 +1,19 @@
-﻿@model UPExciseLTE.Models.SVTransferToBV
+﻿@model UPExciseLTE.Models.TankTransferDetail
 
 @{
     ViewBag.Title = "BlendingVATtfBottelingVAT";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string str = ViewBag.Msg;
+    if (!string.IsNullOrEmpty(str))
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
 }
 
-@using (Html.BeginForm("StorageVATTransferToBVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BlendingVATtfBottelingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
-    @*@Html.AntiForgeryToken()
-        if (Model.Msg != null)
-        {
-            if (!string.IsNullOrEmpty(Model.Msg.MStatus))
-            {
-                <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
-                @Html.Partial("~/Views/Shared/_ErrorMessage.cshtml", Model.Msg)
-            }
-        }*@
+    @Html.AntiForgeryToken()
+    
     <div class="page-content-inner">
         <div class="row">
             <div class="col-md-12">
@@ -28,47 +26,77 @@
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Date<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.TransferDate1, new { @id = "txtTransferDate", @class = "form-control", @required = "required", @readonly = true })
-                                </div>
+                               
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.IssuedFromBlendingVATId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlIssuedFromBlendingVATId", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.IssuedFromBlendingId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlIssuedFromBlendingVATId", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending VAT Balance</label>
                                     @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending Spirit Type</label>
+                                    @Html.TextBox("txtBlendingSpiritType", "", new { @id = "txtBlendingSpiritType", @class = "form-control", @readonly = true })
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Botteling VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BottelingVATID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBottelingId", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.BottlingVATId, (IEnumerable<SelectListItem>)ViewBag.BottelingVAT, new { @id = "ddlBottelingId", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Botteling VAT Balance</label>
-                                    @Html.TextBox("txtBottelingBal", "", new { @id = "txtBBTBal", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBottelingBal", "", new { @id = "txtBottelingBal", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Botteling VAT Capacity</label>
-                                    @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBottelingCapacity", @class = "form-control", @readonly = true })
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Transfer form Blending BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                    @Html.TextBoxFor(m => m.dipForm, new { @id = "txtDipFrom", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Received in Botteling BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                    @Html.TextBoxFor(m => m.dipTo, "", new { @id = "txtDipTo", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Tank Transfer Wastage AL</label>
                                     @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
 
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Dip of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Dip, new { @class = "form-control", @id = "txtDip", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Temperature (in °C)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @id = "txtTemp", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Indication<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Indication, new { @class = "form-control", @id = "txtIndication", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Alcoholic Liter of Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBox("txtBlendingVATAL", "", new { @id = "txtBlendingVATAL", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Alcoholic Liter of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtIssueAL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -124,43 +152,45 @@
         }
         return true;
     }
-    $('#ddlUnitTank').change(function () {
-        var UnitTankId = $('#ddlUnitTank').val();
+    $('#ddlIssuedFromBlendingVATId').change(function () {
+        var UnitTankId = $('#ddlIssuedFromBlendingVATId').val();
         if (UnitTankId != "-1") {
             UnitTankChange(UnitTankId);
         }
     });
     function UnitTankChange(UnitTankId) {
         $.ajax({
-            url: '/MasterForms/GetUnitTankForDDl',
-            data: { 'UnitTankId': UnitTankId },
+            url: '/CL/GetBlendingVATForDDl',
+            data: { 'BVId': UnitTankId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 var res = data.split(",");
-                document.getElementById("txtUTBal").value = res[2];
+                document.getElementById("txtBlendingBal").value = res[0];
+                document.getElementById("txtBlendingSpiritType").value = res[2];
+                document.getElementById("txtBlendingVATAL").value = res[4];
             },
             error: function (data) {
                 alert("Error in GetUnitTankForDDl Loading");
             }
         });
     }
-    $('#ddlBBT').change(function () {
-        var BBTId = $('#ddlBBT').val();
+    $('#ddlBottelingId').change(function () {
+        var BBTId = $('#ddlBottelingId').val();
         if (BBTId != "-1") {
             BBTChange(BBTId);
         }
     });
     function BBTChange(BBTId) {
         $.ajax({
-            url: '/MasterForms/GetBBTForDDl',
-            data: { 'BBTId': BBTId },
+            url: '/CL/GetBottlingTankForddl',
+            data: { 'BTID': BBTId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 var res = data.split(",");
-                document.getElementById("txtBBTBal").value = res[0];
-                document.getElementById("txtBBTCapacity").value = res[1];
+                document.getElementById("txtBottelingBal").value = res[0];
+                document.getElementById("txtBottelingCapacity").value = res[1];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");
@@ -169,31 +199,14 @@
     }
     function CheckTransfer()
     {
-        var UnitTankBal = parseFloat(document.getElementById("txtUTBal").value);
-        var TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
-        if (TransferBL > UnitTankBal) {
-            alert("Max Transfer BL is " + UnitTankBal);
-            document.getElementById("txtTransferBL").value = UnitTankBal;
-            TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
+        var txtdipForm = parseFloat(document.getElementById("txtDipFrom").value);
+        var txtdipTo = parseFloat(document.getElementById("txtDipTo").value);
+        if (txtdipTo > txtdipForm) {
+            alert("Max Transfer BL is " + txtdipForm);
+            document.getElementById("txtDipTo").value = txtdipForm;
+
         }
-        var NetTransfer = parseFloat(document.getElementById("txtNetTransfer").value);
-        if (NetTransfer > TransferBL) {
-            alert("Net Transfer Cannot greater then Transfer BL");
-            document.getElementById("txtNetTransfer").value = "";
-            document.getElementById("txtNetTransfer").focus();
-            return;
-        }
-        /*if (WastageBL > (TransferBL*9.0/100.0)) {
-            alert("Wastage BL not greater then " + (TransferBL * 9.0 / 100.0)+" BL");
-            document.getElementById("txtWastageBL").value = (TransferBL * 9.0 / 100.0);
-            WastageBL = (TransferBL * 9.0 / 100.0);
-        }*/
-        var BBTCapacity = parseFloat(document.getElementById("txtBBTCapacity").value);
-        var BBTBalance = parseFloat(document.getElementById("txtBBTBal").value);
-        if ((NetTransfer + BBTBalance) > BBTCapacity) {
-            alert("Max Transfer is not greater than" + (BBTCapacity - BBTBalance));
-        }
-        document.getElementById("txtWastageBL").value = TransferBL-NetTransfer;
+        document.getElementById("txtWastageBL").value = txtdipForm - txtdipTo;
     }
 </script>
 

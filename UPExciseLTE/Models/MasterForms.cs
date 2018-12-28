@@ -67,7 +67,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Brand Registration Number")]
         public string BrandRegistrationNumber { get; set; } = "";
         [Display(Name = "Strength of Alcohol(%)")]
-        public float Strength { get; set; } = 0;
+        public decimal Strength { get; set; } = 0;
         [Display(Name = "Strength of Alcohol")]
         public string AlcoholType { get; set; } = "";
         [Display(Name = "Liquor Type")]
@@ -79,25 +79,25 @@ namespace UPExciseLTE.Models
         [Display(Name = "Excise Tin")]
         public string ExciseTin { get; set; } = "";
         [Display(Name = "XFactory Price")]
-        public float XFactoryPrice { get; set; } = 0;
+        public decimal XFactoryPrice { get; set; } = 0;
         [Display(Name = "Consideration Fees")]
-        public float ConsiderationFees { get; set; } = 0;
+        public decimal ConsiderationFees { get; set; } = 0;
         [Display(Name = "WholeSale Margin")]
-        public float WHMargin { get; set; } = 0;
+        public decimal WHMargin { get; set; } = 0;
         [Display(Name = "WholeSale Price")]
-        public float WHPrice { get; set; } = 0;
+        public decimal WHPrice { get; set; } = 0;
         [Display(Name = "Retailer Margin")]
-        public float RetMargin { get; set; } = 0;
+        public decimal RetMargin { get; set; } = 0;
         [Display(Name = "Max Retailer  Price")]
-        public float MaxRetPrice { get; set; } = 0;
+        public decimal MaxRetPrice { get; set; } = 0;
         [Display(Name = "Additional Duty")]
-        public float AdditionalDuty { get; set; } = 0;
+        public decimal AdditionalDuty { get; set; } = 0;
         [Display(Name = "Actual Maximum WholeSale Price")]
-        public float OriginalRetPrice { get; set; } = 0;
+        public decimal OriginalRetPrice { get; set; } = 0;
         [Display(Name = "Total Consideration Fees")]
-        public float ExciseDuty { get; set; } = 0;
+        public decimal ExciseDuty { get; set; } = 0;
         [Display(Name = "MRP")]
-        public float MRP { get; set; } = 0;
+        public decimal MRP { get; set; } = 0;
         [Display(Name = "Box-Size (Number of Bottles / Cans)")]
         public int QuantityInCase { get; set; } = 0;
         [Display(Name = "Capacity of Bottle/ Can (in ml.)")]
@@ -136,7 +136,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Is Plan Final")]
         public short IsPlanFinal { get; set; } = 0;
         [Display(Name = "Bulk Litre")]
-        public float BulkLitre { get; set; } = 0;
+        public decimal BulkLitre { get; set; } = 0;
         [Display(Name = "Liquor Type")]
         public string LiquorType { get; set; } = "";
         [Display(Name = "Licence Type")]
@@ -152,7 +152,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
         [Display(Name = "BBT Bulk Litre")]
-        public float BBTBulkLitre { get; set; } = 0;
+        public decimal BBTBulkLitre { get; set; } = 0;
         public string Status { get; set; }
         public string State { get; set; }
         [Display(Name = "Bottle/ Can Capacity")]
@@ -162,15 +162,15 @@ namespace UPExciseLTE.Models
         [Display(Name = "Produced Number of cases")]
         public int ProducedNumberOfCases { get; set; }
         [Display(Name = "Produced Total Unit (Can/Bottles)")]
-        public float ProducedBoxQuantity { get; set; }
+        public decimal ProducedBoxQuantity { get; set; }
         [Display(Name = "Produced Bulk Litre")]
-        public float ProducedBulkLitre { get; set; }
+        public decimal ProducedBulkLitre { get; set; }
         [Display(Name = "Produced Total Unit")]
         public int ProducedTotalUnit { get; set; }
         [Display(Name = "Wastage in Number")]
         public int WastageInNumber { get; set; }
         [Display(Name = "Wastage BL")]
-        public float WastageBL { get; set; }
+        public decimal WastageBL { get; set; }
         [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
@@ -190,11 +190,11 @@ namespace UPExciseLTE.Models
         [Display(Name = "Unit Tank Name")]
         public string UnitTankName { get; set; } = "";
         [Display(Name = "Unit Tank Capacity")]
-        public float UnitTankCapacity { get; set; } = 0;
+        public decimal UnitTankCapacity { get; set; } = 0;
         [Display(Name = "Unit Tank Open Balance")]
-        public float UnitTankBulkLitre { get; set; } = 0;
+        public decimal UnitTankBulkLitre { get; set; } = 0;
         [Display(Name = "Unit Tank Strength")]
-        public float UnitTankStrength { get; set; } = 0;
+        public decimal UnitTankStrength { get; set; } = 0;
         [Display(Name = "Unit Tank Status")]
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
@@ -215,9 +215,9 @@ namespace UPExciseLTE.Models
         public string BBTName { get; set; } = "";
         public string TransactionType { get; set; } = "R";
         [Display(Name = "Issue BL")]
-        public float IssueBL { get; set; } = 0;
+        public decimal IssueBL { get; set; } = 0;
         [Display(Name = "Wastage")]
-        public float Wastage { get; set; } = 0;
+        public decimal Wastage { get; set; } = 0;
         [Display(Name = "Remark")]
         public string Remark { get; set; } = "";
         [Display(Name = "Unit Tank Capacity")]
@@ -301,9 +301,9 @@ namespace UPExciseLTE.Models
         public string LicenseeAddress { get; set; } = "";
         public string AgencyNameAndAddress { get; set; } = "";
         public string Address { get; set; } = "";
-        public float GrossWeight { get; set; } = 0;
-        public float TareWeight { get; set; } = 0;
-        public float NetWeight { get; set; } = 0;
+        public decimal GrossWeight { get; set; } = 0;
+        public decimal TareWeight { get; set; } = 0;
+        public decimal NetWeight { get; set; } = 0;
         public int district_code_census1 { get; set; } = -1;
         public int district_code_census2 { get; set; } = -1;
         public int district_code_census3 { get; set; } = -1;

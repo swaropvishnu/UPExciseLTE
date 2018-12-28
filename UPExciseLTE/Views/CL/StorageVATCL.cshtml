@@ -67,7 +67,7 @@
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                        @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +84,8 @@
                                     <th>Storage Vat Id</th>
                                     <th>Storage Vat Name</th>
                                     <th>Storage Vat Capacity (in Bulk Litre)</th>
-                                    @*<th>Storage Vat Bulk Litre</th>*@
-                                    @*<th>Storage Vat Strength</th>*@
+                                    <th>Spirit Type</th>
+                                    <th>Spirit Bulk Litre</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -97,8 +97,8 @@
                                             <td>@dr.StorageVATId</td>
                                             <td>@dr.StorageVATName</td>
                                             <td>@dr.StorageVATCapacity</td>
-                                            @*<td>@dr.UnitTankBulkLitre</td>*@
-                                            @*<td>@dr.UnitTankStrength</td>*@
+                                            <td>@dr.SpiritType</td>
+                                            <td>@dr.StorageVATBulkLitre</td>
                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button></td>
                                             @if (dr.Status == "A")
                                             {

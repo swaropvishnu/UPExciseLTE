@@ -41,7 +41,7 @@ namespace UPExciseLTE.Controllers
         {
             string str = new CommonDA().InsertUpdateStorageVAT(UT);
             TempData["Msg"] = str;
-            return RedirectToAction("StorageVAT");
+            return RedirectToAction("StorageVATCL");
         }
         public string UpdateStorageVAT(string UTId, string Status)
         {
@@ -155,9 +155,11 @@ namespace UPExciseLTE.Controllers
                 return RedirectToAction("BottelingPlanCL", new { A = BP.EncPlanId });
             }
         }
-        public ActionResult GetBottlingTankForddl(string ddlBBT)
+        public string GetBottlingTankForddl(string BTID)
         {
-            return Json(CommonBL.BottlingLine("S", ddlBBT), JsonRequestBehavior.AllowGet);
+            BottelingVATCL BVT = new CommonBL().GetBottelingVAT(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), short.Parse(BTID), "A");
+            return BVT.BottelingVATBulkLitre.ToString()+","+ BVT.BottelingVATCapacity.ToString() + ","+ BVT.SpiritType.ToString() + "," + BVT.BrandName.ToString();
+
         }
         [HttpGet]
         public string GetBrandDetailsForDDl(string BrandId)
@@ -411,91 +413,67 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateBottlingLineCL(BL);
             return str;
         }
-        //[HttpGet]
-        //public ActionResult ReceiveUnitTank()
-        //{
-        //    UTTransferToBBT UTBL = new UTTransferToBBT();
-        //    ViewBag.UnitTank = CommonBL.fillUnitTank("S");
-        //    if (TempData["Message"] != null)
-        //    {
-        //        var str = TempData["Message"].ToString();
-        //        ViewBag.Msg = TempData["Message"].ToString();
-        //        if (!string.IsNullOrEmpty(str))
-        //        {
-        //            UTBL.Msg = Message.MsgSuccess(str);
-        //        }
-        //    }
-        //    return View(UTBL);
-        //}
-        public string GetUnitTankForDDl(string UnitTankId)
+         
+        public string GetStorageVATDetails(string SVID)
         {
-            UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
-            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString();
+            StorageVATCL Ut = new CommonBL().GetStorageVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(SVID.Trim()), "A");
+            return Ut.StorageVATCapacity.ToString() + "," + Ut.SpiritType.ToString() + "," + Ut.StorageVATBulkLitre.ToString()+","+Ut.SpiritType+","+Ut.StorageVATAlcoholicLiter;
         }
         [HttpGet]
         public ActionResult ReceiveStorageVATCL()
         {
-            SVTransferToBV SVBL = new SVTransferToBV();
-            ViewBag.UnitTank = CommonBL.fillStorageVAT("S");
+            TankTransferDetail SVBL = new TankTransferDetail();
+            ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
+            ViewBag.SpiritType = CommonBL.fillSpiritType("S");
             if (TempData["Message"] != null)
             {
-                var str = TempData["Message"].ToString();
-                ViewBag.Msg = TempData["Message"].ToString();
-                if (!string.IsNullOrEmpty(str))
-                {
-                    SVBL.Msg = Message.MsgSuccess(str);
-                }
+                ViewBag.Msg = TempData["Message"].ToString();    
             }
             return View(SVBL);
-            //return View();
+           
         }
         [HttpPost]
-        public ActionResult ReceiveStorageVATCL(SVTransferToBV UTBL)
+        public ActionResult ReceiveStorageVATCL(TankTransferDetail UTBL)
         {
-            UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
-            string str = new CommonDA().InsertStorageVatTransferToBlendingVat(UTBL);
+            UTBL.TransactionType = "RS";
+            string str = new CommonDA().InsertTankTransferDetail(UTBL);
             TempData["Message"] = str;
-            return RedirectToAction("ReceiveUnitTank");
+            return RedirectToAction("ReceiveStorageVATCL");
         }
         [HttpGet]
         public ActionResult StorageVATRecevDetails()
         {
-            ViewBag.UnitTank = CommonBL.fillUnitTank("A");
+            /*ViewBag.UnitTank = CommonBL.fillUnitTank("A");
             List<SVTransferToBV> lstUtBl = new CommonBL().GetSVTransferToBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
-            return View(lstUtBl);
+            return View(lstUtBl);*/
+            return View();
         }
         [HttpGet]
         public ActionResult StorageVATTransferToBVCL()
         {
-            SVTransferToBV SVBV = new Models.SVTransferToBV();
-            ViewBag.UnitTank = CommonBL.fillStorageVAT("S");
-            ViewBag.BBT = CommonBL.fillBlendingVAT("S");
+            TankTransferDetail TTD = new Models.TankTransferDetail();
+            ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
+            ViewBag.BlendingVAT = CommonBL.fillBlendingVAT("S");
+            ViewBag.Brand = CommonBL.fillBrand("S");
             if (TempData["Message"] != null)
             {
-                var str = TempData["Message"].ToString();
-                ViewBag.Msg = TempData["Message"].ToString();
-                if (!string.IsNullOrEmpty(str))
-                {
-                    SVBV.Msg = Message.MsgSuccess(str);
-                }
+                 ViewBag.Msg = TempData["Message"].ToString();
             }
-            return View(SVBV);
+            return View(TTD); 
         }
         
-        public string GetBVForDDl(string BVId)
+        public string GetBlendingVATForDDl(string BVId)
         {
-
-            BottelingVATCL bbtFormation = new CommonBL().BottelingVATList(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A")[0];
-            return bbtFormation.BottelingVATBulkLitre.ToString() + "," + bbtFormation.BottelingVATCapacity.ToString();
+            BlendingVATCL BVT = new CommonBL().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A"); 
+            return BVT.BlendingVATBulkLitre.ToString() + "," + BVT.BlendingVATCapacity.ToString()+","+BVT.SpiritType+","+BVT.BrandName+","+BVT.BlendingVATAlcoholicLiter;
         }
         [HttpPost]
-        public ActionResult StorageVATTransferToBV(UTTransferToBBT UTTBBT)
+        public ActionResult StorageVATTransferToBVCL(TankTransferDetail UTTBBT)
         {
-            UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
-            UTTBBT.TransactionType = "T";
-            string str = new CommonDA().InsertUTTransferToBBT(UTTBBT);
+            UTTBBT.TransactionType = "SB";
+            string str = new CommonDA().InsertTankTransferDetail(UTTBBT);
             TempData["Message"] = str;
-            return RedirectToAction("UTTransferToBBT");
+            return RedirectToAction("StorageVATTransferToBVCL");
         }
         [HttpGet]
         public ActionResult StorageVATTransferToBVDetails()
@@ -522,30 +500,6 @@ namespace UPExciseLTE.Controllers
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
-
-        public string DeleteBBT(string bbtId, string status)
-        {
-            BBTMaster bbt = new BBTMaster();
-            bbt.BBTId = int.Parse(bbtId);
-            bbt.Status = status;
-            bbt.SP_Type = 4;
-            string str = new CommonDA().InsertUpdateBBT(bbt);
-
-            return str;
-            /*var bbtFormation = new Models.BBTFormation();
-            bbtFormation.BBTId = bbtId;
-            bbtFormation.SP_Type = 3;
-            
-            bbtFormation = new BBTFormation();
-            if (!string.IsNullOrEmpty(str))
-            {
-                bbtFormation.Message = new Message();
-                bbtFormation.Message.MStatus = "info";
-                bbtFormation.Message.TextMessage = str;
-            }*/
-            //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
-        }
-        
         [HttpGet]
         public ActionResult GatePassCL()
         {
@@ -696,10 +650,26 @@ namespace UPExciseLTE.Controllers
 
 
         #region New for CL
-
+        [HttpGet]
         public ActionResult BlendingVATtfBottelingVATCL()
         {
-                return View();
+            TankTransferDetail TTD = new TankTransferDetail();
+            ViewBag.BlendingVAT = CommonBL.fillBlendingVAT("S");
+            ViewBag.BottelingVAT = CommonBL.fillBottelingVATCL("S");
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Msg = TempData["Message"].ToString();
+            }
+            return View(TTD);
+        }
+        [HttpPost]
+        public ActionResult BlendingVATtfBottelingVATCL(TankTransferDetail TTD)
+        {
+
+            TTD.TransactionType = "BB";
+            string str = new CommonDA().InsertTankTransferDetail(TTD);
+            TempData["Message"] = str;
+            return RedirectToAction("BlendingVATtfBottelingVATCL");
         }
         #endregion
 

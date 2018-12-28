@@ -137,22 +137,22 @@ namespace UPExciseLTE.BLL
                 brand.StateName = dr["StateName"].ToString().Trim();
                 brand.BrandName = dr["BrandName"].ToString().Trim();
                 brand.BrandRegistrationNumber = dr["BrandRegistrationNumber"].ToString().Trim();
-                brand.Strength = float.Parse(dr["Strength"].ToString().Trim());
+                brand.Strength = decimal.Parse(dr["Strength"].ToString().Trim());
                 brand.AlcoholType = dr["AlcoholType"].ToString().Trim();
                 brand.LiquorType = dr["LiquorType"].ToString().Trim();
                 brand.LicenceType = dr["LicenceType"].ToString().Trim();
                 brand.LicenceNo = dr["LicenceNo"].ToString().Trim();
                 brand.ExciseTin = dr["ExciseTin"].ToString().Trim();
-                brand.XFactoryPrice = float.Parse(dr["XFactoryPrice"].ToString().Trim());
-                brand.ConsiderationFees = float.Parse(dr["ConsiderationFees"].ToString().Trim());
-                brand.WHMargin = float.Parse(dr["WHMargin"].ToString().Trim());
-                brand.WHPrice = float.Parse(dr["WHPrice"].ToString().Trim());
-                brand.RetMargin = float.Parse(dr["RetMargin"].ToString().Trim());
-                brand.MaxRetPrice = float.Parse(dr["MaxRetPrice"].ToString().Trim());
-                brand.AdditionalDuty = float.Parse(dr["AdditionalDuty"].ToString().Trim());
-                brand.OriginalRetPrice = float.Parse(dr["OriginalRetPrice"].ToString().Trim());
-                brand.ExciseDuty = float.Parse(dr["ExciseDuty"].ToString().Trim());
-                brand.MRP = float.Parse(dr["MRP"].ToString().Trim());
+                brand.XFactoryPrice = decimal.Parse(dr["XFactoryPrice"].ToString().Trim());
+                brand.ConsiderationFees = decimal.Parse(dr["ConsiderationFees"].ToString().Trim());
+                brand.WHMargin = decimal.Parse(dr["WHMargin"].ToString().Trim());
+                brand.WHPrice = decimal.Parse(dr["WHPrice"].ToString().Trim());
+                brand.RetMargin = decimal.Parse(dr["RetMargin"].ToString().Trim());
+                brand.MaxRetPrice = decimal.Parse(dr["MaxRetPrice"].ToString().Trim());
+                brand.AdditionalDuty = decimal.Parse(dr["AdditionalDuty"].ToString().Trim());
+                brand.OriginalRetPrice = decimal.Parse(dr["OriginalRetPrice"].ToString().Trim());
+                brand.ExciseDuty = decimal.Parse(dr["ExciseDuty"].ToString().Trim());
+                brand.MRP = decimal.Parse(dr["MRP"].ToString().Trim());
                 brand.QuantityInCase = int.Parse(dr["QuantityInCase"].ToString().Trim());
                 brand.QuantityInBottleML = int.Parse(dr["QuantityInBottleML"].ToString().Trim());
                 brand.PackagingType = dr["PackagingType"].ToString().Trim();
@@ -191,7 +191,7 @@ namespace UPExciseLTE.BLL
                 Plan.LicenceType = dr["LicenceType"].ToString().Trim();
                 Plan.Brand = dr["BrandName"].ToString().Trim();
                 Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
-                Plan.BulkLitre = float.Parse(dr["BulkLiter"].ToString().Trim());
+                Plan.BulkLitre = decimal.Parse(dr["BulkLiter"].ToString().Trim());
                 Plan.Status = dr["Status"].ToString().Trim();
                 Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
@@ -206,16 +206,16 @@ namespace UPExciseLTE.BLL
                 Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
                 Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
                 Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
-                Plan.ProducedBoxQuantity = float.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
-                Plan.ProducedBulkLitre = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+                Plan.ProducedBoxQuantity = decimal.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+                Plan.ProducedBulkLitre = decimal.Parse(dr["ProducedBulkLiter"].ToString().Trim());
                 Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
                 Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
-                Plan.WastageBL = float.Parse(dr["WastageBL"].ToString().Trim());
+                Plan.WastageBL = decimal.Parse(dr["WastageBL"].ToString().Trim());
                 Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
                 Plan.TotalRevenue = dr["TotalRevenue"].ToString().Trim();
                 Plan.Type = 2;
                 Plan.BBTId = int.Parse(dr["BBTID"].ToString().Trim());
-                Plan.BBTBulkLitre = float.Parse(dr["BBTBulkLiter"].ToString().Trim());
+                Plan.BBTBulkLitre = decimal.Parse(dr["BBTBulkLiter"].ToString().Trim());
                 Plan.BeforeBBTBal =(dr["BeforeBBTBal"].ToString().Trim());
                 Plan.AfterBBTBal = decimal.Parse(dr["AfterBBTBal"].ToString().Trim());
             }
@@ -313,9 +313,9 @@ namespace UPExciseLTE.BLL
                 UT.UnitTankId = int.Parse(dr["UnitTankId"].ToString().Trim());
                 UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
                 UT.UnitTankName = (dr["UnitTankName"].ToString().Trim());
-                UT.UnitTankCapacity = float.Parse(dr["UnitTankCapacity"].ToString().Trim());
-                UT.UnitTankBulkLitre = float.Parse(dr["UnitTankBulkLiter"].ToString().Trim());
-                UT.UnitTankStrength = float.Parse(dr["UnitTankStrength"].ToString().Trim());
+                UT.UnitTankCapacity = decimal.Parse(dr["UnitTankCapacity"].ToString().Trim());
+                UT.UnitTankBulkLitre = decimal.Parse(dr["UnitTankBulkLiter"].ToString().Trim());
+                UT.UnitTankStrength = decimal.Parse(dr["UnitTankStrength"].ToString().Trim());
                 UT.Enc_UnitTankId = new Crypto().Encrypt(dr["UnitTankId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.Type = 2;
@@ -720,8 +720,8 @@ namespace UPExciseLTE.BLL
                 UTBL.UnitTank = (dr["UnitTankName"].ToString().Trim());
                 UTBL.BBTID = int.Parse(dr["BBTId"].ToString().Trim());
                 UTBL.BBTName = (dr["BBTName"].ToString().Trim());
-                UTBL.IssueBL = float.Parse(dr["IssueBL"].ToString().Trim());
-                UTBL.Wastage = float.Parse(dr["Wastage"].ToString().Trim());
+                UTBL.IssueBL = decimal.Parse(dr["IssueBL"].ToString().Trim());
+                UTBL.Wastage = decimal.Parse(dr["Wastage"].ToString().Trim());
                 UTBL.TransferDate1 = dr["TransferDate"].ToString().Trim();
                 UTBL.Remark = dr["Remark"].ToString().Trim();
                 UTBL.PrevBalanceBBT = dr["PrevBalanceBBT"].ToString().Trim();
@@ -780,18 +780,18 @@ namespace UPExciseLTE.BLL
                 GP.EncGatePassId = new Crypto().Encrypt((dr["GatePassId"].ToString().Trim()));
                 GP.GatePassNo = (dr["GatePassNo"].ToString().Trim());
                 GP.GatePassSourceId = long.Parse((dr["GatePassSourceId"].ToString().Trim()));
-                GP.GrossWeight = float.Parse(dr["GrossWeight"].ToString().Trim());
+                GP.GrossWeight = decimal.Parse(dr["GrossWeight"].ToString().Trim());
                 GP.LicenseeAddress = (dr["LicenseeAddress"].ToString().Trim());
                 GP.LicenseeName = (dr["LicenseeName"].ToString().Trim());
                 GP.LicenseeNo = (dr["LicenseeNo"].ToString().Trim());
-                GP.NetWeight = float.Parse(dr["NetWeight"].ToString().Trim());
+                GP.NetWeight = decimal.Parse(dr["NetWeight"].ToString().Trim());
                 GP.Receiver = dr["Receiver"].ToString().Trim();
                 GP.RouteDetails = (dr["RouteDetails"].ToString().Trim());
                 GP.ShopId = int.Parse(dr["ShopId"].ToString().Trim());
                 GP.ShopName = (dr["ShopName"].ToString().Trim());
                 GP.SP_Type = 2;
                 GP.Status = (dr["Status"].ToString().Trim());
-                GP.TareWeight = float.Parse(dr["TareWeight"].ToString().Trim());
+                GP.TareWeight = decimal.Parse(dr["TareWeight"].ToString().Trim());
                 GP.ToConsigeeName = (dr["ToConsigeeName"].ToString().Trim());
                 GP.ToDate = DateTime.Parse(dr["ToDate"].ToString().Trim());
                 GP.ToDate1 = (dr["ToDate1"].ToString().Trim());
@@ -1068,13 +1068,16 @@ namespace UPExciseLTE.BLL
             try
             {
                 UT.StorageVATId = int.Parse(dr["StorageVATId"].ToString().Trim());
-                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
                 UT.StorageVATName = (dr["StorageVATName"].ToString().Trim());
-                UT.StorageVATCapacity = float.Parse(dr["StorageVATCapacity"].ToString().Trim());
-                UT.StorageVATBulkLitre = float.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
-                UT.StorageVATStrength = float.Parse(dr["StorageVATStrength"].ToString().Trim());
+                UT.StorageVATCapacity = decimal.Parse(dr["StorageVATCapacity"].ToString().Trim());
+                UT.StorageVATBulkLitre = decimal.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
+                UT.StorageVATStrength = decimal.Parse(dr["StorageVATStrength"].ToString().Trim());
                 UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.SpiritTypeID = short.Parse(dr["SpiritTypeId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
+                UT.StorageVATAlcoholicLiter = decimal.Parse(dr["StorageVATAlcoholicLiter"].ToString().Trim());
                 UT.Type = 2;
             }
             catch (Exception) { }
@@ -1108,21 +1111,28 @@ namespace UPExciseLTE.BLL
             try
             {
                 UT.BlendingVATId = int.Parse(dr["BlendingVATId"].ToString().Trim());
-                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
                 UT.BlendingVATName = (dr["BlendingVATName"].ToString().Trim());
-                UT.BlendingVATCapacity = float.Parse(dr["BlendingVATCapacity"].ToString().Trim());
-                UT.BlendingVATBulkLitre = float.Parse(dr["BlendingVATBulkLiter"].ToString().Trim());
-                UT.BlendingVATStrength = float.Parse(dr["BlendingVATStrength"].ToString().Trim());
+                UT.BlendingVATName = (dr["BlendingVATName"].ToString().Trim());
+                UT.BlendingVATCapacity = decimal.Parse(dr["BlendingVATCapacity"].ToString().Trim());
+                UT.BlendingVATBulkLitre = decimal.Parse(dr["BlendingVATBulkLiter"].ToString().Trim());
+                UT.BlendingVATStrength = decimal.Parse(dr["BlendingVATStrength"].ToString().Trim());
                 UT.Enc_BlendingVATId = new Crypto().Encrypt(dr["BlendingVATId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.Type = 2;
+                UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                UT.SpiritTypeId = short.Parse(dr["SpiritTypeId"].ToString().Trim());
+                UT.BrandName = (dr["BrandName"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.BlendingVATAlcoholicLiter = decimal.Parse(dr["BlendingVATAlcoholicLiter"].ToString().Trim());
+
             }
             catch (Exception) { }
             return UT;
         }
-        public BottelingVATCL GetBottelingVAT(short BreweryId, short BottelingVATId, string status)
+        public BottelingVATCL GetBottelingVAT(short UnitId, short BottelingVATId, string status)
         {
-            DataSet ds = new CommonDA().GetBottelingVATDetails(BreweryId, BottelingVATId, status);
+            DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillBottelingVAT(ds.Tables[0].Rows[0]);
@@ -1132,10 +1142,10 @@ namespace UPExciseLTE.BLL
                 return new BottelingVATCL();
             }
         }
-        public List<BottelingVATCL> GetBottelingVATList(short BreweryId, short BottelingVATId, string status)
+        public List<BottelingVATCL> GetBottelingVATList(short UnitId, short BottelingVATId, string status)
         {
             List<BottelingVATCL> lstSVATCL = new List<BottelingVATCL>();
-            DataSet ds = new CommonDA().GetBottelingVATDetails(BreweryId, BottelingVATId, status);
+            DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 lstSVATCL.Add(FillBottelingVAT(ds.Tables[0].Rows[0]));
@@ -1148,19 +1158,25 @@ namespace UPExciseLTE.BLL
             try
             {
                 UT.BottelingVATId = int.Parse(dr["BottelingVATId"].ToString().Trim());
-                UT.BreweryId = short.Parse(dr["BreweryId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
                 UT.BottelingVATName = (dr["BottelingVATName"].ToString().Trim());
-                UT.BottelingVATCapacity = float.Parse(dr["BottelingVATCapacity"].ToString().Trim());
-                UT.BottelingVATBulkLitre = float.Parse(dr["BottelingVATBulkLiter"].ToString().Trim());
-                UT.BottelingVATStrength = float.Parse(dr["BottelingVATStrength"].ToString().Trim());
+                UT.BottelingVATCapacity = decimal.Parse(dr["BottelingVATCapacity"].ToString().Trim());
+                UT.BottelingVATBulkLitre = decimal.Parse(dr["BottelingVATBulkLiter"].ToString().Trim());
+                UT.BottelingVATStrength = decimal.Parse(dr["BottelingVATStrength"].ToString().Trim());
                 UT.Enc_BottelingVATId = new Crypto().Encrypt(dr["BottelingVATId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.Type = 2;
+                UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                UT.SpiritTypeId = short.Parse(dr["SpiritTypeId"].ToString().Trim());
+                UT.BrandName = (dr["BrandName"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.BottelingVATAlcoholicLiter = decimal.Parse(dr["BottelingVATAlcoholicLiter"].ToString().Trim());
+
             }
             catch (Exception) { }
             return UT;
         }
-        public List<SVTransferToBV> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
+       /* public List<SVTransferToBV> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
         {
             List<SVTransferToBV> UnitTankBLDetailList = new List<SVTransferToBV>();
             DataSet ds = new CommonDA().GetSVTransferToBV(FromDate, ToDate, StorageVATId, Status, UnitId, BledingVATId);
@@ -1194,7 +1210,7 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return UTBL;
-        }
+        }*/
         public static List<SelectListItem> fillBottelingVATCL(string Select)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -1227,7 +1243,7 @@ namespace UPExciseLTE.BLL
                 Plan.LicenceType = dr["LicenceType"].ToString().Trim();
                 Plan.Brand = dr["BrandName"].ToString().Trim();
                 Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
-                Plan.BulkLitre = float.Parse(dr["BulkLiter"].ToString().Trim());
+                Plan.BulkLitre = decimal.Parse(dr["BulkLiter"].ToString().Trim());
                 Plan.Status = dr["Status"].ToString().Trim();
                 Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
@@ -1242,16 +1258,16 @@ namespace UPExciseLTE.BLL
                 Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
                 Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
                 Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
-                Plan.ProducedBoxQuantity = float.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
-                Plan.ProducedBulkLitre = float.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+                Plan.ProducedBoxQuantity = decimal.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+                Plan.ProducedBulkLitre = decimal.Parse(dr["ProducedBulkLiter"].ToString().Trim());
                 Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
                 Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
-                Plan.WastageBL = float.Parse(dr["WastageBL"].ToString().Trim());
+                Plan.WastageBL = decimal.Parse(dr["WastageBL"].ToString().Trim());
                 Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
                 Plan.TotalRevenue = dr["TotalRevenue"].ToString().Trim();
                 Plan.Type = 2;
                 Plan.BVId = int.Parse(dr["BottelingVATId"].ToString().Trim());
-                Plan.BVBulkLitre = float.Parse(dr["BVBulkLitre"].ToString().Trim());
+                Plan.BVBulkLitre = decimal.Parse(dr["BVBulkLitre"].ToString().Trim());
                 Plan.BeforeBVBal = (dr["BeforeBVBal"].ToString().Trim());
                 Plan.AfterBVBal = decimal.Parse(dr["AfterBVBal"].ToString().Trim());
             }
@@ -1341,15 +1357,21 @@ namespace UPExciseLTE.BLL
         public static List<SelectListItem> fillBottelingVAT(string Select)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Blending", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Botteling", UserSession.LoggedInUserId.ToString().Trim(), Select);
             return breweryList;
         }
 
         public static List<SelectListItem> fillBlendingVAT(string Select)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Botteling", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "Blending", UserSession.LoggedInUserId.ToString().Trim(), Select);
             return breweryList;
+        }
+        public static List<SelectListItem> fillSpiritType(string Select)
+        {
+            List<SelectListItem> unitList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", unitList, "SPT", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return unitList;
         }
         #endregion CL BAL
 
