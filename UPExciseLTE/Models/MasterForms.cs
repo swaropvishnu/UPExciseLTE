@@ -331,6 +331,31 @@ namespace UPExciseLTE.Models
         public decimal TotalBL { get; set; } = 0;
         public decimal Strength { get; set; } = 0;
     }
+    public class UnitMaster
+    {
+        public int UnitId { get; set; }
+        public string LicenseType { get; set; }
+        public string UnitName { get; set; }
+        public string LicenseNo { get; set; }
+        public string UnitAddress { get; set; }
+        public string ContactPersonName { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public int ValidityofLicense { get; set; }
+        public decimal Capacity { get; set; }
+        public string DistrictCode { get; set; }
+        public string TehsilCode { get; set; }
+        public string LicenseHolderParentUnit { get; set; } // In Case of FL3A Outside State
+        public string UnitAddressofBottlingUnit { get; set; }   // In Case of FL3A
+
+    }
+    public class GodownDetails
+    {
+        public int GodownDetailId { get; set; }
+        public string LicenseType { get; set; }
+        public string LicenseNo { get; set; }
+        public string Address { get; set; }
+    }
 }
 
 

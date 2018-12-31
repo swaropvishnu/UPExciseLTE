@@ -341,6 +341,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BL", BBTID, Select);
             return breweryList;
         }
+        public static List<SelectListItem> BottlingLineCL(string Select, string BBTID)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BLCL", BBTID, Select);
+            return breweryList;
+        }
         public static List<SelectListItem> EmptyDDl(string Select)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -1302,7 +1308,7 @@ namespace UPExciseLTE.BLL
         }
         public BottlingLineCL GetBottlingLineCL(short BreweryId, int BBTID, int LineId, string status)
         {
-            DataSet ds = new CommonDA().GetBottlingLine(BreweryId, BBTID, LineId, status);
+            DataSet ds = new CommonDA().GetBottlingLineCL(BreweryId, BBTID, LineId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillBottlingLineCL(ds.Tables[0].Rows[0]);
@@ -1336,7 +1342,7 @@ namespace UPExciseLTE.BLL
         public List<BottlingLineCL> GetBottlingLineDetailsCL(short BreweryId, int BBTID, int LineId, string status)
         {
             List<BottlingLineCL> lstUnitTank = new List<BottlingLineCL>();
-            DataSet ds = new CommonDA().GetBottlingLine(BreweryId, BBTID, LineId, status);
+            DataSet ds = new CommonDA().GetBottlingLineCL(BreweryId, BBTID, LineId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)

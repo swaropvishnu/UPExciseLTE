@@ -712,7 +712,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("LineId", LineId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "proc_GetBottlingLine", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2068,6 +2068,25 @@ namespace UPExciseLTE.DAL
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_ValidateCSV", parameters.ToArray());
             }
             catch (Exception exp)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public DataSet GetBottlingLineCL(short BreweryId, int BBTId, int LineId, string status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitId", BreweryId));
+                parameters.Add(new SqlParameter("BBTId", BBTId));
+                parameters.Add(new SqlParameter("LineId", LineId));
+                parameters.Add(new SqlParameter("status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
+            }
+            catch (Exception)
             {
                 ds = null;
             }
