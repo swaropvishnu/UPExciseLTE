@@ -772,7 +772,10 @@ namespace UPExciseLTE.BLL
             try
             {
                 GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
-                GP.Address = dr["Address"].ToString().Trim();
+                GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
+                GP.DispatchType = dr["DispatchType"].ToString().Trim();
+                GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
+                GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
                 GP.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
                 GP.district_code_census1 = int.Parse(dr["district_code_census1"].ToString().Trim());
                 GP.district_code_census2 = int.Parse(dr["district_code_census2"].ToString().Trim());
@@ -815,8 +818,6 @@ namespace UPExciseLTE.BLL
                 GP.GatePassType = short.Parse(dr["GatePassTypeID"].ToString().Trim());
                 GP.CheckPostVia = (dr["CheckPostVia"].ToString().Trim());
                 GP.AdditionalConsiFees = decimal.Parse(dr["AdditionalConsiFees"].ToString().Trim());
-                GP.FromLicenseType1 = (dr["FromLicenseType1"].ToString().Trim());
-                GP.ToLicenseType1 = (dr["ToLicenseType1"].ToString().Trim());
             }
             catch (Exception) { }
             return GP;
@@ -1378,6 +1379,88 @@ namespace UPExciseLTE.BLL
             List<SelectListItem> unitList = new List<SelectListItem>();
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", unitList, "SPT", UserSession.LoggedInUserId.ToString().Trim(), Select);
             return unitList;
+        }
+
+        public GatePassDetailsCL GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        {
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillGatePassDetailsCL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new GatePassDetailsCL();
+            }
+        }
+        public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        {
+            List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstGPD.Add(FillGatePassDetailsCL(dr));
+                }
+            }
+            return lstGPD;
+        }
+        private GatePassDetailsCL FillGatePassDetailsCL(DataRow dr)
+        {
+            GatePassDetailsCL GP = new GatePassDetailsCL();
+            try
+            {
+                GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
+                GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
+                GP.DispatchType = dr["DispatchType"].ToString().Trim();
+                GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
+                GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
+                GP.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
+                GP.district_code_census1 = int.Parse(dr["district_code_census1"].ToString().Trim());
+                GP.district_code_census2 = int.Parse(dr["district_code_census2"].ToString().Trim());
+                GP.district_code_census3 = int.Parse(dr["district_code_census3"].ToString().Trim());
+                GP.DriverName = dr["DriverName"].ToString().Trim();
+                GP.FromConsignorName = dr["FromConsignorName"].ToString().Trim();
+                GP.FromDate = DateTime.Parse(dr["FromDate"].ToString().Trim());
+                GP.FromDate1 = (dr["FromDate1"].ToString().Trim());
+                GP.FromLicenseType = (dr["FromLicenseType"].ToString().Trim());
+                GP.GatePassId = long.Parse((dr["GatePassId"].ToString().Trim()));
+                GP.EncGatePassId = new Crypto().Encrypt((dr["GatePassId"].ToString().Trim()));
+                GP.GatePassNo = (dr["GatePassNo"].ToString().Trim());
+                GP.GatePassSourceId = long.Parse((dr["GatePassSourceId"].ToString().Trim()));
+                GP.GrossWeight = decimal.Parse(dr["GrossWeight"].ToString().Trim());
+                GP.LicenseeAddress = (dr["LicenseeAddress"].ToString().Trim());
+                GP.LicenseeName = (dr["LicenseeName"].ToString().Trim());
+                GP.LicenseeNo = (dr["LicenseeNo"].ToString().Trim());
+                GP.NetWeight = decimal.Parse(dr["NetWeight"].ToString().Trim());
+                GP.Receiver = dr["Receiver"].ToString().Trim();
+                GP.RouteDetails = (dr["RouteDetails"].ToString().Trim());
+                GP.ShopId = int.Parse(dr["ShopId"].ToString().Trim());
+                GP.ShopName = (dr["ShopName"].ToString().Trim());
+                GP.SP_Type = 2;
+                GP.Status = (dr["Status"].ToString().Trim());
+                GP.TareWeight = decimal.Parse(dr["TareWeight"].ToString().Trim());
+                GP.ToConsigeeName = (dr["ToConsigeeName"].ToString().Trim());
+                GP.ToDate = DateTime.Parse(dr["ToDate"].ToString().Trim());
+                GP.ToDate1 = (dr["ToDate1"].ToString().Trim());
+                GP.ToLicenseType = (dr["ToLicenseType"].ToString().Trim());
+                GP.UploadValue = int.Parse(dr["UploadValue"].ToString().Trim());
+                GP.VehicleNo = (dr["VehicleNo"].ToString().Trim());
+                GP.FromLicenceNo = (dr["FromLicenceNo"].ToString().Trim());
+                GP.ToLicenceNo = (dr["ToLicenceNo"].ToString().Trim());
+                GP.TotalCase = int.Parse(dr["TotalCase"].ToString().Trim());
+                GP.TotalBottle = int.Parse(dr["TotalBottle"].ToString().Trim());
+                GP.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());
+                GP.TotalConsiderationFees = decimal.Parse(dr["ConsiderationFees"].ToString().Trim());
+                GP.InBondValue = decimal.Parse(dr["InBondValue"].ToString().Trim());
+                GP.ExportDuty = decimal.Parse(dr["ExportDuty"].ToString().Trim());
+                GP.GatePassType = short.Parse(dr["GatePassTypeID"].ToString().Trim());
+                GP.CheckPostVia = (dr["CheckPostVia"].ToString().Trim());
+                GP.AdditionalConsiFees = decimal.Parse(dr["AdditionalConsiFees"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return GP;
         }
         #endregion CL BAL
 

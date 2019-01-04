@@ -1102,7 +1102,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("LicenseeName", filter_bad_chars_rep(GP.LicenseeName.Trim())));
                 cmd.Parameters.Add(new SqlParameter("LicenseeAddress", filter_bad_chars_rep(GP.LicenseeAddress.Trim())));
                 cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", filter_bad_chars_rep(GP.AgencyNameAndAddress.Trim())));
-                cmd.Parameters.Add(new SqlParameter("Address", filter_bad_chars_rep(GP.Address.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToAddress", filter_bad_chars_rep(GP.ConsigneeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromAddress", filter_bad_chars_rep(GP.ConsignorAddress.Trim())));
                 cmd.Parameters.Add(new SqlParameter("GrossWeight", GP.GrossWeight));
                 cmd.Parameters.Add(new SqlParameter("TareWeight", GP.TareWeight));
                 cmd.Parameters.Add(new SqlParameter("NetWeight", GP.NetWeight));
@@ -1122,6 +1123,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
                 cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
                 cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;

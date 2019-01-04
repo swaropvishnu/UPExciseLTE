@@ -276,6 +276,7 @@ namespace UPExciseLTE.Models
     {
         public long GatePassId { get; set; } = -1;
         public short GatePassType { get; set; } = -1;
+        public string DispatchType { get; set; } = "";
         public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
@@ -283,9 +284,7 @@ namespace UPExciseLTE.Models
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
-        public string ToLicenseType1 { get; set; } = "";
-        public string FromLicenseType1 { get; set; } = "";
-
+       
         public string ToLicenceNo { get; set; } = "";
         public string ToConsigeeName { get; set; } = "";
         public string FromLicenseType { get; set; } = "";
@@ -300,7 +299,9 @@ namespace UPExciseLTE.Models
         public string LicenseeName { get; set; } = "";
         public string LicenseeAddress { get; set; } = "";
         public string AgencyNameAndAddress { get; set; } = "";
-        public string Address { get; set; } = "";
+        public string ConsignorAddress { get; set; } = "";
+        public string ImportPermitNo { get; set; }="";
+        public string ConsigneeAddress { get; set; } = "";
         public decimal GrossWeight { get; set; } = 0;
         public decimal TareWeight { get; set; } = 0;
         public decimal NetWeight { get; set; } = 0;
@@ -331,31 +332,7 @@ namespace UPExciseLTE.Models
         public decimal TotalBL { get; set; } = 0;
         public decimal Strength { get; set; } = 0;
     }
-    public class UnitMaster
-    {
-        public int UnitId { get; set; }
-        public string LicenseType { get; set; }
-        public string UnitName { get; set; }
-        public string LicenseNo { get; set; }
-        public string UnitAddress { get; set; }
-        public string ContactPersonName { get; set; }
-        public string Mobile { get; set; }
-        public string Email { get; set; }
-        public int ValidityofLicense { get; set; }
-        public decimal Capacity { get; set; }
-        public string DistrictCode { get; set; }
-        public string TehsilCode { get; set; }
-        public string LicenseHolderParentUnit { get; set; } // In Case of FL3A Outside State
-        public string UnitAddressofBottlingUnit { get; set; }   // In Case of FL3A
-
-    }
-    public class GodownDetails
-    {
-        public int GodownDetailId { get; set; }
-        public string LicenseType { get; set; }
-        public string LicenseNo { get; set; }
-        public string Address { get; set; }
-    }
+   
 }
 
 

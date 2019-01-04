@@ -503,8 +503,8 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult GatePassCL()
         {
-            GatePassDetails GP = new GatePassDetails();
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
+            GatePassDetailsCL GP = new GatePassDetailsCL();
+            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
 
             //ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
             //ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
@@ -519,7 +519,7 @@ namespace UPExciseLTE.Controllers
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                    GP.Address = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                    GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }
             }
             ViewBag.Districts = CommonBL.fillDistict("N");
@@ -616,7 +616,7 @@ namespace UPExciseLTE.Controllers
             GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z");
             string qrcode = "EXCISE";
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
-            ViewBag.PassType = "B-12";
+            ViewBag.PassType = "PD-25A";
             ViewBag.GetGatePassBrandDetailsList = new CommonBL().GetGatePassBrandDetailsList(GatePassId);
             return View(GP);
         }

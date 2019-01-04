@@ -245,11 +245,12 @@ namespace UPExciseLTE.Models
         public string CurrentBalanceBBT { get; set; }
         public Message Msg { get; set; }
     }
-    
+
     public class GatePassDetailsCL
     {
         public long GatePassId { get; set; } = -1;
         public short GatePassType { get; set; } = -1;
+        public string DispatchType { get; set; } = "";
         public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
@@ -257,8 +258,6 @@ namespace UPExciseLTE.Models
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
-        public string ToLicenseType1 { get; set; } = "";
-        public string FromLicenseType1 { get; set; } = "";
 
         public string ToLicenceNo { get; set; } = "";
         public string ToConsigeeName { get; set; } = "";
@@ -274,7 +273,9 @@ namespace UPExciseLTE.Models
         public string LicenseeName { get; set; } = "";
         public string LicenseeAddress { get; set; } = "";
         public string AgencyNameAndAddress { get; set; } = "";
-        public string Address { get; set; } = "";
+        public string ConsignorAddress { get; set; } = "";
+        public string ImportPermitNo { get; set; } = "";
+        public string ConsigneeAddress { get; set; } = "";
         public decimal GrossWeight { get; set; } = 0;
         public decimal TareWeight { get; set; } = 0;
         public decimal NetWeight { get; set; } = 0;

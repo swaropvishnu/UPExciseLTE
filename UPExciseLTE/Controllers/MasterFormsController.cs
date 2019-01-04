@@ -735,10 +735,6 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetails GP = new GatePassDetails();
             GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P");
-
-            //ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
-            //ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
-            //List <SelectListItem> lstBR = CommonBL.fillBreweryLiceName();
             ViewBag.Msg = TempData["Message"];
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
             if (GP.FromConsignorName.Trim()==string.Empty)
@@ -749,7 +745,7 @@ namespace UPExciseLTE.Controllers
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                    GP.Address = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                    GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }   
             }
             ViewBag.Districts = CommonBL.fillDistict("N");
