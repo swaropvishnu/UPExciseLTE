@@ -365,6 +365,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+        
         public DataSet GetDutyCalculation(string Year, string LiquorType)
         {
             DataSet ds = new DataSet();
@@ -2075,5 +2076,87 @@ namespace UPExciseLTE.DAL
         }
         #endregion CL DAL
 
+        #region UnitMaster
+        public string InsertUpdateUnitMaster(UnitMaster objUnitMaster)
+        {
+            string str = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_InsertUpdateUnit", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;  
+                cmd.Parameters.Add(new SqlParameter("UnitId", objUnitMaster.UnitId));
+                cmd.Parameters.Add(new SqlParameter("StateId", objUnitMaster.StateCode));
+                cmd.Parameters.Add(new SqlParameter("DistrictCode", objUnitMaster.DistrictCode));
+                cmd.Parameters.Add(new SqlParameter("ProductionLiquorType", objUnitMaster.ProductionLiquorType));
+                cmd.Parameters.Add(new SqlParameter("UnitType", objUnitMaster.UnitType));
+                cmd.Parameters.Add(new SqlParameter("UnitLicenseType", objUnitMaster.LicenseType));
+                cmd.Parameters.Add(new SqlParameter("UnitName",objUnitMaster.UnitName));
+                cmd.Parameters.Add(new SqlParameter("UnitLicenseNo", objUnitMaster.LicenseNo));
+                cmd.Parameters.Add(new SqlParameter("UserLevel", objUnitMaster.UserLevel));
+                cmd.Parameters.Add(new SqlParameter("UnitAddress", objUnitMaster.UnitAddress));
+                cmd.Parameters.Add(new SqlParameter("OwnerName", objUnitMaster.OwnerName));
+                cmd.Parameters.Add(new SqlParameter("UnitContactPerson", objUnitMaster.ContactPersonName));
+                cmd.Parameters.Add(new SqlParameter("UnitContactPersonMobile", objUnitMaster.Mobile));
+                cmd.Parameters.Add(new SqlParameter("UnitCapacity", objUnitMaster.UnitCapacity));
+                cmd.Parameters.Add(new SqlParameter("UnitPhone", objUnitMaster.Mobile));
+                cmd.Parameters.Add(new SqlParameter("UnitFax", objUnitMaster.UnitFax));
+                cmd.Parameters.Add(new SqlParameter("UnitEmail", objUnitMaster.Email));
+                cmd.Parameters.Add(new SqlParameter("ApproverUserID", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("Remark", objUnitMaster.Remark));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("ParentUnitId", objUnitMaster.ParentUnitId));
+                cmd.Parameters.Add(new SqlParameter("DECApprovalStatus", objUnitMaster.DECApprovalStatus));
+                cmd.Parameters.Add(new SqlParameter("Reason", objUnitMaster.Reason));
+                cmd.Parameters.Add(new SqlParameter("LicensePhoto", objUnitMaster.LicensePhoto));
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", objUnitMaster.SPType)); 
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 32676;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
+        public DataSet GetUnitMasterDetail(int UnitId, string UnitName, string UnitLicenseNo, int StateId, int DistrictCode, int TehsilCode, int UserId, string DECApprovalStatus, int ParentUnitId, string UnitLicenseType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("DbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitId", UnitId));
+                parameters.Add(new SqlParameter("UnitName", UnitName));
+                parameters.Add(new SqlParameter("UnitLicenseNo", UnitLicenseNo));
+                parameters.Add(new SqlParameter("StateId", StateId));
+                parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
+                parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
+                parameters.Add(new SqlParameter("UserId", UserId));
+                parameters.Add(new SqlParameter("DECApprovalStatus", DECApprovalStatus));
+                parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
+                parameters.Add(new SqlParameter("UnitLicenseType", UnitLicenseType));
+
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitMaster", parameters.ToArray());
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

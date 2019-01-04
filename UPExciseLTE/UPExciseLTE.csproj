@@ -247,6 +247,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\CommonBL.cs" />
+    <Compile Include="Controllers\BreweryWareHouseController.cs" />
     <Compile Include="Controllers\BWFLController.cs" />
     <Compile Include="Controllers\CLController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Controllers\MasterFormsController.cs" />
     <Compile Include="Controllers\ProductionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\UnitMasterController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -276,6 +278,7 @@
     <Compile Include="Models\MasterForms.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\CSV.cs" />
+    <Compile Include="Models\UnitMaster.cs" />
     <Compile Include="Models\UserManager.cs" />
     <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Utility.cs" />
@@ -6225,6 +6228,10 @@
     <Content Include="Views\CL\z_StorageTrBV.cshtml" />
     <Content Include="Views\CL\StorageVATTransferToBVDetailsCL.cshtml" />
     <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
+    <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
+    <Content Include="Views\BreweryWareHouse\BreweryWareHouse.cshtml" />
+    <Content Include="Views\UnitMaster\GetUnitMasterDetails.cshtml" />
+    <Content Include="Views\UnitMaster\FreezeUnitMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

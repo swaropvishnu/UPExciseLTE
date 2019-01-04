@@ -58,7 +58,7 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public JsonResult GetFilteredDistrict(long districtId1 = 0, long districtId2 = 0)
         {
-            var districts = CommonBL.fillDistict("S", districtId1, districtId2);
+            var districts = CommonBL.fillDistict("S","-1", districtId1, districtId2);
             return Json(districts, JsonRequestBehavior.AllowGet);
         }
 

@@ -10,7 +10,6 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.Filters;
 using System.Data.Entity.Infrastructure;
 using System.Web;
-using System.Text;
 using ZXing;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -19,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilter]
     //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]                         
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()
@@ -37,6 +36,8 @@ namespace UPExciseLTE.Controllers
             BrandMaster Brand = new BrandMaster();
             List<SelectListItem> lstLicense = new List<SelectListItem>();
             List<SelectListItem> lstLiquor = new List<SelectListItem>();
+            
+
             SelectListItem SLI = new SelectListItem();
             SelectListItem LT = new SelectListItem();
             //if (UserSession.PushName.Trim()== "be_unnao1")
