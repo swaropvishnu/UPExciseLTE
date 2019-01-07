@@ -38,10 +38,10 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "STATE", "", SelectType);
             return StateList;
         }
-        public static List<SelectListItem> fillDistict(string SelectType, long districtId1 = 0, long districtId2 = 0)
+        public static List<SelectListItem> fillDistict(string SelectType, string StateID = "-1", long districtId1 = 0, long districtId2 = 0)
         {
             List<SelectListItem> StateList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "DIST", "", SelectType, districtId1, districtId2);
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", StateList, "DIST", StateID, SelectType, districtId1, districtId2);
             return StateList;
         }
 
@@ -1463,7 +1463,62 @@ namespace UPExciseLTE.BLL
             return GP;
         }
         #endregion CL BAL
+         
+        #region MasterForm_Sachin
 
+        private UnitMaster FillUnitMaster(DataRow dr)
+        {
+            UnitMaster objUnitmaster = new UnitMaster();
+            try
+            {
+                objUnitmaster.UnitId = int.Parse(dr["UnitId"].ToString().Trim());
+                objUnitmaster.DistrictCode = dr["DistrictCode"].ToString().Trim();
+                objUnitmaster.UnitName = dr["UnitName"].ToString().Trim();
+                objUnitmaster.LicenseNo = dr["UnitLicenseNo"].ToString().Trim();
+                objUnitmaster.UnitAddress = dr["UnitAddress"].ToString().Trim();
+                objUnitmaster.ContactPersonName = dr["UnitContactPerson"].ToString().Trim();
+                objUnitmaster.Mobile = dr["UnitContactPersonMobile"].ToString().Trim();
+                objUnitmaster.UnitCapacity = dr["UnitCapacity"].ToString().Trim();
+                objUnitmaster.UnitPhone = dr["UnitPhone"].ToString().Trim();
+                objUnitmaster.UnitFax = dr["UnitFax"].ToString().Trim();
+                objUnitmaster.Email = dr["UnitEmail"].ToString().Trim();
+                objUnitmaster.Remark = dr["Remark"].ToString().Trim();
+                objUnitmaster.ApproverUserID = dr["UserId"].ToString().Trim();
+                objUnitmaster.UnitType = dr["UnitType"].ToString().Trim();
+                objUnitmaster.SPType = 2;
+                return objUnitmaster;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<UnitMaster> GetUnitMasterList(int UnitId, string UnitName, string UnitLicenseNo, int StateId, int DistrictCode, int TehsilCode, int UserId, string DECApprovalStatus, int ParentUnitId, string UnitLicenseType)
+        {
+            List<UnitMaster> lstUnitMaster = new List<UnitMaster>();
 
+            DataSet ds = new CommonDA().GetUnitMasterDetail(UnitId, UnitName, UnitLicenseNo, StateId, DistrictCode, TehsilCode, UserId, DECApprovalStatus, ParentUnitId, UnitLicenseType);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstUnitMaster.Add(FillUnitMaster(dr));
+                }
+            }
+            return lstUnitMaster;
+        }
+        public UnitMaster GetUnitMaster(int UnitId, string UnitName, string UnitLicenseNo, int StateId, int DistrictCode, int TehsilCode, int UserId, string DECApprovalStatus, int ParentUnitId, string UnitLicenseType)
+        {
+            DataSet ds = new CommonDA().GetUnitMasterDetail(UnitId, UnitName, UnitLicenseNo, StateId, DistrictCode, TehsilCode, UserId, DECApprovalStatus, ParentUnitId, UnitLicenseType);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillUnitMaster(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new UnitMaster();
+            }
+        }
+        #endregion
     }
 }

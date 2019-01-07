@@ -737,20 +737,69 @@ namespace UPExciseLTE.Controllers
             GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P");
             ViewBag.Msg = TempData["Message"];
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
-            if (GP.FromConsignorName.Trim()==string.Empty)
+
+            List<SelectListItem> FromLicenseTypes = new List<SelectListItem>();
+            List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
+            SelectListItem SLI = new SelectListItem();
+            SLI.Text = "--Select--";
+            SLI.Value = "-1";
+            FromLicenseTypes.Add(SLI);
+            SLI = new SelectListItem();
+            SLI.Text = "FL3";
+            SLI.Value = "FL3";
+            FromLicenseTypes.Add(SLI);
+
+            SLI = new SelectListItem();
+            SLI.Text = "F.L. 3-A";
+            SLI.Value = "F.L. 3-A";
+            FromLicenseTypes.Add(SLI);
+
+            SLI = new SelectListItem();
+            SLI.Text = "--Select--";
+            SLI.Value = "-1";
+            ToLicenseTypes.Add(SLI);
+            SLI = new SelectListItem();
+            SLI.Text = "F.L. 1";
+            SLI.Value = "F.L. 1";
+            ToLicenseTypes.Add(SLI);
+            SLI = new SelectListItem();
+            SLI.Text = "F.L. 1-A";
+            SLI.Value = "F.L. 1-A";
+            ToLicenseTypes.Add(SLI);
+            SLI = new SelectListItem();
+            SLI.Text = "Export Outside UP";
+            SLI.Value = "Export Outside UP";
+            ToLicenseTypes.Add(SLI);
+            SLI = new SelectListItem();
+            SLI.Text = "Export Outside INDIA";
+            SLI.Value = "Export Outside INDIA";
+            ToLicenseTypes.Add(SLI);
+
+            if (GP.FromConsignorName.Trim() == string.Empty)
             {
-                if (ds!=null && ds.Tables[0].Rows.Count>0)
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim() ;
+                    GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
-                }   
+                    //FromLicenseTypes.Find()
+                    //FromLicenseTypes.Sele.Items.FindByValue("Yourvalue").Selected = true;
+                    //FromLicenseTypes.Where(p => p.Value == "2").First().Text;
+
+                }
+            }
+            else {
+                    FromLicenseTypes.Find(x => x.Value == GP.FromLicenseType).Selected = true;
+                ToLicenseTypes.Find(x => x.Value == GP.ToLicenseType).Selected = true;
             }
             ViewBag.Districts = CommonBL.fillDistict("N");
-            ViewBag.FromLicenseTypes = CommonBL.fillLicenseTypes("S", "L1F");
-            ViewBag.ToLicenseTypes = CommonBL.fillLicenseTypes("S", "L1T");
+            
+
+            //ViewBag.FromLicenseTypes = CommonBL.fillLicenseTypes("S", "L1F");
+            ViewBag.FromLicenseTypes = FromLicenseTypes;
+            ViewBag.ToLicenseTypes = ToLicenseTypes;
             return View(GP);
         }
         [HttpPost]

@@ -141,7 +141,7 @@
                                     <label class="control-label" id="lblToLicType">To License Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlToLicenceType", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @class = "form-control" })
                                     @Html.DropDownList("ddlTemp", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlTemp", @class = "form-control", @style = "display:none;" })
-                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name", @required = "required",@class="hide" })
+                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name",@class="hide" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
@@ -186,7 +186,7 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No", @required = "required" })
+                                        @Html.TextBoxFor(m => m.ImportPermitNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No", @required = "required" })
                                     </div>
                                 </div>
                             </div>
@@ -356,8 +356,8 @@
     }
     function InsideUp() {
         $('#ddlToLicenceType').html($('#ddlTemp').html());
-        $("#ddlToLicenceType option[value='40']").remove();
-        $("#ddlToLicenceType option[value='41']").remove();
+        $("#ddlToLicenceType option[value='Export Outside UP']").remove();
+        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
 
         $("#ddlToLicenceType").removeClass("hide");
         $("#txtToLicenceType").removeClass("form-control");
@@ -378,10 +378,10 @@
     }
     function OutsideUp() {
         $('#ddlToLicenceType').html($('#ddlTemp').html());
-        $("#ddlToLicenceType option[value='-1']").remove();
-        $("#ddlToLicenceType option[value='1']").remove();
-        $("#ddlToLicenceType option[value='55']").remove();
-        $("#ddlToLicenceType option[value='41']").remove();
+        //$("#ddlToLicenceType option[value='-1']").remove();
+        $("#ddlToLicenceType option[value='F.L. 1']").remove();
+        $("#ddlToLicenceType option[value='F.L. 1-A']").remove();
+        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
 
         $("#ddlToLicenceType").removeClass("hide");
         $("#txtToLicenceType").removeClass("form-control");
@@ -407,8 +407,9 @@
         //$('#ddlToLicenceType').html($('#ddlTemp').html());
         //$("#ddlToLicenceType option[value='-1']").remove();
         //$("#ddlToLicenceType option[value='1']").remove();
-        //$("#ddlToLicenceType option[value='55']").remove();
-        //$("#ddlToLicenceType option[value='40']").remove();
+        //$("#ddlToLicenceType option[value='F.L. 1-A']").remove();
+        //$("#ddlToLicenceType option[value='Export Outside UP']").remove();
+        document.getElementById("txtToLicenceType").value = "";
         document.getElementById("txtToLicenceNo").readOnly = false;
         document.getElementById("txtConsigneeName").readOnly = false;
         $("#ddlToLicenceType").removeClass("form-control");
