@@ -1,0 +1,174 @@
+﻿@model UPExciseLTE.Models.UnitMaster
+
+@{
+    ViewBag.Title = "BreweryWareHouse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#StateCode').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/BreweryWareHouse/GetDistrictAgainstState",
+                data: { ddlState: $('#StateCode').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#DistrictCode').empty();
+                    var district = '';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#DistrictCode').append(district);
+                }
+            });
+        });
+    });
+
+</script>
+@if (TempData["Message"] != null)
+{
+    <script>
+        $(document).ready(function () { alert('@TempData["Message"].ToString()'); });
+    </script>
+}
+@using (Html.BeginForm("BreweryWareHouse", "BreweryWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="page-content-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp;Brewery Ware House Master&nbsp;</span>
+                        </div>
+                    </div>
+
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Brewery License Type<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.LicenseType, (IEnumerable<SelectListItem>)ViewBag.LicenseType, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">State<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.StateCode, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">District<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.DistrictCode, (IEnumerable<SelectListItem>)ViewBag.DistrictCode, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Brewery Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.UnitName, new { @class = "form-control", @required = "required", @MaxLength = "150" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Brewery Type<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.UnitType, (IEnumerable<SelectListItem>)ViewBag.UnitTypeList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">License No<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.LicenseNo, new { @class = "form-control", @required = "required", @MaxLength = "20" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Production Liquor Type<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.ProductionLiquorType, (IEnumerable<SelectListItem>)ViewBag.ProductionLiquorList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Upload License<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        <input type="file" class="btn default" name="imgLicenseUpload" id="imgLicenseUpload" accept=".jpg,.jpeg" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Address<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextAreaFor(m => m.UnitAddress, new { @class = "form-control", @required = "required", @MaxLength = "100" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class=" control-label">Contact Person <b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ContactPersonName, new { @class = "form-control", @required = "required", @MaxLength = "50" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Mobile<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @required = "required", @MaxLength = "10" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Email<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @required = "required", @MaxLength = "70" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Validity of License<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ValidityofLicense, new { @class = "form-control", @required = "required", @MaxLength = "15" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Remark<b style="color:red; font-weight:800"></b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control",@MaxLength = "100" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <input type="submit" value="Submit" class="btn green" />
+                            </div>
+                        </center>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

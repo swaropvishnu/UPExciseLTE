@@ -2096,6 +2096,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("UnitName",objUnitMaster.UnitName));
                 cmd.Parameters.Add(new SqlParameter("UnitLicenseNo", objUnitMaster.LicenseNo));
                 cmd.Parameters.Add(new SqlParameter("UserLevel", objUnitMaster.UserLevel));
+                cmd.Parameters.Add(new SqlParameter("ValidityOfLicense", objUnitMaster.ValidityOfLicense1));                
                 cmd.Parameters.Add(new SqlParameter("UnitAddress", objUnitMaster.UnitAddress));
                 cmd.Parameters.Add(new SqlParameter("OwnerName", objUnitMaster.OwnerName));
                 cmd.Parameters.Add(new SqlParameter("UnitContactPerson", objUnitMaster.ContactPersonName));

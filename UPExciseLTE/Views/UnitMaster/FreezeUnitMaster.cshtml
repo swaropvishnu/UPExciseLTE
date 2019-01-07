@@ -1,0 +1,132 @@
+﻿@model IEnumerable<UPExciseLTE.Models.UnitMaster>
+
+    @{
+        ViewBag.Title = "FreezeUnitMaster";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    @using (Html.BeginForm("FreezeUnitMaster", "UnitMaster", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="page-content-inner">
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i>Freeze Brand
+                            </div>
+                        </div>
+                        <div class="portlet-body form" style="background-color: #f5f5f5">
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+                                <tr>
+                                    <th>
+                                        Unit Type
+                                    </th>
+                                    <th>
+                                        Unit Name
+                                    </th>
+                                    <th>
+                                        License No
+                                    </th>
+                                    <th>
+                                        Contact Person Name
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnitType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnitName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LicenseNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ContactPersonName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Mobile)
+                                        </td>
+                                        <td>
+                                            @Html.TextBox("txtReason", "", new { @id = item.UnitId })
+                                        </td>
+                                        @*<td>
+                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId})"><label class="btn blue">View</label></a>
+                                        </td>*@
+                                        <td>
+                                            @if (item.DECApprovalStatus == "P")
+                                            {
+                                                <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalUnit('@item.UnitId','A')">Freeze</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.DECApprovalStatus == "P")
+                                            {
+                                                <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','R')">Reject</button>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    <script type="text/javascript">
+      
+        function FinalUnit(UnitId, Status)
+        {
+            var reason = "";         
+            if (status == "A")
+            {
+                reason = "Unit Freezed";
+                var r = confirm("Are You Sure To Freeze This Unit.");
+                if (r == false)
+                {
+                    return false;
+                }
+            }
+            else if (status == "R")
+            {
+                var r = confirm("Are You sure to Reject this Brand.");
+                if (r == false)
+                {
+                    return false;
+                }
+                reason = document.getElementById(btnReject).value;
+                if (reason.trim() == "")
+                {
+                    alert("Please Enter Reason of rejection");
+                    return false;
+                }
+            }
+            $.ajax({
+                url: '/UnitMaster/FreezeUnitMaster',
+                data: { 'UnitId': UnitId, 'Status': Status, 'Reason': reason },
+                datatype: "json",
+                type: "POST",
+                success: function (data)
+                {                    
+                    window.location = "../UnitMaster/FreezeUnitMaster";
+                },
+                error: function (data)
+                {
+                    alert("Error in final brand Loading");
+                }
+            });
+        }
+    </script>
+
