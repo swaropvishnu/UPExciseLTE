@@ -98,6 +98,15 @@
                           }
                           function FinalUnit(UnitId, Status)
                           {
+                              if (Status == "F")
+                              {                                  
+                                  var r = confirm("Are You Sure To Final This Unit.");
+                                  if (r == false)
+                                  {
+                                      return false;
+                                  }
+                              }
+
                               $.ajax({
                                   url: '/UnitMaster/GetUnitMasterDetails',
                                   data: { 'UnitId': UnitId, 'Status': Status},
