@@ -148,6 +148,7 @@ namespace UPExciseLTE.Controllers
                     objUnitMaster.Reason = "";
                 }
                 str = new CommonDA().InsertUpdateUnitMaster(objUnitMaster);
+                TempData["Message"] = str;
             }
             catch (Exception x)
             {
@@ -186,7 +187,8 @@ namespace UPExciseLTE.Controllers
                 {
                     objUnitMaster.Reason = "";
                 }
-                str = new CommonDA().InsertUpdateUnitMaster(objUnitMaster);                
+                str = new CommonDA().InsertUpdateUnitMaster(objUnitMaster);
+                TempData["Message"] = str;
             }
             catch (Exception x)
             {

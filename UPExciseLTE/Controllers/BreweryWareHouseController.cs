@@ -77,6 +77,9 @@ namespace UPExciseLTE.Controllers
                 }
                 if (ObjUnitMaster.Remark != null && ObjUnitMaster.Remark != string.Empty)
                 {
+                    ObjUnitMaster.SPType = 4;
+                    ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
+                    ObjUnitMaster.ParentUnitId =  Convert.ToInt32(CommonBL.fillBrewery()[0].Value);
                     string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
                     TempData["Message"] = str;
                     return RedirectToAction("BreweryWareHouse");
@@ -84,6 +87,9 @@ namespace UPExciseLTE.Controllers
                 else
                 {
                     ObjUnitMaster.Remark = "";
+                    ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
+                    ObjUnitMaster.SPType = 4;
+                    ObjUnitMaster.ParentUnitId = Convert.ToInt32(CommonBL.fillBrewery()[0].Value);
                     string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
                     TempData["Message"] = str;
                     return RedirectToAction("BreweryWareHouse");
