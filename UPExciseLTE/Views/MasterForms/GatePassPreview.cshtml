@@ -95,49 +95,76 @@
                     <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName (@Model.FromLicenseType)</td>
                 </tr>
                 <tr>
-                    <td colspan="4"><div style="height:10px"></div></td>
-                </tr>
-                <tr>
                     <td><b>2.</b></td>
-                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName (@Model.ToLicenseType)</td>
+                    <td colspan="3"><b>Address of Consignor :</b> @Model.ConsignorAddress</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>3.</b></td>
-                    <td colspan="3"><b>Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Model.CheckPostVia ) Vehicle No :</b>  @Model.VehicleNo </td>
-                </tr>
-                <tr>
-                    <td colspan="4"><div style="height:10px"></div></td>
+                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName (@Model.ToLicenseType)</td>
                 </tr>
                 <tr>
                     <td><b>4.</b></td>
-                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.FromDate1</td>
+                    <td colspan="3"><b>Address of Consignee :</b>@Model.ConsigneeAddress</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>5.</b></td>
-                    <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
-                    <td></td>
-                    <td><b>6. Export Duty : Rs. </b>: @Model.ExportDuty</td>
+                    <td colspan="3"><b>Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Model.CheckPostVia )</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>7.</b></td>
-                    <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                    <td><b>6.</b></td>
+                    <td><b>Vehicle No :</b> @Model.VehicleNo</td>
                     <td></td>
-                    <td><b>8. Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                    <td><b>7. Driver Name </b>: @Model.DriverName</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>9.</b></td>
+                    <td><b>8.</b></td>
+                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.ImportPermitNo</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                @if (Model.ToLicenseType != "F.L. 1" || Model.ToLicenseType != "F.L. 1-A")
+                {
+                    <tr>
+                        <td><b>9.</b></td>
+                        <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
+                        <td></td>
+                        <td><b>10. Export Duty : Rs. </b>: @Model.ExportDuty</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td><b>9.</b></td>
+                        <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                        <td></td>
+                        <td><b>10. Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>10.</b></td>
+                    <td colspan="3"><b>Route Details :</b>@Model.RouteDetails</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>11.</b></td>
                     <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
                 </tr>
                 <tr>
