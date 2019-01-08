@@ -95,20 +95,23 @@
 
     function FinalUnit(UnitId, Status) {
         var reason = "";
-        if (status == "A") {
+        if (Status == "A")
+        {
             reason = "Unit Freezed";
             var r = confirm("Are You Sure To Freeze This Unit.");
             if (r == false) {
                 return false;
             }
         }
-        else if (status == "R") {
+        else if (Status == "R")
+        {
             var r = confirm("Are You sure to Reject this Brand.");
             if (r == false) {
                 return false;
             }
             reason = document.getElementById(btnReject).value;
-            if (reason.trim() == "") {
+            if (reason.trim() == "")
+            {
                 alert("Please Enter Reason of rejection");
                 return false;
             }
