@@ -55,7 +55,7 @@ namespace UPExciseLTE.Controllers
 
                 if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
                 {
-                    objUnitMaster = new CommonBL().GetUnitMaster(int.Parse(Request.QueryString["Code"].Trim()),"","",-1,-1,-1,-1,"Z",-1,"Z");
+                    objUnitMaster = new CommonBL().GetUnitMaster(int.Parse(Request.QueryString["Code"].Trim()), "", "", -1, -1, -1, -1, "Z", -1, "Z");
                     ViewBag.StateList = CommonBL.fillState("S");
                 }
 
@@ -83,22 +83,16 @@ namespace UPExciseLTE.Controllers
                     imgLicenseUpload.InputStream.Read(img, 0, FileSize);
                     ObjUnitMaster.LicensePhoto = img;
                     ObjUnitMaster.FileExt = ext;
-                } 
-                if (ObjUnitMaster.Remark != null && ObjUnitMaster.Remark != string.Empty)
-                {
-                    ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
-                    string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
-                    TempData["Message"] = str;
-                    return RedirectToAction("UnitMaster");
                 }
-                else
+                if (ObjUnitMaster.Remark == null)
                 {
                     ObjUnitMaster.Remark = "";
-                    ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
-                    string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
-                    TempData["Message"] = str;
-                    return RedirectToAction("UnitMaster");
                 }
+                ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
+                string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
+                TempData["Message"] = str;
+                return RedirectToAction("UnitMaster");
+
             }
             catch (Exception ex)
             {
@@ -121,7 +115,7 @@ namespace UPExciseLTE.Controllers
         {
             try
             {
-                List<UnitMaster> lstUnitMaster = new CommonBL().GetUnitMasterList(-1, "", "",-1,-1,-1,-1, "P",-1, "Z");                
+                List<UnitMaster> lstUnitMaster = new CommonBL().GetUnitMasterList(-1, "", "", -1, -1, -1, -1, "P", -1, "Z");
                 return View(lstUnitMaster);
             }
             catch (Exception ex)
@@ -130,7 +124,7 @@ namespace UPExciseLTE.Controllers
             }
         }
         [HttpPost]
-        public string GetUnitMasterDetails(int UnitId,string Status, UnitMaster objUnitMaster)
+        public string GetUnitMasterDetails(int UnitId, string Status, UnitMaster objUnitMaster)
         {
             string str = "";
             try
@@ -179,7 +173,7 @@ namespace UPExciseLTE.Controllers
                 objUnitMaster.SPType = 3;
                 objUnitMaster.ValidityOfLicense1 = CommonBL.Setdate("01/01/1900");
                 objUnitMaster.LicensePhoto = Encoding.ASCII.GetBytes(string.Empty);
-                if(objUnitMaster.Reason!=null)
+                if (objUnitMaster.Reason != null)
                 {
                     objUnitMaster.Reason = objUnitMaster.Reason;
                 }
