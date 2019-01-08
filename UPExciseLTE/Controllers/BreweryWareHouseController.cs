@@ -17,7 +17,7 @@ namespace UPExciseLTE.Controllers
         {
             try
             {
-                
+
                 List<SelectListItem> lstUnitLicenseType = new List<SelectListItem>();
                 SelectListItem ULT = new SelectListItem();
                 ULT = new SelectListItem();
@@ -57,7 +57,7 @@ namespace UPExciseLTE.Controllers
             catch (Exception ex)
             {
                 return Content(ex.Message);
-            }  
+            }
         }
         [HttpPost]
         public ActionResult BreweryWareHouse(UnitMaster ObjUnitMaster, HttpPostedFileBase imgLicenseUpload)
@@ -75,19 +75,16 @@ namespace UPExciseLTE.Controllers
                     ObjUnitMaster.LicensePhoto = img;
                     ObjUnitMaster.FileExt = ext;
                 }
-                if (ObjUnitMaster.Remark != null && ObjUnitMaster.Remark != string.Empty)
-                {
-                    string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
-                    TempData["Message"] = str;
-                    return RedirectToAction("BreweryWareHouse");
-                }
-                else
+                if (ObjUnitMaster.Remark == null)
                 {
                     ObjUnitMaster.Remark = "";
-                    string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
-                    TempData["Message"] = str;
-                    return RedirectToAction("BreweryWareHouse");
-                }                
+                }
+                ObjUnitMaster.SPType = 4;
+                ObjUnitMaster.ValidityOfLicense1 = CommonBL.Setdate(ObjUnitMaster.ValidityOfLicense);
+                ObjUnitMaster.ParentUnitId = Convert.ToInt32(CommonBL.fillBrewery()[0].Value);
+                string str = new CommonDA().InsertUpdateUnitMaster(ObjUnitMaster);
+                TempData["Message"] = str;
+                return RedirectToAction("BreweryWareHouse");
             }
             catch (Exception ex)
             {
@@ -105,5 +102,5 @@ namespace UPExciseLTE.Controllers
                 return Content(ex.Message);
             }
         }
-	}
+    }
 }

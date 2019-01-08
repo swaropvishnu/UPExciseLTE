@@ -3,15 +3,15 @@
 @{
     ViewBag.Title = "UnitMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
- 
+
 }
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <script type="text/javascript">
 
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
         $('#StateCode').change(function () {
             $.ajax({
                 type: "post",
@@ -30,6 +30,14 @@
             });
         });
     });
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
 
 </script>
 @if (TempData["Message"] != null)
@@ -55,6 +63,8 @@
 
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
+                            @Html.HiddenFor(m => m.UnitId)
+                            @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Unit License Type<b style="color:red; font-weight:800">*</b></label>
@@ -133,7 +143,7 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Mobile<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @required = "required", @MaxLength = "10" })
+                                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "10" })
                                     </div>
                                 </div>
 
@@ -148,7 +158,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Validity of License<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.ValidityofLicense, new { @class = "form-control", @required = "required", @MaxLength = "15" })
+                                        @Html.TextBoxFor(m => m.ValidityOfLicense, new { @class = "form-control", @required = "required", @MaxLength = "15", @placeholder = "dd/MM/yyyy" })
                                     </div>
                                 </div>
 
@@ -159,20 +169,29 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            <div style="clear:both"></div>
-                            <center>
-                                <div class="form-actions">
-                                    <input type="submit" value="Submit" class="btn green" />
-                                </div>
-                            </center>
-
                         </div>
+                        <div style="clear:both"></div>
+                        <center>
+                            <div class="form-actions">
+                                <input type="submit" value="Submit" class="btn green" />
+                            </div>
+                        </center>
+
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 }
-        
+<script type="text/javascript">
 
+    $(document).ready(function () {
+        $("#ValidityOfLicense").datepicker({
 
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0d'
+        });
+    });
+</script>

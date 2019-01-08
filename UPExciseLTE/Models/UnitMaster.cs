@@ -36,8 +36,8 @@ namespace UPExciseLTE.Models
         public string  DECApprovalStatus { get; set; } = "P";
         public string Reason { get; set; }  = "";      
         public int  SPType { get; set; } = 2;
-        
-        
+        public string ValidityOfLicense { get; set; } = "";
+        public DateTime ValidityOfLicense1 { get; set; } = DateTime.Now;
     }
     public class GodownDetails
     {

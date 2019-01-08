@@ -1463,7 +1463,7 @@ namespace UPExciseLTE.BLL
             return GP;
         }
         #endregion CL BAL
-         
+
         #region MasterForm_Sachin
 
         private UnitMaster FillUnitMaster(DataRow dr)
@@ -1485,6 +1485,7 @@ namespace UPExciseLTE.BLL
                 objUnitmaster.Remark = dr["Remark"].ToString().Trim();
                 objUnitmaster.ApproverUserID = dr["UserId"].ToString().Trim();
                 objUnitmaster.UnitType = dr["UnitType"].ToString().Trim();
+                objUnitmaster.ValidityOfLicense = dr["LicenseValidity"].ToString().Trim();
                 objUnitmaster.SPType = 2;
                 return objUnitmaster;
             }

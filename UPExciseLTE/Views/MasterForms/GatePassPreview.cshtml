@@ -64,7 +64,7 @@
                             <h1 style="text-align:center"><strong>Uttar Pradesh Excise Department</strong></h1>
                         </div>
                         <div style="width:10%;float:left">
-                            @if (ViewBag.QRCodeImage != null)
+                            @if (ViewBag.QRCodeImage != null && Model.Status=="A")
                             {
                                 <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
                             }
@@ -135,7 +135,7 @@
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
-                @if (Model.ToLicenseType != "F.L. 1" || Model.ToLicenseType != "F.L. 1-A")
+                @if (Model.ToLicenseType != "F.L. 1" && Model.ToLicenseType != "F.L. 1-A")
                 {
                     <tr>
                         <td><b>9.</b></td>

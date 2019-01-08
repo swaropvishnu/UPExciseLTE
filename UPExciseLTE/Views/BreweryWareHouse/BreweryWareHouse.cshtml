@@ -29,6 +29,14 @@
             });
         });
     });
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
 
 </script>
 @if (TempData["Message"] != null)
@@ -132,7 +140,7 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Mobile<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @required = "required", @MaxLength = "10" })
+                                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "10" })
                                     </div>
                                 </div>
 
@@ -147,7 +155,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Validity of License<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.ValidityofLicense, new { @class = "form-control", @required = "required", @MaxLength = "15" })
+                                        @Html.TextBoxFor(m => m.ValidityOfLicense, new { @class = "form-control", @required = "required", @MaxLength = "15" })
                                     </div>
                                 </div>
 
