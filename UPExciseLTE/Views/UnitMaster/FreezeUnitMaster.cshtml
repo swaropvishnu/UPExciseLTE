@@ -69,7 +69,7 @@
                                     @Html.DisplayFor(modelItem => item.Mobile)
                                 </td>
                                 <td>
-                                    @Html.TextBox("txtReason", "", new { @id = item.UnitId })
+                                    @Html.TextBox("txtReason", "", new { @id = "txtReason" })
                                 </td>
                                 <td>
                                     @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
@@ -106,8 +106,8 @@
 }
 <script type="text/javascript">
 
-    function FinalUnit(UnitId, Status, txtId) {
-        var reason = "";
+    function FinalUnit(UnitId, Status)
+    {       
         if (Status == "A")
         {
             reason = "Unit Freezed";
@@ -123,8 +123,7 @@
             {
                 return false;
             }
-            reason = document.getElementById(txtId).value;
-            if (reason.trim() == "")
+            if (document.getElementById(txtReason).val == '')
             {
                 alert("Please Enter Reason of rejection");
                 return false;

@@ -6237,6 +6237,7 @@
     <Content Include="Views\UnitMaster\GetUnitMasterDetails.cshtml" />
     <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
     <Content Include="Views\UnitMaster\FreezeUnitMaster.cshtml" />
+    <Content Include="Views\UnitMaster\GetUnitMasterDetailsForBrewary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

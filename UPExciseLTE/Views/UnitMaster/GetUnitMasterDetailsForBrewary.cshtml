@@ -1,16 +1,11 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.UnitMaster>
 
 @{
-    ViewBag.Title = "GetUnitMasterDetails";
+    ViewBag.Title = "GetUnitMasterDetailsForBrewary";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (TempData["Message"] != null)
-{
-    <script>
-        $(document).ready(function () { alert('@TempData["Message"].ToString()'); });
-    </script>
-}
-@using (Html.BeginForm("GetUnitMasterDetails", "UnitMaster", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("GetUnitMasterDetailsForBrewary", "UnitMaster", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -59,42 +54,42 @@
                             </tr>
                             @foreach (var item in @Model)
                             {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UnitType)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UnitName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LicenseNo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LicenseType)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ContactPersonName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Mobile)
-                                </td>
-                                <td>
-                                    @if (item.LicenseType == "FL3" || item.LicenseType == "FL3A")
-                                    {
-                                        <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
-                                    }
-                                    @if (item.DECApprovalStatus == "P")
-                                    {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UnitType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UnitName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LicenseNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LicenseType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ContactPersonName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mobile)
+                                    </td>
+                                    <td>
+                                        @if (item.LicenseType == "FL3" || item.LicenseType == "FL3A")
+                                        {
+                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                        }
+                                        @if (item.DECApprovalStatus == "P")
+                                        {
 
-                                        <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','F')">Final</button>
-                                    }
+                                            <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','F')">Final</button>
+                                        }
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             }
                         </table>
                     </div>
@@ -120,7 +115,7 @@
             datatype: "json",
             type: "POST",
             success: function (data) {
-                window.location = "../UnitMaster/GetUnitMasterDetails";
+                window.location = "../UnitMaster/GetUnitMasterDetailsForBrewary";
             },
             error: function (data) {
                 alert("Error in final unit Loading");
