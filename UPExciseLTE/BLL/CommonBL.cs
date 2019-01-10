@@ -26,6 +26,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BRE", UserSession.LoggedInUserId.ToString().Trim(), "Z");
             return breweryList;
         }
+        public static List<SelectListItem> fillFL1Licence(int ParentUnitId)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "FL1", ParentUnitId.ToString().Trim(), "S");
+            return breweryList;
+        }
         public static List<SelectListItem> fillBreweryLiceName()
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -773,7 +779,7 @@ namespace UPExciseLTE.BLL
             {
                 GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
                 GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
-                GP.DispatchType = dr["DispatchType"].ToString().Trim();
+                GP.DispatchType = dr["DispatchedBy"].ToString().Trim();
                 GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
                 GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
                 GP.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();

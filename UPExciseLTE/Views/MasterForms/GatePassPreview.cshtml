@@ -39,7 +39,14 @@
 </script>
 <link href="~/Content/PrintCss.css" rel="stylesheet" />
 <div style="text-align:right;width:100%;background-color:white;">
+@if (Model.Status == "A")
+{
     <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
+}
+else
+{
+    <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print Draft GatePass</button>
+}
 </div>
 <div style="width:100%;background-color:white" id="divPrint">
     <div id="body">
@@ -109,12 +116,19 @@
                     <td><b>4.</b></td>
                     <td colspan="3"><b>Address of Consignee :</b>@Model.ConsigneeAddress</td>
                 </tr>
+                @if (Model.Receiver.Trim() != string.Empty)
+                {
+                    <tr>
+                        <td><b>&nbsp;</b></td>
+                        <td colspan="3"><b>Address of Designated ICD :</b>@Model.Receiver</td>
+                    </tr>
+                }
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>5.</b></td>
-                    <td colspan="3"><b>Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Model.CheckPostVia )</td>
+                    <td colspan="3"><b>Place to which issue and route by which dispatched By @Model.DispatchedBy Check Post Via ( @Model.CheckPostVia )</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
@@ -148,7 +162,7 @@
                 {
                     <tr>
                         <td><b>9.</b></td>
-                        <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                        <td><b>Total Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
                         <td></td>
                         <td><b>10. Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
                     </tr>
@@ -261,6 +275,14 @@
                         <div style="float:right">
                             (Dept. Of Excise)
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        Note:- Officer Incharge must verify duty calculation and deduction seperatly before giving dispatch. 
                     </td>
                 </tr>
             </table>

@@ -17,8 +17,8 @@ namespace UPExciseLTE.Models
         public string ContactPersonName { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
-        public string ValidityofLicense { get; set; }        
-        public string StateCode { get; set; }
+        public string ValidityofLicense { get; set; }
+        public string StateCode { get; set; } = "27";
         public string DistrictCode { get; set; }
         public string TehsilCode { get; set; }
         public string LicenseHolderParentUnit { get; set; } // In Case of FL3A Outside State

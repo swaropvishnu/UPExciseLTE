@@ -17,12 +17,16 @@ namespace UPExciseLTE.Controllers
         {
             try
             {
-
+                UnitMaster UM = new UnitMaster();
+                UM.UnitName = CommonBL.fillBreweryLiceName()[0].Text;
                 List<SelectListItem> lstUnitLicenseType = new List<SelectListItem>();
                 SelectListItem ULT = new SelectListItem();
+                ULT.Text = "FL1";
+                ULT.Value = "FL1";
+                lstUnitLicenseType.Add(ULT);
                 ULT = new SelectListItem();
-                ULT.Text = "FL1/FL2A";
-                ULT.Value = "FL1/FL2A";
+                ULT.Text = "FL1A";
+                ULT.Value = "FL1A";
                 lstUnitLicenseType.Add(ULT);
                 ViewBag.LicenseType = lstUnitLicenseType;
 
@@ -52,7 +56,7 @@ namespace UPExciseLTE.Controllers
 
                 ViewBag.StateList = CommonBL.fillState("S");
                 ViewBag.Msg = TempData["Message"];
-                return View();
+                return View(UM);
             }
             catch (Exception ex)
             {

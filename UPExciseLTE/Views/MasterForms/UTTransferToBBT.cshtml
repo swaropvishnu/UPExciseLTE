@@ -57,15 +57,15 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Transfer form UT BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Transfer from UT in BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);",@MaxLength=5 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Received in BBT BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Received in BBT (in BL) (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Tank Transfer Wastage BL</label>
+                                    <label class="control-label">Tank Transfer Wastage (in BL)</label>
                                     @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                               

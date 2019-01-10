@@ -1123,7 +1123,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
                 cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
                 cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
-                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchType));
                 cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1216,7 +1216,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetUnitDetails(short BreweryId, string BreweryName, string BreweryLicenseNo, short DistrictCode, short TehsilCode)
+        public DataSet GetUnitDetails(short BreweryId, string BreweryName, string BreweryLicenseNo, short DistrictCode, short TehsilCode,int ParentUnitId,int UserId)
         {
             DataSet ds = new DataSet();
             try
@@ -1228,7 +1228,8 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BreweryLicenseNo", BreweryLicenseNo));
                 parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
-                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                parameters.Add(new SqlParameter("UserId",UserId));
+                parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrewery", parameters.ToArray());
             }
             catch (Exception)

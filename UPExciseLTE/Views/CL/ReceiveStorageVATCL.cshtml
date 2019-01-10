@@ -41,7 +41,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Balance (in Bulk Litre)</label>
+                                    <label class="control-label">Opening Balance (in Bulk Litre)</label>
                                     @Html.TextBox("txtUnitTankBalance", "", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
@@ -55,7 +55,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Source (Wort Receiving)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Source (Spirit Receiving)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(model => model.SourceSV, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1", Selected = true }, new SelectListItem { Text = "Purchase", Value = "1" }, new SelectListItem { Text = "Import (Other State)", Value = "2" }, new SelectListItem { Text = "Import (Other Country)", Value = "3" }, new SelectListItem { Text = "Other Sources", Value = "4" }, new SelectListItem { Text = "Redistillation", Value = "5" } }, new { @id = "ddlWortReceiveSource", @class = "form-control", @required = "required", @placeholder = "" })
                                 </div>
                                 <div class="form-group col-md-4">
@@ -82,6 +82,10 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtWastageInLiter", @required = "required" })
