@@ -65,17 +65,24 @@
                                     <td>
                                         @Html.TextBox("txtReason", "", new { @id = item.UnitId })
                                     </td>
-                                    @*<td>
-                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId})"><label class="btn blue">View</label></a>
-                                        </td>*@
                                     <td>
-                                        @if (item.DECApprovalStatus == "P")
+                                        @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
+                                        {
+                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.DECApprovalStatus == "F")
                                         {
                                             <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalUnit('@item.UnitId','A')">Freeze</button>
                                         }
                                     </td>
                                     <td>
-                                        @if (item.DECApprovalStatus == "P")
+                                        @if (item.DECApprovalStatus == "F")
                                         {
                                             <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','R')">Reject</button>
                                         }
@@ -106,10 +113,11 @@
         else if (Status == "R")
         {
             var r = confirm("Are You sure to Reject this Brand.");
-            if (r == false) {
+            if (r == false)
+            {
                 return false;
             }
-            reason = document.getElementById(btnReject).value;
+            reason = document.getElementById(txtReason).value;
             if (reason.trim() == "")
             {
                 alert("Please Enter Reason of rejection");

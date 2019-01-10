@@ -17,13 +17,19 @@ namespace UPExciseLTE.Controllers
         {
             try
             {
-
+                UnitMaster objUnitMaster = new UnitMaster();
                 List<SelectListItem> lstUnitLicenseType = new List<SelectListItem>();
                 SelectListItem ULT = new SelectListItem();
                 ULT = new SelectListItem();
-                ULT.Text = "FL1/FL2A";
-                ULT.Value = "FL1/FL2A";
+                ULT.Text = "FL1";
+                ULT.Value = "FL1";
                 lstUnitLicenseType.Add(ULT);
+
+                ULT = new SelectListItem();
+                ULT.Text = "FL1A";
+                ULT.Value = "FL1A";
+                lstUnitLicenseType.Add(ULT);
+
                 ViewBag.LicenseType = lstUnitLicenseType;
 
                 List<SelectListItem> lstDistrict = new List<SelectListItem>();
@@ -49,10 +55,17 @@ namespace UPExciseLTE.Controllers
                 PL.Value = "BE";
                 lstProductionLiquor.Add(PL);
                 ViewBag.ProductionLiquorList = lstProductionLiquor;
-
                 ViewBag.StateList = CommonBL.fillState("S");
+
+                if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
+                {
+                    objUnitMaster = new CommonBL().GetUnitMaster(int.Parse(Request.QueryString["Code"].Trim()), "", "", -1, -1, -1, -1, "P", -1, "Z");
+                    ViewBag.StateList = CommonBL.fillState("S");
+                }
+
+                
                 ViewBag.Msg = TempData["Message"];
-                return View();
+                return View(objUnitMaster);
             }
             catch (Exception ex)
             {

@@ -173,7 +173,17 @@
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
+                                @if (Request.QueryString["Mode"]!=null)
+                                {
+                                    if ((@Request.QueryString["Mode"].ToString().Trim() == "V"))
+                                     {
+                                       <a href="@Url.Action("FreezeUnitMaster", "UnitMaster", null)"><label class="btn blue">Back</label></a>
+                                     }
+                                }
+                                else
+                                {
                                 <input type="submit" value="Submit" class="btn green" />
+                                }
                             </div>
                         </center>
 

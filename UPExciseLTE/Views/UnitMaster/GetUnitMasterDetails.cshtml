@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
-                        <div style="display:none">                  
+                        <div style="display:none">
                             <div class="clearfix"></div>
                             <center>
                                 <div class="form-actions">
@@ -73,12 +73,20 @@
                                         @Html.DisplayFor(modelItem => item.Mobile)
                                     </td>
                                     <td>
-                                        @if (item.DECApprovalStatus == "P")
+                                        @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
                                         {
                                             <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                        }
+                                        @if (item.DECApprovalStatus == "P")
+                                        {
+
                                             <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','F')">Final</button>
                                         }
-                                     
+
                                     </td>
                                 </tr>
                             }
@@ -91,36 +99,27 @@
 
 }
 <script type="text/javascript">
-                          function UnitMaster()
-                          {
-                              var url = '@Url.Action("UnitMaster", "UnitMaster", null)';
-                              window.location.href = url;
-                          }
-                          function FinalUnit(UnitId, Status)
-                          {
-                              if (Status == "F")
-                              {                                  
-                                  var r = confirm("Are You Sure To Final This Unit.");
-                                  if (r == false)
-                                  {
-                                      return false;
-                                  }
-                              }
 
-                              $.ajax({
-                                  url: '/UnitMaster/GetUnitMasterDetails',
-                                  data: { 'UnitId': UnitId, 'Status': Status},
-                                  datatype: "json",
-                                  type: "POST",
-                                  success: function (data)
-                                  {
-                                      window.location = "../UnitMaster/GetUnitMasterDetails";
-                                  },
-                                  error: function (data)
-                                  {
-                                      alert("Error in final unit Loading");
-                                  }
-                              });
-                          }
+    function FinalUnit(UnitId, Status) {
+        if (Status == "F") {
+            var r = confirm("Are You Sure To Final This Unit.");
+            if (r == false) {
+                return false;
+            }
+        }
+
+        $.ajax({
+            url: '/UnitMaster/GetUnitMasterDetails',
+            data: { 'UnitId': UnitId, 'Status': Status },
+            datatype: "json",
+            type: "POST",
+            success: function (data) {
+                window.location = "../UnitMaster/GetUnitMasterDetails";
+            },
+            error: function (data) {
+                alert("Error in final unit Loading");
+            }
+        });
+    }
 </script>
 
