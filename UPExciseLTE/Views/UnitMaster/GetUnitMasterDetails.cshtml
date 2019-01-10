@@ -47,6 +47,9 @@
                                     License No
                                 </th>
                                 <th>
+                                    License Type
+                                </th>
+                                <th>
                                     Contact Person Name
                                 </th>
                                 <th>
@@ -56,39 +59,42 @@
                             </tr>
                             @foreach (var item in @Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UnitType)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UnitName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.LicenseNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ContactPersonName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Mobile)
-                                    </td>
-                                    <td>
-                                        @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
-                                        {
-                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
-                                        }
-                                        @if (item.DECApprovalStatus == "P")
-                                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LicenseNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LicenseType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ContactPersonName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mobile)
+                                </td>
+                                <td>
+                                    @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
+                                    {
+                                        <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId })"><label class="btn blue">View</label></a>
+                                    }
+                                    @if (item.DECApprovalStatus == "P")
+                                    {
 
-                                            <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','F')">Final</button>
-                                        }
+                                        <button type="button" id="btnFinal" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','F')">Final</button>
+                                    }
 
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
                             }
                         </table>
                     </div>

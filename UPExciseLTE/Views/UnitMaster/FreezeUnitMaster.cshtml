@@ -38,6 +38,9 @@
                                     License No
                                 </th>
                                 <th>
+                                    License Type
+                                </th>
+                                <th>
                                     Contact Person Name
                                 </th>
                                 <th>
@@ -46,49 +49,52 @@
                             </tr>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UnitType)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UnitName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.LicenseNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ContactPersonName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Mobile)
-                                    </td>
-                                    <td>
-                                        @Html.TextBox("txtReason", "", new { @id = item.UnitId })
-                                    </td>
-                                    <td>
-                                        @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
-                                        {
-                                            <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.DECApprovalStatus == "F")
-                                        {
-                                            <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalUnit('@item.UnitId','A')">Freeze</button>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.DECApprovalStatus == "F")
-                                        {
-                                            <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','R')">Reject</button>
-                                        }
-                                    </td>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LicenseNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LicenseType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ContactPersonName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mobile)
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtReason", "", new { @id = item.UnitId })
+                                </td>
+                                <td>
+                                    @if (item.LicenseType == "FL3" || item.LicenseType == "FLA")
+                                    {
+                                        <a href="@Url.Action("UnitMaster", "UnitMaster", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("BreweryWareHouse", "BreweryWareHouse", new { Code = item.UnitId, Mode = 'V' })"><label class="btn blue">View</label></a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.DECApprovalStatus == "F")
+                                    {
+                                        <button type="button" id="btnFreeze" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="FinalUnit('@item.UnitId','A')">Freeze</button>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.DECApprovalStatus == "F")
+                                    {
+                                        <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalUnit('@item.UnitId','R')">Reject</button>
+                                    }
+                                </td>
 
-                                </tr>
+                            </tr>
                             }
                         </table>
                     </div>
@@ -100,7 +106,7 @@
 }
 <script type="text/javascript">
 
-    function FinalUnit(UnitId, Status) {
+    function FinalUnit(UnitId, Status, txtId) {
         var reason = "";
         if (Status == "A")
         {
@@ -117,7 +123,7 @@
             {
                 return false;
             }
-            reason = document.getElementById(txtReason).value;
+            reason = document.getElementById(txtId).value;
             if (reason.trim() == "")
             {
                 alert("Please Enter Reason of rejection");
