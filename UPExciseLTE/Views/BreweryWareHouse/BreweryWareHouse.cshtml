@@ -62,6 +62,8 @@
 
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
+                            @Html.HiddenFor(m => m.UnitId)
+                            @Html.HiddenFor(m => m.SPType)
                             <div class="row">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Brewery License Type<b style="color:red; font-weight:800">*</b></label>
@@ -162,7 +164,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Remark<b style="color:red; font-weight:800"></b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control",@MaxLength = "100" })
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control", @MaxLength = "100" })
                                     </div>
                                 </div>
                             </div>

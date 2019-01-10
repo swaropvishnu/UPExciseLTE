@@ -25,6 +25,12 @@ namespace UPExciseLTE.Controllers
                 ULT.Text = "FL3";
                 ULT.Value = "FL3";
                 lstUnitLicenseType.Add(ULT);
+
+                ULT = new SelectListItem();
+                ULT.Text = "FL3A";
+                ULT.Value = "FL3A";
+                lstUnitLicenseType.Add(ULT);
+
                 ViewBag.LicenseType = lstUnitLicenseType;
 
                 List<SelectListItem> lstDistrict = new List<SelectListItem>();

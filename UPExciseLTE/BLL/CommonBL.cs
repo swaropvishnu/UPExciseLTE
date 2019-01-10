@@ -1492,6 +1492,8 @@ namespace UPExciseLTE.BLL
                 objUnitmaster.ApproverUserID = dr["UserId"].ToString().Trim();
                 objUnitmaster.UnitType = dr["UnitType"].ToString().Trim();
                 objUnitmaster.ValidityOfLicense = dr["LicenseValidity"].ToString().Trim();
+                objUnitmaster.LicenseType = dr["UnitLicenseType"].ToString().Trim();
+                objUnitmaster.DECApprovalStatus = dr["DECApprovalStatus"].ToString().Trim();
                 objUnitmaster.SPType = 2;
                 return objUnitmaster;
             }
