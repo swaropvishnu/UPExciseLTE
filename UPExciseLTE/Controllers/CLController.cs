@@ -510,7 +510,7 @@ namespace UPExciseLTE.Controllers
             //ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
             //List <SelectListItem> lstBR = CommonBL.fillBreweryLiceName();
             ViewBag.Msg = TempData["Message"];
-            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1,-1, UserSession.LoggedInUserId);
             if (GP.FromConsignorName.Trim() == string.Empty)
             {
                 if (ds != null && ds.Tables[0].Rows.Count > 0)

@@ -30,7 +30,7 @@ namespace UPExciseLTE.Controllers
                 Session["lstFL21BrandMapp"] = FL21.lstFL21;
             }
             ViewBag.Brand = CommonBL.fillBrand("S");
-            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1,-1, UserSession.LoggedInUserId);
             if (FL21.FromConsignorName.Trim() == string.Empty)
             {
                 FL21.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();

@@ -736,7 +736,7 @@ namespace UPExciseLTE.Controllers
             GatePassDetails GP = new GatePassDetails();
             GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P");
             ViewBag.Msg = TempData["Message"];
-            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1);
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1,-1, UserSession.LoggedInUserId);
 
             List<SelectListItem> FromLicenseTypes = new List<SelectListItem>();
             List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
@@ -745,13 +745,13 @@ namespace UPExciseLTE.Controllers
             SLI.Value = "-1";
             FromLicenseTypes.Add(SLI);
             SLI = new SelectListItem();
-            SLI.Text = "FL3";
-            SLI.Value = "FL3";
+            SLI.Text = "FL-3";
+            SLI.Value = "FL-3";
             FromLicenseTypes.Add(SLI);
 
             SLI = new SelectListItem();
-            SLI.Text = "F.L. 3-A";
-            SLI.Value = "F.L. 3-A";
+            SLI.Text = "FL-3A";
+            SLI.Value = "FL-3A";
             FromLicenseTypes.Add(SLI);
 
             SLI = new SelectListItem();
@@ -759,12 +759,12 @@ namespace UPExciseLTE.Controllers
             SLI.Value = "-1";
             ToLicenseTypes.Add(SLI);
             SLI = new SelectListItem();
-            SLI.Text = "F.L. 1";
-            SLI.Value = "F.L. 1";
+            SLI.Text = "FL-1";
+            SLI.Value = "FL-1";
             ToLicenseTypes.Add(SLI);
             SLI = new SelectListItem();
-            SLI.Text = "F.L. 1-A";
-            SLI.Value = "F.L. 1-A";
+            SLI.Text = "FL-1A";
+            SLI.Value = "FL-1A";
             ToLicenseTypes.Add(SLI);
             SLI = new SelectListItem();
             SLI.Text = "Export Outside UP";
@@ -775,24 +775,56 @@ namespace UPExciseLTE.Controllers
             SLI.Value = "Export Outside INDIA";
             ToLicenseTypes.Add(SLI);
 
-            if (GP.FromConsignorName.Trim() == string.Empty)
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                ViewBag.FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
+
+                if (GP.FromConsignorName.Trim() == string.Empty)
                 {
                     GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                    GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
-                    GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
-                    //FromLicenseTypes.Find()
-                    //FromLicenseTypes.Sele.Items.FindByValue("Yourvalue").Selected = true;
-                    //FromLicenseTypes.Where(p => p.Value == "2").First().Text;
+                    FromLicenseTypes.Find(x => x.Value == ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim()).Selected = true;
+                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-3")
+                    {
+                        GP.FromLicenseType = "FL-3";
+                        GP.ToLicenseType = "FL-1";
+                        ToLicenseTypes.Find(x => x.Value == "FL-1").Selected = true;
 
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL-3A";
+                        SLI.Value = "FL-3A";
+                        FromLicenseTypes.Remove(SLI);
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL-1A";
+                        SLI.Value = "FL-1A";
+                        ToLicenseTypes.Remove(SLI);
+                    }
+                    else {
+                        GP.FromLicenseType = "FL-3A";
+                        GP.ToLicenseType = "FL-1A";
+                        ToLicenseTypes.Find(x => x.Value == "FL-1A").Selected = true;
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL-3";
+                        SLI.Value = "FL-3";
+                        FromLicenseTypes.Remove(SLI);
+
+                        SLI = new SelectListItem();
+                        SLI.Text = "FL-1";
+                        SLI.Value = "FL-1";
+                        ToLicenseTypes.Remove(SLI);
+                    }
                 }
             }
-            else {
-                    FromLicenseTypes.Find(x => x.Value == GP.FromLicenseType).Selected = true;
-                ToLicenseTypes.Find(x => x.Value == GP.ToLicenseType).Selected = true;
+            else 
+            {
+                FromLicenseTypes.Find(x => x.Value == GP.FromLicenseType).Selected = true;
+                if (GP.ToLicenseType.Trim() == "F.L. 1" || GP.ToLicenseType.Trim() == "Export Outside UP")
+                {
+                    ToLicenseTypes.Find(x => x.Value == GP.ToLicenseType).Selected = true;
+                }
             }
             ViewBag.Districts = CommonBL.fillDistict("N");
             
@@ -802,9 +834,23 @@ namespace UPExciseLTE.Controllers
             ViewBag.ToLicenseTypes = ToLicenseTypes;
             return View(GP);
         }
+        public string GetUnitDetailsForddl(string UnitId)
+        {
+            string str = "";
+            DataSet ds = new CommonDA().GetUnitDetails(short.Parse(UnitId), "", "", -1, -1, -1, -1);
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                str = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["UnitName"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+            }
+            return str;
+            }
         [HttpPost]
         public ActionResult GatePass(GatePassDetails GP)
         {
+            if (GP.Receiver==null)
+            {
+                GP.Receiver = "";
+            }
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
             GP.UploadValue =2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
