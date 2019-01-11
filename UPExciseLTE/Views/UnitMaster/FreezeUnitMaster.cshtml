@@ -21,7 +21,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Freeze Brand
+                            <i class="fa fa-gift"></i>Freeze Unit/Unit WH
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
@@ -115,10 +115,11 @@
             if (r == false) {
                 return false;
             }
-        }
+        }        
         else if (Status == "R")
         {
             var r = confirm("Are You sure to Reject this Brand.");
+            alert(document.getElementById(txtReason).val());
             if (r == false)
             {
                 return false;

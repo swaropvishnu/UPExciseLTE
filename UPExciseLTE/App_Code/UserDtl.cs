@@ -280,9 +280,9 @@ namespace UPExciseLTE
             }
 
 
-            catch
+            catch(Exception ex)
             {
-                return null;
+                throw  ex;
             }
         }
 
