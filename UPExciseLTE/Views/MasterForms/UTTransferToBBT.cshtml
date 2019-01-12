@@ -43,9 +43,22 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
+                                    <label class="control-label">Brand In Unit Tank<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBox("txtUTBrand", "", new { @id = "txtUTBrand", @class = "form-control", @readonly = true })
+                                    @Html.HiddenFor(m=>m.BrandID,new {@id="hfUTBrandId" })
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BBTID, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand In Bottling Tank</label>
+                                    @Html.TextBox("txtBBTBrand", "", new { @id = "txtBBTBrand", @class = "form-control", @readonly = true })
+                                    @Html.Hidden("hfBBTBrandId", "-1", new { @id = "hfBBTBrandId" })
+                                </div>
+                               
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank Balance</label>
                                     @Html.TextBox("txtBBTBal", "", new { @id = "txtBBTBal", @class = "form-control", @readonly = true })
@@ -54,12 +67,14 @@
                                     <label class="control-label">Bottling Tank Capacity</label>
                                     @Html.TextBox("txtBBTCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
                                 </div>
-                            </div>
-                            <div class="row">
+                                
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Transfer from UT in BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);",@MaxLength=5 })
+                                    @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
+                            </div>
+                            <div class="row">
+                              
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Received in BBT (in BL) (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
@@ -85,6 +100,7 @@
     </div>
 }
 <script type="text/javascript">
+    
     function Validation()
     {
         if (document.getElementById("txtWastageBL").value.trim()=="") {
@@ -139,6 +155,8 @@
             success: function (data) {
                 var res = data.split(",");
                 document.getElementById("txtUTBal").value = res[2];
+                document.getElementById("hfUTBrandId").value = res[3];
+                document.getElementById("txtUTBrand").value = res[4];
             },
             error: function (data) {
                 alert("Error in GetUnitTankForDDl Loading");
@@ -161,6 +179,8 @@
                 var res = data.split(",");
                 document.getElementById("txtBBTBal").value = res[0];
                 document.getElementById("txtBBTCapacity").value = res[1];
+                document.getElementById("txtBBTBrand").value = res[2];
+                document.getElementById("hfBBTBrandId").value = res[3];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");

@@ -587,6 +587,7 @@ namespace UPExciseLTE.Controllers
         {
             UTTransferToBBT UTBL = new UTTransferToBBT();
             ViewBag.UnitTank = CommonBL.fillUnitTank("S");
+            ViewBag.Brand = CommonBL.fillBrand("A");
             if (TempData["Message"] != null)
             {
                 var str = TempData["Message"].ToString();
@@ -601,7 +602,7 @@ namespace UPExciseLTE.Controllers
         public string GetUnitTankForDDl(string UnitTankId)
         {
             UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
-            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString();
+            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString()+","+Ut.BrandId.ToString() + "," + Ut.Brand.Trim();
         }
         [HttpPost]
         public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
@@ -645,7 +646,7 @@ namespace UPExciseLTE.Controllers
         {
 
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), "A")[0];
-            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString();
+            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString()+","+bbtFormation.BrandName+","+bbtFormation.BrandId;
         }
         [HttpPost]
         public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)

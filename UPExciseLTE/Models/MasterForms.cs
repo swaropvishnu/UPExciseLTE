@@ -197,6 +197,8 @@ namespace UPExciseLTE.Models
         public decimal UnitTankStrength { get; set; } = 0;
         [Display(Name = "Unit Tank Status")]
         public string Status { get; set; } = "";
+        public int BrandId { get; set; } = -1;
+        public string Brand { get; set; } = "";
         public int Type { get; set; } = 1;
     }
     public class UTTransferToBBT
@@ -237,6 +239,8 @@ namespace UPExciseLTE.Models
         public string CurrentBalanceUT { get; set; }
         [Display(Name = "Current BT Balance")]
         public string CurrentBalanceBBT { get; set; }
+        public int BrandID { get; set; } = -1;
+        public string Brand { get; set; } = "";
         public Message Msg { get; set; }
     }
     public class BBTMaster
@@ -257,6 +261,8 @@ namespace UPExciseLTE.Models
         public string Status1 { get; set; } = "";
         public Message Message { get; set; }
         public string BBTId_Encript { get; set; } = "";
+        public int BrandId { get; set; } = -1;
+        public string BrandName { get; set; } = "";
     }
     public class BottlingLine
     {

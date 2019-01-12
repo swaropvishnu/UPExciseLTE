@@ -90,6 +90,11 @@
                                     @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
+                                    <label class="control-label">Brand (in BBT)</label>
+                                    @Html.TextBox("txtBBTBrand", "", new { @id = "txtBBTBrand", @class = "form-control", @readonly = true })
+                                    @Html.Hidden("hfBBTBrandId", "-1", new { @id = "hfBBTBrandId" })
+                                </div>
+                                <div class="form-group col-md-4" style="display:none">
                                     <label class="control-label">Brand Liquor Type</label>
                                     @Html.TextBoxFor(m => m.LiquorType, new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
@@ -212,6 +217,10 @@
             changeYear: true,
             minDate: '0d'
         });
+        var BBTId = $('#ddlBBT').val();
+        if (BBTId != "-1") {
+            BBTChange(BBTId);
+        }
     });
     
     $('#ddlBrand').change(function () {
@@ -237,6 +246,14 @@
                 document.getElementById("txtStrength").value = res[5];
                 document.getElementById("txtState").value = res[6];
 
+                var BBTBrandID= document.getElementById("hfBBTBrandId").value;
+                
+                if (BrandId != -1 && BBTBrandID !=-1) {
+                    if (BBTBrandID != BrandId) {
+                        alert("Invalid Selection. BBT has different Brand");
+                    }
+                }
+
             },
             error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");
@@ -258,6 +275,14 @@
             success: function (data) {
                 var str = data.split(",");
                 document.getElementById("txtBBTBalance").value = str[0];
+                document.getElementById("txtBBTBrand").value = str[2];
+                document.getElementById("hfBBTBrandId").value = str[3];
+                var BrandId = $('#ddlBrand').val();
+                if (BrandId != -1) {
+                    if (BrandId != -1 && str[3] != BrandId) {
+                        alert("Invalid BBT. BBT has different Brand");
+                    }
+                }
             },
             error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");

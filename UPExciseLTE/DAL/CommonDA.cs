@@ -797,6 +797,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("NetTransfer", UTBL.NetTransfer));
                 cmd.Parameters.Add(new SqlParameter("TransferDate", UTBL.TransferDate));
                 cmd.Parameters.Add(new SqlParameter("Remark", filter_bad_chars_rep(UTBL.Remark.Trim())));
+                cmd.Parameters.Add(new SqlParameter("BrandID", UTBL.BrandID));
                 cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));

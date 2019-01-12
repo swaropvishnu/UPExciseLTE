@@ -60,6 +60,17 @@
                                     @Html.TextBox("txtUnitTankBalance", "", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
+                                    <label class="control-label">Brand (In UT)</label>
+                                    @Html.TextBox("txtUnitTankBrand", "", new { @class = "form-control", @id = "txtUnitTankBrand", @readonly = "true" })
+                                    @Html.Hidden("hfUTBrandId", -1, new {@id="hfUTBrandID" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
                                 </div>
@@ -110,6 +121,8 @@
                 document.getElementById("txtUnitTankCapacity").value = res[0];
                 document.getElementById("txtUnitTankStrength").value = res[1];
                 document.getElementById("txtUnitTankBalance").value = res[2];
+                document.getElementById("txtUnitTankBrand").value = res[4];
+                document.getElementById("hfUTBrandId").value = res[3];
             },
             error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");

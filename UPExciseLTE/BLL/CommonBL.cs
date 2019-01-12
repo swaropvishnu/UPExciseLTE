@@ -324,6 +324,8 @@ namespace UPExciseLTE.BLL
                 UT.UnitTankStrength = decimal.Parse(dr["UnitTankStrength"].ToString().Trim());
                 UT.Enc_UnitTankId = new Crypto().Encrypt(dr["UnitTankId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
+                UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                UT.Brand = (dr["BrandName"].ToString().Trim());
                 UT.Type = 2;
             }
             catch (Exception) { }
@@ -705,6 +707,8 @@ namespace UPExciseLTE.BLL
                 bbtFormation.BBTId_Encript = new Crypto().Encrypt(dr["BBTId"].ToString().Trim());
                 bbtFormation.SP_Type = 2;
                 bbtFormation.Status = dr["BBTStatus"].ToString().Trim();
+                bbtFormation.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                bbtFormation.BrandName = dr["BrandName"].ToString().Trim();
             }
             catch (Exception) { }
             return bbtFormation;
@@ -740,6 +744,8 @@ namespace UPExciseLTE.BLL
                 UTBL.PrevBalanceUT = dr["PrevBalanceUT"].ToString().Trim();
                 UTBL.CurrentBalanceUT = dr["CurrentBalanceUT"].ToString().Trim();
                 UTBL.CurrentBalanceBBT = dr["CurrentBalanceBBT"].ToString().Trim();
+                UTBL.BrandID = int.Parse(dr["BrandId"].ToString().Trim());
+                UTBL.Brand = (dr["BrandName"].ToString().Trim());
             }
             catch (Exception) { }
             return UTBL;
