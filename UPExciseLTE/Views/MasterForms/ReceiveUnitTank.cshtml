@@ -64,12 +64,13 @@
                                     @Html.TextBox("txtUnitTankBrand", "", new { @class = "form-control", @id = "txtUnitTankBrand", @readonly = "true" })
                                     @Html.Hidden("hfUTBrandId", -1, new {@id="hfUTBrandID" })
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
+                            </div>
+                            <div class="row">
+                               
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
