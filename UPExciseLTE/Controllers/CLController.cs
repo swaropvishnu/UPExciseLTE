@@ -593,8 +593,8 @@ namespace UPExciseLTE.Controllers
         }
         public ActionResult GetPassDetailsCL()
         {
-            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
-            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "P");
+            List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
+            lstGPD = new CommonBL().GetGatePassDetailsListCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "P");
             return View(lstGPD);
         }
         public ActionResult ReceiveGatePassWH()

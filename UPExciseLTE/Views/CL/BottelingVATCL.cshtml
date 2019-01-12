@@ -40,7 +40,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span><i class="fa fa-gift"></i>&nbsp; Botteling VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            <span><i class="fa fa-gift"></i>&nbsp; Bottling VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -49,11 +49,11 @@
                             @Html.HiddenFor(model => model.Type, new { @id = "hfUnitTankType" })
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Botteling VAT Name<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Bottling VAT Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottelingVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Botteling VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Bottling VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottelingVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
                                 </div>
                                 @*<div class="form-group col-md-4">
@@ -81,9 +81,9 @@
                         <div>
                             <table class="table table-striped table-bordered table-hover">
                                 <tr>
-                                    <th>Botteling VAT Id</th>
-                                    <th>Botteling VAT Name</th>
-                                    <th>Botteling VAT Capacity (in Bulk Litre)</th>
+                                    <th>Bottling VAT Id</th>
+                                    <th>Bottling VAT Name</th>
+                                    <th>Bottling VAT Capacity (in Bulk Litre)</th>
                                     @*<th>Botteling VAT Bulk Litre</th>*@
                                     @*<th>Botteling VAT Strength</th>*@
                                     <th></th>

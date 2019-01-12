@@ -215,7 +215,7 @@
                                     <label class="control-label">Strength of Alcohol<b style="color:red; font-weight:800">*</b></label>
                                     <div class="row">
                                         <div class="form-group  col-md-6"> 
-                                            @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "3" })
+                                            @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
                                         </div>
                                         <div class="form-group  col-md-6">
                                             @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
