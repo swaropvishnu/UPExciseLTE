@@ -6238,8 +6238,8 @@
     <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
     <Content Include="Views\UnitMaster\FreezeUnitMaster.cshtml" />
     <Content Include="Views\UnitMaster\GetUnitMasterDetailsForBrewary.cshtml" />
-    <Content Include="Views\MasterForms\GatePassForBWFL.cshtml" />
-    <Content Include="Views\MasterForms\GatePassForFL2D.cshtml" />
+    <Content Include="Views\BWFL\GatePassForBWFL.cshtml" />
+    <Content Include="Views\FL2D\GatePassForFL2D.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
