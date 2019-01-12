@@ -1,14 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using UPExciseLTE.Models;
 using System.Data;
-using UPExciseLTE.DAL;
+using System.Web.Mvc;
 using UPExciseLTE.BLL;
-using System.IO;
+using UPExciseLTE.DAL;
+using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {

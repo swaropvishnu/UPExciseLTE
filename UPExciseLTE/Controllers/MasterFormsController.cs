@@ -1,19 +1,18 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Web.Mvc;
-using UPExciseLTE.DAL;
-using UPExciseLTE.Models;
-using ClosedXML.Excel;
-using System.IO;
-using UPExciseLTE.BLL;
-using UPExciseLTE.Filters;
 using System.Data.Entity.Infrastructure;
-using System.Web;
-using System.Text;
-using ZXing;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using UPExciseLTE.BLL;
+using UPExciseLTE.DAL;
+using UPExciseLTE.Filters;
+using UPExciseLTE.Models;
+using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
@@ -968,7 +967,9 @@ namespace UPExciseLTE.Controllers
                 }
             }
             return imagePath;
-        }
+        }        
+        
+
         /***********************************/
     }
 }
