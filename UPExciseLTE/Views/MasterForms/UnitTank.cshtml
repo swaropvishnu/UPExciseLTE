@@ -13,6 +13,27 @@
             document.getElementById("btnSubmit").innerHTML = "Update";
         }
     });
+
+    function Validate()
+    {
+        if (document.getElementById("txtUnitTank").value == "")
+        {
+            alert("Please Enter Unit Tank Name");
+            document.getElementById("txtUnitTank").focus();
+            return false;
+        }
+        else if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == 0)
+        {
+            alert("Please Enter Unit Tank Capacity");
+            document.getElementById("txtUnitTankCapacity").focus();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     function isfloatNumber(txt, evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode == 46) {
@@ -119,7 +140,8 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status) {
+    function UnitTankDetails(UTId, Status)
+    {
         if (Status == 'E') {
             window.location.assign("../masterforms/UnitTank?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
@@ -139,21 +161,5 @@
                 }
             });
         }
-    }
-    function Validate() {
-        document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
-        document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
-        document.getElementById("txtUnitTankStrength").value = document.getElementById("txtUnitTankStrength").value.trim();
-        if (document.getElementById("txtUnitTank").value == "") {
-            alert("Please Enter Unit Tank Name");
-            document.getElementById("txtUnitTank").focus();
-            return false;
-        }
-        if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == "0") {
-            alert("Please Enter Unit Tank Capacity");
-            document.getElementById("txtUnitTankCapacity").focus();
-            return false;
-        }
-
     }
 </script>

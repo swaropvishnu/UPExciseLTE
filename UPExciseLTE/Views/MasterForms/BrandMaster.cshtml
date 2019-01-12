@@ -67,7 +67,7 @@
         document.getElementById("txtStrength").value = document.getElementById("txtStrength").value.trim();
         document.getElementById("txtLicenseNo").value = document.getElementById("txtLicenseNo").value.trim();
         document.getElementById("txtQuantityInCase").value = document.getElementById("txtQuantityInCase").value.trim();
-        document.getElementById("txtXFactoryPrice").value = document.getElementById("txtXFactoryPrice").value.trim();
+        
         document.getElementById("txtRemarks").value = document.getElementById("txtRemarks").value.trim(); 
         var ddlState = $('#ddlState').val();
         if (ddlState == -1)
@@ -87,7 +87,7 @@
             document.getElementById("txtBrandRegistrationNumber").focus();
             return false;
         }
-        if (document.getElementById("txtStrength").value == "")
+        if (document.getElementById("txtStrength").value == 0)
         {
             alert("Please Enter Strength");
             document.getElementById("txtStrength").focus();
@@ -98,7 +98,8 @@
             try
             {
                 parseFloat(document.getElementById("txtStrength").value);
-                if (parseFloat(document.getElementById("txtStrength").value) < 0) {
+                if (parseFloat(document.getElementById("txtStrength").value) < 0)
+                {
                     alert("Please Enter Valid Strength");
                     document.getElementById("txtStrength").focus();
                     return false;
@@ -115,12 +116,16 @@
             document.getElementById("txtLicenseNo").focus();
             return false;
         }
-        if (document.getElementById("txtQuantityInCase").value == "" && document.getElementById("txtQuantityInCase").value == "0") {
+        if (document.getElementById("txtQuantityInCase").value == "" || document.getElementById("txtQuantityInCase").value == 0)
+        {
             alert("Please Enter Quantity in Case");
             document.getElementById("txtQuantityInCase").focus();
             return false;
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 parseInt(document.getElementById("txtQuantityInCase").value);
             }
             catch{alert("Please Enter valid Quantity");
@@ -128,19 +133,26 @@
                 return false;
             }
         }
-        if (document.getElementById("txtQuantityInBottleML").value == "0" && document.getElementById("txtQuantityInBottleML").value == "") {
+        if (document.getElementById("txtQuantityInBottleML").value == 0 || document.getElementById("txtQuantityInBottleML").value == "") {
             alert("Please Enter Quantity In Bottle ML")
             document.getElementById("txtQuantityInBottleML").focus();
             return false;
         }
-        if (document.getElementById("txtXFactoryPrice").value == "0" && document.getElementById("txtXFactoryPrice").value == "") {
+        if (document.getElementById("txtXFactoryPrice").value == 0 || document.getElementById("txtXFactoryPrice").value == "")
+        {
             alert("Please Enter X Factory Price")
             document.getElementById("txtXFactoryPrice").focus();
             return false;
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 parseFloat("Please Enter X Factory Price");
-            } catch{alert("Please Enter valid X Factory Price");
+            }
+            catch
+            {
+                alert("Please Enter valid X Factory Price");
                 document.getElementById("txtXFactoryPrice").focus();
                 return false;
             }
