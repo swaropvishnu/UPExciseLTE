@@ -195,5 +195,18 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
+        [HttpGet]
+        public ActionResult GetUnitMasterDetailsForBrewary()
+        {
+            try
+            {
+                List<UnitMaster> lstUnitMaster = new CommonBL().GetUnitMasterList(-1, "", "", -1, -1, -1, -1, "P", -1, "FL3");
+                return View(lstUnitMaster);
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
     }
 }
