@@ -1,0 +1,236 @@
+﻿@model UPExciseLTE.Models.BottelingPlan
+@{
+    ViewBag.Title = "Bottling Plan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
+    string css = "";
+
+    if (UserSession.LoggedInUserLevelId.Trim() == "15")// brewery
+    {
+        css = "row";
+    }
+    else if (UserSession.LoggedInUserLevelId.Trim() == "50" || UserSession.LoggedInUserLevelId.Trim() == "55") //bwfl
+    {
+        css = "hide";
+    }
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+
+</script>
+@using (Html.BeginForm("BottelingPlan", "BottlingPlan", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            @if (Model.Type == 1)
+                            {
+                                <span> <i class="fa fa-gift"></i>&nbsp;Bottling Plan Entry&nbsp;(Daily Bottling Plan)</span>
+                            }
+                            else
+                            {
+                                <span> <i class="fa fa-gift"></i>&nbsp;Update Bottling Plan (Daily Bottling Plan)</span>
+                            }
+
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.PlanId)
+                    @Html.HiddenFor(m => m.EncPlanId)
+                    @Html.HiddenFor(m => m.Type)
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Date of Plan<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">For Mapped/ Unmapped Data<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1", Selected = true }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand License Type</label>
+                                    @Html.TextBoxFor(m => m.LicenceType, new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand License No</label>
+                                    @Html.TextBoxFor(m => m.LicenseNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4 hide">
+                                    <label class="control-label">State</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.State, new { @id = "txtState", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Number of Case<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();", @maxlength = 5 })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label" id="lblBoxQuantity">Box-Size (Number of Bottles / Cans)</label>
+                                    @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
+                                    @Html.TextBoxFor(m => m.BottleCapacity, new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Strength of Alcohol</label>
+                                    @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" }) @*Mild or Strong not show percent*@
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Bulk Litre</label>
+                                    @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Total Unit (Cans/Bottles)</label>
+                                    @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Edit/Finalize Bottling Plan</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+    function Validation()
+    {
+        document.getElementById("txtBatchNo").value = document.getElementById("txtBatchNo").value.trim();
+        if (document.getElementById("txtDateofPlan").value.trim()=="") {
+            alert("Please Enter Date of Plan");
+            document.getElementById("txtDateofPlan").focus();
+            return false;
+        }
+        if (document.getElementById("txtBatchNo").value.trim() == "") {
+            alert("Please Enter Batch No");
+            document.getElementById("txtBatchNo").focus();
+            return false;
+        }
+        if (document.getElementById("txtNoOfCase").value.trim() == "" || parseFloat(document.getElementById("txtNoOfCase").value.trim()) <= 0) {
+            alert("Please Enter No of Case");
+            document.getElementById("txtNoOfCase").focus();
+            return false;
+        }
+    }
+    function GetBrandDetail() {
+        var url = '@Url.Action("EditFinalBottelingPlan", "MasterForms", null)';
+        window.location.href = url;
+    }
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtDateofPlan").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0d'
+        });
+    });
+
+    $('#ddlBrand').change(function () {
+        var BrandId = $('#ddlBrand').val();
+        if (BrandId != "-1") {
+            BrandChange(BrandId);
+        }
+    });
+
+    function BrandChange(BrandId) {
+        $.ajax({
+            url: '/MasterForms/GetBrandDetailsForDDl',
+            data: { 'BrandId': BrandId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtLiquorType").value = res[0];
+                document.getElementById("txtLicenseType").value = res[1];
+                document.getElementById("txtLicenseNo").value = res[2];
+                document.getElementById("txtBottleInCase").value = res[3];
+                document.getElementById("txtQuantityInBottle").value = res[4];
+                document.getElementById("txtStrength").value = res[5];
+                document.getElementById("txtState").value = res[6];
+
+                var BBTBrandID= document.getElementById("hfBBTBrandId").value;
+
+                if (BrandId != -1 && BBTBrandID !=-1) {
+                    if (BBTBrandID != BrandId) {
+                        alert("Invalid Selection. BBT has different Brand");
+                    }
+                }
+
+            },
+            error: function (data) {
+                alert("Error in GetBrandDetailsForDDl Loading");
+            }
+        });
+    }
+    function Calculation() {
+        var NoofCase = document.getElementById("txtNoOfCase").value;
+        if (NoofCase == "") {
+            alert("Please Select Brand First");
+            return;
+        }
+        var txtBottleInCase = document.getElementById("txtBottleInCase").value;
+        if (NoofCase != null && NoofCase != '' && txtBottleInCase != null && txtBottleInCase != '') {
+            var Quantity = document.getElementById("txtQuantityInBottle").value;
+
+            var lblBulkLitre = (parseFloat(NoofCase) * parseFloat(txtBottleInCase) * parseFloat(Quantity)) / 1000;
+            var TotalUnit = NoofCase * txtBottleInCase;
+            document.getElementById("lblBulkLitre").value = lblBulkLitre;
+            document.getElementById("lblTotalUnitQuantity").value = TotalUnit;
+        }
+    }
+</script>
+
