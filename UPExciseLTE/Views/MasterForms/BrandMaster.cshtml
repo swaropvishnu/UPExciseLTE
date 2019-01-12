@@ -70,12 +70,14 @@
         document.getElementById("txtXFactoryPrice").value = document.getElementById("txtXFactoryPrice").value.trim();
         document.getElementById("txtRemarks").value = document.getElementById("txtRemarks").value.trim(); 
         var ddlState = $('#ddlState').val();
-        if (ddlState == -1) {
+        if (ddlState == -1)
+        {
             alert("Please Select State First");
             $('#ddlState').focus();
             return false;
         }
-        if (document.getElementById("txtBrandName").value == "") {
+        if (document.getElementById("txtBrandName").value == "")
+        {
             alert("Please Enter Brand Name");
             document.getElementById("txtBrandName").focus();
             return false;
@@ -85,12 +87,16 @@
             document.getElementById("txtBrandRegistrationNumber").focus();
             return false;
         }
-        if (document.getElementById("txtStrength").value == "") {
+        if (document.getElementById("txtStrength").value == "")
+        {
             alert("Please Enter Strength");
             document.getElementById("txtStrength").focus();
             return false;
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 parseFloat(document.getElementById("txtStrength").value);
                 if (parseFloat(document.getElementById("txtStrength").value) < 0) {
                     alert("Please Enter Valid Strength");

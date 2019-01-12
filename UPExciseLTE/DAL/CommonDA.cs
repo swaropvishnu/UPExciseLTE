@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Microsoft.ApplicationBlocks.Data;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using UPExciseLTE.BLL;
-using UPExciseLTE.Models;
-using Microsoft.ApplicationBlocks.Data;
 using System.Net.NetworkInformation;
-using System.Text;
+using System.Web;
+using UPExciseLTE.Models;
 
 namespace UPExciseLTE.DAL
 {
