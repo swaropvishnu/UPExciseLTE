@@ -123,6 +123,12 @@
             document.getElementById("txtTransferBL").focus();
             return false;
         }
+        if (document.getElementById("txtNetTransfer").value.trim() == 0)
+        {
+            alert("Please Enter Received In BBT.");
+            document.getElementById("txtNetTransfer").focus();
+            return false;
+        }
     }
     function isfloatNumber(txt, evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -191,13 +197,15 @@
     {
         var UnitTankBal = parseFloat(document.getElementById("txtUTBal").value);
         var TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
-        if (TransferBL > UnitTankBal) {
+        if (TransferBL > UnitTankBal)
+        {
             alert("Max Transfer BL is " + UnitTankBal);
             document.getElementById("txtTransferBL").value = UnitTankBal;
             TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
         }
         var NetTransfer = parseFloat(document.getElementById("txtNetTransfer").value);
-        if (NetTransfer > TransferBL) {
+        if (NetTransfer > TransferBL)
+        {
             alert("Net Transfer Cannot greater then Transfer BL");
             document.getElementById("txtNetTransfer").value = "";
             document.getElementById("txtNetTransfer").focus();

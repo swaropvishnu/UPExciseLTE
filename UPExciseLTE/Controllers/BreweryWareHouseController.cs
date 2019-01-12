@@ -58,7 +58,7 @@ namespace UPExciseLTE.Controllers
 
                 if (Request.QueryString["Code"] != null && Request.QueryString["Code"].Trim() != string.Empty)
                 {
-                    UM= new CommonBL().GetUnitMaster(int.Parse(Request.QueryString["Code"].Trim()), "", "", -1, -1, -1, -1, "P", -1, "Z");
+                    UM = new CommonBL().GetUnitMaster(int.Parse(Request.QueryString["Code"].Trim()), "", "", -1, -1, -1, -1, "P", -1, "Z");
                     ViewBag.StateList = CommonBL.fillState("S");
                 }
 
