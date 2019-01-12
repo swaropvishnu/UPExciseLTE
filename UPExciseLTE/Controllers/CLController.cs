@@ -6,7 +6,6 @@ using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.BLL;
@@ -671,6 +670,28 @@ namespace UPExciseLTE.Controllers
             TempData["Message"] = str;
             return RedirectToAction("BlendingVATtfBottelingVATCL");
         }
+        [HttpGet]
+        public ActionResult ReceiverMaster()
+        {
+            TankTransferDetail SVBL = new TankTransferDetail();
+            ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
+            ViewBag.SpiritType = CommonBL.fillSpiritType("S");
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Msg = TempData["Message"].ToString();
+            }
+            return View(SVBL);
+
+        }
+        [HttpPost]
+        public ActionResult ReceiverMaster(TankTransferDetail UTBL)
+        {
+            UTBL.TransactionType = "RS";
+            string str = new CommonDA().InsertTankTransferDetail(UTBL);
+            TempData["Message"] = str;
+            return RedirectToAction("ReceiveStorageVATCL");
+        }
+
         #endregion
 
     }

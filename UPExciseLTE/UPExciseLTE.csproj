@@ -6240,6 +6240,7 @@
     <Content Include="Views\UnitMaster\GetUnitMasterDetailsForBrewary.cshtml" />
     <Content Include="Views\BWFL\GatePassForBWFL.cshtml" />
     <Content Include="Views\FL2D\GatePassForFL2D.cshtml" />
+    <Content Include="Views\CL\ReceiverMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
