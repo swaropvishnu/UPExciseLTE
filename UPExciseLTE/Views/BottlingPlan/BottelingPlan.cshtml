@@ -188,13 +188,13 @@
 
     function BrandChange(BrandId) {
         $.ajax({
-            url: '/MasterForms/GetBrandDetailsForDDl',
+            url: '../MasterForms/GetBrandDetailsForDDl',
             data: { 'BrandId': BrandId },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 var res = data.split(",");
-                document.getElementById("txtLiquorType").value = res[0];
+                //document.getElementById("txtLiquorType").value = res[0];
                 document.getElementById("txtLicenseType").value = res[1];
                 document.getElementById("txtLicenseNo").value = res[2];
                 document.getElementById("txtBottleInCase").value = res[3];

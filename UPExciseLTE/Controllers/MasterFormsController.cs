@@ -362,6 +362,7 @@ namespace UPExciseLTE.Controllers
             }
             catch (Exception x)
             {
+
                 str = x.Message.ToString();
             }
             return str;
