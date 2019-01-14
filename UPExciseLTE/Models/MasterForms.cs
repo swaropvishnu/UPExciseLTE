@@ -282,11 +282,12 @@ namespace UPExciseLTE.Models
     {
         public long GatePassId { get; set; } = -1;
         public short GatePassType { get; set; } = -1;
+        public string GPType { get; set; } = "";
         public string DispatchType { get; set; } = "";
         public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
-        public string FromDate1 { get; set; } = "";
+        public string FromDate1 { get; set; } = DateTime.Now.Day.ToString().Trim().PadLeft(2,'0')+"/"+ DateTime.Now.Month.ToString().Trim().PadLeft(2, '0')+"/"+ DateTime.Now.Year.ToString().Trim();
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
@@ -324,7 +325,7 @@ namespace UPExciseLTE.Models
         public int TotalBottle { get; set; } = 0;
         public decimal TotalBL { get; set; } = 0;
         public decimal TotalConsiderationFees { get; set; } = 0;
-        public string CheckPostVia { get; set; } = "";
+        public string CheckPostVia { get; set; } = "NA";
         public string DispatchedBy { get; set; } = "Road";
         public decimal InBondValue { get; set; } = 0;
         public decimal ExportDuty { get; set; } = 0;

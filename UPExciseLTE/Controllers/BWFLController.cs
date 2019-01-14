@@ -226,7 +226,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult GatePassForBWFL()
         {
             GatePassDetails GP = new GatePassDetails();
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P","","","","");
             ViewBag.Msg = TempData["Message"];
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
 

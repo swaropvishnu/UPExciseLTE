@@ -259,6 +259,7 @@
     <Compile Include="Controllers\ProductionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UnitMasterController.cs" />
+    <Compile Include="Controllers\UnitWareHouseController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -6242,6 +6243,11 @@
     <Content Include="Views\BottlingPlan\BottelingPlan.cshtml" />
     <Content Include="Views\BWFL\GatePassForBWFL.cshtml" />
     <Content Include="Views\FL2D\GatePassForFL2D.cshtml" />
+    <Content Include="Views\BottlingPlan\EditFinalBottelingPlan.cshtml" />
+    <Content Include="Views\UnitWareHouse\GatePass.cshtml" />
+    <Content Include="Views\UnitWareHouse\GatePassPreview.cshtml" />
+    <Content Include="Views\UnitWareHouse\GetPassDetails.cshtml" />
+    <Content Include="Views\UnitWareHouse\UploadGatePassCSV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
