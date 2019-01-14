@@ -92,7 +92,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult UploadGatePassCSV(string A, string B)
         {
             GatePassDetails GP = new GatePassDetails();
-            ViewBag.Brand = CommonBL.fillBrand("A");
+            ViewBag.Brand = CommonBL.fillBrandForCSV("S");
             GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P", "", "", "", "");
             return View(GP);
         }
@@ -109,7 +109,7 @@ namespace UPExciseLTE.Controllers
 
                         HttpFileCollectionBase files = Request.Files;
                         HttpPostedFileBase file = files[0];
-                        str = CSV.ValidateCSV(2, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
+                        str = CSV.ValidateCSV(4, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
                     }
                     return Json(str);
                 }

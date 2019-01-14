@@ -39,7 +39,7 @@
     function GatePassUploadBrandDetails() {
         var GatePassId = document.getElementById("hfGatePassId").value;
         $.ajax({
-            url: '/MasterForms/GetGatePassUploadBrandDetails',
+            url: '/UnitWareHouse/GetGatePassUploadBrandDetails',
             data: { 'Gatepass': GatePassId },
             datatype: "json",
             type: "GET",
@@ -56,13 +56,13 @@
         if (r == true) {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/MasterForms/FinalGatePass',
+                url: '/UnitWareHouse/FinalGatePass',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     alert(data);
-                    window.location.href = '../masterforms/GatePass';
+                    window.location.href = '../UnitWareHouse/GatePass';
                 },
                 error: function (data) {
                     alert("Error in GatePass Upload Brand Details Loading");
@@ -71,7 +71,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("GatePass", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GatePass", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
     @Html.ValidationSummary(true);
@@ -111,7 +111,7 @@
                                     <label class="control-label">Valid Till<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = true })
                                 </div>
-                                <div class="form-group   col-md-4" id="divImportPermitNo">
+                                <div class="form-group   col-md-4" id="divImportPermitNo" style="display:none">
                                     <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ImportPermitNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No" })
@@ -137,14 +137,12 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLicType">To License Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownList("ddlToLicenceType", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @readonly = true, @class = "form-control" })
-                                    @Html.DropDownList("ddlTemp", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlTemp", @class = "form-control", @style = "display:none;" })
-                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name", @class = "hide" })
+                                    @Html.DropDownListFor(m => m.ToLicenseType, (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @readonly = true, @class = "form-control" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownList("ddlToLicenseNo", (IEnumerable<SelectListItem>)ViewBag.FL1Licence, new { @id = "ddlToLicenseNo", @class = "hide" })
-                                    @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @readonly = true, @MaxLength = 150 })
+                                    @Html.DropDownList("ddlToLicenseNo", (IEnumerable<SelectListItem>)ViewBag.FL1Licence, new { @id = "ddlToLicenseNo", @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "hide", @placeholder = "To Licence No", @required = "required", @MaxLength = 150 })
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
@@ -167,7 +165,7 @@
                                         @Html.TextAreaFor(m => m.ConsigneeAddress, new { @id = "txtAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250 })
                                     </div>
                                 </div>
-                                <div class="form-group  col-md-4" id="divICD">
+                                <div class="form-group  col-md-4" id="divICD" style="display:none">
                                     <label class="control-label">Address of Designated ICD<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.Receiver, new { @id = "txtICDAddress", @class = "form-control ", @placeholder = "ICD Address", @MaxLength = 250 })
@@ -232,7 +230,7 @@
                             </div>
 
 
-                            <div class="row" id="divExport">
+                            <div class="row" id="divExport" style="display:none">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Check Post Via</label>
                                     <div>
@@ -284,7 +282,7 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green" id="btnSave" onclick="return Validation();">Save</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../masterforms/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../UnitWareHouse/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
                             </div>
                         </center>
@@ -358,4 +356,20 @@
         var netweight = (grossweight - tareweight);
         $("#txtNetWeight").val(netweight);
     }
+    $("#ddlToLicenseNo").change(function () {
+        //$("#txtToLicenceNo").val(this.value);
+        $.ajax({
+            type: "post",
+            url: "/MasterForms/GetUnitDetailsForddl",
+            data: { UnitId: $('#ddlToLicenseNo').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var str = data.split(",");
+                document.getElementById("txtToLicenceNo").value = str[0];
+                document.getElementById("txtConsigneeName").value = str[1];
+                document.getElementById("txtAddress").value = str[2];
+            }
+        });
+    });
 </script>
