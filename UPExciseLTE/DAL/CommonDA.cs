@@ -2177,5 +2177,51 @@ namespace UPExciseLTE.DAL
             }
         }
         #endregion
+
+        #region BWFL
+        internal string InsertUpdatePlanBWFL(BottelingPlan BP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("BWFL_Proc_InsertUpdatePlan", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("PlanId", BP.PlanId));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BP.BrandId));
+                cmd.Parameters.Add(new SqlParameter("BBTId", BP.BBTId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BP.BottlingLineId));
+                cmd.Parameters.Add(new SqlParameter("DateOfPlan", BP.DateOfPlan));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BP.BatchNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("NumberOfCases", BP.NumberOfCases));
+                cmd.Parameters.Add(new SqlParameter("MappedOrNot", BP.MappedOrNot));
+                cmd.Parameters.Add(new SqlParameter("IsPlanFinal", BP.IsPlanFinal));
+                cmd.Parameters.Add(new SqlParameter("Type", BP.Type));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        #endregion
     }
 }

@@ -247,6 +247,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\CommonBL.cs" />
+    <Compile Include="Controllers\BottlingPlanController.cs" />
     <Compile Include="Controllers\BreweryWareHouseController.cs" />
     <Compile Include="Controllers\BWFLController.cs" />
     <Compile Include="Controllers\CLController.cs" />
@@ -6238,6 +6239,7 @@
     <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
     <Content Include="Views\UnitMaster\FreezeUnitMaster.cshtml" />
     <Content Include="Views\UnitMaster\GetUnitMasterDetailsForBrewary.cshtml" />
+    <Content Include="Views\BottlingPlan\BottelingPlan.cshtml" />
     <Content Include="Views\BWFL\GatePassForBWFL.cshtml" />
     <Content Include="Views\FL2D\GatePassForFL2D.cshtml" />
     <Content Include="Views\CL\ReceiverMaster.cshtml" />
