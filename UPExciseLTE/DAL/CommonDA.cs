@@ -1120,7 +1120,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
                 cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
                 cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
-                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchedBy));
                 cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -1141,7 +1142,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        public DataSet GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive,string FromLicenseNo,string ToLicenseNo,string FromLicenseType,string ToLicenseType)
         {
             DataSet ds = new DataSet();
             try
@@ -1156,6 +1157,10 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("UploadValue", UploadValue));
                 parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
                 parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseNo", filter_bad_chars_rep(FromLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetGatePassDetailsG", parameters.ToArray());
             }
             catch (Exception)
@@ -1194,6 +1199,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
                 cmd.Parameters.Add(new SqlParameter("DamageBottles", DamageBottles));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;

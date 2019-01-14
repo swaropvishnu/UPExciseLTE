@@ -24,7 +24,7 @@
             OutsideIndia();
         }
         GatePassUploadBrandDetails();
-        
+
         $("#txtValidTill").datepicker({
 
             dateFormat: "dd/mm/yy",
@@ -96,11 +96,10 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Dispatch Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }, new SelectListItem { Text = "CSD", Value = "CSD" } }, new { @id = "ddlDispatchType", @class = "form-control " })
-                                    @Html.DropDownList("hfddlGatePassType", new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "hfddlGatePassType", @class = "hide" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Gate Pass Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.GatePassType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "ddlGatePassType", @class = "form-control " })
+                                    @Html.DropDownListFor(m => m.GatePassType, new List<SelectListItem> { new SelectListItem { Text = "District Ware-house", Value = "4" } }, new { @id = "ddlGatePassType", @class = "form-control " })
                                 </div>
                             </div>
                             <div class="row">
@@ -140,7 +139,7 @@
                                     <label class="control-label" id="lblToLicType">To License Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlToLicenceType", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @readonly = true, @class = "form-control" })
                                     @Html.DropDownList("ddlTemp", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlTemp", @class = "form-control", @style = "display:none;" })
-                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name",@class="hide" })
+                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name", @class = "hide" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
@@ -158,10 +157,10 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Address of Consignor Godown<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextAreaFor(m => m.ConsignorAddress, new { @id = "txtConsignorAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250,@readonly= true })
+                                        @Html.TextAreaFor(m => m.ConsignorAddress, new { @id = "txtConsignorAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250, @readonly = true })
                                     </div>
                                 </div>
-                            
+
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Address of Consignee Godown<b style="color:red; font-weight:800">*</b></label>
                                     <div>
@@ -299,53 +298,7 @@
     </div>
 }
 <script type="text/javascript">
-    $("#ddlFromLicenceType").change(function () {
-        document.getElementById("txtFromLicenceType").value = $("option:selected", $("#ddlFromLicenceType")).text()
-    });
-    $("#ddlToLicenceType").change(function () {
-        document.getElementById("txtToLicenceType").value = $("option:selected", $("#ddlToLicenceType")).text()
-    });
-    $("#ddlToLicenseNo").change(function () {
-        //$("#txtToLicenceNo").val(this.value);
-        $.ajax({
-            type: "post",
-            url: "/MasterForms/GetUnitDetailsForddl",
-            data: { UnitId: $('#ddlToLicenseNo').val() },
-            datatype: "json",
-            traditional: true,
-            success: function (data) {
-                var str = data.split(",");
-                document.getElementById("txtToLicenceNo").value = str[0];
-                document.getElementById("txtConsigneeName").value = str[1];
-                document.getElementById("txtAddress").value = str[2];
-            }
-        });
-    });
-
-    $('#ddlGatePassType').change(function () {
-        var GatePassType = $('#ddlGatePassType').val();
-        if (GatePassType == 1) {
-            InsideUp();
-        }
-        else if (GatePassType == 2) {
-
-            OutsideUp();
-        }
-        else if (GatePassType == 3) {
-            OutsideIndia();
-        }
-    })
-    $('#ddlDispatchType').change(function () {
-        var ddlDispatchType = $('#ddlDispatchType').val();
-        if (ddlDispatchType == 'Civil') {
-            $('#ddlGatePassType').html($('#hfddlGatePassType').html());
-        }
-        else if (ddlDispatchType == 'CSD') {
-            $('#ddlGatePassType').html($('#hfddlGatePassType').html());
-            $("#ddlGatePassType option[value='3']").remove();
-        }
-
-    })
+     
     function Validation() {
         var fromDate = document.getElementById("txtDate").value
         var ValidTill = document.getElementById("txtValidTill").value
@@ -369,109 +322,7 @@
             document.getElementById("ddlFromLicenceType").focus();
             return false;
         }
-        //if ($("#ddlToLicenceType").val() == "-1") {
-        //    alert("Please Select To License Type");
-        //    document.getElementById("ddlToLicenceType").focus();
-        //    return false;
-        //}
-    }
-    function InsideUp() {
-        $('#ddlToLicenceType').html($('#ddlTemp').html());
-        $("#ddlToLicenceType option[value='Export Outside UP']").remove();
-        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
-
-        $("#ddlToLicenseNo").removeClass("hide");
-        $("#ddlToLicenseNo").addClass("form-control");
-        $("#txtToLicenceNo").removeClass("form-control");
-        $("#txtToLicenceNo").addClass("hide");
-
-        $("#ddlToLicenceType").removeClass("hide");
-        $("#txtToLicenceType").removeClass("form-control");
-        $("#ddlToLicenceType").addClass("form-control");
-        $("#txtToLicenceType").addClass("hide");
-
-
-        document.getElementById("txtToLicenceNo").value = document.getElementById("txtFromLicenceNo").value;
-        document.getElementById("txtConsigneeName").value = document.getElementById("txtConsignorName").value;
-        document.getElementById("txtToLicenceNo").readOnly = true;
-        document.getElementById("txtConsigneeName").readOnly = true;
-        document.getElementById("lblToLic").innerHTML = "To License No";
-        document.getElementById("lblToLicType").innerHTML = "To License Type";
-        document.getElementById("lblConsi").innerHTML = "Consignee Name";
-        document.getElementById("divExport").style.display = "none";
-        document.getElementById("divInsideUp").style.display = "block";
-        document.getElementById("divImportPermitNo").style.display = "none";
-        document.getElementById("divICD").style.display = "none";
-        document.getElementById("txtToLicenceType").value = $("#ddlToLicenceType").val().trim();
-        Reset();
-    }
-    function OutsideUp() {
-        $('#ddlToLicenceType').html($('#ddlTemp').html());
-        //$("#ddlToLicenceType option[value='-1']").remove();
-        $("#ddlToLicenceType option[value='FL-1']").remove();
-        $("#ddlToLicenceType option[value='FL-1A']").remove();
-        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
-        document.getElementById("txtToLicenceType").value = 'Export Outside UP';
-        $("#ddlToLicenseNo").removeClass("form-control");
-        $("#ddlToLicenseNo").addClass("hide");
-        $("#txtToLicenceNo").removeClass("hide");
-        $("#txtToLicenceNo").addClass("form-control");
-
-        $("#ddlToLicenceType").removeClass("hide");
-        $("#txtToLicenceType").removeClass("form-control");
-        $("#ddlToLicenceType").addClass("form-control");
-        $("#txtToLicenceType").addClass("hide");
-        document.getElementById("divImportPermitNo").style.display = "block";
-        document.getElementById("divICD").style.display = "none";
-
-        document.getElementById("txtToLicenceNo").readOnly = false;
-        document.getElementById("txtConsigneeName").readOnly = false;
-        var GatePassId = document.getElementById("hfGatePassId").value;
-        if (GatePassId == -1) {
-            document.getElementById("txtToLicenceNo").value = "";
-            document.getElementById("txtConsigneeName").value = "";
-            document.getElementById("txtAddress").value = "";
-        }
-        document.getElementById("lblToLic").innerHTML = "Export Permit No/ Validity of Permit";
-        document.getElementById("lblToLicType").innerHTML = "To License Type";
-        document.getElementById("lblConsi").innerHTML = "Party Name";
-        document.getElementById("divExport").style.display = "block";
-        document.getElementById("divInsideUp").style.display = "none";
-        document.getElementById("txtToLicenceType").value = $("#ddlToLicenceType").val().trim();
-        Reset();
-    }   
-    function OutsideIndia() {
-         
-        document.getElementById("txtToLicenceNo").readOnly = false;
-        document.getElementById("txtConsigneeName").readOnly = false;
-        $("#ddlToLicenceType").removeClass("form-control");
-        $("#txtToLicenceType").removeClass("hide");
-        $("#ddlToLicenceType").addClass("hide");
-        $("#txtToLicenceType").addClass("form-control");
-        var GatePassId = document.getElementById("hfGatePassId").value;
-        if (GatePassId == -1) {
-            document.getElementById("txtToLicenceNo").value = "";
-            document.getElementById("txtConsigneeName").value = "";
-            document.getElementById("txtAddress").value = "";
-        }
-        document.getElementById("lblToLic").innerHTML = "Export Permit No/ Validity of Permit";
-        document.getElementById("lblToLicType").innerHTML = "Country Name";
-
-        document.getElementById("lblConsi").innerHTML = "Party Name";
-        document.getElementById("divExport").style.display = "block";
-        document.getElementById("divInsideUp").style.display = "none";
-        document.getElementById("divImportPermitNo").style.display = "block";
-        document.getElementById("divICD").style.display = "block";
-
-        $("#ddlToLicenseNo").removeClass("form-control");
-        $("#ddlToLicenseNo").addClass("hide");
-        $("#txtToLicenceNo").removeClass("hide");
-        $("#txtToLicenceNo").addClass("form-control");
-        var Val = document.getElementById("txtToLicenceType").value;
-        if (Val === "FL-1" || Val === "FL-1A" || Val === "Export Outside UP") {
-            document.getElementById("txtToLicenceType").value = "";
-        }
-        Reset();
+        
     }
     function Reset() {
         var GatePassId = document.getElementById("hfGatePassId").value;
@@ -484,7 +335,7 @@
             document.getElementById("txtExportDuty").value = "0";
         }
     }
-   
+
     $("#MDistrictId1").change(function () {
         if ($("#MDistrictId1").val() != "-1") {
             $('#MDistrictId2').html($('#MDistrictId1').html());

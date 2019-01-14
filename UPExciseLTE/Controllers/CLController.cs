@@ -540,9 +540,9 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult UploadGatePassCSVCL(string A, string B)
         {
-            GatePassDetails GP = new GatePassDetails();
+            GatePassDetailsCL GP = new GatePassDetailsCL();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
+            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
             return View(GP);
         }
         [HttpPost]
@@ -598,8 +598,8 @@ namespace UPExciseLTE.Controllers
         }
         public ActionResult ReceiveGatePassWH()
         {
-            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
-            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A", "P");
+            List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
+            lstGPD = new CommonBL().GetGatePassDetailsListCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A", "P");
             return View(lstGPD);
         }
         public string ReceiveGatePass(string GatePassId, string DamageBottles)
@@ -610,9 +610,9 @@ namespace UPExciseLTE.Controllers
         /*Copy From Vijay For Show Gate Pass*/
         public ActionResult GatePassPreviewCL()
         {
-            GatePassDetails GP = new GatePassDetails();
+            GatePassDetailsCL GP = new GatePassDetailsCL();
             long GatePassId = long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim()));
-            GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z");
+            GP = new CommonBL().GetGatePassDetailsGCL(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z");
             string qrcode = "EXCISE";
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
             ViewBag.PassType = "PD-25A";

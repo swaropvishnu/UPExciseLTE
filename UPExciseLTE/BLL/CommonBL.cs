@@ -753,9 +753,9 @@ namespace UPExciseLTE.BLL
         #endregion
 
         #region GatePass
-        public GatePassDetails GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive)
+        public GatePassDetails GetGatePassDetailsG(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillGatePassDetails(ds.Tables[0].Rows[0]);
@@ -765,10 +765,10 @@ namespace UPExciseLTE.BLL
                 return new GatePassDetails();
             }
         }
-        public List<GatePassDetails> GetGatePassDetailsList(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive)
+        public List<GatePassDetails> GetGatePassDetailsList(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status,string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             List<GatePassDetails> lstGPD = new List<GatePassDetails>();
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -783,9 +783,11 @@ namespace UPExciseLTE.BLL
             GatePassDetails GP = new GatePassDetails();
             try
             {
+                GP.GPType = dr["GatePassType"].ToString().Trim();
                 GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
                 GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
-                GP.DispatchType = dr["DispatchedBy"].ToString().Trim();
+                GP.DispatchedBy = dr["DispatchedBy"].ToString().Trim();
+                GP.DispatchType = dr["DispatchType"].ToString().Trim();
                 GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
                 GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
                 GP.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
@@ -1395,7 +1397,7 @@ namespace UPExciseLTE.BLL
 
         public GatePassDetailsCL GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
         {
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,"","","","");
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillGatePassDetailsCL(ds.Tables[0].Rows[0]);
@@ -1408,7 +1410,7 @@ namespace UPExciseLTE.BLL
         public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
         {
             List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive);
+            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,"","","","");
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
