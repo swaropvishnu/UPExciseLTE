@@ -6249,6 +6249,7 @@
     <Content Include="Views\UnitWareHouse\GetPassDetails.cshtml" />
     <Content Include="Views\UnitWareHouse\UploadGatePassCSV.cshtml" />
     <Content Include="Views\CL\ReceiverMaster.cshtml" />
+    <Content Include="Views\UnitWareHouse\StockBalance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

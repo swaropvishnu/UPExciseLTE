@@ -188,5 +188,20 @@ namespace UPExciseLTE.Controllers
             }
             return imagePath;
         }
+        [HttpGet]
+        public ActionResult StockBalance()
+        {
+            try
+            {
+                DataSet dsStockBalance = new DataSet();
+                dsStockBalance = new CommonDA().GetStockBalanceDetail(1);
+                ViewData["StockBalance"] = dsStockBalance.Tables[0];
+                return View(ViewData["StockBalance"]);
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
     }
 }

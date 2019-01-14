@@ -673,23 +673,22 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult ReceiverMaster()
         {
-            TankTransferDetail SVBL = new TankTransferDetail();
-            ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
-            ViewBag.SpiritType = CommonBL.fillSpiritType("S");
-            if (TempData["Message"] != null)
+            StorageVATCL UT = new StorageVATCL();
+            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
             {
-                ViewBag.Msg = TempData["Message"].ToString();
+                UT = new CommonBL().GetStorageVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
             }
-            return View(SVBL);
-
+            ViewBag.Msg = TempData["Msg"];
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            ViewBag.StorageVATList = new CommonBL().GetStorageVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
+            return View(UT);
         }
         [HttpPost]
-        public ActionResult ReceiverMaster(TankTransferDetail UTBL)
+        public ActionResult ReceiverMaster(StorageVATCL UT)
         {
-            UTBL.TransactionType = "RS";
-            string str = new CommonDA().InsertTankTransferDetail(UTBL);
-            TempData["Message"] = str;
-            return RedirectToAction("ReceiveStorageVATCL");
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
+            TempData["Msg"] = str;
+            return RedirectToAction("StorageVATCL");
         }
 
         #endregion
