@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using UPExciseLTE.DAL;
 using UPExciseLTE.BLL;
 using UPExciseLTE.Models;
+using System.Data;
 
 namespace UPExciseLTE.Controllers
 {
@@ -108,6 +109,20 @@ namespace UPExciseLTE.Controllers
             try
             {
                 return Json(CommonBL.fillDistict("S", ddlState.ToString()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
+        [HttpGet]
+        public ActionResult StockBalance()
+        {
+            try
+            {
+                DataSet dsStockBalance = new DataSet();
+                dsStockBalance = new CommonDA().GetStockBalanceDetail(1);
+                return ViewBag.StockBalance = dsStockBalance;                 
             }
             catch (Exception ex)
             {

@@ -2176,6 +2176,25 @@ namespace UPExciseLTE.DAL
                 throw ex;
             }
         }
+        public DataSet GetStockBalanceDetail(int SPType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                parameters.Add(new SqlParameter("SPType", SPType));
+                parameters.Add(new SqlParameter("DbName", UserSession.PushName));
+
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_StockBalance", parameters.ToArray());
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region BWFL
