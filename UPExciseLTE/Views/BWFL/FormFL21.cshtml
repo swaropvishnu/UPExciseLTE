@@ -231,7 +231,7 @@
                                 }
                                 else
                                 {
-                                    <button type="submit" class="btn danger" style="background-color:crimson; color:white" id="btnSave">Save</button>
+                                    <button type="submit" class="btn danger" style="background-color:crimson; color:white" id="btnSave" onclick="return Validate();">Save</button>
                                 }
                             </div>
                         </center>
@@ -323,5 +323,51 @@
     //    document.getElementById("txtDutyCalculated").value = parseFloat(ImportFees) * parseFloat(TotalBL);
     //    document.getElementById("txtTotalFees").value = parseFloat(ImportFees) * parseFloat(TotalBL);
     //}
+    function Validate() {
+        var TotalCase = document.getElementById("txtTotalCase").value;
+        if (document.getElementById("txtFromConsignorName").value == "") {
+            alert("Please fill consigner name");
+            document.getElementById("txtFromConsignorName").focus();
+            return false;
+        }
+        if (document.getElementById("txtFromLicenceNo").value == "") {
+            alert("Please fill consigner license no.");
+            document.getElementById("txtFromLicenceNo").focus();
+            return false;
+        }
+        if (document.getElementById("txtFromConsignorAddress").value == '') {
+            alert("Please fill consigner address.");
+            document.getElementById("txtFromConsignorAddress").focus();
+            return false;
+        }
+        if (document.getElementById("txtPermitFees").value == 0) {
+            alert("Please fill permit fees.");
+            document.getElementById("txtPermitFees").focus();
+            return false;
+        }
+        if (document.getElementById("txtRateofPermit").value == 0) {
+            alert("Please fill import pass fee.");
+            document.getElementById("txtRateofPermit").focus();
+            return false;
+        }
+        if (document.getElementById("txtRouteDetails").value == '') {
+            alert("Please fill route details.");
+            document.getElementById("txtRouteDetails").focus();
+            return false;
+        }
+        if (document.getElementById("ddlBrand").value == "-1") {
+            alert("Please Select Brand");
+            document.getElementById("ddlBrand").focus();
+            return false;
+        }
+        if (TotalCase == null || TotalCase == '') {
+            alert("Please Total Case");
+            document.getElementById("txtTotalCase").focus();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 </script>
 
