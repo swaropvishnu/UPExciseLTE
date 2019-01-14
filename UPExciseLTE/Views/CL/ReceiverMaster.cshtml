@@ -1,0 +1,152 @@
+﻿@model UPExciseLTE.Models.TankTransferDetail
+
+@{
+    ViewBag.Title = "ReceiverMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("ReceiveStorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken(){
+        if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+        {
+            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+        }
+    }
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp;Receive Spirit Into Storage VAT</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Type of Spirit<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.SpiritTypeId, (IEnumerable<SelectListItem>)ViewBag.SpiritType, new { @id = "ddlSpiritType", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.IssuedFromSVId, (IEnumerable<SelectListItem>)ViewBag.IssuedFromSVId, new { @id = "ddlSVId", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Storage VAT Capacity (in Bulk Litre)</label>
+                                    @Html.TextBox("StorageVCapacity", "", new { @class = "form-control", @id = "txtUnitTankCapacity", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Opening Balance (in Bulk Litre)</label>
+                                    @Html.TextBox("txtUnitTankBalance", "", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Type of Spirit (in Storage VAT)</label>
+                                    @Html.TextBox("txtSpiritType", "", new { @class = "form-control", @id = "txtSpiritType", @readonly = "true" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtIssueBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Source (Spirit Receiving)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.SourceSV, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1", Selected = true }, new SelectListItem { Text = "Purchase", Value = "1" }, new SelectListItem { Text = "Import (Other State)", Value = "2" }, new SelectListItem { Text = "Import (Other Country)", Value = "3" }, new SelectListItem { Text = "Other Sources", Value = "4" }, new SelectListItem { Text = "Redistillation", Value = "5" } }, new { @id = "ddlWortReceiveSource", @class = "form-control", @required = "required", @placeholder = "" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Wastage<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Wastage, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Dip<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Dip, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Temperature (in °C)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Indication<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Indication, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Alcoholic Liter<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtWastageInLiter", @required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+
+    $('#ddlSVId').change(function () {
+        var SVId = $('#ddlSVId').val();
+        if (SVId != "-1") {
+            UnitTankChange(SVId);
+        }
+    });
+    function Validation() {
+        var UnitTankId = $('#ddlSVId').val();
+        if (UnitTankId == "-1") {
+            alert("Please Select Storage VAT");
+            return false;
+        }
+        if (document.getElementById("txtUnitTankReceiveBL").value.trim() == "" || parseFloat(document.getElementById("txtUnitTankReceiveBL").value.trim()) <= 0) {
+            alert("Please Enter valid receive Quantity");
+            return false;
+        }
+    }
+    function UnitTankChange(UnitTankId) {
+        $.ajax({
+            url: '/CL/GetStorageVATDetails',
+            data: { 'SVID': UnitTankId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtUnitTankCapacity").value = res[0];
+                document.getElementById("txtSpiritType").value = res[1];
+                document.getElementById("txtUnitTankBalance").value = res[2];
+            },
+            error: function (data) {
+                alert("Error in GetBrandDetailsForDDl Loading");
+            }
+        });
+    }
+    function Calculation() {
+        var ReceiveLtr = document.getElementById("txtUnitTankReceiveBL").value;
+        var Balance = parseFloat(document.getElementById("txtUnitTankCapacity").value) - parseFloat(document.getElementById("txtUnitTankBalance").value);
+        if (parseFloat(Balance) < parseFloat(ReceiveLtr)) {
+            alert("Maximum Received Quantity is " + Balance)
+            document.getElementById("txtUnitTankReceiveBL").value = Balance;
+        }
+    }
+</script>
