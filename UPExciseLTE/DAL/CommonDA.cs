@@ -1082,6 +1082,7 @@ namespace UPExciseLTE.DAL
                 cmd.Transaction = tran;
                 cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 cmd.Parameters.Add(new SqlParameter("GatePassId", GP.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("GatepassLicenseNo", GP.GatepassLicenseNo));
                 cmd.Parameters.Add(new SqlParameter("FromDate", GP.FromDate));
                 cmd.Parameters.Add(new SqlParameter("ToDate", GP.ToDate));
                 cmd.Parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(GP.ToLicenseType.Trim())));

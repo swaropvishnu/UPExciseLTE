@@ -819,6 +819,7 @@ namespace UPExciseLTE.Controllers
             {
                 GP.ImportPermitNo = "";
             }
+            GP.GatepassLicenseNo = "B-12";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
             GP.UploadValue =2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
@@ -908,7 +909,7 @@ namespace UPExciseLTE.Controllers
             GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z","","","","");
             string qrcode = GP.GatePassNo;
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
-            ViewBag.PassType = "B-12";
+            
             ViewBag.GetGatePassBrandDetailsList = new CommonBL().GetGatePassBrandDetailsList(GatePassId);
             return View(GP);
         }

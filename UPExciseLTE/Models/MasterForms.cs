@@ -282,6 +282,7 @@ namespace UPExciseLTE.Models
     {
         public long GatePassId { get; set; } = -1;
         public short GatePassType { get; set; } = -1;
+        public string GatepassLicenseNo { get; set; }
         public string GPType { get; set; } = "";
         public string DispatchType { get; set; } = "";
         public string EncPassId { get; set; } = "";
