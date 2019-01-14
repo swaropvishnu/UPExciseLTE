@@ -115,19 +115,6 @@ namespace UPExciseLTE.Controllers
                 return Content(ex.Message);
             }
         }
-        [HttpGet]
-        public ActionResult StockBalance()
-        {
-            try
-            {
-                DataSet dsStockBalance = new DataSet();
-                dsStockBalance = new CommonDA().GetStockBalanceDetail(1);
-                return ViewBag.StockBalance = dsStockBalance;                 
-            }
-            catch (Exception ex)
-            {
-                return Content(ex.Message);
-            }
-        }
+        
     }
 }
