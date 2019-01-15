@@ -19,7 +19,7 @@ namespace UPExciseLTE
                     //if (UserSession.dbAddress != null && UserSession.dbAddress.Trim() != String.Empty)
                     if (HttpContext.Current.Session["tbl_Session"]!=null )
                     {
-                        string UName = "sa", Pass = "nic";
+                        string UName = "sa", Pass = "nic123";
                         if (UserSession.dbAddress== "10.135.30.166")
                         {
                             UName = "sa"; Pass = "nic";
