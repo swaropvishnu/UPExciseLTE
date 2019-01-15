@@ -37,7 +37,7 @@
             alert('Please Enter Damage Bottle Quantity');
             return false;
         }
-        if (AvailableBottle < DamageBottles) {
+        if (parseFloat(AvailableBottle) < parseFloat( DamageBottles)) {
             alert('Damage Bottle Quantity not Greater than Total Bottle Quantity');
             return false;
         }
@@ -56,7 +56,7 @@
         });
     }
 </script>
-@using (Html.BeginForm("ReceiveGatePassWH", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ReceiveGatePassWH", "DistrictWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

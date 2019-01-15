@@ -15,12 +15,24 @@ namespace UPExciseLTE.Controllers
 {
     public class DistrictWareHouseController : Controller
     {
+        public ActionResult ReceiveGatePassWH()
+        {
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 4, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
+            return View(lstGPD);
+        }
+        public string ReceiveGatePass(string GatePassId, string DamageBottles)
+        {
+            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
+            return str;
+        }
         [HttpGet]
         public ActionResult GatePass()
         {
             GatePassDetails GP = new GatePassDetails();
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 6, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
             ViewBag.Msg = TempData["Message"];
 
 
@@ -75,7 +87,7 @@ namespace UPExciseLTE.Controllers
             {
                 GP.ImportPermitNo = "";
             }
-            GP.GatepassLicenseNo = "FL-2B";
+            GP.GatepassLicenseNo = "FL-36";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
             GP.UploadValue = 6;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
@@ -88,7 +100,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult UploadGatePassCSV(string A, string B)
         {
             GatePassDetails GP = new GatePassDetails();
-            ViewBag.Brand = CommonBL.fillBrandForCSV("S");
+            ViewBag.Brand = CommonBL.fillBrandRetCSV("S");
             GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 6, "P", "P", "", "", "", "");
             return View(GP);
         }
@@ -190,7 +202,7 @@ namespace UPExciseLTE.Controllers
             try
             {
                 DataSet dsStockBalance = new DataSet();
-                dsStockBalance = new CommonDA().GetStockBalanceDetail(1);
+                dsStockBalance = new CommonDA().GetStockBalanceDetail(2);
                 ViewData["StockBalance"] = dsStockBalance.Tables[0];
                 return View(ViewData["StockBalance"]);
             }
@@ -200,5 +212,4 @@ namespace UPExciseLTE.Controllers
             }
         }
     }
-}
 }
