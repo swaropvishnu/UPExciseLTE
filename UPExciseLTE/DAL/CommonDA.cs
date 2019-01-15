@@ -1427,7 +1427,84 @@ namespace UPExciseLTE.DAL
 
 
         #region FL2D
-
+        /// <summary>
+        /// iNSERT OR UPDATE FL36 gate pass
+        /// </summary>
+        /// <param name="GP"></param>
+        /// <returns></returns>
+        public string FL36InsertUpdateGatePassDetails(FL36GatePassDetails GP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("FL2D_PROC_InsertUpdateGatePassDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GP.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("GatepassLicenseNo", GP.GatepassLicenseNo));
+                cmd.Parameters.Add(new SqlParameter("FromDate", GP.FromDate));
+                cmd.Parameters.Add(new SqlParameter("ToDate", GP.ToDate));
+                cmd.Parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(GP.ToLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToLicenceNo", filter_bad_chars_rep(GP.ToLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToConsigeeName", filter_bad_chars_rep(GP.ToConsigeeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(GP.FromLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenceNo", filter_bad_chars_rep(GP.FromLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromConsignorName", filter_bad_chars_rep(GP.FromConsignorName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopName", filter_bad_chars_rep(GP.ShopName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopId", GP.ShopId));
+                cmd.Parameters.Add(new SqlParameter("GatePassNo", filter_bad_chars_rep(GP.GatePassNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeNo", filter_bad_chars_rep(GP.LicenseeNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("VehicleNo", filter_bad_chars_rep(GP.VehicleNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("DriverName", filter_bad_chars_rep(GP.DriverName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeName", filter_bad_chars_rep(GP.LicenseeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeAddress", filter_bad_chars_rep(GP.LicenseeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", filter_bad_chars_rep(GP.AgencyNameAndAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToAddress", filter_bad_chars_rep(GP.ConsigneeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromAddress", filter_bad_chars_rep(GP.ConsignorAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GrossWeight", GP.GrossWeight));
+                cmd.Parameters.Add(new SqlParameter("TareWeight", GP.TareWeight));
+                cmd.Parameters.Add(new SqlParameter("NetWeight", GP.NetWeight));
+                cmd.Parameters.Add(new SqlParameter("district_code_census1", GP.district_code_census1));
+                cmd.Parameters.Add(new SqlParameter("district_code_census2", GP.district_code_census2));
+                cmd.Parameters.Add(new SqlParameter("district_code_census3", GP.district_code_census3));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", filter_bad_chars_rep(GP.RouteDetails.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GatePassSourceId", GP.GatePassSourceId));
+                cmd.Parameters.Add(new SqlParameter("Receiver", filter_bad_chars_rep(GP.Receiver.Trim())));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", GP.UploadValue));
+                cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(GP.Status.Trim())));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", GP.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("GatePassTypeID", GP.GatePassType));
+                cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
+                cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
+                cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchedBy));
+                cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
 
         public DataSet GetFormFL33(int FormFL33Id, string FormFLStatus)
         {
@@ -1597,8 +1674,80 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
-
-
+        /// <summary>
+        /// Get FL36 unit detail
+        /// </summary>
+        /// <param name="UnitId"></param>
+        /// <param name="UnitName"></param>
+        /// <param name="UnitLicenseNo"></param>
+        /// <param name="DistrictCode"></param>
+        /// <param name="TehsilCode"></param>
+        /// <param name="ParentUnitId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public DataSet FL36GetUnitDetails(short UnitId, string UnitName, string UnitLicenseNo, short DistrictCode, short TehsilCode, int ParentUnitId, int UserId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitId", UnitId));
+                parameters.Add(new SqlParameter("UnitName", UnitName));
+                parameters.Add(new SqlParameter("UnitLicenseNo", UnitLicenseNo));
+                parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
+                parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
+                parameters.Add(new SqlParameter("UserId", UserId));
+                parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_PROC_GetUnitDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        /// <summary>
+        /// Get FL36 Gate pass detail
+        /// </summary>
+        /// <param name="GatePassId"></param>
+        /// <param name="FromDate"></param>
+        /// <param name="Todate"></param>
+        /// <param name="UploadValue"></param>
+        /// <param name="Status"></param>
+        /// <param name="IsReceive"></param>
+        /// <param name="FromLicenseNo"></param>
+        /// <param name="ToLicenseNo"></param>
+        /// <param name="FromLicenseType"></param>
+        /// <param name="ToLicenseType"></param>
+        /// <returns></returns>
+        public DataSet FL36GatePassDetails(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", Todate));
+                parameters.Add(new SqlParameter("GatePassSourceId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseNo", filter_bad_chars_rep(FromLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_PROC_GetGatePassDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
         #endregion
 
 
@@ -2229,6 +2378,158 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        /// <summary>
+        /// Get FL-2B Unit detail
+        /// </summary>
+        /// <param name="UnitId"></param>
+        /// <param name="UnitName"></param>
+        /// <param name="UnitLicenseNo"></param>
+        /// <param name="DistrictCode"></param>
+        /// <param name="TehsilCode"></param>
+        /// <param name="ParentUnitId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public DataSet FL2BGetUnitDetails(short UnitId, string UnitName, string UnitLicenseNo, short DistrictCode, short TehsilCode, int ParentUnitId, int UserId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitId", UnitId));
+                parameters.Add(new SqlParameter("UnitName", UnitName));
+                parameters.Add(new SqlParameter("UnitLicenseNo", UnitLicenseNo));
+                parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
+                parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
+                parameters.Add(new SqlParameter("UserId", UserId));
+                parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "BWFL_Proc_GetUnitDetals", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        /// <summary>
+        /// Get FL-2B Gate pass detail
+        /// </summary>
+        /// <param name="GatePassId"></param>
+        /// <param name="FromDate"></param>
+        /// <param name="Todate"></param>
+        /// <param name="UploadValue"></param>
+        /// <param name="Status"></param>
+        /// <param name="IsReceive"></param>
+        /// <param name="FromLicenseNo"></param>
+        /// <param name="ToLicenseNo"></param>
+        /// <param name="FromLicenseType"></param>
+        /// <param name="ToLicenseType"></param>
+        /// <returns></returns>
+        public DataSet FL2BGatePassDetails(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", Todate));
+                parameters.Add(new SqlParameter("GatePassSourceId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseNo", filter_bad_chars_rep(FromLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "BWFL_PROC_GetGatePassDetails", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        /// <summary>
+        /// FL-2B Insert or Update
+        /// </summary>
+        /// <param name="GP"></param>
+        /// <returns></returns>
+        public string FL2BInsertUpdateGatePassDetails(FL2BGatePassDetails GP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("BWFL_PROC_InsertUpdateGatePassDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GP.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("GatepassLicenseNo", GP.GatepassLicenseNo));
+                cmd.Parameters.Add(new SqlParameter("FromDate", GP.FromDate));
+                cmd.Parameters.Add(new SqlParameter("ToDate", GP.ToDate));
+                cmd.Parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(GP.ToLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToLicenceNo", filter_bad_chars_rep(GP.ToLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToConsigeeName", filter_bad_chars_rep(GP.ToConsigeeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(GP.FromLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenceNo", filter_bad_chars_rep(GP.FromLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromConsignorName", filter_bad_chars_rep(GP.FromConsignorName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopName", filter_bad_chars_rep(GP.ShopName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopId", GP.ShopId));
+                cmd.Parameters.Add(new SqlParameter("GatePassNo", filter_bad_chars_rep(GP.GatePassNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeNo", filter_bad_chars_rep(GP.LicenseeNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("VehicleNo", filter_bad_chars_rep(GP.VehicleNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("DriverName", filter_bad_chars_rep(GP.DriverName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeName", filter_bad_chars_rep(GP.LicenseeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeAddress", filter_bad_chars_rep(GP.LicenseeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", filter_bad_chars_rep(GP.AgencyNameAndAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToAddress", filter_bad_chars_rep(GP.ConsigneeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromAddress", filter_bad_chars_rep(GP.ConsignorAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GrossWeight", GP.GrossWeight));
+                cmd.Parameters.Add(new SqlParameter("TareWeight", GP.TareWeight));
+                cmd.Parameters.Add(new SqlParameter("NetWeight", GP.NetWeight));
+                cmd.Parameters.Add(new SqlParameter("district_code_census1", GP.district_code_census1));
+                cmd.Parameters.Add(new SqlParameter("district_code_census2", GP.district_code_census2));
+                cmd.Parameters.Add(new SqlParameter("district_code_census3", GP.district_code_census3));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", filter_bad_chars_rep(GP.RouteDetails.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GatePassSourceId", GP.GatePassSourceId));
+                cmd.Parameters.Add(new SqlParameter("Receiver", filter_bad_chars_rep(GP.Receiver.Trim())));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", GP.UploadValue));
+                cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(GP.Status.Trim())));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", GP.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("GatePassTypeID", GP.GatePassType));
+                cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
+                cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
+                cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchedBy));
+                cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
