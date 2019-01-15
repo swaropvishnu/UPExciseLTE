@@ -6257,6 +6257,8 @@
     <Content Include="Views\DistrictWareHouse\StockBalance.cshtml" />
     <Content Include="Views\DistrictWareHouse\UploadGatePassCSV.cshtml" />
     <Content Include="Views\DistrictWareHouse\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\UnitWareHouse\FL36GatePass.cshtml" />
+    <Content Include="Views\UnitWareHouse\FL2BGatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
