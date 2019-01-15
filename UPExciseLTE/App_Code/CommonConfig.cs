@@ -19,16 +19,18 @@ namespace UPExciseLTE
                     //if (UserSession.dbAddress != null && UserSession.dbAddress.Trim() != String.Empty)
                     if (HttpContext.Current.Session["tbl_Session"]!=null )
                     {
-                        string UName = "sa", Pass = "nic123";
+                        string UName = "sa", Pass = "nic";
                         if (UserSession.dbAddress== "10.135.30.166")
                         {
                             UName = "sa"; Pass = "nic";
-                        }
-
-                        
+                        }                        
                         if (UserSession.dbAddress == "10.135.30.244")
                         {
                             UName = "sa"; Pass = "nic";
+                        }
+                        if (UserSession.dbAddress == "10.135.29.204")
+                        {
+                            UName = "sa"; Pass = "nic123";
                         }
 
                         Comm = "Data Source="+ UserSession.dbAddress + ";Initial Catalog=UM_Excise;user="+UName+"; password="+Pass+";";
