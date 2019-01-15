@@ -259,6 +259,7 @@
     <Compile Include="Controllers\MasterFormsController.cs" />
     <Compile Include="Controllers\ProductionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RetailerController.cs" />
     <Compile Include="Controllers\UnitMasterController.cs" />
     <Compile Include="Controllers\UnitWareHouseController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
@@ -6257,6 +6258,8 @@
     <Content Include="Views\DistrictWareHouse\StockBalance.cshtml" />
     <Content Include="Views\DistrictWareHouse\UploadGatePassCSV.cshtml" />
     <Content Include="Views\DistrictWareHouse\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\Retailer\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\Retailer\StockBalance.cshtml" />
     <Content Include="Views\UnitWareHouse\FL36GatePass.cshtml" />
     <Content Include="Views\UnitWareHouse\FL2BGatePass.cshtml" />
   </ItemGroup>
