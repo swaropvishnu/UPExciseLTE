@@ -1,0 +1,206 @@
+﻿@model IEnumerable<UPExciseLTE.Models.GatePassDetails>
+
+@{
+    ViewBag.Title = "GetPassDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function ShowPopup(GatePassId, VehicleNumber, TotalBox,TotalBottel)
+    {
+        document.getElementById("hfPopGatePassId").value = GatePassId;
+        document.getElementById("txtVehicleNumber").value = VehicleNumber;
+        document.getElementById("txtTotalBox").value = TotalBox;
+        document.getElementById("txtTotalBottel").value = TotalBottel;
+        $('#myModal3').modal('show');
+    }
+    function ReceiveGatePass()
+    {
+        var GatePassId = document.getElementById("hfPopGatePassId").value;
+        var DamageBottles = document.getElementById("txtDamageBottel").value;
+        var AvailableBottle = document.getElementById("txtTotalBottel").value;
+
+        if (DamageBottles=='') {
+            alert('Please Enter Damage Bottle Quantity');
+            return false;
+        }
+        if (parseFloat(AvailableBottle) < parseFloat( DamageBottles)) {
+            alert('Damage Bottle Quantity not Greater than Total Bottle Quantity');
+            return false;
+        }
+        $.ajax({
+            url: '/Retailer/ReceiveGatePass',
+            data: { 'GatePassId': GatePassId, 'DamageBottles': DamageBottles },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                window.location = "../Retailer/ReceiveGatePassWH";
+            },
+            error: function (data) {
+                alert("Error in Receive GatePass Loading");
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm("ReceiveGatePassWH", "Retailer", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Receive Gatepass
+                        </div>
+                    </div>
+
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            From Date
+                                        </th>
+                                        <th>
+                                            To Date
+                                        </th>
+                                        <th>
+                                            Consignor Name
+                                        </th>
+                                        <th>
+                                            Consinee Name
+                                        </th>
+                                        <th>
+                                            TotalBox
+                                        </th>
+                                        <th>
+                                            Total Bottels/ Can
+                                        </th>
+                                        <th>
+                                            Total Litres
+                                        </th>
+                                        <th>
+                                            Consideration Fees
+                                        </th>
+                                        <th>
+                                            Vehicle Number
+                                        </th>
+                                        <th>
+                                            Vehicle Agency Details
+                                        </th>
+                                        <th>Preview Gatepass</th>
+                                        <th>Receive Gatepass</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.FromDate1
+                                            </td>
+                                            <td>
+                                                @item.ToDate1
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FromConsignorName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToConsigeeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalCase)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalBottle)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalBL)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalConsiderationFees)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.VehicleNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AgencyNameAndAddress)
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Preview</button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="ShowPopup('@item.GatePassId','@item.VehicleNo','@item.TotalCase','@item.TotalBottle')">Receive</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id='myModal3' class='modal fade' role='dialog'>
+                        <div class='modal-dialog'>
+                            <div class='modal-content'>
+                                <div class='portlet box green'>
+                                    <div class='portlet-title'><div class='caption'><div>Receive GatePass</div></div><button type='button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form' style='background-color:#f5f5f5'>
+                                        <div>
+                                            <div class='modal-body'>
+                                                <div class="row">
+                                                    @Html.Hidden("hfPopGatePassId", "", new { @id = "hfPopGatePassId" })
+                                                    <div class="form-group  col-md-4">
+                                                        <label class="control-label">Vehicle Number</label>
+                                                        @Html.TextBox("txtVehicleNumber", "", new { @id = "txtVehicleNumber", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                    <div class="form-group  col-md-4">
+                                                        <label class="control-label">Total Box</label>
+                                                        @Html.TextBox("txtTotalBox", "", new { @id = "txtTotalBox", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                    <div class="form-group  col-md-4">
+                                                        <label class="control-label">Total Bottels/ Can</label>
+                                                        @Html.TextBox("txtTotalBottel", "", new { @id = "txtTotalBottel", @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group  col-md-4">
+                                                        <label class="control-label">Damage Bottles/ Can</label>
+                                                        @Html.TextBox("txtDamageBottel", "", new { @id = "txtDamageBottel", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @MaxLength = "5" })
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <center>
+                                                        
+                                                    <button type="button" class="btn green" id="btnUpload" onclick="ReceiveGatePass();">Receive GatePass</button>
+                                                    <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
