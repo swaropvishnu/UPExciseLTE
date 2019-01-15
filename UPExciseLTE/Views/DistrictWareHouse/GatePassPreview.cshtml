@@ -39,14 +39,14 @@
 </script>
 <link href="~/Content/PrintCss.css" rel="stylesheet" />
 <div style="text-align:right;width:100%;background-color:white;">
-@if (Model.Status == "A")
-{
-    <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
-}
-else
-{
-    <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print Draft GatePass</button>
-}
+    @if (Model.Status == "A")
+    {
+        <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
+    }
+    else
+    {
+        <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print Draft GatePass</button>
+    }
 </div>
 <div style="width:100%;background-color:white" id="divPrint">
     <div id="body">
@@ -71,7 +71,7 @@ else
                             <h1 style="text-align:center"><strong>Uttar Pradesh Excise Department</strong></h1>
                         </div>
                         <div style="width:10%;float:left">
-                            @if (ViewBag.QRCodeImage != null && Model.Status=="A")
+                            @if (ViewBag.QRCodeImage != null && Model.Status == "A")
                             {
                                 <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
                             }
@@ -168,7 +168,7 @@ else
                     </tr>
                     <tr>
                         <td><b>10.</b></td>
-                        <td><b>Total Consideration Fee Rs. : </b> @(Model.TotalConsiderationFees+Model.AdditionalConsiFees)</td>
+                        <td><b>Total Consideration Fee Rs. : </b> @(Model.TotalConsiderationFees + Model.AdditionalConsiFees)</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -288,7 +288,7 @@ else
                 </tr>
                 <tr>
                     <td>
-                        Note:- Officer Incharge must verify duty calculation and deduction seperatly before giving dispatch. 
+                        Note:- Officer Incharge must verify duty calculation and deduction seperatly before giving dispatch.
                     </td>
                 </tr>
             </table>

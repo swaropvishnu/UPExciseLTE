@@ -101,11 +101,11 @@
                                             <td>
                                                 @if (item.Status == "P")
                                                 {
-                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "UnitWareHouse", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
                                                 }
                                                 else
                                                 {
-                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "UnitWareHouse", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
                                                 }
                                             </td>
                                         </tr>
