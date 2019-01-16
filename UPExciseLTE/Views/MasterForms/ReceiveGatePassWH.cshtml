@@ -145,7 +145,7 @@
                                                 @Html.DisplayFor(modelItem => item.AgencyNameAndAddress)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Preview</button>
+                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Preview</button>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="ShowPopup('@item.GatePassId','@item.VehicleNo','@item.TotalCase','@item.TotalBottle')">Receive</button>

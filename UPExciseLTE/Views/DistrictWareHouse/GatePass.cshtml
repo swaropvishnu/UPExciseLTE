@@ -128,7 +128,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label" id="lblToLicType">To License Type<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label" id="lblToLicType">Name of License Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.ToLicenseType, (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @readonly = true, @class = "form-control" })
                                 </div>
                                 <div class="form-group  col-md-4">
@@ -137,7 +137,7 @@
                                     @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "hide", @placeholder = "To Licence No", @required = "required", @MaxLength = 150 })
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label" id="lblConsi">Shop Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @readonly = true, @MaxLength = 250 })
                                     </div>
@@ -152,7 +152,7 @@
                                 </div>
 
                                 <div class="form-group  col-md-4">
-                                    <label class="control-label">Address of Consignee Godown<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Address of Shop Address<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.ConsigneeAddress, new { @id = "txtAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250 })
                                     </div>

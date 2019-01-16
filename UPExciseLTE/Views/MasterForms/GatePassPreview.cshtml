@@ -139,35 +139,29 @@ else
                     <td></td>
                     <td><b>7. Driver Name </b>: @Model.DriverName</td>
                 </tr>
-                <tr>
-                    <td colspan="4"><div style="height:10px"></div></td>
-                </tr>
-                <tr>
-                    <td><b>8.</b></td>
-                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.ImportPermitNo</td>
-                </tr>
+                
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 @if (Model.ToLicenseType != "FL-1" && Model.ToLicenseType != "FL-1A")
                 {
                     <tr>
-                        <td><b>9.</b></td>
+                        <td><b>8.</b></td>
                         <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
                         <td></td>
-                        <td><b>10. Export Duty : Rs. </b>: @Model.ExportDuty</td>
+                        <td><b>9. Export Duty : Rs. </b>: @Model.ExportDuty</td>
                     </tr>
                 }
                 else
                 {
                     <tr>
-                        <td><b>9(a).</b></td>
+                        <td><b>8(a).</b></td>
                         <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
                         <td></td>
-                        <td><b>9(b). Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                        <td><b>8(b). Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
                     </tr>
                     <tr>
-                        <td><b>10.</b></td>
+                        <td><b>9.</b></td>
                         <td><b>Total Consideration Fee Rs. : </b> @(Model.TotalConsiderationFees+Model.AdditionalConsiFees)</td>
                         <td></td>
                         <td></td>
@@ -187,6 +181,16 @@ else
                     <td><b>11.</b></td>
                     <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
                 </tr>
+                @if (Model.ToLicenseType != "FL-1" && Model.ToLicenseType != "FL-1A")
+                {
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>12.</b></td>
+                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.ImportPermitNo</td>
+                </tr>
+                }
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>

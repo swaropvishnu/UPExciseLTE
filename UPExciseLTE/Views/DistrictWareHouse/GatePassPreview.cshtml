@@ -142,24 +142,11 @@
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
-                <tr>
-                    <td><b>8.</b></td>
-                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.ImportPermitNo</td>
-                </tr>
+                
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
-                @if (Model.ToLicenseType != "FL-1" && Model.ToLicenseType != "FL-1A")
-                {
-                    <tr>
-                        <td><b>9.</b></td>
-                        <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
-                        <td></td>
-                        <td><b>10. Export Duty : Rs. </b>: @Model.ExportDuty</td>
-                    </tr>
-                }
-                else
-                {
+                
                     <tr>
                         <td><b>9(a).</b></td>
                         <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
@@ -172,19 +159,19 @@
                         <td></td>
                         <td></td>
                     </tr>
-                }
+                
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>10.</b></td>
+                    <td><b>11.</b></td>
                     <td colspan="3"><b>Route Details :</b>@Model.RouteDetails</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>11.</b></td>
+                    <td><b>12.</b></td>
                     <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
                 </tr>
                 <tr>
