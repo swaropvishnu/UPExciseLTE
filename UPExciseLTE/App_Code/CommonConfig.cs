@@ -28,7 +28,11 @@ namespace UPExciseLTE
                         {
                             UName = "sa"; Pass = "nic";
                         }
-                         
+                        if (UserSession.dbAddress == "10.135.29.204")
+                        {
+                            UName = "sa"; Pass = "nic123";
+                        }
+
 
                         Comm = "Data Source="+ UserSession.dbAddress + ";Initial Catalog=UM_Excise;user="+UName+"; password="+Pass+";";
                     }
