@@ -71,4 +71,60 @@ namespace UPExciseLTE.Models
         public string FileExt { get; set; } = "";
         public string TransactionNo { get; set; } = "";
     }
+    #region FL2BGatePass
+    public class FL2BGatePassDetails
+    {
+        public long GatePassId { get; set; } = -1;
+        public short GatePassType { get; set; } = -1;
+        public string GatepassLicenseNo { get; set; }
+        public string GPType { get; set; } = "";
+        public string DispatchType { get; set; } = "";
+        public string EncPassId { get; set; } = "";
+        public string EncGatePassId { get; set; } = "";
+        public DateTime FromDate { get; set; } = DateTime.Now;
+        public string FromDate1 { get; set; } = DateTime.Now.Day.ToString().Trim().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().Trim().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString().Trim();
+        public DateTime ToDate { get; set; } = DateTime.Now;
+        public string ToDate1 { get; set; } = "";
+        public string ToLicenseType { get; set; } = "";
+
+        public string ToLicenceNo { get; set; } = "";
+        public string ToConsigeeName { get; set; } = "";
+        public string FromLicenseType { get; set; } = "";
+        public string FromLicenceNo { get; set; } = "";
+        public string FromConsignorName { get; set; } = "";
+        public string ShopName { get; set; } = "";
+        public int ShopId { get; set; } = -1;
+        public string GatePassNo { get; set; } = "";
+        public string LicenseeNo { get; set; } = "";
+        public string VehicleNo { get; set; } = "";
+        public string DriverName { get; set; } = "";
+        public string LicenseeName { get; set; } = "";
+        public string LicenseeAddress { get; set; } = "";
+        public string AgencyNameAndAddress { get; set; } = "";
+        public string ConsignorAddress { get; set; } = "";
+        public string ImportPermitNo { get; set; } = "";
+        public string ConsigneeAddress { get; set; } = "";
+        public decimal GrossWeight { get; set; } = 0;
+        public decimal TareWeight { get; set; } = 0;
+        public decimal NetWeight { get; set; } = 0;
+        public int district_code_census1 { get; set; } = -1;
+        public int district_code_census2 { get; set; } = -1;
+        public int district_code_census3 { get; set; } = -1;
+        public string RouteDetails { get; set; } = "";
+        public long GatePassSourceId { get; set; } = -1;
+        public string Receiver { get; set; } = "";
+        public int UploadValue { get; set; } = -1;
+        public int SP_Type { get; set; } = 1;
+        public string Status { get; set; } = "P";
+        public int TotalCase { get; set; } = 0;
+        public int TotalBottle { get; set; } = 0;
+        public decimal TotalBL { get; set; } = 0;
+        public decimal TotalConsiderationFees { get; set; } = 0;
+        public string CheckPostVia { get; set; } = "NA";
+        public string DispatchedBy { get; set; } = "Road";
+        public decimal InBondValue { get; set; } = 0;
+        public decimal ExportDuty { get; set; } = 0;
+        public decimal AdditionalConsiFees { get; set; } = 0;
+    }
+    #endregion
 }

@@ -348,74 +348,86 @@ namespace UPExciseLTE.Controllers
         [HttpGet]
         public ActionResult FL36GatePass()
         {
-            GatePassDetails GP = new GatePassDetails();
-            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 8, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
-            ViewBag.Msg = TempData["Message"];
-
-
-            List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
-            List<SelectListItem> FL1Licence = new List<SelectListItem>();
-            SelectListItem SLI = new SelectListItem();
-
-            SLI = new SelectListItem();
-            SLI.Text = "FL-2B";
-            SLI.Value = "FL-2B";
-            ToLicenseTypes.Add(SLI);
-
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            try
             {
-                FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
-                if (GP.FromLicenseType.Trim() == string.Empty)
+                FL36GatePassDetails GP = new FL36GatePassDetails();
+                DataSet ds = new CommonDA().FL36GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+                GP = new CommonBL().FL36GetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 8, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+                ViewBag.Msg = TempData["Message"];
+
+                List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
+                List<SelectListItem> FL1Licence = new List<SelectListItem>();
+                SelectListItem SLI = new SelectListItem();
+
+                SLI = new SelectListItem();
+                SLI.Text = "FL-2B";
+                SLI.Value = "FL-2B";
+                ToLicenseTypes.Add(SLI);
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1")
+                    FL1Licence = CommonBL.FL36fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
+                    if (GP.FromLicenseType.Trim() == string.Empty)
                     {
-                        GP.FromLicenseType = "FL-1";
+                        if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1")
+                        {
+                            GP.FromLicenseType = "FL-1";
+                        }
+                        else if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1A")
+                        {
+                            GP.FromLicenseType = "FL-1A";
+                        }
+                        GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
+                        GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
+                        GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                     }
-                    else if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1A")
-                    {
-                        GP.FromLicenseType = "FL-1A";
-                    }
-                    GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
-                    GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                    GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }
-
+                if (!string.IsNullOrEmpty(GP.ToLicenseType.Trim()) &&
+                    ToLicenseTypes.Find(x => x.Text.Trim() == GP.ToLicenseType.Trim().Trim()) != null)
+                {
+                    ToLicenseTypes.Find(x => x.Value.Trim() == GP.ToLicenseType.Trim()).Selected = true;
+                }
+                if (!string.IsNullOrEmpty(GP.ToLicenceNo.Trim()) &&
+                    FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()) != null)
+                {
+                    FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()).Selected = true;
+                }
+                ViewBag.FL1Licence = FL1Licence;
+                ViewBag.Districts = CommonBL.fillDistict("N");
+                ViewBag.ToLicenseTypes = ToLicenseTypes;
+                return View(GP);
             }
-            if (!string.IsNullOrEmpty(GP.ToLicenseType.Trim()) &&
-                ToLicenseTypes.Find(x => x.Text.Trim() == GP.ToLicenseType.Trim().Trim()) != null)
+            catch (Exception ex)
             {
-                ToLicenseTypes.Find(x => x.Value.Trim() == GP.ToLicenseType.Trim()).Selected = true;
-            }
-            if (!string.IsNullOrEmpty(GP.ToLicenceNo.Trim()) &&
-                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()) != null)
-            {
-                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()).Selected = true;
-            }
-            ViewBag.FL1Licence = FL1Licence;
-            ViewBag.Districts = CommonBL.fillDistict("N");
-            ViewBag.ToLicenseTypes = ToLicenseTypes;
-            return View(GP);
+                return Content(ex.Message);
+            }            
         }
         [HttpPost]
-        public ActionResult FL36GatePass(GatePassDetails GP)
+        public ActionResult FL36GatePass(FL36GatePassDetails GP)
         {
-            if (GP.Receiver == null)
+            try
             {
-                GP.Receiver = "";
+                if (GP.Receiver == null)
+                {
+                    GP.Receiver = "";
+                }
+                if (GP.ImportPermitNo == null)
+                {
+                    GP.ImportPermitNo = "";
+                }
+                GP.GatepassLicenseNo = "FL-36";
+                GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
+                GP.UploadValue = 4;
+                GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
+                GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
+                string str = new CommonDA().FL36InsertUpdateGatePassDetails(GP);
+                TempData["Message"] = str;
+                return RedirectToAction("GatePass");
             }
-            if (GP.ImportPermitNo == null)
+            catch (Exception ex)
             {
-                GP.ImportPermitNo = "";
-            }
-            GP.GatepassLicenseNo = "FL-36";
-            GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
-            GP.UploadValue = 4;
-            GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
-            GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
-            string str = new CommonDA().InsertUpdateGatePassDetails(GP);
-            TempData["Message"] = str;
-            return RedirectToAction("GatePass");
+                return Content(ex.Message);
+            }      
         }
         #endregion
     }
