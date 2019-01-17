@@ -1571,6 +1571,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("WhetherUnderBond", FL2D.WhetherUnderBond));
+                cmd.Parameters.Add(new SqlParameter("WhetherBondExecuted", FL2D.WhetherBondExecuted));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["FL33Id"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -1598,7 +1600,7 @@ namespace UPExciseLTE.DAL
                         cmd.Parameters.Add(new SqlParameter("DutyCalculated", FL33BM.DutyCalculated));
                         cmd.Parameters.Add(new SqlParameter("PermitFees", FL33BM.PermitFees));
                         cmd.Parameters.Add(new SqlParameter("TotalFees", FL33BM.TotalFees));
-                        cmd.Parameters.Add(new SqlParameter("RateofPermit", FL33BM.RateofPermit));
+                        cmd.Parameters.Add(new SqlParameter("RateofPermit", FL33BM.RateofPermit));                       
                         cmd.Parameters.Add(new SqlParameter("IsFirst", Count == 1 ? true : false));
                         cmd.Parameters.Add(new SqlParameter("Msg", ""));
                         cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;

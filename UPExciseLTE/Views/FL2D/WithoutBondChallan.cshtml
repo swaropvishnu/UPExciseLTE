@@ -1,0 +1,316 @@
+﻿@model IEnumerable<UPExciseLTE.Models.FormFL33>
+
+@{
+    ViewBag.Title = "WithoutBondChallan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        var value = localStorage.getItem("Key").split("#");
+        document.getElementById("lblConsinor").innerText = value[0] + " (" + value[1] + ")";
+        document.getElementById("lblAddress").innerText = value[2];
+        document.getElementById("lblAmount").innerText = value[3];
+        document.getElementById("lblAmount1").innerText = value[3];
+        document.getElementById("lblAmount2").innerText = value[3];
+        document.getElementById("lblAmount3").innerText = value[3];
+    }
+    function PrintPanel() {
+        var panel = document.getElementById("divPrint");
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>Challan</title>');
+        printWindow.document.write('<link href="../Content/PrintCss.css" rel="stylesheet" />');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(panel.innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        setTimeout(function () {
+            printWindow.print();
+        }, 500);
+        return false;
+    }
+</script>
+
+<link href="~/Content/PrintCss.css" rel="stylesheet" />
+<div style="width:100%;background-color:white">
+    <div style="text-align:right;">
+        <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print FL 33</button>
+    </div>
+    <div lang="en-US" style="font-size: 0.90em;" id="divPrint">
+        <p class="Heading tac">
+            <span><b>वित्तीय नियम संग्रह खण्ड – 5 भाग -2</b></span>
+        </p>
+        <p class="Heading tac">
+            <span>प्रपत्र संख्या -43 ए (1)</span>
+        </p>
+        <p class="Heading tac">
+            <span>( प्रस्तर 417 एवं 478 देखिए) </span>
+        </p>
+        <p class="Heading tac">
+            <span>धनराशि जमा करने का चालान फार्म</span>
+        </p>
+        <div class="p">
+            <span class="SubHeadingLeft">उपकोषागार / बैंक का नाम व शाखा</span>
+            <span class="SubHeadingRight" style="padding-left: 33px;">@*State Bank of India, Bussiness Branch, Hazaratganj, Lucknow*@................................................................................................................</span>
+        </div>
+        @*<div style="height:5px;"></div>*@
+        <ol class="ol">
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">जिस व्यक्ति ( पदनाम यदि आवश्यक हो ) या संख्या</span>
+                    <span class="SubHeadingRight">
+                        <label id="lblConsinor"></label>
+                        @*Celibrity Breweries Pvt Ltd (AAccc8086D) BWFL-2B*@
+                        @*...................................................................................................................*@
+                    </span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">के नाम से धनराशि जमा की जा रही है उसका</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">पता</span>
+                    <span class="SubHeadingRight">
+                        <label id="lblAddress"></label>
+                        @*Avadh city, nabi kot nandana lucknow-226201*@
+                        @*...................................................................................................................*@
+                    </span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">पंजीकरण संख्या / पक्ष नाम व पद संख्या </span>
+                    <span class="SubHeadingRight">@*Avadh city, nabi kot nandana lucknow-226201*@...................................................................................................................</span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">( यदि आवश्यक हो)</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">जमा की जा रही धनराशि का पूर्ण विवरण</span>
+                    <span class="SubHeadingRight">बियर आयात शुल्क </span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">( धनराशि किस हेतु जमा की जा रही है)</span>
+                    <span class="SubHeadingRight">आबकारी विभाग के पक्ष में </span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">चालान की सकल राशि</span>
+                    <span class="SubHeadingRight">रु0 - <label id="lblAmount"></label> @*1152000*@/-</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">चालान की निबल राशि</span>
+                    <span class="SubHeadingRight">रु0 -<label id="lblAmount1"></label> @*1152000*@/-</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">लेखा शीर्षक का पूर्ण विवरण / लेखा शीर्षक की मुहर</span>
+                    <span class="SubHeadingRight">0039&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;&nbsp;राज्य उत्पाद शुल्क</span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">&nbsp;</span>
+                    <span class="SubHeadingRight">&nbsp;&nbsp;103&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;&nbsp;यवरस माल्ट लिकर</span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">&nbsp;</span>
+                    <span class="SubHeadingRight">&nbsp;&nbsp;&nbsp;&nbsp;03&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;&nbsp;अन्य सरकारों से प्राप्त शुल्क</span>
+                </p>
+                <p>
+                    <span class="SubHeadingLeft">&nbsp;</span>
+                    <span class="SubHeadingRight">&nbsp;&nbsp;&nbsp;&nbsp;01&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;&nbsp;&nbsp;&nbsp;बियर पर आयात शुल्क</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <span class="SubHeadingLeft">लेखा शीर्षक का 13 डिजिट कोड</span>
+                    <span class="SubHeadingRight">&nbsp;</span>
+                </p>
+            </li>
+        </ol>
+        <div class="Heading">
+            <table class="table">
+                <tr>
+                    <td colspan="4" class="non">
+                        <div>मुख्य </div>
+                        <div>लेखा शीर्षक</div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="3" class="non">
+                        <div>उप </div>
+                        <div>मुख्य शीर्षक</div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="3" class="non">
+                        <div>लघु </div>
+                        <div>शीर्षक</div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="2" class="non">
+                        <div>उप </div>
+                        <div>शीर्षक</div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="2" class="non">
+                        <div>व्यौरेवार </div>
+                        <div>शीर्षक</div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="4" class="non">
+                        <div>धनराशि @*( अंकों में )*@</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td">
+                        0
+                    </td>
+                    <td class="td">
+                        0
+                    </td>
+                    <td class="td">
+                        3
+                    </td>
+                    <td class="td">
+                        9
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td class="td">
+                        @*1*@
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="td">
+                        @*3*@
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="td">
+                        @*3*@
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td class="td">
+                        @*0*@
+                    </td>
+                    <td class="td">
+                        @*1*@
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="4" class="td">
+                        <label id="lblAmount2"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="16">
+                        &nbsp;
+                    </td>
+                    <td colspan="2" class="non">
+                        <div>योग </div>
+                    </td>
+                    <td class="px25">
+                        &nbsp;
+                    </td>
+                    <td colspan="4" class="td">
+                        <label id="lblAmount3"></label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p class="p">
+            <b>धनराशि ( शब्दों में ) रू</b>
+        </p>
+        <p class="p">
+            &nbsp;
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">पालन में लेखा शीर्षक की पुष्टि करने वाले</span>
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">विभागीय अधिकारी के हस्ताक्षर मुहर सहित</span>
+            <span class="SubHeadingRight" style="padding-left: 30px;text-align:right">जमाकर्ता का नाम व हस्ताक्षर </span>
+        </p>
+        <hr style="border: 1px solid;">
+        <p class="Heading tac">
+            <span><b>केवल उपकोषागार / बैंक के प्रयोगार्थ</b></span>
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">चालान संख्या:-</span>
+            <span class="SubHeadingRight" style="text-align:right">
+                अंकों में रू .
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">दिनांक:-</span>
+            <span class="SubHeadingRight" style="text-align:right">
+                शब्दों में रू
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </p>
+        <div style="height: 10px;"></div>
+        <p class="p">
+            <span class="SubHeadingLeft">&nbsp;</span>
+            <span class="SubHeadingRight" style="text-align:right">
+                प्राप्त किया
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">&nbsp;</span>
+            <span class="SubHeadingRight" style="text-align:right">
+                प्राप्तकर्ता के हस्ताक्षर उपकोषागार /
+
+            </span>
+        </p>
+        <p class="p">
+            <span class="SubHeadingLeft">&nbsp;</span>
+            <span class="SubHeadingRight" style="text-align:right">
+                बैंक की मुहर सहित
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </p>
+    </div>
+</div>

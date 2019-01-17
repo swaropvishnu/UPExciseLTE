@@ -58,6 +58,8 @@
                     @Html.HiddenFor(m => m.FL33ID, new { @id = "hfFL33ID" })
                     @Html.HiddenFor(m => m.EncFL33IDId, new { @id = "hfEncFL33IDId" })
                     @Html.HiddenFor(m => m.FL33Status, new { @id = "hfFL33Status" })
+                    @Html.HiddenFor(m => m.WhetherUnderBond)
+                    @Html.HiddenFor(m => m.WhetherBondExecuted)
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
 
@@ -76,22 +78,24 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group   col-md-4" style="display:none">
+                                <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @MaxLength = 150, @readonly = true })
                                     </div>
                                 </div>
-                                <div class="form-group  col-md-4" style="display:none">
+                                <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @MaxLength = 50, @readonly = true })
                                 </div>
-                                <div class="form-group   col-md-4" style="display:none">
+                                <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Address<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.ToConsigeeAddress, new { @id = "txtToConsigeeAddress", @class = "form-control ", @placeholder = "Consignee Address", @required = "required", @MaxLength = 250, @readonly = true })
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Permit Fees (if any)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
@@ -112,69 +116,82 @@
                                 </div>
                             </div>
                             @*<div class="row" style="display:none">
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control", @readonly = true, @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
-                                        <div>
-                                            @Html.TextBoxFor(m => m.TransactionNo, new { @id = "txtTransactionNo", @class = "form-control ", @placeholder = "Transaction No", @required = "required", @MaxLength = 50 })
-                                        </div>
-                                    </div>
-                                    <div class="form-group   col-md-4">
-                                        <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
-                                        <div>
-                                            @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
-                                        </div>
-                                    </div>
-                                </div>*@
+                    <div class="form-group   col-md-4">
+                        <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control", @readonly = true, @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                        </div>
+                    </div>
+                    <div class="form-group   col-md-4">
+                        <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.TransactionNo, new { @id = "txtTransactionNo", @class = "form-control ", @placeholder = "Transaction No", @required = "required", @MaxLength = 50 })
+                        </div>
+                    </div>
+                    <div class="form-group   col-md-4">
+                        <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
+                        <div>
+                            @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
+                        </div>
+                    </div>
+                </div>*@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlbrand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
                                 @*<div class="form-group  col-md-4" style="display:none">
-                                        <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
-                                        @Html.TextBox("txtBoxSize","", new { @id = "txtBoxSize", @class = "form-control ", @placeholder = "Box-Size (Number of Bottles)", @required = "required", @readonly = true })
-                                    </div>
-                                    <div class="form-group  col-md-4" style="display:none">
-                                        <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
-                                        @Html.TextBox("txtQuantityInBottleML", "", new { @id = "txtQuantityInBottleML", @class = "form-control ", @placeholder = "Quantity (In Bottle, In ml.)", @required = "required", @readonly = true })
-                                    </div>*@
+                        <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
+                        @Html.TextBox("txtBoxSize","", new { @id = "txtBoxSize", @class = "form-control ", @placeholder = "Box-Size (Number of Bottles)", @required = "required", @readonly = true })
+                    </div>
+                    <div class="form-group  col-md-4" style="display:none">
+                        <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
+                        @Html.TextBox("txtQuantityInBottleML", "", new { @id = "txtQuantityInBottleML", @class = "form-control ", @placeholder = "Quantity (In Bottle, In ml.)", @required = "required", @readonly = true })
+                    </div>*@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Total Case<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBox("txtTotalCase", "", new { @onkeyPress = "return IsNumeric(event);", @id = "txtTotalCase", @class = "form-control ", @placeholder = "Total Case", @MaxLength = 250 })
                                     </div>
                                 </div>
-                                @*<div class="form-group   col-md-4" style="display:none">
-                                        <label class="control-label">Total Bottle/ Can<b style="color:red; font-weight:800">*</b></label>
-                                        <div>
-                                            @Html.TextBox("txtTotalBottle", "", new { @id = "txtTotalBottle", @readonly = true, @class = "form-control ", @placeholder = "Total Bottle/ Can", @required = "required", @MaxLength = 250 })
-                                        </div>
-                                    </div>
-                                    <div class="form-group   col-md-4" style="display:none">
-                                        <label class="control-label">Total Bulk Litre<b style="color:red; font-weight:800">*</b></label>
-                                        <div>
-                                            @Html.TextBox("txtTotalBL", "", new { @id = "txtTotalBL", @readonly = true, @class = "form-control ", @placeholder = "Total Bulk Litre", @required = "required", @MaxLength = 250 })
-                                        </div>
-                                    </div>
-                                    <div class="form-group   col-md-4" style="display:none">
-                                        <label class="control-label">Duty Calculated</label>
-                                        <div>
-                                            @Html.TextBox("txtDutyCalculated", "", new { @id = "txtDutyCalculated", @readonly = true, @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
-                                        </div>
-                                    </div>*@
-                                <div class="form-group   col-md-4">
-                                    <label class="control-label">&nbsp;</label>
-                                    <div>
-                                        <button type="button" class="btn green" id="btnAddBrand" onclick="AddBrand();">Add Brand</button>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Whether Under Bond<b style="color:red; font-weight:800">*</b></label>
+                                    Yes <input type="radio" name="bond" value="Y" />
+                                   No <input type="radio" name="bond" value="N" />
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">If under bond,<br /> Whether bond executed?<b style="color:red; font-weight:800">*</b></label>
+                                    <input type="radio" name="executed" value="Y" > Yes
+                                    <input type="radio" name="executed" value="N" > No
                                 </div>
                             </div>
+                            @*<div class="form-group   col-md-4" style="display:none">
+                    <label class="control-label">Total Bottle/ Can<b style="color:red; font-weight:800">*</b></label>
+                    <div>
+                        @Html.TextBox("txtTotalBottle", "", new { @id = "txtTotalBottle", @readonly = true, @class = "form-control ", @placeholder = "Total Bottle/ Can", @required = "required", @MaxLength = 250 })
+                    </div>
+                </div>
+                <div class="form-group   col-md-4" style="display:none">
+                    <label class="control-label">Total Bulk Litre<b style="color:red; font-weight:800">*</b></label>
+                    <div>
+                        @Html.TextBox("txtTotalBL", "", new { @id = "txtTotalBL", @readonly = true, @class = "form-control ", @placeholder = "Total Bulk Litre", @required = "required", @MaxLength = 250 })
+                    </div>
+                </div>
+                <div class="form-group   col-md-4" style="display:none">
+                    <label class="control-label">Duty Calculated</label>
+                    <div>
+                        @Html.TextBox("txtDutyCalculated", "", new { @id = "txtDutyCalculated", @readonly = true, @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
+                    </div>
+                </div>*@
+                            <div class="form-group   col-md-4">
+                                <label class="control-label">&nbsp;</label>
+                                <div>
+                                    <button type="button" class="btn green" id="btnAddBrand" onclick="AddBrand();">Add Brand</button>
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="form-body">
@@ -190,7 +207,9 @@
                                             <th>Total Bottle</th>
                                             <th>Total BL</th>
                                             <th>Import Pass fee (per Ltr.)</th>
-                                            <th>Duty Calculated</th>
+                                            <th>Duty Leviable</th>
+                                            <th>Whether Under Bond</th>
+                                            <th>Whether Bond Executed</th>
                                         </tr>
                                         @if (Model.lstFL33 != null)
                                         {
@@ -206,6 +225,8 @@
                                                     <td>@FL33BM.TotalBL</td>
                                                     <td>@FL33BM.RateofPermit</td>
                                                     <td>@FL33BM.DutyCalculated</td>
+                                                    <td>@FL33BM.WhetherUnderBond</td>
+                                                    <td>@FL33BM.WhetherBondExecuted</td>
                                                 </tr>
                                             }
                                         }
@@ -245,7 +266,8 @@
     </div>
 }
 <script type="text/javascript">
-    function AddBrand() {
+    function AddBrand()
+    {
         var BrandId = $('#ddlBrand').val();
         if (BrandId == "-1") {
             alert("Please Select Brand");
@@ -264,17 +286,20 @@
             document.getElementById("txtRateofPermit").focus();
             return false;
         }
+        
+        var WhetherUnderBond=$("input[name='bond']:checked").val();
+        var WhetherBondExecuted= $("input[name='executed']:checked").val();
         $.ajax({
             url: '/FL2D/FL33BrandMapp',
-            data: {
-                'BrandId': BrandId, 'TotalCase': TotalCase, 'RateofPermit': RateofPermit
-            },
+            data: { 'BrandId': BrandId, 'TotalCase': TotalCase, 'RateofPermit': RateofPermit, 'WhetherUnderBond': WhetherUnderBond, 'WhetherBondExecuted': WhetherBondExecuted},
             datatype: "json",
-            type: "GET",
-            success: function (data) {
+            type: "POST",
+            success: function (data)            
+            {
                 document.getElementById("divTable").innerHTML = data;
             },
-            error: function (data) {
+            error: function (data)
+            {
                 alert("Error in GetBrandDetailsForDDl Loading");
             }
         });

@@ -6263,6 +6263,7 @@
     <Content Include="Views\Retailer\StockBalance.cshtml" />
     <Content Include="Views\FL2D\FL36GatePass.cshtml" />
     <Content Include="Views\BWFL\FL2BGatePass.cshtml" />
+    <Content Include="Views\FL2D\WithoutBondChallan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
