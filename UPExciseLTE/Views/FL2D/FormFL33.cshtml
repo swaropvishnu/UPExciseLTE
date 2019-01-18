@@ -9,6 +9,7 @@
     }
 }
 
+        <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script type="text/javascript">
     var specialKeys = new Array();
     specialKeys.push(47); // for Forward Slash(/)
@@ -116,82 +117,87 @@
                                 </div>
                             </div>
                             @*<div class="row" style="display:none">
-                    <div class="form-group   col-md-4">
-                        <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
-                        <div>
-                            @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control", @readonly = true, @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
-                        </div>
-                    </div>
-                    <div class="form-group   col-md-4">
-                        <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
-                        <div>
-                            @Html.TextBoxFor(m => m.TransactionNo, new { @id = "txtTransactionNo", @class = "form-control ", @placeholder = "Transaction No", @required = "required", @MaxLength = 50 })
-                        </div>
-                    </div>
-                    <div class="form-group   col-md-4">
-                        <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
-                        <div>
-                            @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
-                        </div>
-                    </div>
-                </div>*@
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Total Fees<b style="color:red; font-weight:800">*</b></label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.TotalFees, new { @id = "txtTotalFees", @class = "form-control", @readonly = true, @placeholder = "Total Fees", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Transaction No<b style="color:red; font-weight:800">*</b></label>
+                                        <div>
+                                            @Html.TextBoxFor(m => m.TransactionNo, new { @id = "txtTransactionNo", @class = "form-control ", @placeholder = "Transaction No", @required = "required", @MaxLength = 50 })
+                                        </div>
+                                    </div>
+                                    <div class="form-group   col-md-4">
+                                        <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
+                                        <div>
+                                            @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
+                                        </div>
+                                    </div>
+                                </div>*@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlbrand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
                                 @*<div class="form-group  col-md-4" style="display:none">
-                        <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
-                        @Html.TextBox("txtBoxSize","", new { @id = "txtBoxSize", @class = "form-control ", @placeholder = "Box-Size (Number of Bottles)", @required = "required", @readonly = true })
-                    </div>
-                    <div class="form-group  col-md-4" style="display:none">
-                        <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
-                        @Html.TextBox("txtQuantityInBottleML", "", new { @id = "txtQuantityInBottleML", @class = "form-control ", @placeholder = "Quantity (In Bottle, In ml.)", @required = "required", @readonly = true })
-                    </div>*@
+            <label class="control-label">Box-Size (Number of Bottles)<b style="color:red; font-weight:800">*</b></label>
+            @Html.TextBox("txtBoxSize","", new { @id = "txtBoxSize", @class = "form-control ", @placeholder = "Box-Size (Number of Bottles)", @required = "required", @readonly = true })
+        </div>
+        <div class="form-group  col-md-4" style="display:none">
+            <label class="control-label">Quantity (In Bottle, In ml.)<b style="color:red; font-weight:800">*</b></label>
+            @Html.TextBox("txtQuantityInBottleML", "", new { @id = "txtQuantityInBottleML", @class = "form-control ", @placeholder = "Quantity (In Bottle, In ml.)", @required = "required", @readonly = true })
+        </div>*@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Total Case<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBox("txtTotalCase", "", new { @onkeyPress = "return IsNumeric(event);", @id = "txtTotalCase", @class = "form-control ", @placeholder = "Total Case", @MaxLength = 250 })
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Whether Under Bond<b style="color:red; font-weight:800">*</b></label>
-                                    Yes <input type="radio" name="bond" value="Y" />
-                                   No <input type="radio" name="bond" value="N" />
+                                    <div>
+                                        @Html.CheckBoxFor(m => m.WhetherUnderBond, new { @name = "UnderBond", @id = "chkWhetherUnderBond", @class = "make-switch" })
+                                    </div>
+                                    </div>
                                 </div>
+                            <div class="row">
+
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">If under bond,<br /> Whether bond executed?<b style="color:red; font-weight:800">*</b></label>
-                                    <input type="radio" name="executed" value="Y" > Yes
-                                    <input type="radio" name="executed" value="N" > No
+                                    <div>
+                                        @*<input id="WhetherBondExecuted" type="checkbox" class="make-switch" data-on-text="Yes" data-off-text="No">*@
+                                        @Html.CheckBoxFor(m => m.WhetherBondExecuted, new { @name = "BondExecuted", @id = "chkWhetherBondExecuted", @class = "make-switch" })
+                                    </div>
                                 </div>
                             </div>
                             @*<div class="form-group   col-md-4" style="display:none">
-                    <label class="control-label">Total Bottle/ Can<b style="color:red; font-weight:800">*</b></label>
-                    <div>
-                        @Html.TextBox("txtTotalBottle", "", new { @id = "txtTotalBottle", @readonly = true, @class = "form-control ", @placeholder = "Total Bottle/ Can", @required = "required", @MaxLength = 250 })
-                    </div>
-                </div>
-                <div class="form-group   col-md-4" style="display:none">
-                    <label class="control-label">Total Bulk Litre<b style="color:red; font-weight:800">*</b></label>
-                    <div>
-                        @Html.TextBox("txtTotalBL", "", new { @id = "txtTotalBL", @readonly = true, @class = "form-control ", @placeholder = "Total Bulk Litre", @required = "required", @MaxLength = 250 })
-                    </div>
-                </div>
-                <div class="form-group   col-md-4" style="display:none">
-                    <label class="control-label">Duty Calculated</label>
-                    <div>
-                        @Html.TextBox("txtDutyCalculated", "", new { @id = "txtDutyCalculated", @readonly = true, @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
-                    </div>
-                </div>*@
-                            <div class="form-group   col-md-4">
-                                <label class="control-label">&nbsp;</label>
-                                <div>
-                                    <button type="button" class="btn green" id="btnAddBrand" onclick="AddBrand();">Add Brand</button>
+                                    <label class="control-label">Total Bottle/ Can<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBox("txtTotalBottle", "", new { @id = "txtTotalBottle", @readonly = true, @class = "form-control ", @placeholder = "Total Bottle/ Can", @required = "required", @MaxLength = 250 })
+                                    </div>
                                 </div>
-                            </div>
-
+                                <div class="form-group   col-md-4" style="display:none">
+                                    <label class="control-label">Total Bulk Litre<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBox("txtTotalBL", "", new { @id = "txtTotalBL", @readonly = true, @class = "form-control ", @placeholder = "Total Bulk Litre", @required = "required", @MaxLength = 250 })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4" style="display:none">
+                                    <label class="control-label">Duty Calculated</label>
+                                    <div>
+                                        @Html.TextBox("txtDutyCalculated", "", new { @id = "txtDutyCalculated", @readonly = true, @onkeyPress = "return IsNumeric(event);", @class = "form-control ", @placeholder = "Duty Calculated", @MaxLength = 150 })
+                                    </div>
+                                </div>*@
+                            <center>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">&nbsp;</label>
+                                    <div>
+                                        <button type="button" class="btn green" id="btnAddBrand" onclick="AddBrand();">Add Brand</button>
+                                    </div>
+                                </div>
+                            </center>
 
                         </div>
                         <div class="form-body">
@@ -265,9 +271,10 @@
         </div>
     </div>
 }
+
 <script type="text/javascript">
-    function AddBrand()
-    {
+    $('.make-switch').bootstrapSwitch('state', false);
+    function AddBrand() {
         var BrandId = $('#ddlBrand').val();
         if (BrandId == "-1") {
             alert("Please Select Brand");
@@ -281,30 +288,47 @@
             return false;
         }
         var RateofPermit = document.getElementById("txtRateofPermit").value;
-        if (RateofPermit == null || RateofPermit == '' || RateofPermit =='0') {
+        if (RateofPermit == null || RateofPermit == '' || RateofPermit == '0')
+        {
             alert("Please Rate of Permit");
             document.getElementById("txtRateofPermit").focus();
             return false;
         }
+        var WhetherUnderBond = $('#chkWhetherUnderBond').bootstrapSwitch('state');
+        var WhetherBondExecuted = $('#chkWhetherBondExecuted').bootstrapSwitch('state');
         
-        var WhetherUnderBond=$("input[name='bond']:checked").val();
-        var WhetherBondExecuted= $("input[name='executed']:checked").val();
+        if (WhetherUnderBond == true )
+        {
+            var UnderBond = "Y";
+        }
+        else
+        {
+            var UnderBond = "N";
+        }
+        if (WhetherBondExecuted == true)
+        {
+            var BondExecuted = "Y";
+        }
+        else
+        {
+            var BondExecuted = "N";
+        }        
+        //var WhetherUnderBond=$("input[name='bond']:checked").val();
+        //var WhetherBondExecuted= $("input[name='executed']:checked").val();
         $.ajax({
-            url: '/FL2D/FL33BrandMapp',
-            data: { 'BrandId': BrandId, 'TotalCase': TotalCase, 'RateofPermit': RateofPermit, 'WhetherUnderBond': WhetherUnderBond, 'WhetherBondExecuted': WhetherBondExecuted},
+        url: '/FL2D/FL33BrandMapp',
+            data: { 'BrandId': BrandId, 'TotalCase': TotalCase, 'RateofPermit': RateofPermit, 'WhetherUnderBond': UnderBond, 'WhetherBondExecuted': BondExecuted },
             datatype: "json",
             type: "POST",
-            success: function (data)            
-            {
+            success: function (data) {
                 document.getElementById("divTable").innerHTML = data;
             },
-            error: function (data)
-            {
+            error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");
             }
         });
     }
-    
+
 </script>
 
 

@@ -59,8 +59,8 @@ namespace UPExciseLTE.Controllers
                 FL2D.TotalBottle += FLBM.TotalBottle;
                 FL2D.TotalCase += FLBM.TotalCase;
                 FL2D.TotalFees += FLBM.TotalFees;
-                FL2D.WhetherUnderBond += FLBM.WhetherUnderBond;
-                FL2D.WhetherBondExecuted += FLBM.WhetherBondExecuted;
+                FL2D.UnderBondYesNo = FLBM.UnderBondYesNo;
+                FL2D.BondExecutedYesNo = FLBM.BondExecutedYesNo;
             }
             string str = new CommonDA().InsertUpdateFormFL33(FL2D);
             TempData["str"] = str;
@@ -145,8 +145,8 @@ namespace UPExciseLTE.Controllers
             FL33.Quantity = BL.QuantityInBottleML;
             FL33.RateofPermit = FL33.RateofPermit;
             FL33.TotalFees = FL33.DutyCalculated;
-            FL33.WhetherUnderBond = WhetherUnderBond;
-            FL33.WhetherBondExecuted = WhetherBondExecuted;
+            FL33.UnderBondYesNo = WhetherUnderBond;
+            FL33.BondExecutedYesNo = WhetherBondExecuted;
             lstFL33BrandMapp.Add(FL33);
             Session["lstFL33BrandMapp"] = lstFL33BrandMapp;
             StringBuilder sb = new StringBuilder();
@@ -166,8 +166,8 @@ namespace UPExciseLTE.Controllers
                 sb.Append("<td>"); sb.Append(FL33BM.TotalBL); sb.Append("</td>");
                 sb.Append("<td>"); sb.Append(FL33BM.RateofPermit); sb.Append("</td>");
                 sb.Append("<td>"); sb.Append(FL33BM.DutyCalculated); sb.Append("</td>");
-                sb.Append("<td>"); sb.Append(FL33BM.WhetherUnderBond); sb.Append("</td>");
-                sb.Append("<td>"); sb.Append(FL33BM.WhetherBondExecuted); sb.Append("</td>");
+                sb.Append("<td>"); sb.Append(FL33BM.UnderBondYesNo); sb.Append("</td>");
+                sb.Append("<td>"); sb.Append(FL33BM.BondExecutedYesNo); sb.Append("</td>");
                 sb.Append("</tr>");
 
             }
@@ -441,6 +441,13 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
+        #endregion
+        #region BlankChallan
+        public ActionResult BlankChallan()
+        {
+            return View();
+        }
+
         #endregion
     }
 }
