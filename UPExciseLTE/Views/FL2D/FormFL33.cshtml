@@ -158,7 +158,8 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Whether Under Bond<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.CheckBoxFor(m => m.WhetherUnderBond, new { @name = "UnderBond", @id = "chkWhetherUnderBond", @class = "make-switch" })
+                                        <input id="chkWhetherUnderBond" type="checkbox" class="make-switch" data-on-text="Yes" data-off-text="No">
+                                        @*@Html.CheckBoxFor(m => m.WhetherUnderBond, new { @name = "UnderBond", @id = "chkWhetherUnderBond", @class = "make-switch" })*@
                                     </div>
                                     </div>
                                 </div>
@@ -167,8 +168,8 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">If under bond,<br /> Whether bond executed?<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @*<input id="WhetherBondExecuted" type="checkbox" class="make-switch" data-on-text="Yes" data-off-text="No">*@
-                                        @Html.CheckBoxFor(m => m.WhetherBondExecuted, new { @name = "BondExecuted", @id = "chkWhetherBondExecuted", @class = "make-switch" })
+                                        <input id="chkWhetherBondExecuted" type="checkbox" class="make-switch" data-on-text="Yes" data-off-text="No">
+                                        @*@Html.CheckBoxFor(m => m.WhetherBondExecuted, new { @name = "BondExecuted", @id = "chkWhetherBondExecuted", @class = "make-switch" })*@
                                     </div>
                                 </div>
                             </div>
