@@ -49,8 +49,8 @@ namespace UPExciseLTE.Models
         public List<FL33BrandMapp> lstFL33 { get; set; } = new List<FL33BrandMapp>();
         public bool WhetherUnderBond { get; set; }
         public bool WhetherBondExecuted { get; set; }
-        public string UnderBondYesNo { get; set; }
-        public string BondExecutedYesNo { get; set; }
+        public string UnderBondYesNo { get; set; } = "";
+        public string BondExecutedYesNo { get; set; } = "";
     }
     public class FL33BrandMapp
     {

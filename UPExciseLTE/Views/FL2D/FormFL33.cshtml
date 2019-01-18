@@ -59,8 +59,8 @@
                     @Html.HiddenFor(m => m.FL33ID, new { @id = "hfFL33ID" })
                     @Html.HiddenFor(m => m.EncFL33IDId, new { @id = "hfEncFL33IDId" })
                     @Html.HiddenFor(m => m.FL33Status, new { @id = "hfFL33Status" })
-                    @Html.HiddenFor(m => m.WhetherUnderBond)
-                    @Html.HiddenFor(m => m.WhetherBondExecuted)
+                    @Html.HiddenFor(m => m.UnderBondYesNo)
+                    @Html.HiddenFor(m => m.BondExecutedYesNo)
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
 
@@ -232,8 +232,8 @@
                                                     <td>@FL33BM.TotalBL</td>
                                                     <td>@FL33BM.RateofPermit</td>
                                                     <td>@FL33BM.DutyCalculated</td>
-                                                    <td>@FL33BM.WhetherUnderBond</td>
-                                                    <td>@FL33BM.WhetherBondExecuted</td>
+                                                    <td>@FL33BM.UnderBondYesNo</td>
+                                                    <td>@FL33BM.BondExecutedYesNo</td>
                                                 </tr>
                                             }
                                         }

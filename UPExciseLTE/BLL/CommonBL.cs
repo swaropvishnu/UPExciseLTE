@@ -1102,6 +1102,8 @@ namespace UPExciseLTE.BLL
                 FL33.Bankname = (dr["Bankname"].ToString().Trim());
                 FL33.Reason = (dr["Reason"].ToString().Trim());
                 FL33.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
+                FL33.UnderBondYesNo = dr["WhetherUnderBond"].ToString().Trim();
+                FL33.BondExecutedYesNo= dr["WhetherBondExecuted"].ToString().Trim();
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL33BrandMapp FL33BM = new FL33BrandMapp();
@@ -1118,6 +1120,8 @@ namespace UPExciseLTE.BLL
                     FL33BM.TotalBottle = int.Parse(dtdr["TotalBottle"].ToString().Trim());
                     FL33BM.TotalCase = int.Parse(dtdr["TotalCase"].ToString().Trim());
                     FL33BM.TotalFees = decimal.Parse(dtdr["TotalFees"].ToString().Trim());
+                    FL33BM.UnderBondYesNo = dtdr["WhetherUnderBond"].ToString().Trim();
+                    FL33BM.BondExecutedYesNo = dtdr["WhetherBondExecuted"].ToString().Trim();
                     FL33.lstFL33.Add(FL33BM);
                 }
 
