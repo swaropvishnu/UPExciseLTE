@@ -1286,6 +1286,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("IPAddress", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("WhetherUnderBond", FL.UnderBondYesNo));
+                cmd.Parameters.Add(new SqlParameter("WhetherBondExecuted", FL.BondExecutedYesNo));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["FL21Id"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
