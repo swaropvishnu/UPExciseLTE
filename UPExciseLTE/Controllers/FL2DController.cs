@@ -36,7 +36,7 @@ namespace UPExciseLTE.Controllers
             {
                 FL33.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                 FL33.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
-                FL33.ToConsigeeAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                FL33.ToConsigeeAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();                
             }
             if (TempData["str"] != null)
             {
@@ -59,6 +59,8 @@ namespace UPExciseLTE.Controllers
                 FL2D.TotalBottle += FLBM.TotalBottle;
                 FL2D.TotalCase += FLBM.TotalCase;
                 FL2D.TotalFees += FLBM.TotalFees;
+                FL2D.UnderBondYesNo = FLBM.UnderBondYesNo;
+                FL2D.BondExecutedYesNo = FLBM.BondExecutedYesNo;
             }
             string str = new CommonDA().InsertUpdateFormFL33(FL2D);
             TempData["str"] = str;
@@ -120,7 +122,7 @@ namespace UPExciseLTE.Controllers
             }
             return View(FL33);
         }
-        public string FL33BrandMapp(string BrandId, string TotalCase, string RateofPermit)
+        public string FL33BrandMapp(string BrandId, string TotalCase, string RateofPermit,string WhetherUnderBond, string WhetherBondExecuted)
         {
             List<FL33BrandMapp> lstFL33BrandMapp = (Session["lstFL33BrandMapp"] as List<FL33BrandMapp>);
             if (lstFL33BrandMapp == null)
@@ -143,11 +145,13 @@ namespace UPExciseLTE.Controllers
             FL33.Quantity = BL.QuantityInBottleML;
             FL33.RateofPermit = FL33.RateofPermit;
             FL33.TotalFees = FL33.DutyCalculated;
+            FL33.UnderBondYesNo = WhetherUnderBond;
+            FL33.BondExecutedYesNo = WhetherBondExecuted;
             lstFL33BrandMapp.Add(FL33);
             Session["lstFL33BrandMapp"] = lstFL33BrandMapp;
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>Brand Name</th><th>Box Size</th><th>Quantity (In Bottle, In ml.)</th><th>Total Case</th><th>Total Bottle</th><th>Total BL</th><th>Import Pass fee (per Ltr.)</th><th>Duty Calculated</th></tr>");
+            sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>Brand Name</th><th>Box Size</th><th>Quantity (In Bottle, In ml.)</th><th>Total Case</th><th>Total Bottle</th><th>Total BL</th><th>Import Pass fee (per Ltr.)</th><th>Duty Calculated</th><th>Whether Under Bond</th><th>Whether Bond Executed</th></tr>");
             int count = 0;
             foreach (FL33BrandMapp FL33BM in lstFL33BrandMapp)
             {
@@ -162,6 +166,8 @@ namespace UPExciseLTE.Controllers
                 sb.Append("<td>"); sb.Append(FL33BM.TotalBL); sb.Append("</td>");
                 sb.Append("<td>"); sb.Append(FL33BM.RateofPermit); sb.Append("</td>");
                 sb.Append("<td>"); sb.Append(FL33BM.DutyCalculated); sb.Append("</td>");
+                sb.Append("<td>"); sb.Append(FL33BM.UnderBondYesNo); sb.Append("</td>");
+                sb.Append("<td>"); sb.Append(FL33BM.BondExecutedYesNo); sb.Append("</td>");
                 sb.Append("</tr>");
 
             }
@@ -223,7 +229,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult PreviewChallanFormFL2D()
         {
             return View();
-        }
+        }   
         [HttpGet]
         public ActionResult GatePassForFL2D()
         {
@@ -429,6 +435,19 @@ namespace UPExciseLTE.Controllers
                 return Content(ex.Message);
             }      
         }
+        #endregion
+        #region WithoutBondChallan
+        public ActionResult WithoutBondChallan()
+        {
+            return View();
+        }
+        #endregion
+        #region BlankChallan
+        public ActionResult BlankChallan()
+        {
+            return View();
+        }
+
         #endregion
     }
 }

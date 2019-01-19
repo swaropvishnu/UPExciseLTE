@@ -47,6 +47,10 @@ namespace UPExciseLTE.Models
         public int ChallanId { get; set; } = -1;
         public string Reason { get; set; } = "";
         public List<FL33BrandMapp> lstFL33 { get; set; } = new List<FL33BrandMapp>();
+        public bool WhetherUnderBond { get; set; }
+        public bool WhetherBondExecuted { get; set; }
+        public string UnderBondYesNo { get; set; } = "";
+        public string BondExecutedYesNo { get; set; } = "";
     }
     public class FL33BrandMapp
     {
@@ -63,6 +67,10 @@ namespace UPExciseLTE.Models
         public decimal PermitFees { get; set; }
         public decimal TotalFees { get; set; }
         public decimal RateofPermit { get; set; }
+        public bool WhetherUnderBond { get; set; }
+        public bool WhetherBondExecuted { get; set; }
+        public string UnderBondYesNo { get; set; }
+        public string BondExecutedYesNo { get; set; }
     }
     public class FL2DChallan
     {

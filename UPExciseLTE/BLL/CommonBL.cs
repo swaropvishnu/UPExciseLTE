@@ -914,6 +914,8 @@ namespace UPExciseLTE.BLL
                 FL21.Bankname = (dr["Bankname"].ToString().Trim());
                 FL21.Reason = (dr["Reason"].ToString().Trim());
                 FL21.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
+                FL21.UnderBondYesNo = dr["WhetherUnderBond"].ToString().Trim();
+                FL21.BondExecutedYesNo = dr["WhetherBondExecuted"].ToString().Trim();
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL21BrandMapp FL21BM = new FL21BrandMapp();
@@ -930,6 +932,8 @@ namespace UPExciseLTE.BLL
                     FL21BM.TotalBottle = int.Parse(dtdr["TotalBottle"].ToString().Trim());
                     FL21BM.TotalCase = int.Parse(dtdr["TotalCase"].ToString().Trim());
                     FL21BM.TotalFees = decimal.Parse(dtdr["TotalFees"].ToString().Trim());
+                    FL21BM.UnderBondYesNo = dtdr["WhetherUnderBond"].ToString().Trim();
+                    FL21BM.BondExecutedYesNo = dtdr["WhetherBondExecuted"].ToString().Trim();
                     FL21.lstFL21.Add(FL21BM);
                 }
                 
@@ -1102,6 +1106,8 @@ namespace UPExciseLTE.BLL
                 FL33.Bankname = (dr["Bankname"].ToString().Trim());
                 FL33.Reason = (dr["Reason"].ToString().Trim());
                 FL33.ChallanId = int.Parse(dr["ChallanId"].ToString().Trim());
+                FL33.UnderBondYesNo = dr["WhetherUnderBond"].ToString().Trim();
+                FL33.BondExecutedYesNo= dr["WhetherBondExecuted"].ToString().Trim();
                 foreach (DataRow dtdr in dt.Rows)
                 {
                     FL33BrandMapp FL33BM = new FL33BrandMapp();
@@ -1118,6 +1124,8 @@ namespace UPExciseLTE.BLL
                     FL33BM.TotalBottle = int.Parse(dtdr["TotalBottle"].ToString().Trim());
                     FL33BM.TotalCase = int.Parse(dtdr["TotalCase"].ToString().Trim());
                     FL33BM.TotalFees = decimal.Parse(dtdr["TotalFees"].ToString().Trim());
+                    FL33BM.UnderBondYesNo = dtdr["WhetherUnderBond"].ToString().Trim();
+                    FL33BM.BondExecutedYesNo = dtdr["WhetherBondExecuted"].ToString().Trim();
                     FL33.lstFL33.Add(FL33BM);
                 }
 

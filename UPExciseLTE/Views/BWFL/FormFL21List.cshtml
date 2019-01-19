@@ -19,12 +19,14 @@
                     <div class="portlet-body form" style="background-color: #f5f5f5">
                         <div class="span10">&nbsp;</div>
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            
                                 <div style="text-align:left;float:left;padding-left:20px">
-                                    <button type="button" id="btnGenerateChallan" class="btn blue"  disabled onclick="funSave()" >Generate Challan</button>
+                                    <button type="button" id="btnGenerateChallan" class="btn blue" disabled onclick="funSave()">Generate Challan</button>
+                                    <button type="button" id="btnWithoutBondChallan" class="btn blue" disabled onclick="WithoutBondChallan()">Without Bond Challan</button>
+                                    <button type="button" id="btnBlankChallan" class="btn blue" disabled onclick="BlankChallan()">Blank Challan</button>
                                     <button type="button" id="btnUploadChallan" class="btn danger" disabled style="background-color:crimson; color:white" onclick="ShowPopup();">Upload Challan</button>
                                 </div>
-                            </div>
+                         
                             <div class="form-group col-md-6">
                                 <div style="text-align:right;padding-right:15px;float:right">
                                     <b>Total Fees:-<label id="lblTotalFee">0</label></b>
@@ -228,11 +230,15 @@
         if (document.getElementById("lblTotalFee").value != "0") {
             document.getElementById("btnGenerateChallan").disabled = false;
             document.getElementById("btnUploadChallan").disabled = false;
+            document.getElementById("btnWithoutBondChallan").disabled = false;
+            document.getElementById("btnBlankChallan").disabled = false;
         }
         else
         {
             document.getElementById("btnGenerateChallan").disabled = true;
             document.getElementById("btnUploadChallan").disabled = true;
+            document.getElementById("btnWithoutBondChallan").disabled = true;
+            document.getElementById("btnBlankChallan").disabled = true;
         }
         document.getElementById("hfDetails").value = FromConsignorName + "#" + FromLicenceNo + "#" + FromConsignorAddress + "#" + document.getElementById("lblTotalFee").innerText;
         
@@ -276,5 +282,15 @@
         var Details = document.getElementById('hfDetails').value;
         localStorage.setItem("Key", Details);
         window.location.href = "../bwfl/PreviewChallanForm";
+    }
+    function WithoutBondChallan() {
+        var Details = document.getElementById('hfDetails').value;
+        localStorage.setItem("Key", Details);
+        window.location.href = "../bwfl/WithoutBondChallan";
+    }
+    function BlankChallan() {
+        var Details = document.getElementById('hfDetails').value;
+        localStorage.setItem("Key", Details);
+        window.location.href = "../bwfl/BlankChallan";
     }
 </script>

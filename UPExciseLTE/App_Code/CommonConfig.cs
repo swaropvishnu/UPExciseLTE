@@ -30,7 +30,7 @@ namespace UPExciseLTE
                         }
                         if (UserSession.dbAddress == "10.135.29.204")
                         {
-                            UName = "sa"; Pass = "nic123";
+                            UName = "sa"; Pass = "nic";
                         }
 
 
