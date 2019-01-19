@@ -419,6 +419,19 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("FL2BGatePass");
         }
         #endregion
+        #region WithoutBondChallan
+        public ActionResult WithoutBondChallan()
+        {
+            return View();
+        }
+        #endregion
+        #region BlankChallan
+        public ActionResult BlankChallan()
+        {
+            return View();
+        }
+
+        #endregion
 
     }
 }
