@@ -2249,6 +2249,164 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+        public DataSet GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", Todate));
+                parameters.Add(new SqlParameter("GatePassSourceId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseNo", filter_bad_chars_rep(FromLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetGatePassDetailsG", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public string InsertUpdateGatePassDetailsCL(GatePassDetails GP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_InsertUpdateGatePassDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GP.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("GatepassLicenseNo", GP.GatepassLicenseNo));
+                cmd.Parameters.Add(new SqlParameter("FromDate", GP.FromDate));
+                cmd.Parameters.Add(new SqlParameter("ToDate", GP.ToDate));
+                cmd.Parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(GP.ToLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToLicenceNo", filter_bad_chars_rep(GP.ToLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToConsigeeName", filter_bad_chars_rep(GP.ToConsigeeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(GP.FromLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenceNo", filter_bad_chars_rep(GP.FromLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromConsignorName", filter_bad_chars_rep(GP.FromConsignorName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopName", filter_bad_chars_rep(GP.ShopName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopId", GP.ShopId));
+                cmd.Parameters.Add(new SqlParameter("GatePassNo", filter_bad_chars_rep(GP.GatePassNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeNo", filter_bad_chars_rep(GP.LicenseeNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("VehicleNo", filter_bad_chars_rep(GP.VehicleNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("DriverName", filter_bad_chars_rep(GP.DriverName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeName", filter_bad_chars_rep(GP.LicenseeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeAddress", filter_bad_chars_rep(GP.LicenseeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", filter_bad_chars_rep(GP.AgencyNameAndAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToAddress", filter_bad_chars_rep(GP.ConsigneeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromAddress", filter_bad_chars_rep(GP.ConsignorAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GrossWeight", GP.GrossWeight));
+                cmd.Parameters.Add(new SqlParameter("TareWeight", GP.TareWeight));
+                cmd.Parameters.Add(new SqlParameter("NetWeight", GP.NetWeight));
+                cmd.Parameters.Add(new SqlParameter("district_code_census1", GP.district_code_census1));
+                cmd.Parameters.Add(new SqlParameter("district_code_census2", GP.district_code_census2));
+                cmd.Parameters.Add(new SqlParameter("district_code_census3", GP.district_code_census3));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", filter_bad_chars_rep(GP.RouteDetails.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GatePassSourceId", GP.GatePassSourceId));
+                cmd.Parameters.Add(new SqlParameter("Receiver", filter_bad_chars_rep(GP.Receiver.Trim())));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", GP.UploadValue));
+                cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(GP.Status.Trim())));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", GP.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("GatePassTypeID", GP.GatePassType));
+                cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
+                cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
+                cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchedBy));
+                cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public string InsertUpdateReciver(Reciver TTD)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_Proc_InsertUpdatereciver", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("@ReciverID", TTD.ReciverID));
+                cmd.Parameters.Add(new SqlParameter("@UnitID", TTD.UnitId == 0 ? 8 : TTD.UnitId));
+                cmd.Parameters.Add(new SqlParameter("@Reciver_Name", TTD.Recivername));
+                cmd.Parameters.Add(new SqlParameter("@Reciver_Capacity", TTD.ReciverCapacity));
+                cmd.Parameters.Add(new SqlParameter("@Status", TTD.Status));
+                cmd.Parameters.Add(new SqlParameter("@sptype", TTD.sptype));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+
+        public DataSet getReciver(short BreweryId, int ReciverId, string status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitID", BreweryId));
+                parameters.Add(new SqlParameter("@ReciverId", ReciverId));
+                parameters.Add(new SqlParameter("status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "[CL_PROC_GetReciver]", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
         #endregion CL DAL
         #region UnitMaster
         public string InsertUpdateUnitMaster(UnitMaster objUnitMaster)

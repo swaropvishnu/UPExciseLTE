@@ -225,14 +225,28 @@
 
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Strength of Alcohol<b style="color:red; font-weight:800">*</b></label>
-                                    <div class="row">
-                                        <div class="form-group  col-md-6"> 
-                                            @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
+                                    @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                    {
+                                        <div class="row">
+                                            <div class="form-group  col-md-6">
+                                                 @Html.DropDownListFor(m=>m.Strength, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "25%", Value = "25" }, new SelectListItem { Text = "36%", Value = "36" }, new SelectListItem { Text = "42.8%", Value = "42.8" } }, new { @id = "ddlAlcoholType", @class = "form-control " })
+                                            </div>
+                                            <div class="form-group  col-md-6">
+                                                @Html.DropDownListFor(m => m.AlcoholType, new List<SelectListItem> { new SelectListItem { Text = "Spiced", Value = "Spiced" }, new SelectListItem { Text = "Plain", Value = "Plain" } }, new { @id = "ddlAlcoholType", @class = "form-control " })
+                                            </div>
                                         </div>
-                                        <div class="form-group  col-md-6">
-                                            @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="form-group  col-md-6">
+                                                @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
+                                            </div>
+                                            <div class="form-group  col-md-6">
+                                                @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Liquor Type</label>
@@ -262,19 +276,36 @@
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Capacity of Bottle/ Can (in ml.)<b style="color:red; font-weight:800">*</b></label>
+                                    @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                    {
                                     <div>
-                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none", @MaxLength = "5" })
-
-                                        @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650", Selected = true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                        @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleMLCL", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @Value = "200", @readonly="true", @MaxLength = "5" })
                                     </div>
-                                </div>
+                                        }
+                                        else
+                                        {
+                                        <div>
+                                            @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none", @MaxLength = "5" })
+
+                                            @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650", Selected = true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
+                                        </div>
+                                        }
+                                    </div>
 
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Packaging Type</label>
                                     <div>
-                                        @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })
+                                        @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                        {
+                                            @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Bottle", Value = "Bottle" }, new SelectListItem { Text = "Pet", Value = "Pet" } }, new { @id = "ddlPackagingType", @class = "form-control" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })
+
+                                        }
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -363,6 +394,10 @@
 
 }
 <script type="text/javascript">
+    $('#ddlAlcoholType').change(function () {
+        var ddlAlcoholType = $('#ddlAlcoholType').val();
+       
+    })
     function GetBrandDetail() {
         var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
         window.location.href = url;

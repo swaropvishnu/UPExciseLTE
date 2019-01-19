@@ -182,15 +182,22 @@ namespace UPExciseLTE.Controllers
             
             ViewBag.LiquorType = lstLiquor;
             ViewBag.LicenseType= lstLicense;
-            DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            if (UserSession.LoggedInUserLevelId.Trim() == "25")
             {
-                ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
-                ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
-                ViewBag.MWholeSaleMargin = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.SWholeSaleMargin = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.MRetailerMargin = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
-                ViewBag.SRetailerMargin = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+
+            }
+            else
+            {
+                DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
+                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
+                    ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
+                    ViewBag.MWholeSaleMargin = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
+                    ViewBag.SWholeSaleMargin = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
+                    ViewBag.MRetailerMargin = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
+                    ViewBag.SRetailerMargin = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+                }
             }
             string UserId = UserSession.LoggedInUserId.ToString().Trim();
             ViewBag.Brewery = CommonBL.fillBrewery();
@@ -283,7 +290,7 @@ namespace UPExciseLTE.Controllers
             BottelingPlan BP = new BottelingPlan();
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-            List<SelectListItem> lstBBT = CommonBL.fillBBT("Z");
+            List<SelectListItem> lstBBT = CommonBL.fillBBT("S");
             ViewBag.BBT = lstBBT;
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
 

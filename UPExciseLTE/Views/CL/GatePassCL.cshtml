@@ -1,7 +1,7 @@
 ﻿@model UPExciseLTE.Models.GatePassDetailsCL
 
 @{
-    ViewBag.Title = "GatePassCL";
+    ViewBag.Title = "GatePass";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
@@ -24,13 +24,7 @@
             OutsideIndia();
         }
         GatePassUploadBrandDetails();
-        $("#txtDate").datepicker({
 
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            minDate: '0d'
-        });
         $("#txtValidTill").datepicker({
 
             dateFormat: "dd/mm/yy",
@@ -38,7 +32,7 @@
             changeYear: true,
             minDate: '0d'
         });
-        if (document.getElementById("txtDate").value.trim() != "") {
+        if (document.getElementById("txtValidTill").value.trim() != "") {
             document.getElementById("btnSave").innerHTML = "Update";
         }
     });
@@ -88,7 +82,7 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <span>
-                                <i class="fa fa-gift"></i>&nbsp;Distillery To Manufacturer Wholesale (PD-25A)&nbsp;
+                                <i class="fa fa-gift"></i>&nbsp;Brewery To Manufacturer Wholesale&nbsp;
                             </span>
                         </div>
                     </div>
@@ -101,12 +95,12 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Dispatch Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }, new SelectListItem { Text = "CSD", Value = "CSD" } }, new { @id = "ddlDispatchType", @class = "form-control " })
-                                    @Html.DropDownList("hfddlGatePassType", new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "hfddlGatePassType", @class = "hide" })
+                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }}, new { @id = "ddlDispatchType", @class = "form-control " })
+                                    @Html.DropDownList("hfddlGatePassType", new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" } }, new { @id = "hfddlGatePassType", @class = "hide" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Gate Pass Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.GatePassType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "ddlGatePassType", @class = "form-control " })
+                                    @Html.DropDownListFor(m => m.GatePassType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" } }, new { @id = "ddlGatePassType", @class = "form-control " })
                                 </div>
                             </div>
                             <div class="row">
@@ -116,18 +110,23 @@
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Valid Till<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" })
+                                </div>
+                                <div class="form-group   col-md-4" id="divImportPermitNo" style="display:none">
+                                    <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ImportPermitNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No" })
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">From License Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownList("ddlFromLicenceType", (IEnumerable<SelectListItem>)ViewBag.FromLicenseTypes, new { @id = "ddlFromLicenceType", @class = "form-control" })
-                                    @Html.TextBoxFor(m => m.FromLicenseType, new { @id = "txtFromLicenceType", @placeholder = "Valid Till", @required = "required", @readonly = true, @class = "hide" })
+                                    @Html.TextBoxFor(m => m.FromLicenseType, new { @id = "txtFromLicenceType", @class = "form-control ", @placeholder = "Valid till", @required = "required", @readonly = true })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">From License No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control ", @placeholder = "From Licence No", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control", @readonly = true, @placeholder = "From Licence No", @required = "required" })
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Consignor Name<b style="color:red; font-weight:800">*</b></label>
@@ -139,12 +138,13 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLicType">To License Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownList("ddlToLicenceType", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @class = "form-control" })
+                                    @Html.DropDownList("ddlToLicenceType", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlToLicenceType", @readonly = true, @class = "form-control" })
                                     @Html.DropDownList("ddlTemp", (IEnumerable<SelectListItem>)ViewBag.ToLicenseTypes, new { @id = "ddlTemp", @class = "form-control", @style = "display:none;" })
-                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name", @required = "required", @class = "hide" })
+                                    @Html.TextBoxFor(m => m.ToLicenseType, new { @id = "txtToLicenceType", @placeholder = "Country Name", @class = "hide" })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownList("ddlToLicenseNo", (IEnumerable<SelectListItem>)ViewBag.FL1Licence, new { @id = "ddlToLicenseNo", @class = "hide" })
                                     @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @readonly = true, @MaxLength = 150 })
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -168,6 +168,12 @@
                                         @Html.TextAreaFor(m => m.ConsigneeAddress, new { @id = "txtAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250 })
                                     </div>
                                 </div>
+                                <div class="form-group  col-md-4" id="divICD" style="display:none">
+                                    <label class="control-label">Address of Designated ICD<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextAreaFor(m => m.Receiver, new { @id = "txtICDAddress", @class = "form-control ", @placeholder = "ICD Address", @MaxLength = 250 })
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group   col-md-4">
@@ -184,9 +190,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
-                                    <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Dispatch By<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No", @required = "required" })
+                                        @Html.TextBoxFor(m => m.DispatchedBy, new { @id = "txtDispatchBy", @class = "form-control ", @placeholder = "By Road/ By Air/ By Ship", @required = "required" })
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +233,7 @@
                             </div>
 
 
-                            <div class="row" id="divExport">
+                            <div class="row" id="divExport" style="display:none">
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Check Post Via</label>
                                     <div>
@@ -278,9 +284,10 @@
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
-                                <button type="submit" class="btn green" id="btnSave" onclick="Validation();">Save</button>
+                                <button type="submit" class="btn green" id="btnSave" onclick="return Validation();">Save</button>
                                 <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../masterforms/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
+                                <p style="color:red"><b>Note:- Gatepass can be finalize only after CSV Upload.</b></p>
+                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>*@
                             </div>
                         </center>
                         <div class="form-body">
@@ -299,7 +306,22 @@
     $("#ddlToLicenceType").change(function () {
         document.getElementById("txtToLicenceType").value = $("option:selected", $("#ddlToLicenceType")).text()
     });
-
+    $("#ddlToLicenseNo").change(function () {
+        //$("#txtToLicenceNo").val(this.value);
+        $.ajax({
+            type: "post",
+            url: "/MasterForms/GetUnitDetailsForddl",
+            data: { UnitId: $('#ddlToLicenseNo').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var str = data.split(",");
+                document.getElementById("txtToLicenceNo").value = str[0];
+                document.getElementById("txtConsigneeName").value = str[1];
+                document.getElementById("txtAddress").value = str[2];
+            }
+        });
+    });
 
     $('#ddlGatePassType').change(function () {
         var GatePassType = $('#ddlGatePassType').val();
@@ -338,6 +360,11 @@
             document.getElementById("txtValidTill").focus();
             return false;
         }
+        if (document.getElementById("txtFromLicenceType").value == '') {
+            alert("Please fill from license type.");
+            document.getElementById("txtFromLicenceType").focus();
+            return false;
+        }
         if ($("#ddlGatePassType").val() == "-1") {
             alert("Please Select Gate Pass Type");
             document.getElementById("ddlGatePassType").focus();
@@ -348,16 +375,21 @@
             document.getElementById("ddlFromLicenceType").focus();
             return false;
         }
-        if ($("#ddlToLicenceType").val() == "-1") {
-            alert("Please Select To License Type");
-            document.getElementById("ddlToLicenceType").focus();
-            return false;
-        }
+        //if ($("#ddlToLicenceType").val() == "-1") {
+        //    alert("Please Select To License Type");
+        //    document.getElementById("ddlToLicenceType").focus();
+        //    return false;
+        //}
     }
     function InsideUp() {
         $('#ddlToLicenceType').html($('#ddlTemp').html());
-        $("#ddlToLicenceType option[value='40']").remove();
-        $("#ddlToLicenceType option[value='41']").remove();
+        $("#ddlToLicenceType option[value='Export Outside UP']").remove();
+        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
+
+        $("#ddlToLicenseNo").removeClass("hide");
+        $("#ddlToLicenseNo").addClass("form-control");
+        $("#txtToLicenceNo").removeClass("form-control");
+        $("#txtToLicenceNo").addClass("hide");
 
         $("#ddlToLicenceType").removeClass("hide");
         $("#txtToLicenceType").removeClass("form-control");
@@ -374,19 +406,29 @@
         document.getElementById("lblConsi").innerHTML = "Consignee Name";
         document.getElementById("divExport").style.display = "none";
         document.getElementById("divInsideUp").style.display = "block";
+        document.getElementById("divImportPermitNo").style.display = "none";
+        document.getElementById("divICD").style.display = "none";
+        document.getElementById("txtToLicenceType").value = $("#ddlToLicenceType").val().trim();
         Reset();
     }
     function OutsideUp() {
         $('#ddlToLicenceType').html($('#ddlTemp').html());
-        $("#ddlToLicenceType option[value='-1']").remove();
-        $("#ddlToLicenceType option[value='1']").remove();
-        $("#ddlToLicenceType option[value='55']").remove();
-        $("#ddlToLicenceType option[value='41']").remove();
+        //$("#ddlToLicenceType option[value='-1']").remove();
+        $("#ddlToLicenceType option[value='FL-1']").remove();
+        $("#ddlToLicenceType option[value='FL-1A']").remove();
+        $("#ddlToLicenceType option[value='Export Outside INDIA']").remove();
+        document.getElementById("txtToLicenceType").value = 'Export Outside UP';
+        $("#ddlToLicenseNo").removeClass("form-control");
+        $("#ddlToLicenseNo").addClass("hide");
+        $("#txtToLicenceNo").removeClass("hide");
+        $("#txtToLicenceNo").addClass("form-control");
 
         $("#ddlToLicenceType").removeClass("hide");
         $("#txtToLicenceType").removeClass("form-control");
         $("#ddlToLicenceType").addClass("form-control");
         $("#txtToLicenceType").addClass("hide");
+        document.getElementById("divImportPermitNo").style.display = "block";
+        document.getElementById("divICD").style.display = "none";
 
         document.getElementById("txtToLicenceNo").readOnly = false;
         document.getElementById("txtConsigneeName").readOnly = false;
@@ -401,14 +443,11 @@
         document.getElementById("lblConsi").innerHTML = "Party Name";
         document.getElementById("divExport").style.display = "block";
         document.getElementById("divInsideUp").style.display = "none";
+        document.getElementById("txtToLicenceType").value = $("#ddlToLicenceType").val().trim();
         Reset();
     }
     function OutsideIndia() {
-        //$('#ddlToLicenceType').html($('#ddlTemp').html());
-        //$("#ddlToLicenceType option[value='-1']").remove();
-        //$("#ddlToLicenceType option[value='1']").remove();
-        //$("#ddlToLicenceType option[value='55']").remove();
-        //$("#ddlToLicenceType option[value='40']").remove();
+
         document.getElementById("txtToLicenceNo").readOnly = false;
         document.getElementById("txtConsigneeName").readOnly = false;
         $("#ddlToLicenceType").removeClass("form-control");
@@ -427,6 +466,17 @@
         document.getElementById("lblConsi").innerHTML = "Party Name";
         document.getElementById("divExport").style.display = "block";
         document.getElementById("divInsideUp").style.display = "none";
+        document.getElementById("divImportPermitNo").style.display = "block";
+        document.getElementById("divICD").style.display = "block";
+
+        $("#ddlToLicenseNo").removeClass("form-control");
+        $("#ddlToLicenseNo").addClass("hide");
+        $("#txtToLicenceNo").removeClass("hide");
+        $("#txtToLicenceNo").addClass("form-control");
+        var Val = document.getElementById("txtToLicenceType").value;
+        if (Val === "FL-1" || Val === "FL-1A" || Val === "Export Outside UP") {
+            document.getElementById("txtToLicenceType").value = "";
+        }
         Reset();
     }
     function Reset() {
@@ -440,15 +490,6 @@
             document.getElementById("txtExportDuty").value = "0";
         }
     }
-    $("#ddlLicenseeLicenseNo1").change(function () {
-        $("#txtConsigneeName").val(this.value);
-    });
-    $("#ddlLicenseeLicenseNo").change(function () {
-        $("#txtConsignorName").val(this.value);
-    });
-    $("#ddlLicenseeLicenseNo1").change(function () {
-        $("#txtConsigneeName").val(this.value);
-    });
 
     $("#MDistrictId1").change(function () {
         if ($("#MDistrictId1").val() != "-1") {

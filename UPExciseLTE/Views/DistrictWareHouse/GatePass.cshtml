@@ -87,7 +87,7 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Dispatch Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }, new SelectListItem { Text = "CSD", Value = "CSD" } }, new { @id = "ddlDispatchType", @class = "form-control " })
+                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" } }, new { @id = "ddlDispatchType", @class = "form-control " })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Gate Pass Type<b style="color:red; font-weight:800">*</b></label>
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Valid Till<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" })
                                 </div>
                                 <div class="form-group   col-md-4" id="divImportPermitNo" style="display:none">
                                     <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>

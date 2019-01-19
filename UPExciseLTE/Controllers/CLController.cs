@@ -17,10 +17,50 @@ using ZXing;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilter]
-    //[CheckAuthorization]
+    [CheckAuthorization]
     [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class CLController : Controller
     {
+        [HttpGet]
+        public ActionResult ReceiverMaster()
+        {
+            Reciver UT = new Reciver();
+            //if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
+            //{
+            //    UT = new CommonBL().GetStorageVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+            //}
+            //ViewBag.Msg = TempData["Msg"];
+            ViewBag.Brewery = CommonBL.fillBrewery();
+            UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value.Trim());
+            UT.ReciverID = -1;
+            ViewBag.StorageVATList = new CommonBL().GetReciverList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
+            return View(UT);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public JsonResult InsertUpdateReciver(Reciver Objform)
+        {
+            try
+            {
+
+                string str = new DAL.CommonDA().InsertUpdateReciver(Objform);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult ReceiverMaster(StorageVATCL UT)
+        {
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
+            TempData["Msg"] = str;
+            return RedirectToAction("StorageVATCL");
+        }
         [HttpGet]
         public ActionResult StorageVATCL()
         {
@@ -424,6 +464,7 @@ namespace UPExciseLTE.Controllers
             TankTransferDetail SVBL = new TankTransferDetail();
             ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
             ViewBag.SpiritType = CommonBL.fillSpiritType("S");
+            SVBL.SpiritTypeId = 1;
             if (TempData["Message"] != null)
             {
                 ViewBag.Msg = TempData["Message"].ToString();    
@@ -503,46 +544,75 @@ namespace UPExciseLTE.Controllers
         public ActionResult GatePassCL()
         {
             GatePassDetailsCL GP = new GatePassDetailsCL();
-            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
-
-            //ViewBag.FromLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
-            //ViewBag.ToLicenceNo = CommonBL.fillLiceseeLicenseNos("S");
-            //List <SelectListItem> lstBR = CommonBL.fillBreweryLiceName();
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
             ViewBag.Msg = TempData["Message"];
-            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1,-1, UserSession.LoggedInUserId);
-            if (GP.FromConsignorName.Trim() == string.Empty)
+
+
+            List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
+            List<SelectListItem> FL1Licence = new List<SelectListItem>();
+            SelectListItem SLI = new SelectListItem();
+
+            SLI = new SelectListItem();
+            SLI.Text = "CL-2";
+            SLI.Value = "CL-2";
+            ToLicenseTypes.Add(SLI);
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
+                if (GP.FromLicenseType.Trim() == string.Empty)
                 {
+                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "PD-2")
+                    {
+                        GP.FromLicenseType = "PD-2";
+                    }
                     GP.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
-                    GP.ToLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
-                    GP.ToConsigeeName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }
+
             }
+            if (!string.IsNullOrEmpty(GP.ToLicenseType.Trim()) &&
+                ToLicenseTypes.Find(x => x.Text.Trim() == GP.ToLicenseType.Trim().Trim()) != null)
+            {
+                ToLicenseTypes.Find(x => x.Value.Trim() == GP.ToLicenseType.Trim()).Selected = true;
+            }
+            if (!string.IsNullOrEmpty(GP.ToLicenceNo.Trim()) &&
+                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()) != null)
+            {
+                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()).Selected = true;
+            }
+            ViewBag.FL1Licence = FL1Licence;
             ViewBag.Districts = CommonBL.fillDistict("N");
-            ViewBag.FromLicenseTypes = CommonBL.fillLicenseTypes("S", "L1F");
-            ViewBag.ToLicenseTypes = CommonBL.fillLicenseTypes("S", "L1T");
+            ViewBag.ToLicenseTypes = ToLicenseTypes;
             return View(GP);
         }
         [HttpPost]
         public ActionResult GatePassCL(GatePassDetails GP)
         {
+            if (GP.Receiver == null)
+            {
+                GP.Receiver = "";
+            }
+            if (GP.ImportPermitNo == null)
+            {
+                GP.ImportPermitNo = "";
+            }
+            GP.GatepassLicenseNo = "B-12";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
             GP.UploadValue = 2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
             GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
             string str = new CommonDA().InsertUpdateGatePassDetails(GP);
             TempData["Message"] = str;
-            return RedirectToAction("GatePass");
+            return RedirectToAction("GatePassCL");
         }
         [HttpGet]
         public ActionResult UploadGatePassCSVCL(string A, string B)
         {
             GatePassDetailsCL GP = new GatePassDetailsCL();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P");
+            GP = new CommonBL().GetGatePassDetailsGCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "P", "P", "", "", "", "");
             return View(GP);
         }
         [HttpPost]
@@ -612,7 +682,7 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetailsCL GP = new GatePassDetailsCL();
             long GatePassId = long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim()));
-            GP = new CommonBL().GetGatePassDetailsGCL(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z");
+            GP = new CommonBL().GetGatePassDetailsGCL(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z", "", "", "", "");
             string qrcode = "EXCISE";
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
             ViewBag.PassType = "PD-25A";
@@ -670,26 +740,7 @@ namespace UPExciseLTE.Controllers
             TempData["Message"] = str;
             return RedirectToAction("BlendingVATtfBottelingVATCL");
         }
-        [HttpGet]
-        public ActionResult ReceiverMaster()
-        {
-            StorageVATCL UT = new StorageVATCL();
-            if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
-            {
-                UT = new CommonBL().GetStorageVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
-            }
-            ViewBag.Msg = TempData["Msg"];
-            ViewBag.Brewery = CommonBL.fillBrewery();
-            ViewBag.StorageVATList = new CommonBL().GetStorageVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
-            return View(UT);
-        }
-        [HttpPost]
-        public ActionResult ReceiverMaster(StorageVATCL UT)
-        {
-            string str = new CommonDA().InsertUpdateStorageVAT(UT);
-            TempData["Msg"] = str;
-            return RedirectToAction("StorageVATCL");
-        }
+        
 
         #endregion
 

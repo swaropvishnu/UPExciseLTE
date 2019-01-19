@@ -36,7 +36,7 @@ namespace UPExciseLTE
 
             //New Comment By Gaurav 04-12-2018 for Check Error
 
-            /*HttpContext httpContext = HttpContext.Current;
+            HttpContext httpContext = HttpContext.Current;
             if (httpContext != null)
             {
                 RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
@@ -79,7 +79,7 @@ namespace UPExciseLTE
                     var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
                     controller.Execute(rc);
                 }
-            }*/
+            }
         }
 
 

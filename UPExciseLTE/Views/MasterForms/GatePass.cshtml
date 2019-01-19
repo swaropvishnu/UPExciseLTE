@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Valid Till<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = true })
+                                    @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required"})
                                 </div>
                                 <div class="form-group   col-md-4" id="divImportPermitNo">
                                     <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
@@ -287,7 +287,8 @@
                             <div class="form-actions">
                                 <button type="submit" class="btn green" id="btnSave" onclick="return Validation();">Save</button>
                                 <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../masterforms/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
+                                <p style="color:red"><b>Note:- Gatepass can be finalize only after CSV Upload.</b></p>
+                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>*@
                             </div>
                         </center>
                         <div class="form-body">

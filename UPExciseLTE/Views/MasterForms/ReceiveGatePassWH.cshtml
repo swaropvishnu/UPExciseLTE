@@ -37,7 +37,7 @@
             alert('Please Enter Damage Bottle Quantity');
             return false;
         }
-        if (AvailableBottle < DamageBottles) {
+        if (parseFloat(AvailableBottle) < parseFloat(DamageBottles)) {
             alert('Damage Bottle Quantity not Greater than Total Bottle Quantity');
             return false;
         }
