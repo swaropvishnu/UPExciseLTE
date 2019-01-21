@@ -176,6 +176,7 @@ namespace UPExciseLTE.BLL
                 brand.PackagingType = dr["PackagingType"].ToString().Trim();
                 brand.Remark = dr["Remark"].ToString().Trim();
                 brand.Reason = dr["Reason"].ToString().Trim();
+                brand.DistrictName = dr["DistrictCode"].ToString().Trim();
                 brand.SPType = 2;
                 brand.BrandStatus = dr["BrandStatus"].ToString().Trim();
                 brand.Status = dr["Status1"].ToString().Trim();

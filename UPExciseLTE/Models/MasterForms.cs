@@ -112,6 +112,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "Brand Status")]
         public string BrandStatus { get; set; } = "P";
         public string Status { get; set; } = "";
+        [Display(Name = "District Name")]
+        public string DistrictName { get; set; } = "";
     }
     public class BottelingPlan
     {
@@ -177,6 +179,8 @@ namespace UPExciseLTE.Models
         public string BeforeBBTBal { get; set; } = "";
         public decimal AfterBBTBal { get; set; } = 0;
         public Message Msg { get; set; }
+        public string FromDate { get; set; } = "";
+        public string ToDate { get; set; } = "";
     }
     public class UnitTank
     {

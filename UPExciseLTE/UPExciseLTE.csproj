@@ -6267,6 +6267,7 @@
     <Content Include="Views\FL2D\BlankChallan.cshtml" />
     <Content Include="Views\BWFL\WithoutBondChallan.cshtml" />
     <Content Include="Views\BWFL\BlankChallan.cshtml" />
+    <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
