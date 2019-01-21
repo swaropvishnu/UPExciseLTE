@@ -5611,6 +5611,9 @@
     <Content Include="Content\CommonStyle.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\util.css" />
+    <Content Include="Content\DateCalender\jquery-ui.css" />
+    <Content Include="Content\DateCalender\jquery-ui.js" />
+    <Content Include="Content\DateCalender\jquery.min.js" />
     <Content Include="Content\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -6267,6 +6270,7 @@
     <Content Include="Views\FL2D\BlankChallan.cshtml" />
     <Content Include="Views\BWFL\WithoutBondChallan.cshtml" />
     <Content Include="Views\BWFL\BlankChallan.cshtml" />
+    <Content Include="Views\CL\BlendingVATReductionDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

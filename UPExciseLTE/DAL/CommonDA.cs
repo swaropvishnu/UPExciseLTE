@@ -361,7 +361,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public DataSet GetDutyCalculation(string Year, string LiquorType)
+        public DataSet GetDutyCalculation(string Year, string LiquorType, decimal AlcoholStrength)
         {
             DataSet ds = new DataSet();
             try
@@ -369,6 +369,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("YEAR", Year));
                 parameters.Add(new SqlParameter("LiquorType", filter_bad_chars_rep(LiquorType.Trim())));
+                parameters.Add(new SqlParameter("AlcoholStrength", AlcoholStrength));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
             }
             catch (Exception)
@@ -756,6 +757,51 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
+
+        internal string InsertBlendingVATReductionDetails(BlendingVATReduction BVR)
+        {
+            con.Open();
+            string str = "";
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_Proc_InsertBlendingVATReductionDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("ReductionId", BVR.ReductionId));
+                cmd.Parameters.Add(new SqlParameter("BlendingVATId", BVR.BlendingVATId));
+                cmd.Parameters.Add(new SqlParameter("ReductionDate", BVR.ReductionDate));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedBL", BVR.BeforeRedBL));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedStrength", BVR.BeforeRedStrength));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedAL", BVR.BeforeRedAL));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BVR.BatchNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AfterRedBL", BVR.AfterRedBL));
+                cmd.Parameters.Add(new SqlParameter("AfterRedStrength", BVR.AfterRedStrength));
+                cmd.Parameters.Add(new SqlParameter("AfterRedAL", BVR.AfterRedAL));
+                cmd.Parameters.Add(new SqlParameter("Remarks", BVR.Remarks));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId.ToString()));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 32676;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
+
         public DataSet GetBBTMaster(int bbtId, string status)
         {
             DataSet ds = new DataSet();
@@ -1867,6 +1913,45 @@ namespace UPExciseLTE.DAL
             {
                 tran.Rollback();
                 result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public string UploadCSVCL(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo, int PlanId, short BottlingLineId)
+        {
+            con.Open();
+            string result = "";
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "CL_Proc_InsertUploadCSV";
+                cmd.CommandTimeout = 3000;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", gatePassId));
+                cmd.Parameters.Add(new SqlParameter("dbBarCode", dbBarCode));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", BatchNo));
+                cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BottlingLineId));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
             }
             finally
             {

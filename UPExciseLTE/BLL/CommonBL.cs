@@ -361,6 +361,7 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BL", BBTID, Select);
             return breweryList;
         }
+        
         public static List<SelectListItem> BottlingLineCL(string Select, string BBTID)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -1395,7 +1396,7 @@ namespace UPExciseLTE.BLL
                 UT.BrandName = (dr["BrandName"].ToString().Trim());
                 UT.SpiritType = (dr["SpiritType"].ToString().Trim());
                 UT.BottelingVATAlcoholicLiter = decimal.Parse(dr["BottelingVATAlcoholicLiter"].ToString().Trim());
-
+                UT.BatchNo = (dr["BatchNo"].ToString().Trim());
             }
             catch (Exception) { }
             return UT;

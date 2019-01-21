@@ -83,6 +83,9 @@
                 success: function (data) {
                     alert(data);
                     $('#myModal3').modal('toggle')
+                    if (data == "Upload CSV Successfully") {
+                        location.reload();
+                    }
                     /*var modal = document.getElementById('myModal3');
                     modal.style.display = "none";*/
                 },

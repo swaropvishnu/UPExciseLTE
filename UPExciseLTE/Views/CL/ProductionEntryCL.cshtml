@@ -1,238 +1,242 @@
 ﻿@model UPExciseLTE.Models.BottelingPlanCL
 
-    @{
-        ViewBag.Title = "Production Plan";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
-        {
-            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../CL/ProductionPlanList';</script>
+@{
+                /**/
+
+                ViewBag.Title = "Production Plan";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+                {
+                    <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../CL/ProductionPlanList';</script>
+                }
+}
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
         }
+        return ret;
     }
-    <script type="text/javascript">
-        var specialKeys = new Array();
-        specialKeys.push(47); // for Forward Slash(/)
-        specialKeys.push(8); //Backspace
-        specialKeys.push(9); // Tab
-        specialKeys.push(37); // for left Arrow
-        //  specialKeys.push(39); // for Right Arrow
-        function IsNumeric(e) {
-            var keyCode = e.which ? e.which : e.keyCode
-            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
-            if (ret == false) {
-                //alert("Only numaric value allowed.");
-            }
-            return ret;
-        }
 
-    </script>
-    @using (Html.BeginForm("ProductionEntryCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-
-        @Html.ValidationSummary(true)
-        <div class="page-content-inner">
-            <div class="row ">
-                <div class="col-md-12">
-                    <div class="portlet box green">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-gift"></i>Production Plan
-                            </div>
+</script>
+@using (Html.BeginForm("ProductionEntryCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Production Plan
                         </div>
-                        @Html.HiddenFor(m => m.PlanId)
-                        @Html.HiddenFor(m => m.EncPlanId)
-                        @Html.HiddenFor(m => m.Type)
-                        <div class="portlet-body form" style="background-color: #f5f5f5">
-                            <div class="form-body">
-                                <fieldset style="border:#32c5d2;border-width:1px;border-style:double">
-                                    <p style="background-color:#32c5d273;color:white"> <legend style="color:white;border-bottom:1px solid #32c5d2;padding-left:13px;padding-top:2px;padding-bottom:2px">Proposed Plan</legend></p>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Date</label>
-                                            @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan1", @class = "form-control", @required = "required", @type = "text", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Batch No</label>
-                                            @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Brand</label>
-                                            @Html.TextBoxFor(m => m.Brand, "", new { @id = "txtBrand", @class = "form-control", @readonly = "true" })
-                                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.PlanId)
+                    @Html.HiddenFor(m => m.EncPlanId)
+                    @Html.HiddenFor(m => m.Type)
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <fieldset style="border:#32c5d2;border-width:1px;border-style:double">
+                                <p style="background-color:#32c5d273;color:white"> <legend style="color:white;border-bottom:1px solid #32c5d2;padding-left:13px;padding-top:2px;padding-bottom:2px">Proposed Plan</legend></p>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Date</label>
+                                        @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan1", @class = "form-control", @required = "required", @type = "text", @readonly = "true" })
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Liquor Type</label>
-                                            @Html.TextBoxFor(m => m.LiquorType, "", new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">License Type</label>
-                                            @Html.TextBoxFor(m => m.LicenceType, "", new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Number of Case</label>
-                                            @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();", @readonly = "true" })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Batch No</label>
+                                        @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required", @readonly = "true" })
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
-                                            @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
-                                            @Html.TextBoxFor(m => m.BottleCapacity, "", new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Bulk Litre</label>
-                                            @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Brand</label>
+                                        @Html.TextBoxFor(m => m.Brand, "", new { @id = "txtBrand", @class = "form-control", @readonly = "true" })
                                     </div>
-                                    <div class="row">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Liquor Type</label>
+                                        @Html.TextBoxFor(m => m.LiquorType, "", new { @id = "txtLiquorType", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">License Type</label>
+                                        @Html.TextBoxFor(m => m.LicenceType, "", new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Number of Case</label>
+                                        @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
+                                        @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
+                                        @Html.TextBoxFor(m => m.BottleCapacity, "", new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Bulk Litre</label>
+                                        @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="row">
 
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Total Unit (Cans/Bottles)</label>
-                                            @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Total Revenue</label>
-                                            @Html.TextBoxFor(m => m.TotalRevenue, new { @id = "lblTotalRevenue", @class = "form-control", @required = "required", @readonly = "true" })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Total Unit (Cans/Bottles)</label>
+                                        @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Total Revenue</label>
+                                        @Html.TextBoxFor(m => m.TotalRevenue, new { @id = "lblTotalRevenue", @class = "form-control", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <div style="height:10px"></div>
+                            <fieldset style="border:#32c5d2;border-width:1px;border-style:double">
+                                <p style="background-color:#32c5d273;color:white">
+                                    <legend style="color:white;border-bottom:1px solid #32c5d2;padding-left:13px;padding-top:2px;padding-bottom:2px">Production Against Proposed Plan</legend>
+                                </p>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Produced Number of Case<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(m => m.ProducedNumberOfCases, new { @id = "txtProducedNumberOfCases", @class = "form-control", @required = "required", @onkeyUp = "Calculation();", @onkeyPress = "return IsNumeric(event);" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
+                                        @Html.TextBoxFor(m => m.ProducedBoxQuantity, new { @id = "txtProducedQunatityInCaseExport", @class = "form-control", @required = "required", @readonly = false })
                                     </div>
 
-                                </fieldset>
-                                <div style="height:10px"></div>
-                                <fieldset style="border:#32c5d2;border-width:1px;border-style:double">
-                                    <p style="background-color:#32c5d273;color:white">
-                                        <legend style="color:white;border-bottom:1px solid #32c5d2;padding-left:13px;padding-top:2px;padding-bottom:2px">Production Against Proposed Plan</legend>
-                                    </p>
-
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Number of Case<b style="color:red; font-weight:800">*</b></label>
-                                            @Html.TextBoxFor(m => m.ProducedNumberOfCases, new { @id = "txtProducedNumberOfCases", @class = "form-control", @required = "required", @onkeyUp = "Calculation();", @onkeyPress = "return IsNumeric(event);" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Box-Size (Number of Bottles / Cans)</label>
-                                            @Html.TextBoxFor(m => m.ProducedBoxQuantity, new { @id = "txtProducedQunatityInCaseExport", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
-                                            @Html.TextBoxFor(m => m.BottleCapacity, new { @id = "txtBottleCapacity", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
+                                        @Html.TextBoxFor(m => m.BottleCapacity, new { @id = "txtBottleCapacity", @class = "form-control", @required = "required", @readonly = false })
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Bulk Litre</label>
-                                            @Html.TextBoxFor(m => m.ProducedBulkLitre, new { @id = "txtProducedBulkLitre", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Produced Bulk Litre</label>
+                                        @Html.TextBoxFor(m => m.ProducedBulkLitre, new { @id = "txtProducedBulkLitre", @class = "form-control", @required = "required", @readonly = false })
+                                    </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Produced Total Unit (Cans/Bottles)</label>
-                                            @Html.TextBoxFor(m => m.ProducedTotalUnit, new { @id = "txtProducedTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">No of Unused QrCode</label>
-                                            @Html.TextBoxFor(m => m.WastageInNumber, new { @id = "txtWastageInNumber", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Produced Total Unit (Cans/Bottles)</label>
+                                        @Html.TextBoxFor(m => m.ProducedTotalUnit, new { @id = "txtProducedTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = false })
                                     </div>
-                                    <div class="row">                                        
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Before Bottling BBT Balance (in BL)</label>
-                                            @Html.TextBoxFor(m => m.BeforeBVBal, new { @id = "txtBeforeBBTBal", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">After Bottling BBT Balance  (in BL)</label>
-                                            @Html.TextBoxFor(m => m.AfterBVBal, new { @id = "txtAfterBBTBal", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "WastageCal();" })
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="control-label">Bottling Wastage BL</label>
-                                            @Html.TextBoxFor(m => m.WastageBL, new { @id = "txtWastageBL", @class = "form-control", @required = "required", @readonly = false })
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">No of Unused QrCode</label>
+                                        @Html.TextBoxFor(m => m.WastageInNumber, new { @id = "txtWastageInNumber", @class = "form-control", @required = "required", @readonly = false })
                                     </div>
-                                    <div class="clearfix"></div>
-                                    <center>
-                                        <div class="form-actions">
-                                            @if (Model.DateOfPlan.Date >= DateTime.Now.Date)
-                                            {
-                                                <button type="submit" class="btn green" onclick="return Validation();">Save</button>
-                                            }
-                                            else
-                                            {
-                                                <span style="color:red;font-size:20px;font-weight:700">Production Plan Expired</span>
-                                                <br />
-                                            }
-                                            <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Production Details</button>
-                                        </div>
-                                    </center>
-                                </fieldset>
-                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Before Bottling BBT Balance (in BL)</label>
+                                        @Html.TextBoxFor(m => m.BeforeBVBal, new { @id = "txtBeforeBBTBal", @class = "form-control", @required = "required", @readonly = false })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">After Bottling BBT Balance  (in BL)</label>
+                                        @Html.TextBoxFor(m => m.AfterBVBal, new { @id = "txtAfterBBTBal", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "WastageCal();" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Bottling Wastage BL</label>
+                                        @Html.TextBoxFor(m => m.WastageBL, new { @id = "txtWastageBL", @class = "form-control", @required = "required", @readonly = false })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <center>
+                                    <div class="form-actions">
+                                        @if (Model.DateOfPlan.Date >= DateTime.Now.Date)
+                                        {
+                                            <button type="submit" class="btn green" onclick="return Validation();">Save</button>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:red;font-size:20px;font-weight:700">Production Plan Expired</span>
+                                            <br />
+                                        }
+                                        <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" onclick="GetBrandDetail();">Go to Production Details</button>
+                                    </div>
+                                </center>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    }
-    <script type="text/javascript">
+}
+<script type="text/javascript">
     function GetBrandDetail() {
-        var url = '@Url.Action("ProductionPlanList", "CL", null)';
+        var url = '@Url.Action("ProductionPlanListCL", "CL", null)';
         window.location.href = url;
     }
-    </script>
-    <script type="text/javascript">
-        function Calculation() {
-            document.getElementById("txtProducedQunatityInCaseExport").value = document.getElementById("txtBottleInCase").value
-            var NoofCase = document.getElementById("txtProducedNumberOfCases").value;
-            var txtBottleInCase = document.getElementById("txtProducedQunatityInCaseExport").value;
-            var TotalUnitQuantity = parseFloat(document.getElementById("lblTotalUnitQuantity").value);
-            var PlannedQuantity = parseFloat(document.getElementById("txtNoOfCase").value);
-            if (PlannedQuantity < NoofCase) {
-                alert("Produced number of case cannot greater then planned number of case ");
-                document.getElementById("txtProducedNumberOfCases").value = PlannedQuantity;
-                NoofCase = PlannedQuantity;
-            }
-            if (NoofCase != null && NoofCase != '' && txtBottleInCase != null && txtBottleInCase != '') {
-                var Quantity = document.getElementById("txtBottleCapacity").value;
-                var TotalUnit = NoofCase * txtBottleInCase;
-                document.getElementById("txtProducedTotalUnitQuantity").value = TotalUnit;
-                document.getElementById("txtWastageInNumber").value = TotalUnitQuantity - TotalUnit;
-                //document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
-                document.getElementById("txtProducedBulkLitre").value = (TotalUnit * Quantity) / 1000;
+</script>
+<script type="text/javascript">
+    function Calculation() {
+        document.getElementById("txtProducedQunatityInCaseExport").value = document.getElementById("txtBottleInCase").value
+        var NoofCase = document.getElementById("txtProducedNumberOfCases").value;
+        var txtBottleInCase = document.getElementById("txtProducedQunatityInCaseExport").value;
+        var TotalUnitQuantity = parseFloat(document.getElementById("lblTotalUnitQuantity").value);
+        var PlannedQuantity = parseFloat(document.getElementById("txtNoOfCase").value);
+        if (PlannedQuantity < NoofCase) {
+            alert("Produced number of case cannot greater then planned number of case ");
+            document.getElementById("txtProducedNumberOfCases").value = PlannedQuantity;
+            NoofCase = PlannedQuantity;
+        }
+        if (NoofCase != null && NoofCase != '' && txtBottleInCase != null && txtBottleInCase != '') {
+            var Quantity = document.getElementById("txtBottleCapacity").value;
+            var TotalUnit = NoofCase * txtBottleInCase;
+            document.getElementById("txtProducedTotalUnitQuantity").value = TotalUnit;
+            document.getElementById("txtWastageInNumber").value = TotalUnitQuantity - TotalUnit;
+            //document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
+            var ProBulkLiter = (TotalUnit * Quantity) / 1000;
+            document.getElementById("txtProducedBulkLitre").value = ProBulkLiter ;
+            if (document.getElementById("txtAfterBBTBal").value != "") {
+                document.getElementById("txtWastageBL").value = ProBulkLiter - parseFloat(document.getElementById("txtAfterBBTBal").value);
             }
         }
-        function Validation()
-        {
-            if (document.getElementById("txtProducedNumberOfCases").value.trim() == "" || parseFloat(document.getElementById("txtProducedNumberOfCases").value.trim()) <= 0) {
-                alert("Please Enter Valid Produced Number of Case");
-                document.getElementById("txtProducedNumberOfCases").focus();
-                return false;
-            }
-            if (document.getElementById("txtAfterBBTBal").value.trim() == "" || parseFloat(document.getElementById("txtAfterBBTBal").value.trim()) <= 0) {
-                alert("Please Enter After BBT Balance");
-                document.getElementById("txtAfterBBTBal").focus();
-                return false;
-            }
+    }
+    function Validation() {
+        if (document.getElementById("txtProducedNumberOfCases").value.trim() == "" || parseFloat(document.getElementById("txtProducedNumberOfCases").value.trim()) <= 0) {
+            alert("Please Enter Valid Produced Number of Case");
+            document.getElementById("txtProducedNumberOfCases").focus();
+            return false;
         }
-        function WastageCal()
-        {
-            var BeforeBal = (document.getElementById("txtBeforeBBTBal").value.trim());
-            var AfterBal = (document.getElementById("txtAfterBBTBal").value.trim());
+        if (document.getElementById("txtAfterBBTBal").value.trim() == "" ) {
+            alert("Please Enter After BBT Balance");
+            document.getElementById("txtAfterBBTBal").focus();
+            return false;
+        }
+    }
+    function WastageCal() {
+        var BeforeBal = parseFloat(document.getElementById("txtBeforeBBTBal").value.trim());
+        var AfterBal = parseFloat(document.getElementById("txtAfterBBTBal").value.trim());
 
-            var ProductionUse = (document.getElementById("txtProducedBulkLitre").value.trim());
-            if (AfterBal > BeforeBal) {
-                alert("After BBT Balance cannot greater then Before BBT Balance");
-                document.getElementById("txtAfterBBTBal").focus();
-                document.getElementById("txtAfterBBTBal").value="";
-                return false;
-            }
-            if ((BeforeBal - AfterBal - ProductionUse) < 0) {
-                alert("Invalid After Bottling BBT Balance");
-                document.getElementById("txtAfterBBTBal").value = "";
-                document.getElementById("txtWastageBL").value = 0;
-            }
-            else {
-                document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal - ProductionUse).toFixed(2);
-            }
+        var ProductionUse = parseFloat(document.getElementById("txtProducedBulkLitre").value.trim());
+        if (AfterBal > BeforeBal) {
+            alert("After BBT Balance cannot greater then Before BBT Balance");
+            document.getElementById("txtAfterBBTBal").focus();
+            document.getElementById("txtAfterBBTBal").value = "";
+            return false;
         }
-    </script>
+        if ((BeforeBal - AfterBal - ProductionUse) < 0) {
+            alert("Invalid After Bottling BBT Balance");
+            document.getElementById("txtAfterBBTBal").value = "";
+            document.getElementById("txtWastageBL").value = 0;
+        }
+        else {
+            document.getElementById("txtWastageBL").value = (BeforeBal - AfterBal - ProductionUse).toFixed(2);
+        }
+    }
+</script>

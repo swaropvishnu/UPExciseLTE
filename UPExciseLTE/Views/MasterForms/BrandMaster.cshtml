@@ -48,17 +48,25 @@
         }
     }
     window.onload = function () {
+        var LiqType = $('#ddlLiquorType').val();
+        if (LiqType=="CL") {
+            FillAlcoholStrength();    
+        }
         var LiquorType = $('#ddlState').val();
         if (LiquorType == "27") {
-            document.getElementById("txtQuantityInBottleML").style.display = "none";
-            if (document.getElementById("txtQuantityInBottleML").value != "") {
-                $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
+            if (document.getElementById("txtQuantityInBottleML") != null) {
+                document.getElementById("txtQuantityInBottleML").style.display = "none";
+                if (document.getElementById("txtQuantityInBottleML").value != "") {
+                    $('#ddlQuantityInBottleML').val(document.getElementById("txtQuantityInBottleML").value);
+                }
+                document.getElementById("ddlQuantityInBottleML").style.display = "";
             }
-            document.getElementById("ddlQuantityInBottleML").style.display = "";
         }
         else {
-            document.getElementById("txtQuantityInBottleML").style.display = "";
-            document.getElementById("ddlQuantityInBottleML").style.display = "none";
+            if (document.getElementById("txtQuantityInBottleML") != null) {
+                document.getElementById("txtQuantityInBottleML").style.display = "";
+                document.getElementById("ddlQuantityInBottleML").style.display = "none";
+            }
         }
     }
     function Validation() {
@@ -229,7 +237,7 @@
                                     {
                                         <div class="row">
                                             <div class="form-group  col-md-6">
-                                                 @Html.DropDownListFor(m=>m.Strength, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "25%", Value = "25" }, new SelectListItem { Text = "36%", Value = "36" }, new SelectListItem { Text = "42.8%", Value = "42.8" } }, new { @id = "ddlAlcoholType", @class = "form-control " })
+                                                 @Html.DropDownListFor(m=>m.Strength, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "25%", Value = "25.000" }, new SelectListItem { Text = "36%", Value = "36.000" }, new SelectListItem { Text = "42.8%", Value = "42.800" } }, new { @id = "ddlAlcoholStrength", @class = "form-control " })
                                             </div>
                                             <div class="form-group  col-md-6">
                                                 @Html.DropDownListFor(m => m.AlcoholType, new List<SelectListItem> { new SelectListItem { Text = "Spiced", Value = "Spiced" }, new SelectListItem { Text = "Plain", Value = "Plain" } }, new { @id = "ddlAlcoholType", @class = "form-control " })
@@ -311,7 +319,14 @@
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">XFactoryPrice (Per Bottle/Can)<b style="color:red; font-weight:800">*</b></label>
                                     <div>
-                                        @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
+                                        @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                        {
+                                            @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5",@readonly="true" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
+                                        }
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -394,9 +409,42 @@
 
 }
 <script type="text/javascript">
-    $('#ddlAlcoholType').change(function () {
-        var ddlAlcoholType = $('#ddlAlcoholType').val();
-       
+    function FillAlcoholStrength() {
+        var ddlAlcoholType = $('#ddlAlcoholStrength').val();
+        $("#ddlAlcoholType").empty();
+        if (ddlAlcoholType.trim() == "25.000") {
+            $("#ddlAlcoholType").append($("<option />").val("Spiced").text("Spiced"));
+            $("#ddlAlcoholType").append($("<option />").val("Plain").text("Plain"));
+        }
+        else {
+            $("#ddlAlcoholType").append($("<option />").val("Spiced").text("Spiced"));
+        }
+    }
+    $('#ddlAlcoholStrength').change(function () {
+        var ddlAlcoholType = $('#ddlAlcoholStrength').val();
+        FillAlcoholStrength();
+        $.ajax({
+            url: '/MasterForms/GetDutyCalculation',
+            data: { 'AlcoholStrength': ddlAlcoholType },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                document.getElementById("lblXFactoryPrice").value = data[1];
+                document.getElementById("lblConsiderationFees").value = data[2];
+                document.getElementById("lblWHMargin").value = data[3];
+                document.getElementById("lblWHPrice").value = data[4];
+                document.getElementById("lblRetMargin").value = data[5];
+                document.getElementById("lblMaxRetPrice").value = data[6];
+                document.getElementById("lblMRP").value = data[7];
+                document.getElementById("lblAdditionalDuty").value = data[8];
+                document.getElementById("lblExciseDuty").value = data[9];
+                document.getElementById("lblOriginalRetPrice").value = data[10];
+                document.getElementById("txtXFactoryPrice").value = data[1];
+            },
+            error: function (data) {
+                alert("Error in Duty Calculation");
+            }
+        });
     })
     function GetBrandDetail() {
         var url = '@Url.Action("GetBrandDetails", "MasterForms", null)';
@@ -413,15 +461,18 @@
     $('#ddlState').change(function () {
         var LiquorType = $('#ddlState').val();
         if (LiquorType == "27") {
-            document.getElementById("txtQuantityInBottleML").value = 650;
-            document.getElementById("txtQuantityInBottleML").style.display = "none";
-            document.getElementById("ddlQuantityInBottleML").style.display = "";
+            if (document.getElementById("txtQuantityInBottleML") != null) {
+                document.getElementById("txtQuantityInBottleML").value = 650;
+                document.getElementById("txtQuantityInBottleML").style.display = "none";
+                document.getElementById("ddlQuantityInBottleML").style.display = "";
+            }
         }
-        else{
-            document.getElementById("ddlQuantityInBottleML").style.display = "none";
-            document.getElementById("txtQuantityInBottleML").style.display = "";
-            document.getElementById("txtQuantityInBottleML").value = "0";
-
+        else {
+            if (document.getElementById("txtQuantityInBottleML") != null) {
+                document.getElementById("ddlQuantityInBottleML").style.display = "none";
+                document.getElementById("txtQuantityInBottleML").style.display = "";
+                document.getElementById("txtQuantityInBottleML").value = "0";
+            }
         }
     });
     function AlcoholCal()

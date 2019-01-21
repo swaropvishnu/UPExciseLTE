@@ -142,6 +142,7 @@ namespace UPExciseLTE.Models
         public string SpiritType { get; set; } = "";
         [Display(Name = "Blending VAT Alcoholic Litre")]
         public decimal BottelingVATAlcoholicLiter { get; set; } = 0;
+        public string BatchNo { get; set; } = "";
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
     }
@@ -330,18 +331,19 @@ namespace UPExciseLTE.Models
         public decimal TotalBL { get; set; } = 0;
         public decimal Strength { get; set; } = 0;
     }
+    public class BlendingVATReduction
+    {
+        public int ReductionId { get; set; } = -1;
+        public int BlendingVATId { get; set; } = -1;
+        public DateTime ReductionDate { get; set; } = DateTime.Now;
+        public string ReductionDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
+        public decimal BeforeRedBL { get; set; } = 0;
+        public decimal BeforeRedStrength { get; set; } = 0;
+        public decimal BeforeRedAL { get; set; } = 0;
+        public string BatchNo { get; set; } = "";
+        public decimal AfterRedBL { get; set; } = 0;
+        public decimal AfterRedStrength { get; set; } = 0;
+        public decimal AfterRedAL { get; set; } = 0;
+        public string Remarks { get; set; } = "";
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

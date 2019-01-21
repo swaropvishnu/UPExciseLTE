@@ -22,6 +22,7 @@ namespace UPExciseLTE.Controllers
             lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 4, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
             return View(lstGPD);
         }
+        
         public string ReceiveGatePass(string GatePassId, string DamageBottles)
         {
             string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
@@ -211,5 +212,14 @@ namespace UPExciseLTE.Controllers
                 return Content(ex.Message);
             }
         }
+        #region CL
+        public ActionResult ReceiveGatePassWHCL()
+        {
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 4, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
+            return View(lstGPD);
+        }
+        #endregion
     }
 }
