@@ -1154,12 +1154,12 @@ namespace UPExciseLTE.BLL
 
         #region BWFL
 
-        public static List<SelectListItem> FL2BfillFL1Licence(int ParentUnitId)
-        {
-            List<SelectListItem> UnitList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("BWFL_Proc_ddlDetail", UnitList, "FL1", ParentUnitId.ToString().Trim(), "S");
-            return UnitList;
-        }
+        //public static List<SelectListItem> FL2BfillFL1Licence(int ParentUnitId)
+        //{
+        //    List<SelectListItem> UnitList = new List<SelectListItem>();
+        //    CMODataEntryBLL.bindDropDownHnGrid("BWFL_Proc_ddlDetail", UnitList, "FL1", ParentUnitId.ToString().Trim(), "S");
+        //    return UnitList;
+        //}
         public FL2BGatePassDetails FL2BGetGatePassDetails(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             DataSet ds = new CommonDA().FL2BGatePassDetails(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
