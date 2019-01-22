@@ -1,0 +1,123 @@
+﻿@model IEnumerable<UPExciseLTE.Models.GatePassDetailsCL>
+
+@{
+    ViewBag.Title = "GetPassDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("GenerateGatePassCL", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Generate Gatepass
+                        </div>
+                    </div>
+
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Gate Pass Type
+                                        </th>
+                                        <th>
+                                            From Date
+                                        </th>
+                                        <th>
+                                            To Date
+                                        </th>
+                                        <th>
+                                            Consignor Name
+                                        </th>
+                                        <th>
+                                            Consinee Name
+                                        </th>
+                                        <th>
+                                            TotalBox
+                                        </th>
+                                        <th>
+                                            Total Bottels/ Can
+                                        </th>
+                                        <th>
+                                            Total Litres
+                                        </th>
+                                        <th>
+                                            Consideration Fees
+                                        </th>
+                                        <th>
+                                            Vehicle Number
+                                        </th>
+                                        <th>
+                                            Vehicle Agency Details
+                                        </th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.GPType
+                                            </td>
+                                            <td>
+                                                @item.FromDate1
+                                            </td>
+                                            <td>
+                                                @item.ToDate1
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FromConsignorName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToConsigeeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalCase)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalBottle)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalBL)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalConsiderationFees)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.VehicleNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AgencyNameAndAddress)
+                                            </td>
+                                            <td>
+                                                @if (item.Status == "P")
+                                                {
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "DistrictWareHouse", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

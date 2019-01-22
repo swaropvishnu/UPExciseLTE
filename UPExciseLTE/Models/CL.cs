@@ -45,49 +45,54 @@ namespace UPExciseLTE.Models
         public int UnitId { get; set; }
     }
 
-
     public class TankTransferDetail
     {
         public int TransferId { get; set; } = -1;
-        public int IssuedFromSVId { get; set; } = -1;
-        public int IssuedFromBlendingId { get; set; } = -1;
+        public int RVId { get; set; } = -1;
+        public string ImportPassNo { get; set; } = "";
+        public int SVId { get; set; } = -1;
+        public int BlendingId { get; set; } = -1;
         public int BottlingVATId { get; set; } = -1;
         public int SpiritTypeId { get; set; } = -1;
+        public string BatchNo { get; set; } = "";
         public int BrandID { get; set; } = -1;
         public string TransactionType { get; set; } = "";
-        public int SourceSV { get; set; } = -1;
-        public decimal PrevBalanceSV { get; set; } = 0;
-        public decimal PrevBalanceBlendingV { get; set; } = 0;
-        public decimal PrevBalanceBottlingV { get; set; } = 0;
-        public decimal IssueBL { get; set; } = 0;
-        public decimal CurrentBalanceSV { get; set; } = 0;
-        public decimal CurrentBalanceBledingV { get; set; } = 0;
-        public decimal CurrentBalanceBottlingV { get; set; } = 0;
-        public decimal PrevALSV { get; set; } = 0;
-        public decimal PrevALBlendingV { get; set; } = 0;
-        public decimal PrevALBottlingV { get; set; } = 0;
-        public decimal IssueAL { get; set; } = 0;
-        public decimal CurrentALSV { get; set; } = 0;
-        public decimal CurrentALBledingV { get; set; } = 0;
-        public decimal CurrentALBottlingV { get; set; } = 0;
-        public decimal dipForm { get; set; } = 0;
-        public decimal dipTo { get; set; } = 0;
-        public decimal Wastage { get; set; } = 0;
-        public DateTime TransferDate { get; set; } = DateTime.Now;
-        public bool IsFinal { get; set; } = true;
-        public decimal Dip { get; set; } = 0;
-        public decimal Temperature { get; set; } = 0;
-        public decimal Indication { get; set; } = 0;
-        public string Remark { get; set; } = "";
-        //New Parameter 
-        public decimal PrevStorageVStrength { get; set; } = 0;
+        public string SourceofSpirit { get; set; } = "";
+        public string ReceiverType { get; set; } = "";
+        public decimal PrevBalanceReceiverVBL { get; set; } = 0;
         public decimal PrevBalanceStorageVBL { get; set; } = 0;
+        public decimal PrevBalanceBlendingVBL { get; set; } = 0;
+        public decimal PrevBalanceBottlingVBL { get; set; } = 0;
+        public decimal IssueBL { get; set; } = 0;
+        public decimal IssueStength { get; set; } = 0;
+        public decimal CurrentBalanceReceiverVBL { get; set; } = 0;
+        public decimal CurrentBalanceSVBL { get; set; } = 0;
+        public decimal CurrentBalanceBledingVBL { get; set; } = 0;
+        public decimal CurrentBalanceBottlingVB { get; set; } = 0;
+        public decimal PrevReceiverVAL { get; set; } = 0;
         public decimal PrevStorageVAL { get; set; } = 0;
+        public decimal PrevBlendingVAL { get; set; } = 0;
+        public decimal PrevBottlingVAL { get; set; } = 0;
+        public decimal IssueAL { get; set; } = 0;
+        public decimal CurrentReceiverVAL { get; set; } = 0;
+        public decimal CurrentStorageVAL { get; set; } = 0;
+        public decimal CurrentBlendingVAL { get; set; } = 0;
+        public decimal CurrentBottlingVAL { get; set; } = 0;
+        public decimal PrevReceiverVStrength { get; set; } = 0;
+        public decimal PrevStorageVStrength { get; set; } = 0;
+        public decimal PrevBlendingVStrength { get; set; } = 0;
+        public decimal PrevBottlingVStrength { get; set; } = 0;
+        public decimal CurrentReceiverVStrength { get; set; } = 0;
+        public decimal CurrentStorageVStrength { get; set; } = 0;
+        public decimal CurrentBlendingVStrength { get; set; } = 0;
+        public decimal CurrentBottlingVStrength { get; set; } = 0;
+        public decimal WastageBL { get; set; } = 0;
+        public decimal WastageAL { get; set; } = 0;
+        public decimal WastageStrength { get; set; } = 0;
+        public DateTime TransferDate { get; set; }
+        public bool IsFinal { get; set; }
+        public string @Remark { get; set; }
 
-        //display purpose
-        public decimal StorageVATAlcoholicLiter { get; set; }
-        public decimal StorageVATBulkLiter { get; set; }
-        public decimal StorageVATStrength { get; set; }
 
     }
     public class BlendingVATCL

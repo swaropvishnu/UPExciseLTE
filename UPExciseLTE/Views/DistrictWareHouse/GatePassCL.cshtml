@@ -63,7 +63,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("GatePass", "DistrictWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GatePassCL", "DistrictWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
     @Html.ValidationSummary(true);
