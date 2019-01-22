@@ -6240,7 +6240,6 @@
     <Content Include="Views\CL\UploadGatePassCSVCL.cshtml" />
     <Content Include="Views\CL\z_StorageTrBV.cshtml" />
     <Content Include="Views\CL\StorageVATTransferToBVDetailsCL.cshtml" />
-    <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
     <Content Include="Views\BreweryWareHouse\BreweryWareHouse.cshtml" />
     <Content Include="Views\UnitMaster\GetUnitMasterDetails.cshtml" />
     <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
@@ -6277,6 +6276,7 @@
     <Content Include="Views\DistrictWareHouse\UploadGatePassCSVCL.cshtml" />
     <Content Include="Views\Retailer\StockBalanceCL.cshtml" />
     <Content Include="Views\Retailer\ReceiveGatePassWHCL.cshtml" />
+    <Content Include="Views\DistrictWareHouse\GetPassDetailsCL.cshtml" />
     <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
