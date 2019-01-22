@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
+using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class BottlingPlanController : Controller
     {
         [HttpGet]

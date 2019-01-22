@@ -206,6 +206,7 @@
                 document.getElementById("txtWastageBL").value = ProBulkLiter - parseFloat(document.getElementById("txtAfterBBTBal").value);
             }
         }
+        WastageCal();
     }
     function Validation() {
         if (document.getElementById("txtProducedNumberOfCases").value.trim() == "" || parseFloat(document.getElementById("txtProducedNumberOfCases").value.trim()) <= 0) {

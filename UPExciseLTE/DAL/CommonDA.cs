@@ -2365,7 +2365,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public string InsertUpdateGatePassDetailsCL(GatePassDetails GP)
+        public string InsertUpdateGatePassDetailsCL(GatePassDetailsCL GP)
         {
             string result = "";
             con.Open();
@@ -2496,6 +2496,40 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+        public string FinalGatePassCL(long GatePassId, short SP_Type, int DamageBottles)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_UpdateFinalGatePass", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
+                cmd.Parameters.Add(new SqlParameter("DamageBottles", DamageBottles));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         #endregion CL DAL
         #region UnitMaster
         public string InsertUpdateUnitMaster(UnitMaster objUnitMaster)
@@ -2591,6 +2625,25 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("DbName", UserSession.PushName));
 
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_StockBalance", parameters.ToArray());
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataSet GetStockBalanceDetailCL(int SPType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                parameters.Add(new SqlParameter("SPType", SPType));
+                parameters.Add(new SqlParameter("DbName", UserSession.PushName));
+
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_StockBalance", parameters.ToArray());
                 return ds;
             }
             catch (Exception ex)

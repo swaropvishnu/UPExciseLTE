@@ -271,19 +271,19 @@
     });
     function BBTChange(ddlBBTID) {
         $.ajax({
-            url: '/CL/GetBottlingTankForddl',
-            data: { 'BTID': ddlBBTID },
+            url: '/CL/GetBBTForDDl',
+            data: { 'BBTId': ddlBBTID },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 var str = data.split(",");
                 document.getElementById("txtBBTBalance").value = str[0];
-                document.getElementById("txtBrandInBBT").value = str[3];
-                document.getElementById("txtBBTStrength").value = str[5];
-                document.getElementById("txtBBTAL").value = str[6];
-                document.getElementById("txtBatchNo").value = str[7];
+                document.getElementById("txtBrandInBBT").value = str[2];
+                document.getElementById("txtBBTStrength").value = str[4];
+                document.getElementById("txtBBTAL").value = str[5];
+                document.getElementById("txtBatchNo").value = str[6];
 
-                $("#ddlBrand").val(str[4]).change();
+                $("#ddlBrand").val(str[3]).change();
             },
             error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");

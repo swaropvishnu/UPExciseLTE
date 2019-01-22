@@ -188,6 +188,12 @@ namespace UPExciseLTE.Controllers
                 return RedirectToAction("BottelingPlanCL", new { A = BP.EncPlanId });
             }
         }
+        public string GetBBTForDDl(string BBTId)
+        {
+
+            BottelingVATCL bbtFormation = new CommonBL().GetBottelingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BBTId), "A");
+            return bbtFormation.BottelingVATBulkLitre.ToString() + "," + bbtFormation.BottelingVATCapacity.ToString() + "," + bbtFormation.BrandName + "," + bbtFormation.BrandId + "," + bbtFormation.BottelingVATStrength + "," + bbtFormation.BottelingVATAlcoholicLiter + "," + bbtFormation.BatchNo;
+        }
         public ActionResult GetBottlingTankForddl(string ddlBBT)
         {
             return Json(CommonBL.BottlingLineCL("S", ddlBBT), JsonRequestBehavior.AllowGet);
@@ -562,7 +568,7 @@ namespace UPExciseLTE.Controllers
             {
                 GP.ImportPermitNo = "";
             }
-            GP.GatepassLicenseNo = "B-12";
+            GP.GatepassLicenseNo = "PD-25A";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
             GP.UploadValue = 2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
@@ -580,7 +586,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSVCL()
         {
             if (Request.Files.Count > 0)
@@ -593,7 +599,7 @@ namespace UPExciseLTE.Controllers
 
                         HttpFileCollectionBase files = Request.Files;
                         HttpPostedFileBase file = files[0];
-                        str = CSV.ValidateCSV(2, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
+                        str = CSV.ValidateCSVCL(2, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
                     }
                     return Json(str);
                 }
@@ -615,7 +621,7 @@ namespace UPExciseLTE.Controllers
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
-            return new CommonDA().FinalGatePass(GatePass, 1, 0);
+            return new CommonDA().FinalGatePassCL(GatePass, 1, 0);
         }
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
@@ -628,7 +634,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult GetPassDetailsCL()
         {
             List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
-            lstGPD = new CommonBL().GetGatePassDetailsListCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "P");
+            lstGPD = new CommonBL().GetGatePassDetailsListCL(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "P","","","","");
             return View(lstGPD);
         }
         //public ActionResult ReceiveGatePassWH()

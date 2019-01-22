@@ -6,9 +6,13 @@ using UPExciseLTE.DAL;
 using UPExciseLTE.BLL;
 using UPExciseLTE.Models;
 using System.Data;
+using System.Data.Entity.Infrastructure;
+using UPExciseLTE.Filters;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class BreweryWareHouseController : Controller
     {
         //

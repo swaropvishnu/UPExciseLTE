@@ -11,9 +11,13 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
 using UPExciseLTE.Models;
 using ZXing;
-
+using System.Data.Entity.Infrastructure;
+using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class UnitWareHouseController : Controller
     {
         [HttpGet]

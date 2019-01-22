@@ -6,9 +6,13 @@ using System.Collections.Generic;
 using UPExciseLTE.BLL;
 using System.Web;
 using System.Text;
-
+using System.Data.Entity.Infrastructure;
+using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilter]
+    //[CheckAuthorization]
+    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class UnitMasterController : Controller
     {
         //

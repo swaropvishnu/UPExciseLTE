@@ -6271,6 +6271,12 @@
     <Content Include="Views\BWFL\WithoutBondChallan.cshtml" />
     <Content Include="Views\BWFL\BlankChallan.cshtml" />
     <Content Include="Views\CL\BlendingVATReductionDetails.cshtml" />
+    <Content Include="Views\DistrictWareHouse\StockBalanceCL.cshtml" />
+    <Content Include="Views\DistrictWareHouse\ReceiveGatePassWHCL.cshtml" />
+    <Content Include="Views\DistrictWareHouse\GatePassCL.cshtml" />
+    <Content Include="Views\DistrictWareHouse\UploadGatePassCSVCL.cshtml" />
+    <Content Include="Views\Retailer\StockBalanceCL.cshtml" />
+    <Content Include="Views\Retailer\ReceiveGatePassWHCL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

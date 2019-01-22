@@ -1611,10 +1611,10 @@ namespace UPExciseLTE.BLL
                 return new GatePassDetailsCL();
             }
         }
-        public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
-            DataSet ds = new CommonDA().GetGatePassDetailsGCL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,"","","","");
+            DataSet ds = new CommonDA().GetGatePassDetailsGCL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,FromLicenseNo,ToLicenseNo,FromLicenseType,ToLicenseType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
