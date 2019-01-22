@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UPExciseLTE.Models.GatePassDetails>
+﻿@model IEnumerable<UPExciseLTE.Models.GatePassDetailsCL>
 
 @{
     ViewBag.Title = "GetPassDetails";
@@ -19,21 +19,19 @@
         }
         return ret;
     }
-    function ShowPopup(GatePassId, VehicleNumber, TotalBox,TotalBottel)
-    {
+    function ShowPopup(GatePassId, VehicleNumber, TotalBox, TotalBottel) {
         document.getElementById("hfPopGatePassId").value = GatePassId;
         document.getElementById("txtVehicleNumber").value = VehicleNumber;
         document.getElementById("txtTotalBox").value = TotalBox;
         document.getElementById("txtTotalBottel").value = TotalBottel;
         $('#myModal3').modal('show');
     }
-    function ReceiveGatePass()
-    {
+    function ReceiveGatePass() {
         var GatePassId = document.getElementById("hfPopGatePassId").value;
         var DamageBottles = document.getElementById("txtDamageBottel").value;
         var AvailableBottle = document.getElementById("txtTotalBottel").value;
 
-        if (DamageBottles=='') {
+        if (DamageBottles == '') {
             alert('Please Enter Damage Bottle Quantity');
             return false;
         }
@@ -42,13 +40,13 @@
             return false;
         }
         $.ajax({
-            url: '/DistrictWareHouse/ReceiveGatePass',
+            url: '/DistrictWareHouse/ReceiveGatePassCL',
             data: { 'GatePassId': GatePassId, 'DamageBottles': DamageBottles },
             datatype: "json",
             type: "GET",
             success: function (data) {
                 alert(data);
-                window.location = "../DistrictWareHouse/ReceiveGatePassWH";
+                window.location = "../DistrictWareHouse/ReceiveGatePassWHCL";
             },
             error: function (data) {
                 alert("Error in Receive GatePass Loading");
@@ -56,7 +54,7 @@
         });
     }
 </script>
-@using (Html.BeginForm("ReceiveGatePassWH", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ReceiveGatePassWHCL", "DistrictWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -145,7 +143,7 @@
                                                 @Html.DisplayFor(modelItem => item.AgencyNameAndAddress)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "MasterForms", new { GatePass = item.EncGatePassId })'">Preview</button>
+                                                <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreviewCL", "CL", new { GatePass = item.EncGatePassId })'">Preview</button>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="ShowPopup('@item.GatePassId','@item.VehicleNo','@item.TotalCase','@item.TotalBottle')">Receive</button>
@@ -186,7 +184,7 @@
                                                 </div>
                                                 <br />
                                                 <center>
-                                                        
+
                                                     <button type="button" class="btn green" id="btnUpload" onclick="ReceiveGatePass();">Receive GatePass</button>
                                                     <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>
                                                 </center>

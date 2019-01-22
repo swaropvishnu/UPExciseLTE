@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.GatePassDetails
+﻿@model UPExciseLTE.Models.GatePassDetailsCL
 
 @{
     ViewBag.Title = "GatePass";
@@ -14,7 +14,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var GatePassType = $('#ddlGatePassType').val();
-         
+
         GatePassUploadBrandDetails();
 
         $("#txtValidTill").datepicker({
@@ -32,7 +32,7 @@
         var GatePassId = document.getElementById("hfGatePassId").value;
         $.ajax({
             url: '/DistrictWareHouse/GetGatePassUploadBrandDetails',
-            data: { 'Gatepass': GatePassId },
+            data: { 'Gatepass': GatePassId  },
             datatype: "json",
             type: "GET",
             success: function (data) {
@@ -274,7 +274,7 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green" id="btnSave" onclick="return Validation();">Save</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../DistrictWareHouse/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../DistrictWareHouse/UploadGAtePassCSVCL?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
                                 <p style="color:red"><b>Note:- Gatepass can be finalize only after CSV Upload.</b></p>
                                 @*<button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>*@
                             </div>
@@ -289,7 +289,7 @@
     </div>
 }
 <script type="text/javascript">
-     
+
     function Validation() {
         var fromDate = document.getElementById("txtDate").value
         var ValidTill = document.getElementById("txtValidTill").value
@@ -313,7 +313,7 @@
             document.getElementById("ddlFromLicenceType").focus();
             return false;
         }
-        
+
     }
     function Reset() {
         var GatePassId = document.getElementById("hfGatePassId").value;

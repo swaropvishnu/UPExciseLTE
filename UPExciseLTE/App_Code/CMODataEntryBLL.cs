@@ -940,7 +940,7 @@ namespace UPExciseLTE
             }
         }
 
-        public static void bindDropDownHnGrid(string ProcName, List<SelectListItem> distNames, string parm1, string parm2, string parm3,long districtId1=0, long districtId2=0)
+        public static void bindDropDownHnGrid(string ProcName, List<SelectListItem> distNames, string parm1, string parm2="", string parm3="",long districtId1=0, long districtId2=0)
         {
             DataSet ds = new DataSet();
             SqlDataReader sdr;

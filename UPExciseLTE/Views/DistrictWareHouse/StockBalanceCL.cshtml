@@ -1,6 +1,5 @@
-﻿ 
+﻿
 @{
-
 
     ViewBag.Title = "StockBalance";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -44,28 +43,28 @@
                             </tr>
                             @foreach (System.Data.DataRow item in dt.Rows)
                             {
-                                
-                            <tr>
-                                <td>
-                                    @item["Brand"].ToString()
-                                </td>
-                                <td>
-                                    @item["Capacity"]
-                                </td>
-                                <td>
-                                    @item["AlcoholType"]
-                                </td>
-                                <td>
-                                    @item["PackagingType"]
-                                </td>
-                                <td>
-                                    @item["CaseBal"]
-                                </td>
-                                <td>
-                                    @item["BottelBal"]
-                                </td>
-                            </tr>
-                            
+
+                                <tr>
+                                    <td>
+                                        @item["Brand"].ToString()
+                                    </td>
+                                    <td>
+                                        @item["Capacity"]
+                                    </td>
+                                    <td>
+                                        @item["AlcoholType"]
+                                    </td>
+                                    <td>
+                                        @item["PackagingType"]
+                                    </td>
+                                    <td>
+                                        @item["CaseBal"]
+                                    </td>
+                                    <td>
+                                        @item["BottelBal"]
+                                    </td>
+                                </tr>
+
                             }
                         </table>
                     </div>

@@ -181,22 +181,53 @@ namespace UPExciseLTE.Controllers
             }
 
             ViewBag.LiquorType = lstLiquor;
-            ViewBag.LicenseType = lstLicense;
-            DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE");
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            ViewBag.LicenseType= lstLicense;
+            if (UserSession.LoggedInUserLevelId.Trim() != "25")
             {
-                ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
-                ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
-                ViewBag.MWholeSaleMargin = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.SWholeSaleMargin = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
-                ViewBag.MRetailerMargin = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
-                ViewBag.SRetailerMargin = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+                DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE",0);
+                if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
+                    ViewBag.SConsidrationFees = ds.Tables[0].Rows[1]["ConsidrationFees"].ToString().Trim();
+                    ViewBag.MWholeSaleMargin = ds.Tables[0].Rows[0]["WholeSaleMargin"].ToString().Trim();
+                    ViewBag.SWholeSaleMargin = ds.Tables[0].Rows[1]["WholeSaleMargin"].ToString().Trim();
+                    ViewBag.MRetailerMargin = ds.Tables[0].Rows[0]["RetailerMargin"].ToString().Trim();
+                    ViewBag.SRetailerMargin = ds.Tables[0].Rows[1]["RetailerMargin"].ToString().Trim();
+                }
             }
             string UserId = UserSession.LoggedInUserId.ToString().Trim();
             ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.StateList = CommonBL.fillState("S");
             ViewBag.Msg = TempData["Message"];
             return View(Brand);
+        }
+        public JsonResult GetDutyCalculation(string AlcoholStrength)
+        {
+            string[] str = new string[11];
+            DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "CL", decimal.Parse(AlcoholStrength.Trim()));
+            if (ds != null)
+            {
+                if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    // CalculationId,FiscalYear,LiquorType,Capacity,StrengthType,Strength,XFactoryPrice,ConsidrationFees,WholeSaleMargin,WHPrice,RetailerMargin,MaxRetPrice,MRP,AdditionalConsiderationFees,TotalConsiderationFee,ActualMaximumWholeSalePrice
+                    DataView dv = ds.Tables[0].DefaultView;
+                    dv.RowFilter="Strength ='"+ AlcoholStrength + "'";
+                    DataTable dt = dv.ToTable();
+                    str[0] = dt.Rows[0]["Strength"].ToString().Trim();
+                    str[1] = dt.Rows[0]["XFactoryPrice"].ToString().Trim();
+                    str[2] = dt.Rows[0]["ConsidrationFees"].ToString().Trim();
+                    str[3] = dt.Rows[0]["WholeSaleMargin"].ToString().Trim();
+                    str[4] = dt.Rows[0]["WHPrice"].ToString().Trim();
+                    str[5] = dt.Rows[0]["RetailerMargin"].ToString().Trim();
+                    str[6] = dt.Rows[0]["MaxRetPrice"].ToString().Trim();
+                    str[7] = dt.Rows[0]["MRP"].ToString().Trim();
+                    str[8] = dt.Rows[0]["AdditionalConsiderationFees"].ToString().Trim();
+                    str[9] = dt.Rows[0]["TotalConsiderationFee"].ToString().Trim();
+                    str[10] =dt.Rows[0]["ActualMaximumWholeSalePrice"].ToString().Trim();
+
+                }
+            }
+            return Json(str,JsonRequestBehavior.AllowGet);
         }
         public ActionResult BrandMaster(BrandMaster B)
         {
@@ -283,7 +314,7 @@ namespace UPExciseLTE.Controllers
             BottelingPlan BP = new BottelingPlan();
             ViewBag.Msg = TempData["Message"];
             ViewBag.Brand = CommonBL.fillBrand("S");
-            List<SelectListItem> lstBBT = CommonBL.fillBBT("Z");
+            List<SelectListItem> lstBBT = CommonBL.fillBBT("S");
             ViewBag.BBT = lstBBT;
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(lstBBT[0].Value), "A")[0];
 

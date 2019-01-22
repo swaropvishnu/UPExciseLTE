@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Type of Spirit<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(model => model.SpiritTypeId, (IEnumerable<SelectListItem>)ViewBag.SpiritType, new { @id = "ddlSpiritType", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                    @Html.DropDownListFor(model => model.SpiritTypeId, (IEnumerable<SelectListItem>)ViewBag.SpiritType, new { @id = "ddlSpiritType", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy", @disabled = "disabled" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
@@ -39,56 +39,190 @@
                                     @Html.TextBox("StorageVCapacity", "", new { @class = "form-control", @id = "txtUnitTankCapacity", @readonly = "true" })
                                 </div>
                             </div>
+                            <h4>Opening  Balance of Storage  VAT </h4>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Opening Balance (in Bulk Litre)</label>
-                                    @Html.TextBox("txtUnitTankBalance", "", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
+                                    <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Type of Spirit (in Storage VAT)</label>
-                                    @Html.TextBox("txtSpiritType", "", new { @class = "form-control", @id = "txtSpiritType", @readonly = "true" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtIssueBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Source (Spirit Receiving)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(model => model.SourceSV, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1", Selected = true }, new SelectListItem { Text = "Purchase", Value = "1" }, new SelectListItem { Text = "Import (Other State)", Value = "2" }, new SelectListItem { Text = "Import (Other Country)", Value = "3" }, new SelectListItem { Text = "Other Sources", Value = "4" }, new SelectListItem { Text = "Redistillation", Value = "5" } }, new { @id = "ddlWortReceiveSource", @class = "form-control", @required = "required", @placeholder = "" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Wastage<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Wastage, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Dip<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Dip, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Temperature (in °C)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Indication<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Indication, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Alcoholic Liter<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtWastageInLiter", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                    @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtWastageInLiter", @required = "required" })
+                                    <label class="control-label">AL</label>
+                                    @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Source of spirit<b style="color:red; font-weight:800">*</b></label>
+                                    <select id="ddlsource_sp"  class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="P">Purchase</option>
+                                        <option value="R">Reciver</option>
+                                        
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Storage Type<b style="color:red; font-weight:800">*</b></label>
+
+                                    <select id="ddlsource_spP" class="form-control">
+                                        <option value="-1">select</option>
+                                        <option value="-1">Out of Country</option>
+                                        <option value="-1">Out of State</option>
+                                        <option value="-1">With in State</option>
+
+                                    </select>
+                                    <select id="ddlsource_spR" class="form-control hide">
+                                        <option value="-1">select</option>
+                                        <option value="-1">Distillation</option>
+                                        <option value="-1">Re-distillation</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4 hide"  id="divRecivertype">
+                                    <label class="control-label">Receiver Type<b style="color:red; font-weight:800">*</b></label>
+                                    <select id="ddlsource_sp" class="form-control">
+                                        <option value="-1">select</option>
+                                        <option>Reciver 1</option>
+                                        <option>Reciver 2</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row hide" id="divpurchase">
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Pass No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text"})
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Strength<b style="color:red; font-weight:800">*</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text"})
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                </div>
+                            </div>
+
+
+                            <div id="divReciver" class="hide">
+                                <h4>Reciver Opening Balance</h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                </div>
+                                <h4>Reciver closing Balance </h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                </div>
+                                <h4>Net Transfer Balance</h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                </div>
+                                <h4>Closing Balance of Storage Vat</h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", })
+                                    </div>
+                                </div>
+
+                                <h4>Net Recive</h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                    </div>
+                                </div>
+
+
+                                <h4> Wastage</h4>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">BL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATBulkLiter, new { @id = "txtBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled= "disabled" })
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATStrength, new { @id = "txtStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">AL<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.StorageVATAlcoholicLiter, new { @id = "txtAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -114,6 +248,22 @@
             UnitTankChange(SVId);
         }
     });
+    $('#ddlsource_sp').change(function () {
+        if (document.getElementById('ddlsource_sp').value=="P") {
+            $('#ddlsource_spR').addClass('hide');
+            $('#ddlsource_spP').removeClass('hide');
+            $('#divpurchase').removeClass('hide');
+            $('#divReciver').addClass('hide');
+
+        }
+        else {
+            $('#ddlsource_spP').addClass('hide');
+            $('#ddlsource_spR').removeClass('hide');
+            $('#divReciver').removeClass('hide');
+            $('#divpurchase').addClass('hide');
+        }
+        
+    });
     function Validation() {
         var UnitTankId = $('#ddlSVId').val();
         if (UnitTankId == "-1") {
@@ -132,10 +282,13 @@
             datatype: "json",
             type: "GET",
             success: function (data) {
-                var res = data.split(",");
-                document.getElementById("txtUnitTankCapacity").value = res[0];
-                document.getElementById("txtSpiritType").value = res[1];
-                document.getElementById("txtUnitTankBalance").value = res[2];
+                //var res = data.split(",");
+                document.getElementById("txtUnitTankCapacity").value = data[0];
+                document.getElementById("txtStength").value = data[2];
+                document.getElementById("txtAL").value = data[3];
+                document.getElementById("txtBL").value = data[1];
+                //document.getElementById("txtSpiritType").value = res[1];
+                //document.getElementById("txtUnitTankBalance").value = res[2];
             },
             error: function (data) {
                 alert("Error in GetBrandDetailsForDDl Loading");

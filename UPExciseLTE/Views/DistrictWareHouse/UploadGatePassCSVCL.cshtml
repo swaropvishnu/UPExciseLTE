@@ -8,7 +8,7 @@
     $(document).ready(function () {
         GatePassUploadBrandDetails();
     });
-    
+
     function ValidateCSV() {
         if ($('#ddlBrand').val() == "-1") {
             alert("Please Select Brand");
@@ -39,8 +39,7 @@
                 fileData.append(files[i].name, files[i]);
             }*/
             $.ajax({
-               
-                url: '/CL/UploadGatePassCSVCL',
+                url: '/DistrictWareHouse/UploadGatePassCSVCL',
                 type: "POST",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
@@ -57,22 +56,17 @@
         } else {
             alert("FormData is not supported.");
         }
-    } 
+    }
     function ShowPopup() {
         $('#myModal2').modal('show');
     }
-     function gettoken() {
-        var token = '@Html.AntiForgeryToken()';
-        token = $(token).val();
-        return token;
-   }
     function UploadCSV() {
         var GatePassId = document.getElementById("hfGatePassId").value;
         var BrandId = $('#ddlBrand').val();
         var BatchNo = document.getElementById("txtBatchNo").value;
         $.ajax({
-            url: '/CL/UploadVerifedCSV',
-            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 4, 'PlanId': -1,'BLID':-1},
+            url: '../DistrictWareHouse/UploadVerifedCSVCL',
+            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 6, 'PlanId': -1,'BLID':-1},
             datatype: "json",
             type: "GET",
             success: function (data) {
@@ -87,7 +81,7 @@
     function GatePassUploadBrandDetails() {
         var GatePassId = document.getElementById("hfGatePassId").value;
         $.ajax({
-            url: '/CL/GetGatePassUploadBrandDetails',
+            url: '/DistrictWareHouse/GetGatePassUploadBrandDetailsCL',
             data: { 'Gatepass': GatePassId },
             datatype: "json",
             type: "GET",
@@ -104,7 +98,7 @@
         if (r == true) {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/CL/FinalGatePass',
+                url: '/DistrictWareHouse/FinalGatePassCL',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
@@ -118,7 +112,7 @@
         }
     }
 </script>
-@using (Html.BeginForm("UploadGatePassCSVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadGatePassCSV", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -133,9 +127,9 @@
                             {
                                 if (Request.QueryString["B"].Trim() != string.Empty && Request.QueryString["B"].Trim() == "1")
                                 {
-                            <span>
-                                <i class="fa fa-gift"></i> &nbsp; Update CSV (Brewery To Manufacturer Wholesale)&nbsp;
-                            </span>
+                                    <span>
+                                        <i class="fa fa-gift"></i> &nbsp; Update CSV (Brewery To Manufacturer Wholesale)&nbsp;
+                                    </span>
                                 }
                                 else
                                 {
@@ -203,19 +197,19 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Select CSV<b style="color:red; font-weight:800">*</b></label>
-                                    <input type="file" class="btn btn-default required" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass CSV"  />
+                                    <input type="file" class="btn btn-default required" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass CSV" />
                                 </div>
 
                             </div>
                             <center>
                                 <div class="form-actions">
                                     <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>
-                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../CL/GatePass'">Back To Gatepass Details</button>
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../UnitWareHouse/GatePass'">Back To Gatepass Details</button>
                                     <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
                                 </div>
                             </center>
                         </div>
-                        
+
                         <div id="divResult"></div>
                         <div class="form-body">
                             <div id="divTable"></div>

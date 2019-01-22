@@ -26,14 +26,13 @@
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             <div class="row">
-                               
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.IssuedFromBlendingId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlIssuedFromBlendingVATId", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT Balance</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                    <label class="control-label">Brand (In Blending VAT)</label>
+                                    @Html.TextBox("txtBlendingBrand", "", new { @id = "txtBlendingBrand", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending Spirit Type</label>
@@ -46,8 +45,8 @@
                                     @Html.DropDownListFor(m => m.BottlingVATId, (IEnumerable<SelectListItem>)ViewBag.BottelingVAT, new { @id = "ddlBottelingId", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling VAT Balance</label>
-                                    @Html.TextBox("txtBottelingBal", "", new { @id = "txtBottelingBal", @class = "form-control", @readonly = true })
+                                    <label class="control-label">Brand (In Bottling VAT)</label>
+                                    @Html.TextBox("txtBottlingBrand", "", new { @id = "txtBottlingBrand", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling VAT Capacity</label>
@@ -56,48 +55,152 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Transfer form Blending BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.dipForm, new { @id = "txtDipFrom", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                    <label class="control-label">Blending VAT (Opening BL)</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Received in Bottling BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.dipTo, "", new { @id = "txtDipTo", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                    <label class="control-label">Blending VAT (Opening Strength)</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Tank Transfer Wastage AL</label>
-                                    @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+                                    <label class="control-label">Blending VAT (Opening AL)</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Dip of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Dip, new { @class = "form-control", @id = "txtDip", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                    <label class="control-label">Bottling VAT (Opening BL)</label>
+                                    @Html.TextBox("txtBottelingBal", "", new { @id = "txtBottelingBal", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Temperature (in °C)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @id = "txtTemp", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                    <label class="control-label">Bottling VAT (Opening Strength)</label>
+                                    @Html.TextBox("txtBottelingOpStrength", "", new { @id = "txtBottelingOpStrength", @class = "form-control", @readonly = true })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Indication<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.Indication, new { @class = "form-control", @id = "txtIndication", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+                                    <label class="control-label">Bottling VAT (Opening AL)</label>
+                                    @Html.TextBox("txtBottelingOpAL", "", new { @id = "txtBottelingOpAL", @class = "form-control", @readonly = true })
                                 </div>
-                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Alcoholic Liter of Blending VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBox("txtBlendingVATAL", "", new { @id = "txtBlendingVATAL", @class = "form-control", @readonly = true })
+                                    <label class="control-label">Blending VAT BL (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Alcoholic Liter of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtIssueAL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+                                    <label class="control-label">Blending VAT Strength (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control" })
                                 </div>
-
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT AL (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Bottling VAT BL (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Bottling VAT Strength (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Bottling VAT AL (After Transfer)</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Transfer BL</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Transfer Strength</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Transfer AL</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Receive BL</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Receive Strength</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Net Receive AL</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Wastage BL</label>
+                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Wastage Strength</label>
+                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Wastage AL</label>
+                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
                                 </div>
                             </div>
+                            @*<div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Transfer form Blending BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(m => m.dipForm, new { @id = "txtDipFrom", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Received in Bottling BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(m => m.dipTo, "", new { @id = "txtDipTo", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Tank Transfer Wastage AL</label>
+                @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Dip of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(model => model.Dip, new { @class = "form-control", @id = "txtDip", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Temperature (in °C)<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @id = "txtTemp", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Indication<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(model => model.Indication, new { @class = "form-control", @id = "txtIndication", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Alcoholic Liter of Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBox("txtBlendingVATAL", "", new { @id = "txtBlendingVATAL", @class = "form-control", @readonly = true })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Alcoholic Liter of Bottling VAT<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextBoxFor(model => model.IssueAL, new { @class = "form-control", @id = "txtIssueAL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+            </div>
+
+            <div class="form-group col-md-4">
+                <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
+                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+            </div>
+        </div>*@
                         </div>
                         <div class="clearfix"></div>
                         <center>

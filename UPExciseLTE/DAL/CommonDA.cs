@@ -361,7 +361,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        public DataSet GetDutyCalculation(string Year, string LiquorType)
+        public DataSet GetDutyCalculation(string Year, string LiquorType, decimal AlcoholStrength)
         {
             DataSet ds = new DataSet();
             try
@@ -369,6 +369,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("YEAR", Year));
                 parameters.Add(new SqlParameter("LiquorType", filter_bad_chars_rep(LiquorType.Trim())));
+                parameters.Add(new SqlParameter("AlcoholStrength", AlcoholStrength));
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
             }
             catch (Exception)
@@ -756,6 +757,51 @@ namespace UPExciseLTE.DAL
             }
             return str;
         }
+
+        internal string InsertBlendingVATReductionDetails(BlendingVATReduction BVR)
+        {
+            con.Open();
+            string str = "";
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_Proc_InsertBlendingVATReductionDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("ReductionId", BVR.ReductionId));
+                cmd.Parameters.Add(new SqlParameter("BlendingVATId", BVR.BlendingVATId));
+                cmd.Parameters.Add(new SqlParameter("ReductionDate", BVR.ReductionDate));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedBL", BVR.BeforeRedBL));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedStrength", BVR.BeforeRedStrength));
+                cmd.Parameters.Add(new SqlParameter("BeforeRedAL", BVR.BeforeRedAL));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BVR.BatchNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AfterRedBL", BVR.AfterRedBL));
+                cmd.Parameters.Add(new SqlParameter("AfterRedStrength", BVR.AfterRedStrength));
+                cmd.Parameters.Add(new SqlParameter("AfterRedAL", BVR.AfterRedAL));
+                cmd.Parameters.Add(new SqlParameter("Remarks", BVR.Remarks));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId.ToString()));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 32676;
+                cmd.ExecuteNonQuery();
+                str = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                str = ex.ToString();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return str;
+        }
+
         public DataSet GetBBTMaster(int bbtId, string status)
         {
             DataSet ds = new DataSet();
@@ -1875,6 +1921,45 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+        public string UploadCSVCL(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo, int PlanId, short BottlingLineId)
+        {
+            con.Open();
+            string result = "";
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "CL_Proc_InsertUploadCSV";
+                cmd.CommandTimeout = 3000;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", gatePassId));
+                cmd.Parameters.Add(new SqlParameter("dbBarCode", dbBarCode));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", BatchNo));
+                cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BottlingLineId));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         public string InsertUpdateBottelingVAT(BottelingVATCL SV)
         {
             string result = "";
@@ -2253,6 +2338,198 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
+        public DataSet GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
+                parameters.Add(new SqlParameter("FromDate", FromDate));
+                parameters.Add(new SqlParameter("ToDate", Todate));
+                parameters.Add(new SqlParameter("GatePassSourceId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
+                parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
+                parameters.Add(new SqlParameter("IsReceive", filter_bad_chars_rep(IsReceive.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseNo", filter_bad_chars_rep(FromLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
+                parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
+                parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetGatePassDetailsG", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public string InsertUpdateGatePassDetailsCL(GatePassDetailsCL GP)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_InsertUpdateGatePassDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GP.GatePassId));
+                cmd.Parameters.Add(new SqlParameter("GatepassLicenseNo", GP.GatepassLicenseNo));
+                cmd.Parameters.Add(new SqlParameter("FromDate", GP.FromDate));
+                cmd.Parameters.Add(new SqlParameter("ToDate", GP.ToDate));
+                cmd.Parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(GP.ToLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToLicenceNo", filter_bad_chars_rep(GP.ToLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToConsigeeName", filter_bad_chars_rep(GP.ToConsigeeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(GP.FromLicenseType.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromLicenceNo", filter_bad_chars_rep(GP.FromLicenceNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromConsignorName", filter_bad_chars_rep(GP.FromConsignorName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopName", filter_bad_chars_rep(GP.ShopName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ShopId", GP.ShopId));
+                cmd.Parameters.Add(new SqlParameter("GatePassNo", filter_bad_chars_rep(GP.GatePassNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeNo", filter_bad_chars_rep(GP.LicenseeNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("VehicleNo", filter_bad_chars_rep(GP.VehicleNo.Trim())));
+                cmd.Parameters.Add(new SqlParameter("DriverName", filter_bad_chars_rep(GP.DriverName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeName", filter_bad_chars_rep(GP.LicenseeName.Trim())));
+                cmd.Parameters.Add(new SqlParameter("LicenseeAddress", filter_bad_chars_rep(GP.LicenseeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("AgencyNameAndAddress", filter_bad_chars_rep(GP.AgencyNameAndAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("ToAddress", filter_bad_chars_rep(GP.ConsigneeAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("FromAddress", filter_bad_chars_rep(GP.ConsignorAddress.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GrossWeight", GP.GrossWeight));
+                cmd.Parameters.Add(new SqlParameter("TareWeight", GP.TareWeight));
+                cmd.Parameters.Add(new SqlParameter("NetWeight", GP.NetWeight));
+                cmd.Parameters.Add(new SqlParameter("district_code_census1", GP.district_code_census1));
+                cmd.Parameters.Add(new SqlParameter("district_code_census2", GP.district_code_census2));
+                cmd.Parameters.Add(new SqlParameter("district_code_census3", GP.district_code_census3));
+                cmd.Parameters.Add(new SqlParameter("RouteDetails", filter_bad_chars_rep(GP.RouteDetails.Trim())));
+                cmd.Parameters.Add(new SqlParameter("GatePassSourceId", GP.GatePassSourceId));
+                cmd.Parameters.Add(new SqlParameter("Receiver", filter_bad_chars_rep(GP.Receiver.Trim())));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", GP.UploadValue));
+                cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(GP.Status.Trim())));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("macId", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", GP.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("GatePassTypeID", GP.GatePassType));
+                cmd.Parameters.Add(new SqlParameter("CheckPostVia", GP.CheckPostVia));
+                cmd.Parameters.Add(new SqlParameter("InBondValue", GP.InBondValue));
+                cmd.Parameters.Add(new SqlParameter("ExportDuty", GP.ExportDuty));
+                cmd.Parameters.Add(new SqlParameter("DispatchType", GP.DispatchType));
+                cmd.Parameters.Add(new SqlParameter("DispatchedBy", GP.DispatchedBy));
+                cmd.Parameters.Add(new SqlParameter("ImportPermitNo", GP.ImportPermitNo));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+        public string InsertUpdateReciver(Reciver TTD)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_Proc_InsertUpdatereciver", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("@ReciverID", TTD.ReciverID));
+                cmd.Parameters.Add(new SqlParameter("@UnitID", TTD.UnitId == 0 ? 8 : TTD.UnitId));
+                cmd.Parameters.Add(new SqlParameter("@Reciver_Name", TTD.Recivername));
+                cmd.Parameters.Add(new SqlParameter("@Reciver_Capacity", TTD.ReciverCapacity));
+                cmd.Parameters.Add(new SqlParameter("@Status", TTD.Status));
+                cmd.Parameters.Add(new SqlParameter("@sptype", TTD.sptype));
+                cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
+
+        public DataSet getReciver(short BreweryId, int ReciverId, string status)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("UnitID", BreweryId));
+                parameters.Add(new SqlParameter("@ReciverId", ReciverId));
+                parameters.Add(new SqlParameter("status", status));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "[CL_PROC_GetReciver]", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            return ds;
+        }
+        public string FinalGatePassCL(long GatePassId, short SP_Type, int DamageBottles)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("CL_proc_UpdateFinalGatePass", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
+                cmd.Parameters.Add(new SqlParameter("DamageBottles", DamageBottles));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         #endregion CL DAL
         #region UnitMaster
         public string InsertUpdateUnitMaster(UnitMaster objUnitMaster)
@@ -2348,6 +2625,25 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("DbName", UserSession.PushName));
 
                 ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_StockBalance", parameters.ToArray());
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataSet GetStockBalanceDetailCL(int SPType)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                parameters.Add(new SqlParameter("SPType", SPType));
+                parameters.Add(new SqlParameter("DbName", UserSession.PushName));
+
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_StockBalance", parameters.ToArray());
                 return ds;
             }
             catch (Exception ex)

@@ -39,7 +39,14 @@
 </script>
 <link href="~/Content/PrintCss.css" rel="stylesheet" />
 <div style="text-align:right;width:100%;background-color:white;">
-    <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
+    @if (Model.Status == "A")
+    {
+        <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print GatePass</button>
+    }
+    else
+    {
+        <button id="btnPrint" onclick="PrintPanel();" class="btn green" style="margin-right:50px;margin-top:50px">Print Draft GatePass</button>
+    }
 </div>
 <div style="width:100%;background-color:white" id="divPrint">
     <div id="body">
@@ -64,7 +71,7 @@
                             <h1 style="text-align:center"><strong>Uttar Pradesh Excise Department</strong></h1>
                         </div>
                         <div style="width:10%;float:left">
-                            @if (ViewBag.QRCodeImage != null)
+                            @if (ViewBag.QRCodeImage != null && Model.Status == "A")
                             {
                                 <img src="@Url.Content(@ViewBag.QRCodeImage)" alt="" style="height:100px;width: 100px;" />
                             }
@@ -72,7 +79,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="text-align:center;border-top: 2px solid;border-bottom: 2px solid;"><b>@ViewBag.PassType</b></td>
+                    <td colspan="4" style="text-align:center;border-top: 2px solid;border-bottom: 2px solid;"><b>@Model.GatepassLicenseNo</b></td>
                 </tr>
                 <tr>
                     <td colspan="4"><br /></td>
@@ -92,54 +99,77 @@
                 </tr>
                 <tr>
                     <td><b>1.</b></td>
-                    <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName (@Model.FromLicenseType1)</td>
-                </tr>
-                <tr>
-                    <td colspan="4"><div style="height:10px"></div></td>
+                    <td colspan="3"><b>Name of Consignor :</b> @Model.FromConsignorName (@Model.FromLicenseType)</td>
                 </tr>
                 <tr>
                     <td><b>2.</b></td>
-                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName (@Model.ToLicenseType1)</td>
+                    <td colspan="3"><b>Address of Consignor :</b> @Model.ConsignorAddress</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>3.</b></td>
-                    <td colspan="3"><b>Place to which issue and route by which despatched By Road ( BY ROAD) Check Post Via ( @Model.CheckPostVia ) Vehicle No :</b>  @Model.VehicleNo </td>
-                </tr>
-                <tr>
-                    <td colspan="4"><div style="height:10px"></div></td>
+                    <td colspan="3"><b>Name of Consignee :</b>@Model.ToConsigeeName (@Model.ToLicenseType)</td>
                 </tr>
                 <tr>
                     <td><b>4.</b></td>
-                    <td colspan="3"><b>Number / date of Pass, if any : </b> @Model.FromDate1</td>
+                    <td colspan="3"><b>Address of Consignee :</b>@Model.ConsigneeAddress</td>
                 </tr>
+                @if (Model.Receiver.Trim() != string.Empty)
+                {
+                    <tr>
+                        <td><b>&nbsp;</b></td>
+                        <td colspan="3"><b>Address of Designated ICD :</b>@Model.Receiver</td>
+                    </tr>
+                }
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
                     <td><b>5.</b></td>
-                    <td><b>Duty Paid / In Bond :</b> @Model.InBondValue</td>
-                    <td></td>
-                    <td><b>6. Export Duty : Rs. </b>: @Model.ExportDuty</td>
+                    <td colspan="3"><b>Place to which issue and route by which dispatched By @Model.DispatchedBy Check Post Via ( @Model.CheckPostVia )</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>7.</b></td>
-                    <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                    <td><b>6.</b></td>
+                    <td><b>Vehicle No :</b> @Model.VehicleNo</td>
                     <td></td>
-                    <td><b>8. Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                    <td><b>7. Driver Name </b>: @Model.DriverName</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                    <tr>
+                        <td><b>8(a).</b></td>
+                        <td><b>Consideration Fee Rs. : </b> @Model.TotalConsiderationFees</td>
+                        <td></td>
+                        <td><b>8(b). Addl. Consi. Fee Rs :</b> @Model.AdditionalConsiFees</td>
+                    </tr>
+                    <tr>
+                        <td><b>9.</b></td>
+                        <td><b>Total Consideration Fee Rs. : </b> @(Model.TotalConsiderationFees + Model.AdditionalConsiFees)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <tr>
+                    <td colspan="4"><div style="height:10px"></div></td>
+                </tr>
+                <tr>
+                    <td><b>10.</b></td>
+                    <td colspan="3"><b>Route Details :</b>@Model.RouteDetails</td>
                 </tr>
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
                 <tr>
-                    <td><b>9.</b></td>
+                    <td><b>11.</b></td>
                     <td colspan="3"><b>Vehicle Agency Details</b> @Model.AgencyNameAndAddress</td>
                 </tr>
+                
                 <tr>
                     <td colspan="4"><div style="height:10px"></div></td>
                 </tr>
@@ -234,6 +264,14 @@
                         <div style="float:right">
                             (Dept. Of Excise)
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        Note:- Officer Incharge must verify duty calculation and deduction seperatly before giving dispatch.
                     </td>
                 </tr>
             </table>

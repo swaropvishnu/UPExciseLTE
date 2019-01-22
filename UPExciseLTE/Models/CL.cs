@@ -35,6 +35,17 @@ namespace UPExciseLTE.Models
         public int Type { get; set; } = 1;
 
     }
+    public class Reciver
+    {
+        public decimal ReciverCapacity { get; set; }
+        public int ReciverID { get; set; }
+        public string Recivername { get; set; }
+        public string Status { get; set; }
+        public string sptype { get; set; }
+        public int UnitId { get; set; }
+    }
+
+
     public class TankTransferDetail
     {
         public int TransferId { get; set; } = -1;
@@ -55,7 +66,7 @@ namespace UPExciseLTE.Models
         public decimal PrevALSV { get; set; } = 0;
         public decimal PrevALBlendingV { get; set; } = 0;
         public decimal PrevALBottlingV { get; set; } = 0;
-        public decimal IssueAL { get; set; } = 0; 
+        public decimal IssueAL { get; set; } = 0;
         public decimal CurrentALSV { get; set; } = 0;
         public decimal CurrentALBledingV { get; set; } = 0;
         public decimal CurrentALBottlingV { get; set; } = 0;
@@ -67,7 +78,17 @@ namespace UPExciseLTE.Models
         public decimal Dip { get; set; } = 0;
         public decimal Temperature { get; set; } = 0;
         public decimal Indication { get; set; } = 0;
-        public string Remark { get; set; } = "";    
+        public string Remark { get; set; } = "";
+        //New Parameter 
+        public decimal PrevStorageVStrength { get; set; } = 0;
+        public decimal PrevBalanceStorageVBL { get; set; } = 0;
+        public decimal PrevStorageVAL { get; set; } = 0;
+
+        //display purpose
+        public decimal StorageVATAlcoholicLiter { get; set; }
+        public decimal StorageVATBulkLiter { get; set; }
+        public decimal StorageVATStrength { get; set; }
+
     }
     public class BlendingVATCL
     {
@@ -121,6 +142,7 @@ namespace UPExciseLTE.Models
         public string SpiritType { get; set; } = "";
         [Display(Name = "Blending VAT Alcoholic Litre")]
         public decimal BottelingVATAlcoholicLiter { get; set; } = 0;
+        public string BatchNo { get; set; } = "";
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
     }
@@ -250,11 +272,13 @@ namespace UPExciseLTE.Models
     {
         public long GatePassId { get; set; } = -1;
         public short GatePassType { get; set; } = -1;
+        public string GatepassLicenseNo { get; set; }
+        public string GPType { get; set; } = "";
         public string DispatchType { get; set; } = "";
         public string EncPassId { get; set; } = "";
         public string EncGatePassId { get; set; } = "";
         public DateTime FromDate { get; set; } = DateTime.Now;
-        public string FromDate1 { get; set; } = "";
+        public string FromDate1 { get; set; } = DateTime.Now.Day.ToString().Trim().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().Trim().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString().Trim();
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
@@ -292,7 +316,8 @@ namespace UPExciseLTE.Models
         public int TotalBottle { get; set; } = 0;
         public decimal TotalBL { get; set; } = 0;
         public decimal TotalConsiderationFees { get; set; } = 0;
-        public string CheckPostVia { get; set; } = "";
+        public string CheckPostVia { get; set; } = "NA";
+        public string DispatchedBy { get; set; } = "Road";
         public decimal InBondValue { get; set; } = 0;
         public decimal ExportDuty { get; set; } = 0;
         public decimal AdditionalConsiFees { get; set; } = 0;
@@ -306,18 +331,19 @@ namespace UPExciseLTE.Models
         public decimal TotalBL { get; set; } = 0;
         public decimal Strength { get; set; } = 0;
     }
+    public class BlendingVATReduction
+    {
+        public int ReductionId { get; set; } = -1;
+        public int BlendingVATId { get; set; } = -1;
+        public DateTime ReductionDate { get; set; } = DateTime.Now;
+        public string ReductionDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
+        public decimal BeforeRedBL { get; set; } = 0;
+        public decimal BeforeRedStrength { get; set; } = 0;
+        public decimal BeforeRedAL { get; set; } = 0;
+        public string BatchNo { get; set; } = "";
+        public decimal AfterRedBL { get; set; } = 0;
+        public decimal AfterRedStrength { get; set; } = 0;
+        public decimal AfterRedAL { get; set; } = 0;
+        public string Remarks { get; set; } = "";
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

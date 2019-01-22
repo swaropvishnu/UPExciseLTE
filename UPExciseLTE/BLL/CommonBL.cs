@@ -362,6 +362,7 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BL", BBTID, Select);
             return breweryList;
         }
+        
         public static List<SelectListItem> BottlingLineCL(string Select, string BBTID)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -1235,7 +1236,36 @@ namespace UPExciseLTE.BLL
 
 
         #region CL BAL
+        public List<Reciver> GetReciverList(short BreweryId, short StorageVATId, string status)
+        {
+            List<Reciver> lstSVATCL = new List<Reciver>();
+            DataSet ds = new CommonDA().getReciver(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dataRow in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillReciver(dataRow));
+                }
+            }
+            return lstSVATCL;
+        }
 
+
+        private Reciver FillReciver(DataRow dr)
+        {
+            Reciver UT = new Reciver();
+            try
+            {
+                UT.ReciverCapacity = decimal.Parse(dr["Reciver_Capacity"].ToString().Trim());
+                UT.ReciverID = int.Parse(dr["Reciver_ID"].ToString().Trim());
+                UT.Recivername = (dr["Reciver_name"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["Unit_Id"].ToString().Trim());
+
+            }
+            catch (Exception) { }
+            return UT;
+        }
         public StorageVATCL GetStorageVAT(short BreweryId, short StorageVATId, string status)
         {
             DataSet ds = new CommonDA().GetStorageVAT(BreweryId, StorageVATId, status);
@@ -1367,7 +1397,7 @@ namespace UPExciseLTE.BLL
                 UT.BrandName = (dr["BrandName"].ToString().Trim());
                 UT.SpiritType = (dr["SpiritType"].ToString().Trim());
                 UT.BottelingVATAlcoholicLiter = decimal.Parse(dr["BottelingVATAlcoholicLiter"].ToString().Trim());
-
+                UT.BatchNo = (dr["BatchNo"].ToString().Trim());
             }
             catch (Exception) { }
             return UT;
@@ -1570,9 +1600,9 @@ namespace UPExciseLTE.BLL
             return unitList;
         }
 
-        public GatePassDetailsCL GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        public GatePassDetailsCL GetGatePassDetailsGCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,"","","","");
+            DataSet ds = new CommonDA().GetGatePassDetailsGCL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 return FillGatePassDetailsCL(ds.Tables[0].Rows[0]);
@@ -1582,10 +1612,10 @@ namespace UPExciseLTE.BLL
                 return new GatePassDetailsCL();
             }
         }
-        public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive)
+        public List<GatePassDetailsCL> GetGatePassDetailsListCL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             List<GatePassDetailsCL> lstGPD = new List<GatePassDetailsCL>();
-            DataSet ds = new CommonDA().GetGatePassDetailsG(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,"","","","");
+            DataSet ds = new CommonDA().GetGatePassDetailsGCL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive,FromLicenseNo,ToLicenseNo,FromLicenseType,ToLicenseType);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -1600,8 +1630,11 @@ namespace UPExciseLTE.BLL
             GatePassDetailsCL GP = new GatePassDetailsCL();
             try
             {
+                GP.GatepassLicenseNo = dr["GatepassLicenseNo"].ToString().Trim();
+                GP.GPType = dr["GatePassType"].ToString().Trim();
                 GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
                 GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
+                GP.DispatchedBy = dr["DispatchedBy"].ToString().Trim();
                 GP.DispatchType = dr["DispatchType"].ToString().Trim();
                 GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
                 GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
