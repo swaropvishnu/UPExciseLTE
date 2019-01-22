@@ -6277,6 +6277,7 @@
     <Content Include="Views\Retailer\StockBalanceCL.cshtml" />
     <Content Include="Views\Retailer\ReceiveGatePassWHCL.cshtml" />
     <Content Include="Views\DistrictWareHouse\GetPassDetailsCL.cshtml" />
+    <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
