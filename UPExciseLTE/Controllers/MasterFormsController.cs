@@ -720,6 +720,7 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("UTTransferToBBT");
         }
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public ActionResult UTTransferToBBTDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
