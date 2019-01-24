@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using UPExciseLTE.Models;
+using System.Security.Principal;
 namespace UPExciseLTE.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
@@ -23,6 +24,60 @@ namespace UPExciseLTE.Filters
         }
     }
 
+
+
+    public class CustomPrincipal : IPrincipal
+    {
+        public IIdentity Identity { get; private set; }
+
+        private string pageName;
+        private string ipaddress;
+
+        public string PageName
+        {
+            get
+            {
+                return System.IO.Path.GetFileName(
+                       System.Web.HttpContext.Current.Request.Url.AbsolutePath);
+            } //eof get
+            set { pageName = value; } //eof set
+        } //eof property MyPageName
+        public string IPAddress
+        {
+            get
+            {
+                return HttpContext.Current.Request.UserHostAddress.ToString();
+            }
+            set
+            {
+                ipaddress = value;
+            }
+        }
+        public bool IsInRole(string role)
+        {
+            int res = 0;
+            res = UserDtl.GetMenuValid(UserSession.LoggedInUserId, PageName, IPAddress);
+
+            if (res != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public CustomPrincipal(string username)
+        {
+            this.Identity = new GenericIdentity(username);
+        }
+
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string Name { get; set; }
+        public string UserLevel { get; set; }
+    }
     public class CheckAuthorization : AuthorizeAttribute
     {
         private string pageName;

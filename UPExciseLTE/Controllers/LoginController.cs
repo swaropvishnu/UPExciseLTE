@@ -99,27 +99,31 @@ namespace UPExciseLTE.Controllers
                         else
                         {
                             //Login Fail
-                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
-                            return View(Model);
+                            ViewBag.ErrMessage = "Access Denied! Wrong Credential";
+                            //return RedirectToAction("Login", "Login");
+                            return View();
                             //return RedirectToAction("Login", "Login");
                         }
                     }
                     else
                     {
                         ViewBag.ErrMessage = "Invalid Username or Password.";
-                        return RedirectToAction("Login", "Login");
+                        //return RedirectToAction("Login", "Login");
+                        return View();
                     }
                 }
                 else
                 {
                     ViewBag.ErrMessage = "Invalid Username or Password.";
-                    return RedirectToAction("Login", "Login");
+                    //return RedirectToAction("Login", "Login");
+                    return View();
                 }
             }
             else
             {
                 ViewBag.ErrMessage = "Error: captcha is not valid.";
-                return RedirectToAction("Login", "Login");
+                //return RedirectToAction("Login", "Login");
+                return View();
             }
         }
         public CaptchaImageResult ShowCaptchaImage()

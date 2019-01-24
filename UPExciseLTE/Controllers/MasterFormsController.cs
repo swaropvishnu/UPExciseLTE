@@ -18,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilter]
     //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()

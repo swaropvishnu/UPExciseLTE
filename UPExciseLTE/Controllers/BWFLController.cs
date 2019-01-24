@@ -15,7 +15,7 @@ namespace UPExciseLTE.Controllers
     [SessionExpireFilter]
     //[CheckAuthorization]
     [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
-    public class BWFLController : Controller
+    public class BWFLController : BaseController
     {
         // GET: BWFL
         [HttpGet]
