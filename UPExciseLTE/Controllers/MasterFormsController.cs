@@ -229,6 +229,8 @@ namespace UPExciseLTE.Controllers
             }
             return Json(str,JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BrandMaster(BrandMaster B)
         {
 
