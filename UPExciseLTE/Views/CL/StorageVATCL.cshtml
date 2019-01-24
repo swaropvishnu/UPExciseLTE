@@ -34,6 +34,7 @@
 @using (Html.BeginForm("StorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -50,7 +51,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Storage Vat Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.StorageVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
+                                    @Html.TextBoxFor(model => model.StorageVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100, @required = "required" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Storage Vat Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
@@ -84,8 +85,8 @@
                                     <th>Storage Vat Id</th>
                                     <th>Storage Vat Name</th>
                                     <th>Storage Vat Capacity (in Bulk Litre)</th>
-                                    <th>Spirit Type</th>
-                                    <th>Spirit Bulk Litre</th>
+                                    @*<th>Spirit Type</th>
+                                        <th>Spirit Bulk Litre</th>*@
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -97,8 +98,8 @@
                                             <td>@dr.StorageVATId</td>
                                             <td>@dr.StorageVATName</td>
                                             <td>@dr.StorageVATCapacity</td>
-                                            <td>@dr.SpiritType</td>
-                                            <td>@dr.StorageVATBulkLitre</td>
+                                            @*<td>@dr.SpiritType</td>
+                                                <td>@dr.StorageVATBulkLitre</td>*@
                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button></td>
                                             @if (dr.Status == "A")
                                             {
@@ -144,7 +145,7 @@
     function Validate() {
         document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
         document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
-        document.getElementById("txtUnitTankStrength").value = document.getElementById("txtUnitTankStrength").value.trim();
+         
         if (document.getElementById("txtUnitTank").value == "") {
             alert("Please Enter Storage Vat Name");
             document.getElementById("txtUnitTank").focus();
@@ -156,5 +157,10 @@
             return false;
         }
 
+        if (parseFloat(document.getElementById("txtUnitTankCapacity").value) == 0) {
+            alert("Please Enter Storage Vat Capacity");
+            document.getElementById("txtUnitTankCapacity").focus();
+            return false;
+        }
     }
 </script>

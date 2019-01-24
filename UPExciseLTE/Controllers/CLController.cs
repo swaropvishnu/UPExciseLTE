@@ -25,18 +25,24 @@ namespace UPExciseLTE.Controllers
         public ActionResult ReceiverMaster()
         {
             Reciver UT = new Reciver();
-            //if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
-            //{
-            //    UT = new CommonBL().GetStorageVAT(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
-            //}
-            //ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
             UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value.Trim());
             UT.ReciverID = -1;
             ViewBag.StorageVATList = new CommonBL().GetReciverList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
             return View(UT);
         }
+        public ActionResult GetReciver()
+        {
 
+            return Json(CommonBL.fillReceiver("S"), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult ReceiverMaster(StorageVATCL UT)
+        {
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
+            TempData["Msg"] = str;
+            return RedirectToAction("StorageVATCL");
+        }
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         public JsonResult InsertUpdateReciver(Reciver Objform)
@@ -52,7 +58,19 @@ namespace UPExciseLTE.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult InsertUpdateTankTranfer(TankTransferDetail Objform)
+        {
+            try
+            {
 
+                string str = new DAL.CommonDA().InsertTankTransferDetail(Objform);
+                return Json(str, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpGet]
         public ActionResult StorageVATCL()
         {
@@ -125,6 +143,29 @@ namespace UPExciseLTE.Controllers
             ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.BottelingVATCL = new CommonBL().GetBottelingVATList(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), -1, "Z");
             return View(UT);
+        }
+        public JsonResult GetBottlingTankdetails(string BTID)
+        {
+            //BottelingVATCL BVT = new CommonBL().GetBottelingVAT(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), short.Parse(BTID), "A");
+            //return BVT.BottelingVATBulkLitre.ToString() + "," + BVT.BottelingVATCapacity.ToString() + "," + BVT.SpiritType.ToString() + "," + BVT.BrandName.ToString();
+            //BlendingVATCL BVT = new CommonBL().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A");
+            //return BVT.BlendingVATBulkLitre.ToString() + "," + BVT.BlendingVATCapacity.ToString() + "," + BVT.SpiritType + "," + BVT.BrandName + "," + BVT.BlendingVATAlcoholicLiter;
+            string[] result = new string[8];
+            DataTable dt = new CommonDA().GetBottelingVATDetails(short.Parse(CommonBL.fillBrewery()[0].Value.Trim()), short.Parse(BTID), "A").Tables[0];
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    result[0] = dt.Rows[0]["BrandName"].ToString().Trim();
+                    result[1] = dt.Rows[0]["BottelingVATCapacity"].ToString().Trim();
+                    result[2] = dt.Rows[0]["BottelingVATStrength"].ToString().Trim();
+                    result[3] = dt.Rows[0]["BottelingVATAlcoholicLiter"].ToString().Trim();
+                    result[4] = dt.Rows[0]["BottelingVATBulkLiter"].ToString().Trim();
+                    result[5] = dt.Rows[0]["SpiritType"].ToString().Trim();
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -420,11 +461,24 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateBottlingLineCL(BL);
             return str;
         }
-         
-        public string GetStorageVATDetails(string SVID)
+
+        public JsonResult GetStorageVATDetails(string SVID)
         {
-            StorageVATCL Ut = new CommonBL().GetStorageVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(SVID.Trim()), "A");
-            return Ut.StorageVATCapacity.ToString() + "," + Ut.SpiritType.ToString() + "," + Ut.StorageVATBulkLitre.ToString()+","+Ut.SpiritType+","+Ut.StorageVATAlcoholicLiter;
+            string[] result = new string[5];
+            DataTable dt = new CommonDA().GetStorageVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(SVID.Trim()), "A").Tables[0];
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    result[0] = dt.Rows[0]["StorageVATCapacity"].ToString().Trim();
+                    result[1] = dt.Rows[0]["StorageVATBulkLiter"].ToString().Trim();
+                    result[2] = dt.Rows[0]["StorageVATStrength"].ToString().Trim();
+                    result[3] = dt.Rows[0]["StorageVATAlcoholicLiter"].ToString().Trim();
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //StorageVATCL Ut = new CommonBL().GetStorageVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(SVID.Trim()), "A");
+            //return Ut.StorageVATCapacity.ToString() + "," + Ut.SpiritType.ToString() + "," + Ut.StorageVATBulkLitre.ToString()+","+Ut.SpiritType+","+Ut.StorageVATAlcoholicLiter;
         }
         [HttpGet]
         public ActionResult ReceiveStorageVATCL()
@@ -456,6 +510,27 @@ namespace UPExciseLTE.Controllers
             List<SVTransferToBV> lstUtBl = new CommonBL().GetSVTransferToBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
             return View(lstUtBl);*/
             return View();
+        }
+        public JsonResult GetBlendingVATDetails(string BVId)
+        {
+            //BlendingVATCL BVT = new CommonBL().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A");
+            //return BVT.BlendingVATBulkLitre.ToString() + "," + BVT.BlendingVATCapacity.ToString() + "," + BVT.SpiritType + "," + BVT.BrandName + "," + BVT.BlendingVATAlcoholicLiter;
+            string[] result = new string[8];
+            DataTable dt = new CommonDA().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A").Tables[0];
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    result[0] = dt.Rows[0]["BrandName"].ToString().Trim();
+                    result[1] = dt.Rows[0]["BlendingVATCapacity"].ToString().Trim();
+                    result[2] = dt.Rows[0]["BlendingVATStrength"].ToString().Trim();
+                    result[3] = dt.Rows[0]["BlendingVATAlcoholicLiter"].ToString().Trim();
+                    result[4] = dt.Rows[0]["BlendingVATBulkLiter"].ToString().Trim();
+                    result[5] = dt.Rows[0]["SpiritType"].ToString().Trim();
+                    result[6] = dt.Rows[0]["BrandId"].ToString().Trim();
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult StorageVATTransferToBVCL()

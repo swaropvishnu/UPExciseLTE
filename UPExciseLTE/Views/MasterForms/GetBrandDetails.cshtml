@@ -64,8 +64,8 @@
                             <tr>
 
                                 @*<th>
-                                    @Html.DisplayNameFor(model => model.BrandId)
-                                </th>*@
+            @Html.DisplayNameFor(model => model.BrandId)
+        </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.BrandName)
                                 </th>
@@ -82,13 +82,28 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.LicenceType)
                                 </th>
-                               
+                                @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                {
                                 <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInCase)
+                                    Box-Size (Number of Bottles / Pet)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.QuantityInBottleML)
-                                </th>
+                                }
+                                else
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.QuantityInCase)
+                                    </th>
+                                }
+                                @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                {
+                                    <th>Capacity of Bottle/ Pet (in ml.)</th>
+                                }
+                                else
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.QuantityInBottleML)
+                                    </th>
+                                }
                                 <th>
                                     @Html.DisplayNameFor(model => model.XFactoryPrice)
                                 </th>
@@ -102,7 +117,6 @@
                                     @Html.DisplayNameFor(model => model.Status)
                                 </th>
                                 <th>
-                                    
                                     @Html.DisplayNameFor(model => model.Reason)
                                 </th>
                                 <th></th>

@@ -1284,7 +1284,11 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetStorageVAT(BreweryId, StorageVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillStorageVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillStorageVAT(dr));
+                }
+                
             }
             return lstSVATCL;
         }
@@ -1327,7 +1331,10 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetBlendingVAT(BreweryId, BlendingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillBlendingVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBlendingVAT(dr));
+                }
             }
             return lstSVATCL;
         }
@@ -1374,7 +1381,11 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillBottelingVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBottelingVAT(dr));
+                }
+               
             }
             return lstSVATCL;
         }
@@ -1683,6 +1694,12 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return GP;
+        }
+        public static List<SelectListItem> fillReceiver(string status)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "RM", UserSession.LoggedInUserId.ToString().Trim(), status);
+            return breweryList;
         }
         #endregion CL BAL
 

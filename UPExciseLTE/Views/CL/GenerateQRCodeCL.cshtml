@@ -4,9 +4,8 @@
     ViewBag.Title = "Generate And Download QR Code";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
 @using (Html.BeginForm("Export", "CL", FormMethod.Post))
 {
     <input type="hidden" id="hfid" name="PlanId" />
@@ -41,8 +40,8 @@
                                     @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
                             </div>
-                             
-                            </div>
+
+                        </div>
                         <div class="clearfix"></div>
                         <center>
                             <div class="form-actions">
@@ -112,7 +111,7 @@
                                             @Html.DisplayFor(modelItem => item.BulkLitre)
                                         </td>
                                         <td>
-                                            @if (item.IsQRGenerated == false && item.Status!= "PB")
+                                            @if (item.IsQRGenerated == false && item.Status != "PB")
                                             {
                                                 <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Generate QR Code</button>
                                             }
@@ -128,8 +127,8 @@
                                             }
                                             else if (item.IsQRGenerated == true)
                                             {
-                                                <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>  
-                                                <button type="button" class="btn green"  onclick="Click('@item.EncPlanId')">Download QR Code</button>
+                                                <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>
+                                                <button type="button" class="btn green" onclick="Click('@item.EncPlanId')">Download QR Code</button>
                                             }
                                         </td>
                                     </tr>
@@ -141,9 +140,9 @@
             </div>
         </div>
     </div>
-    
+
 }
- 
+
 <script type="text/javascript">
 
     function Click(PlanId) {
