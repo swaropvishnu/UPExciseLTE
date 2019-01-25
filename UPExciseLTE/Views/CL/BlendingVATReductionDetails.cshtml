@@ -104,15 +104,14 @@
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Blending VAT (Before Reduction)</strong></div>
                                     <div class="rTableCell">
-                                        @Html.TextBoxFor(model => model.BeforeRedBL, new { @id = "txtBeforeRedBL", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled",
-                                       @style = "width:160px"
+                                        @Html.TextBoxFor(model => model.BeforeRedBL, new { @id = "txtBeforeRedBL", @class = "form-control", @Value = "", @type = "text", @readonly = "true", @style = "width:160px"
                                    })
                                     </div>
                                     <div class="rTableCell">
-                                        @Html.TextBoxFor(model => model.BeforeRedStrength, new { @id = "txtBeforeRedStrength", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        @Html.TextBoxFor(model => model.BeforeRedStrength, new { @id = "txtBeforeRedStrength", @class = "form-control", @Value = "", @type = "text", @readonly = "true", @style = "width:160px" })
                                     </div>
                                     <div class="rTableCell">
-                                        @Html.TextBoxFor(model => model.BeforeRedAL, new { @id = "txtBeforeRedAL", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        @Html.TextBoxFor(model => model.BeforeRedAL, new { @id = "txtBeforeRedAL", @class = "form-control", @Value = "", @type = "text", @readonly = "true", @style = "width:160px" })
                                     </div>
 
                                 </div>
@@ -126,7 +125,7 @@
                                         @Html.TextBoxFor(model => model.AfterRedStrength, new { @id = "txtAfterRedStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
                                     </div>
                                     <div class="rTableCell">
-                                        @Html.TextBoxFor(model => model.AfterRedAL, new { @id = "txtAfterRedAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px", disabled = "disabled" })
+                                        @Html.TextBoxFor(model => model.AfterRedAL, new { @id = "txtAfterRedAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px", @readonly = "true" })
                                     </div>
                                 </div>
 
@@ -139,7 +138,7 @@
                                         &nbsp;
                                     </div>
                                     <div class="rTableCell">
-                                        @Html.TextBox("txtWastageAL","", new { @id = "txtWastageAL", @class = "form-control", @type = "text", @style = "width:160px", @disabled = "disabled" })
+                                        @Html.TextBox("txtWastageAL","", new { @id = "txtWastageAL", @class = "form-control", @type = "text", @style = "width:160px", @readonly = "true" })
                                     </div>
                                 </div>
                             </div>
@@ -243,6 +242,16 @@
         if (parseFloat(document.getElementById("txtAfterRedStrength").value)<=0) {
             document.getElementById("txtAfterRedStrength").focus();
             alert("Please Enter Blending VAT (After Reduction) Strength");
+            return false;
+        }
+        if (parseFloat(document.getElementById("txtAfterRedBL").value) > parseFloat(document.getElementById("txtBlendingVATCapacity").value)) {
+            alert("Blending VAT BL (After Reduction) Cannot greater than Blending VAT Capacity");
+            return false;
+        }
+        
+        if (parseFloat(document.getElementById("txtAfterRedBL").value) < parseFloat(document.getElementById("txtBeforeRedBL").value)) {
+            document.getElementById("txtAfterRedBL").focus();
+            alert("Blending VAT BL (After Reduction) Cannot less than Blending VAT Opening Balance");
             return false;
         }
     }

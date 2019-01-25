@@ -16,10 +16,14 @@ namespace UPExciseLTE.Filters
             string url1 = Reverse(url);
             string[] arr = url1.Split('/');
             string menuAction = Reverse(arr[0]);
+            if (menuAction.Contains("?"))
+            {
+                menuAction = menuAction.Substring(0, menuAction.IndexOf('?'));
+            }
             string menuControlller = Reverse(arr[1]);
             int res = 0; bool chk = false;
             res = UserDtl.GetMenuValid(UserSession.LoggedInUserId, menuAction, HttpContext.Current.Request.UserHostAddress.ToString());
-            if (res == 1)
+            if (res > 0)
                 chk = true;
             else
             {
