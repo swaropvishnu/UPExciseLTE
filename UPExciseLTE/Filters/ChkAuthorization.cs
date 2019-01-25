@@ -22,8 +22,12 @@ namespace UPExciseLTE.Filters
             if (res == 1)
                 chk = true;
             else
-                chk = false;
-
+            {
+                if (!filterContext.HttpContext.Request.IsAjaxRequest())
+                    chk = false;
+                else
+                    chk = true;
+            }
 
             if (chk == false)
             {
@@ -31,7 +35,7 @@ namespace UPExciseLTE.Filters
                 filterContext.Result =
                new RedirectToRouteResult(new RouteValueDictionary
             {
-             { "action", "Login" },
+             { "action", "Logout" },
             { "controller", "Login" }
             //{ "returnUrl", filterContext.HttpContext.Request.RawUrl}  
              });

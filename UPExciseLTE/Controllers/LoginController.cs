@@ -25,6 +25,7 @@ namespace UPExciseLTE.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            Session["tbl_Session"]= null;            
             string salt = CreateSalt(5);
             Session["salt"] = salt.ToString();
             return View();
@@ -126,6 +127,7 @@ namespace UPExciseLTE.Controllers
                 return View();
             }
         }
+
         public CaptchaImageResult ShowCaptchaImage()
         {
             return new CaptchaImageResult();
@@ -350,101 +352,9 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
-        //public ActionResult Registration_Login()
-        //{
-        //    string salt = CreateSalt(5);
-        //    Session["salt"] = salt.ToString();
-        //    List<SelectListItem> Scheme = new List<SelectListItem>();
-        //    CMODataEntryBLL.bindDropDownHnGrid("proc_Detail", Scheme, "y", "", "");
-        //    CM.Scheme = Scheme;
-        //    return View(CM);
-        //}
         
-        public JsonResult Applicant_Login(LoginModal Model)
-        {
-            string[] result = new string[2];
-            try
-            {
-                if (HttpContext.Session["captchastring"] == null)
-                {
-                    result[0] = "Fail";
-                    result[1] = "Sorry ,Please Refresh the Page";
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
-                if (Model.CaptchaText == HttpContext.Session["captchastring"].ToString())
-                {
-                    string salt = CreateSalt(5);
-                    string usrname = Model.UserName;
-                    string password = Model.Password;
-                    DataSet ds = new DataSet();
-                    ds = UserDtl.VerifyApplicant(usrname, Model.yojana_code);
-                    if (ds != null)
-                    {
-
-                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows.Count == 1)
-                        {
-                            string psw = ds.Tables[0].Rows[0]["Password"].ToString();
-                            string hashed_pwd = CalculateHash(psw.ToString().ToLower() + Session["salt"].ToString());
-                            if (hashed_pwd.ToString().ToLower().Equals(Model.Password.ToLower()))
-                            {
-                                if (ds.Tables[0].Rows[0]["UserLevel"].ToString().Trim() == "30")
-                                {
-                                    Session["tbl_Session"] = ds.Tables[0];
-                                    FormsAuthentication.SetAuthCookie(usrname, Model.RememberMe);
-                                    result[0] = "Sucess";
-                                    result[1] = "/User/" + ds.Tables[0].Rows[0]["page_name"].ToString();
-                                    return Json(result, JsonRequestBehavior.AllowGet);
-                                }
-                                else
-                                {
-                                    result[0] = "Fail";
-                                    result[1] = "Invalid Username or Password.";
-                                    ViewBag.ErrMessage = "Invalid Username or Password.";
-                                    return Json(result, JsonRequestBehavior.AllowGet);
-                                }
-                            }
-                            else
-                            {
-                                result[0] = "Fail";
-                                result[1] = "Access Denied! Wrong Credential";
-                                TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
-                                return Json(result, JsonRequestBehavior.AllowGet);
-                                //return RedirectToAction("Login", "Login");
-                            }
-                        }
-                        else
-                        {
-                            result[0] = "Fail";
-                            result[1] = "Invalid Username or Password.";
-                            ViewBag.ErrMessage = "Invalid Username or Password.";
-                            return Json(result, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                    else
-                    {
-                        result[0] = "Fail";
-                        result[1] = "Invalid Username or Password.";
-                        ViewBag.ErrMessage = "Invalid Username or Password.";
-                        return Json(result, JsonRequestBehavior.AllowGet);
-                    }
-                }
-                else
-                {
-                    result[0] = "Fail";
-                    result[1] = "Error: captcha is not valid.";
-                    ViewBag.ErrMessage = "Error: captcha is not valid.";
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                result[0] = "Fail";
-                result[1] = "Sorry ,Please Refresh the Page";
-                ViewBag.ErrMessage = ex.Message;
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
+        
+        
         //public JsonResult Getsponsoring_office(int @district_code_census)
         //{
         //    DataTable dt = new DAL.CommonDA().Getsponsoring_office(@district_code_census);
@@ -459,11 +369,7 @@ namespace UPExciseLTE.Controllers
         //    return Json(SL, JsonRequestBehavior.AllowGet);
         //}
 
-        class sponsoring_office
-        {
-            public int sponsoring_office_code { get; set; }
-            public string address { get; set; }
-        }
+        
         public ActionResult Track_staus()
         {
             return View();
