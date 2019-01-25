@@ -21,7 +21,7 @@ namespace UPExciseLTE
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalFilters.Filters.Add(new UserAuditFilter()); // Register UserAuditFilter
-            
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
         }
 
         
