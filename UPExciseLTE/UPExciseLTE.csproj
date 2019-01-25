@@ -264,7 +264,6 @@
     <Compile Include="Controllers\UnitWareHouseController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\ChkAuthorization.cs" />
-    <Compile Include="Filters\HandleErrorAttribute.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Filters\UserAuditFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -6298,6 +6297,8 @@
     <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
     <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
     <Content Include="Views\CL\BlendingVATSophisticationDetails.cshtml" />
+    <Content Include="Views\Shared\DetailedError.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
