@@ -196,7 +196,7 @@ namespace UPExciseLTE.Models
         public string LicenceType { get; set; }
         [Display(Name = "Box-Quantity (In Case)")]
         public int QunatityInCaseExport { get; set; } = 0;
-        [Display(Name = "Total Unit (Cans/Bottles)")]
+        [Display(Name = "Total Unit (Pets/Bottles)")]
         public int TotalUnitQuantity { get; set; } = 0;
         [Display(Name = "Licence No")]
         public string LicenseNo { get; set; }

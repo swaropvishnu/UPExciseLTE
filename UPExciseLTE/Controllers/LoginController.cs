@@ -18,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
     
     //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class LoginController : Controller
     {
         
@@ -99,27 +99,31 @@ namespace UPExciseLTE.Controllers
                         else
                         {
                             //Login Fail
-                            TempData["ErrorMSG"] = "Access Denied! Wrong Credential";
-                            return View(Model);
+                            ViewBag.ErrMessage = "Access Denied! Wrong Credential";
+                            //return RedirectToAction("Login", "Login");
+                            return View();
                             //return RedirectToAction("Login", "Login");
                         }
                     }
                     else
                     {
                         ViewBag.ErrMessage = "Invalid Username or Password.";
-                        return RedirectToAction("Login", "Login");
+                        //return RedirectToAction("Login", "Login");
+                        return View();
                     }
                 }
                 else
                 {
                     ViewBag.ErrMessage = "Invalid Username or Password.";
-                    return RedirectToAction("Login", "Login");
+                    //return RedirectToAction("Login", "Login");
+                    return View();
                 }
             }
             else
             {
                 ViewBag.ErrMessage = "Error: captcha is not valid.";
-                return RedirectToAction("Login", "Login");
+                //return RedirectToAction("Login", "Login");
+                return View();
             }
         }
         public CaptchaImageResult ShowCaptchaImage()
@@ -227,6 +231,7 @@ namespace UPExciseLTE.Controllers
                 //required NameSpace: using System.Security.Principal;
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
                 Session.Clear();
+                Session.Abandon();
                 System.Web.HttpContext.Current.Session.RemoveAll();
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request

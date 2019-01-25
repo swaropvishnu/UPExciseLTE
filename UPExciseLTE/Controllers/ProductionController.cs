@@ -5,10 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
+using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class ProductionController : Controller
     {
         // GET: Production

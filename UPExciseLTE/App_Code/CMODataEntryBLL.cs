@@ -991,5 +991,49 @@ namespace UPExciseLTE
             sdr.Close();
         }
 
+
+        #region Audit Trail
+        internal static void InsertAudit(AuditTrail objaudit)
+        {
+            //using (SqlConnection con = new SqlConnection(CommonConfig.Conn())
+            //{
+            //    // string IP = Fetch_UserIP();
+            //    List < SqlParameter > parameters = new List<SqlParameter>();
+            //    para.Add("@ActionName", objaudit.ActionName);
+            //    para.Add("@ControllerName", objaudit.ControllerName);
+            //    para.Add("@IPAddress", objaudit.IPAddress);
+            //    para.Add("@LoggedInAt", objaudit.LoggedInAt);
+            //    para.Add("@LoggedOutAt", objaudit.LoggedOutAt);
+            //    para.Add("@LoginStatus", objaudit.LoginStatus);
+            //    para.Add("@PageAccessed", objaudit.PageAccessed);
+            //    para.Add("@SessionID", objaudit.SessionID);
+            //    para.Add("@UserID", objaudit.UserID);
+            //    para.Add("@UsersAuditID", objaudit.UsersAuditID);
+            //    con.Execute("usp_Audit", para, null, 0, CommandType.StoredProcedure);
+
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@ActionName", objaudit.ActionName));
+                parameters.Add(new SqlParameter("@ControllerName", objaudit.ControllerName));
+                parameters.Add(new SqlParameter("@IPAddress", objaudit.IPAddress));
+                parameters.Add(new SqlParameter("@LoggedInAt", objaudit.LoggedInAt));
+                parameters.Add(new SqlParameter("@LoggedOutAt", objaudit.LoggedOutAt));
+                parameters.Add(new SqlParameter("@LoginStatus", objaudit.LoginStatus));
+                parameters.Add(new SqlParameter("@PageAccessed", objaudit.PageAccessed));
+                parameters.Add(new SqlParameter("@SessionID", objaudit.SessionID));
+                parameters.Add(new SqlParameter("@UserID", objaudit.UserID));
+                parameters.Add(new SqlParameter("@UsersAuditID", objaudit.UsersAuditID));
+                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "proc_AuditTrail", parameters.ToArray());
+            }
+            catch (Exception)
+            {
+                ds = null;
+            }
+            //return ds;
+        }
+        #endregion
+
     }
 }

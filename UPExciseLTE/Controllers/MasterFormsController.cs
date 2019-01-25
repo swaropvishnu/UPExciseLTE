@@ -15,10 +15,10 @@ using UPExciseLTE.Models;
 using ZXing;
 
 namespace UPExciseLTE.Controllers
-{
-    [SessionExpireFilter]
-    //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+{  
+    
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()
@@ -30,6 +30,7 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
+        
         [HttpGet]
         public ActionResult BrandMaster()
         {
@@ -181,10 +182,10 @@ namespace UPExciseLTE.Controllers
             }
 
             ViewBag.LiquorType = lstLiquor;
-            ViewBag.LicenseType= lstLicense;
+            ViewBag.LicenseType = lstLicense;
             if (UserSession.LoggedInUserLevelId.Trim() != "25")
             {
-                DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE",0);
+                DataSet ds = new CommonDA().GetDutyCalculation(DateTime.Now.Year.ToString(), "BE", 0);
                 if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
                 {
                     ViewBag.MConsidrationFees = ds.Tables[0].Rows[0]["ConsidrationFees"].ToString().Trim();
@@ -211,7 +212,7 @@ namespace UPExciseLTE.Controllers
                 {
                     // CalculationId,FiscalYear,LiquorType,Capacity,StrengthType,Strength,XFactoryPrice,ConsidrationFees,WholeSaleMargin,WHPrice,RetailerMargin,MaxRetPrice,MRP,AdditionalConsiderationFees,TotalConsiderationFee,ActualMaximumWholeSalePrice
                     DataView dv = ds.Tables[0].DefaultView;
-                    dv.RowFilter="Strength ='"+ AlcoholStrength + "'";
+                    dv.RowFilter = "Strength ='" + AlcoholStrength + "'";
                     DataTable dt = dv.ToTable();
                     str[0] = dt.Rows[0]["Strength"].ToString().Trim();
                     str[1] = dt.Rows[0]["XFactoryPrice"].ToString().Trim();
@@ -223,11 +224,11 @@ namespace UPExciseLTE.Controllers
                     str[7] = dt.Rows[0]["MRP"].ToString().Trim();
                     str[8] = dt.Rows[0]["AdditionalConsiderationFees"].ToString().Trim();
                     str[9] = dt.Rows[0]["TotalConsiderationFee"].ToString().Trim();
-                    str[10] =dt.Rows[0]["ActualMaximumWholeSalePrice"].ToString().Trim();
+                    str[10] = dt.Rows[0]["ActualMaximumWholeSalePrice"].ToString().Trim();
 
                 }
             }
-            return Json(str,JsonRequestBehavior.AllowGet);
+            return Json(str, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -261,6 +262,7 @@ namespace UPExciseLTE.Controllers
             return View(lstBrand);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GetBrandDetails(FormCollection frm)
         {
             int StateId = -1;// int.Parse(frm["ddlState"].Trim());
@@ -272,12 +274,28 @@ namespace UPExciseLTE.Controllers
             return View(lstBrand);
         }
         [HttpGet]
-        public ActionResult FinalizeBrand()
+        public ActionResult FinalizeBrand(string LicenseType)
         {
+            List<SelectListItem> lstLicenseType = new List<SelectListItem>();
+            SelectListItem LT = new SelectListItem();
+            LT = new SelectListItem();
+            LT.Text = "FL3";
+            LT.Value = "FL3";
+            lstLicenseType.Add(LT);
+            ViewBag.LicenseType = lstLicenseType;
+
             ViewBag.Brewery = CommonBL.fillBrewery();
             ViewBag.District = CommonBL.fillState("S");
-            List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
-            return View(lstBrand);
+            if (LicenseType == null)
+            {
+                List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", "", "", -1, -1, -1, "P");
+                return View(lstBrand);
+            }
+            else
+            {
+                List<BrandMaster> lstBrand = new CommonBL().GetBrandList(-1, "", LicenseType, "", -1, -1, -1, "P");
+                return View(lstBrand);
+            }
         }
         public string FinalBrand(string BrandId, string Status, string Reason)
         {
@@ -353,6 +371,7 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BottelingPlan(BottelingPlan BP)
         {
             try
@@ -406,17 +425,17 @@ namespace UPExciseLTE.Controllers
             List<SelectListItem> BrandList = new List<SelectListItem>();
             ViewBag.Brand = CommonBL.fillBrand("A");
             return View(new CommonBL().GetBottelingPlanList(DateTime.Now, DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
-        }           
-        public ActionResult SearchplanFilter(string FromDate,string ToDate)
+        }
+        public ActionResult SearchplanFilter(string FromDate, string ToDate)
         {
             try
             {
-               return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate(FromDate), CommonBL.Setdate(ToDate), short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
+                return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate(FromDate), CommonBL.Setdate(ToDate), short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
             }
             catch (Exception ex)
             {
                 return Content(ex.Message);
-            }            
+            }
         }
         [HttpGet]
         public ActionResult GenerateQRCode()
@@ -472,6 +491,7 @@ namespace UPExciseLTE.Controllers
             return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", Planid, "FB"));
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ProductionEntry(BottelingPlan BP)
         {
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
@@ -529,13 +549,13 @@ namespace UPExciseLTE.Controllers
             catch (Exception ex)
             {
                 return Content(ex.Message);
-            }            
+            }
         }
-        public ActionResult SearchProducationFilter(string FromDate,string ToDate)
+        public ActionResult SearchProducationFilter(string FromDate, string ToDate)
         {
             try
             {
-                ViewBag.Brand = CommonBL.fillBrand("A");                
+                ViewBag.Brand = CommonBL.fillBrand("A");
                 return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate(FromDate), CommonBL.Setdate(ToDate), short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
             }
             catch (Exception ex)
@@ -623,7 +643,7 @@ namespace UPExciseLTE.Controllers
             if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
             {
 
-                RM = new CommonBL().GetBottlingLine( short.Parse(CommonBL.fillBrewery()[0].Value), -1, int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
+                RM = new CommonBL().GetBottlingLine(short.Parse(CommonBL.fillBrewery()[0].Value), -1, int.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
             }
             ViewBag.Msg = TempData["Msg"];
             ViewBag.Brewery = CommonBL.fillBrewery();
@@ -666,9 +686,10 @@ namespace UPExciseLTE.Controllers
         public string GetUnitTankForDDl(string UnitTankId)
         {
             UnitTank Ut = new CommonBL().GetUnitTank(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(UnitTankId.Trim()), "A");
-            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString()+","+Ut.BrandId.ToString() + "," + Ut.Brand.Trim();
+            return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString() + "," + Ut.BrandId.ToString() + "," + Ut.Brand.Trim();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
         {
             UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
@@ -680,7 +701,7 @@ namespace UPExciseLTE.Controllers
         public ActionResult UnitTankRecevDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
-            List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R",  short.Parse(CommonBL.fillBrewery()[0].Value), -1);
+            List<UTTransferToBBT> lstUtBl = new CommonBL().GetUTTransferToBBTList(CommonBL.Setdate("01/01/1900"), DateTime.Now, -1, "R", short.Parse(CommonBL.fillBrewery()[0].Value), -1);
             return View(lstUtBl);
         }
         [HttpGet]
@@ -710,9 +731,10 @@ namespace UPExciseLTE.Controllers
         {
 
             BBTMaster bbtFormation = new CommonBL().GetBBTMasterList(int.Parse(BBTId), "A")[0];
-            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString()+","+bbtFormation.BrandName+","+bbtFormation.BrandId;
+            return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString() + "," + bbtFormation.BrandName + "," + bbtFormation.BrandId;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)
         {
             UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
@@ -721,8 +743,7 @@ namespace UPExciseLTE.Controllers
             TempData["Message"] = str;
             return RedirectToAction("UTTransferToBBT");
         }
-        [HttpGet]
-        [ValidateAntiForgeryToken]
+        [HttpGet]       
         public ActionResult UTTransferToBBTDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
@@ -766,13 +787,13 @@ namespace UPExciseLTE.Controllers
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
-         
-        public string DeleteBBT(string bbtId,string status)
+
+        public string DeleteBBT(string bbtId, string status)
         {
             BBTMaster bbt = new BBTMaster();
             bbt.BBTId = int.Parse(bbtId);
             bbt.Status = status;
-            bbt.SP_Type =4;
+            bbt.SP_Type = 4;
             string str = new CommonDA().InsertUpdateBBT(bbt);
 
             return str;
@@ -790,6 +811,7 @@ namespace UPExciseLTE.Controllers
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BBTMaster(BBTMaster BBT)
         {
             var str = new CommonDA().InsertUpdateBBT(BBT);
@@ -801,14 +823,14 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetails GP = new GatePassDetails();
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(),"", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(),"");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
             ViewBag.Msg = TempData["Message"];
-           
+
 
             List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
             List<SelectListItem> FL1Licence = new List<SelectListItem>();
             SelectListItem SLI = new SelectListItem();
-            
+
             SLI = new SelectListItem();
             SLI.Text = "FL-1";
             SLI.Value = "FL-1";
@@ -828,7 +850,7 @@ namespace UPExciseLTE.Controllers
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
-                if (GP.FromLicenseType.Trim()==string.Empty)
+                if (GP.FromLicenseType.Trim() == string.Empty)
                 {
                     if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-3")
                     {
@@ -844,15 +866,15 @@ namespace UPExciseLTE.Controllers
                     GP.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     GP.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }
-               
+
             }
             if (!string.IsNullOrEmpty(GP.ToLicenseType.Trim()) &&
                 ToLicenseTypes.Find(x => x.Text.Trim() == GP.ToLicenseType.Trim().Trim()) != null)
             {
                 ToLicenseTypes.Find(x => x.Value.Trim() == GP.ToLicenseType.Trim()).Selected = true;
             }
-            if (!string.IsNullOrEmpty(GP.ToLicenceNo.Trim()) && 
-                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim())!=null)
+            if (!string.IsNullOrEmpty(GP.ToLicenceNo.Trim()) &&
+                FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()) != null)
             {
                 FL1Licence.Find(x => x.Text.Trim() == GP.ToLicenceNo.Trim()).Selected = true;
             }
@@ -870,21 +892,21 @@ namespace UPExciseLTE.Controllers
                 str = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["UnitName"].ToString().Trim() + "," + ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
             }
             return str;
-            }
+        }
         [HttpPost]
         public ActionResult GatePass(GatePassDetails GP)
         {
-            if (GP.Receiver==null)
+            if (GP.Receiver == null)
             {
                 GP.Receiver = "";
             }
-            if (GP.ImportPermitNo==null)
+            if (GP.ImportPermitNo == null)
             {
                 GP.ImportPermitNo = "";
             }
             GP.GatepassLicenseNo = "B-12";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
-            GP.UploadValue =2;
+            GP.UploadValue = 2;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
             GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
             string str = new CommonDA().InsertUpdateGatePassDetails(GP);
@@ -896,7 +918,7 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetails GP = new GatePassDetails();
             ViewBag.Brand = CommonBL.fillBrand("A");
-            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P","P","","","","");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 2, "P", "P", "", "", "", "");
             return View(GP);
         }
         [HttpPost]
@@ -934,9 +956,9 @@ namespace UPExciseLTE.Controllers
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
-            return new CommonDA().FinalGatePass(GatePass,1,0);
+            return new CommonDA().FinalGatePass(GatePass, 1, 0);
         }
-        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue,string PlanId,string BLID)
+        public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
             long GatePass = long.Parse(GatePassId);
             int Brand = int.Parse(BrandId);
@@ -956,12 +978,12 @@ namespace UPExciseLTE.Controllers
         {
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
             List<GatePassDetails> lstGPD = new List<GatePassDetails>();
-            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A","P","", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(),"", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
             return View(lstGPD);
         }
-        public string ReceiveGatePass(string GatePassId,string DamageBottles)
+        public string ReceiveGatePass(string GatePassId, string DamageBottles)
         {
-            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()),2,int.Parse(DamageBottles.Trim()));
+            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
             return str;
         }
         /*Copy From Vijay For Show Gate Pass*/
@@ -969,10 +991,10 @@ namespace UPExciseLTE.Controllers
         {
             GatePassDetails GP = new GatePassDetails();
             long GatePassId = long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim()));
-            GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z","","","","");
+            GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z", "Z", "", "", "", "");
             string qrcode = GP.GatePassNo;
             ViewBag.QRCodeImage = GenerateQRCode(qrcode);
-            
+
             ViewBag.GetGatePassBrandDetailsList = new CommonBL().GetGatePassBrandDetailsList(GatePassId);
             return View(GP);
         }

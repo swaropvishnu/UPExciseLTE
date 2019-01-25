@@ -57,5 +57,7 @@ namespace UPExciseLTE.Models
         public string Designation { get; set; }
         [Required]
         public string PushName { get; set; }
+        public string UserLevel { get; set; }
+        public string Name { get; set; }
     }
 }

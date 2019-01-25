@@ -11,9 +11,12 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using ZXing;
+using UPExciseLTE.Filters;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class ReportController : Controller
     {
         // GET: Report
