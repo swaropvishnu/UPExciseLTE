@@ -9,13 +9,13 @@ var Demo = function () {
 
         var panel = $('.theme-panel');
 
-        if ($('.page-head > .container-fluid').size() === 1) {
+        if ($('.page-head > .container-fluid').length === 1) {
             $('.theme-setting-layout', panel).val("fluid");
         } else {
             $('.theme-setting-layout', panel).val("boxed");
         }
 
-        if ($('.top-menu li.dropdown.dropdown-dark').size() > 0) {
+        if ($('.top-menu li.dropdown.dropdown-dark').length > 0) {
             $('.theme-setting-top-menu-style', panel).val("dark");
         } else {
             $('.theme-setting-top-menu-style', panel).val("light");
@@ -27,7 +27,7 @@ var Demo = function () {
             $('.theme-setting-top-menu-mode', panel).val("not-fixed");
         }
 
-        if ($('.hor-menu.hor-menu-light').size() > 0) {
+        if ($('.hor-menu.hor-menu-light').length > 0) {
             $('.theme-setting-mega-menu-style', panel).val("light");
         } else {
             $('.theme-setting-mega-menu-style', panel).val("dark");

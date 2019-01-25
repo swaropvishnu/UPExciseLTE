@@ -13,7 +13,7 @@ namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilter]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
-    public class BottlingPlanController : BaseController 
+    public class BottlingPlanController : Controller
     {
         [HttpGet]
         public ActionResult BottelingPlan()

@@ -21,6 +21,7 @@ namespace UPExciseLTE
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalFilters.Filters.Add(new UserAuditFilter()); // Register UserAuditFilter
+            
         }
 
         
@@ -70,7 +71,7 @@ namespace UPExciseLTE
                     //ex = Server.GetLastError().InnerException;
                     //if (ex != null)
                     //{
-                    Exception ex = Server.GetLastError().InnerException;
+                    Exception ex = Server.GetLastError();
                     //string ex = httpContext.Error.Message;
                     CMODataEntryBLL.InsertErrLog(Request.Url.ToString(), ex.ToString());
                     //}

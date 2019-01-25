@@ -16,9 +16,10 @@ using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
-    [SessionExpireFilter]
+
     //[CheckAuthorization]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    [SessionExpireFilterAttribute]
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()
@@ -30,6 +31,7 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
+        
         [HttpGet]
         public ActionResult BrandMaster()
         {
