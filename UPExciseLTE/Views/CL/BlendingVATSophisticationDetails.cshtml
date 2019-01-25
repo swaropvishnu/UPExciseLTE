@@ -1,0 +1,143 @@
+﻿@model UPExciseLTE.Models.BlendingVATReduction
+
+@{
+    ViewBag.Title = "Blending VAT Sophistication Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "BlendingVATSophisticationDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string str = ViewBag.Msg;
+    if (!string.IsNullOrEmpty(str))
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtReductionDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0d'
+        });
+    });
+</script>
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
+
+@using (Html.BeginForm("BlendingVATReductionDetails", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; Reduction of Blending VAT&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.ReductionId, new { @id = "hfBlendingVATId" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Reduction Date<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.ReductionDate1, new { @id = "txtReductionDate", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BlendingVATId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlBlendingVATId", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBox("txtBlendingVATCapacity", "", new { @class = "form-control", @id = "txtBlendingVATCapacity", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Remarks</label>
+                                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", @id = "txtRemarks" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV BL (Before Reduction)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BeforeRedBL, new { @class = "form-control", @id = "txtBeforeRedBL", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV Strength (Before Reduction) <b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BeforeRedStrength, new { @class = "form-control", @id = "txtBeforeRedStrength", @readonly = true })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV AL (Before Reduction)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BeforeRedAL, new { @class = "form-control", @id = "txtBeforeRedAL", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV BL (After Reduction)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.AfterRedBL, new { @class = "form-control", @id = "txtAfterRedBL" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV Strength (After Reduction) <b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.AfterRedStrength, new { @class = "form-control", @id = "txtAfterRedStrength" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">BV AL (After Reduction)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.AfterRedAL, new { @class = "form-control", @id = "txtAfterRedAL" })
+                                </div>
+                            </div>
+
+                            <center>
+                                <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
+                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $('#ddlBlendingVATId').change(function () {
+        var BBTId = $('#ddlBlendingVATId').val();
+        if (BBTId != "-1") {
+            BlendingVATChange(BBTId);
+        }
+    });
+    function BlendingVATChange(BBTId) {
+        $.ajax({
+            url: '/CL/GetBlendingVATForDDl',
+            data: { 'BVId': BBTId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                var res = data.split(",");
+                document.getElementById("txtBeforeRedBL").value = res[0];
+                document.getElementById("txtBlendingVATCapacity").value = res[1];
+                document.getElementById("txtBeforeRedAL").value = res[4];
+                document.getElementById("txtBrandInBlendingVAT").value = res[3];
+                document.getElementById("txtBlendingVATName").value = res[5];
+                document.getElementById("txtBeforeRedStrength").value = res[6];
+            },
+            error: function (data) {
+                alert("Error in GetBBTForDDl Loading");
+            }
+        });
+    }
+    function Validate() {
+        return true;
+    }
+</script>

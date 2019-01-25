@@ -340,6 +340,7 @@ namespace UPExciseLTE.Models
     {
         public int ReductionId { get; set; } = -1;
         public int BlendingVATId { get; set; } = -1;
+        public int BrandID { get; set; } = -1;
         public DateTime ReductionDate { get; set; } = DateTime.Now;
         public string ReductionDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
         public decimal BeforeRedBL { get; set; } = 0;
@@ -350,5 +351,6 @@ namespace UPExciseLTE.Models
         public decimal AfterRedStrength { get; set; } = 0;
         public decimal AfterRedAL { get; set; } = 0;
         public string Remarks { get; set; } = "";
+        public bool IsSophistication { get; set; } = false;
     }
 }

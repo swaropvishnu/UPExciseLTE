@@ -5,10 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
-<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -173,16 +171,16 @@
                         <div style="clear:both"></div>
                         <center>
                             <div class="form-actions">
-                                @if (Request.QueryString["Mode"]!=null)
+                                @if (Request.QueryString["Mode"] != null)
                                 {
                                     if ((@Request.QueryString["Mode"].ToString().Trim() == "V"))
-                                     {
-                                       <a href="@Url.Action("FreezeUnitMaster", "UnitMaster", null)"><label class="btn blue">Back</label></a>
-                                     }
+                                    {
+                                        <a href="@Url.Action("FreezeUnitMaster", "UnitMaster", null)"><label class="btn blue">Back</label></a>
+                                    }
                                 }
                                 else
                                 {
-                                <input type="submit" value="Submit" class="btn green" />
+                                    <input type="submit" value="Submit" class="btn green" />
                                 }
                             </div>
                         </center>

@@ -538,7 +538,7 @@ namespace UPExciseLTE.Controllers
             TankTransferDetail TTD = new Models.TankTransferDetail();
             ViewBag.IssuedFromSVId = CommonBL.fillStorageVAT("S");
             ViewBag.BlendingVAT = CommonBL.fillBlendingVAT("S");
-            ViewBag.Brand = CommonBL.fillBrand("S");
+           
             if (TempData["Message"] != null)
             {
                  ViewBag.Msg = TempData["Message"].ToString();
@@ -791,6 +791,7 @@ namespace UPExciseLTE.Controllers
         {
             BlendingVATReduction BVR = new BlendingVATReduction();
             ViewBag.BlendingVAT = CommonBL.fillBlendingVAT("S");
+            ViewBag.Brand = CommonBL.fillBrand("S");
             if (TempData["Message"] != null)
             {
                 ViewBag.Msg = TempData["Message"].ToString();
@@ -801,10 +802,68 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BlendingVATReductionDetails(BlendingVATReduction BVR)
         {
+            string str = "";
             BVR.ReductionDate = CommonBL.Setdate(BVR.ReductionDate1);
             if (BVR.Remarks==null)
             {
-                BVR.Remarks = "";
+                BVR.Remarks = "NA";
+            }
+            if (BVR.BatchNo==null || BVR.BatchNo.Trim() ==string.Empty)
+            {
+                str = "Please Enter Batch No";
+            }
+            if (BVR.BrandID == -1)
+            {
+                str = "Please Select Brand";
+            }
+            if (BVR.AfterRedAL <=0)
+            {
+                str = "Blending VAT AL (After Reduction) must be greater than Zero";
+            }
+            if (BVR.AfterRedStrength<=0)
+            {
+                str = "Blending VAT Strength (After Reduction) must be greater than Zero";
+            }
+            if (BVR.AfterRedBL <= 0)
+            {
+                str = "Blending VAT BL (After Reduction) must be greater than Zero";
+            }
+            if (BVR.AfterRedStrength > BVR.BeforeRedStrength)
+            {
+                str = "Blending VAT Strength (Before Reduction) must be greater than Blending VAT Strength (After Reduction)";
+            }
+            if (BVR.AfterRedBL < BVR.BeforeRedBL)
+            {
+                str = "Blending VAT BL (After Reduction) must be greater than Blending VAT BL (After Reduction)";
+            }
+            if (str.Trim()== string.Empty)
+            {
+                str = new CommonDA().InsertBlendingVATReductionDetails(BVR);
+            }
+            TempData["Message"] = str;
+            return RedirectToAction("BlendingVATReductionDetails");
+        }
+        [HttpGet]
+        public ActionResult BlendingVATSophisticationDetails()
+        {
+            BlendingVATReduction BVR = new BlendingVATReduction();
+            ViewBag.BlendingVAT = CommonBL.fillBlendingVAT("S");
+            ViewBag.Brand = CommonBL.fillBrand("S");
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Msg = TempData["Message"].ToString();
+            }
+            return View(BVR);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BlendingVATSophisticationDetails(BlendingVATReduction BVR)
+        {
+            BVR.ReductionDate = CommonBL.Setdate(BVR.ReductionDate1);
+            BVR.IsSophistication = true;
+            if (BVR.Remarks == null)
+            {
+                BVR.Remarks = "NA";
             }
             string str = new CommonDA().InsertBlendingVATReductionDetails(BVR);
             TempData["Message"] = str;

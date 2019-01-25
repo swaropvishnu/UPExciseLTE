@@ -14,9 +14,55 @@
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
-<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .rTable {
+        display: table;
+        width: 100%;
+    }
+
+    .rTableRow {
+        display: table-row;
+    }
+
+    .rTableHeading {
+        display: table-header-group;
+        background-color: #ddd;
+    }
+
+    .rTableCell, .rTableHead {
+        display: table-cell;
+        padding: 3px 10px;
+        border: 1px solid #999999;
+    }
+
+    .rTableHeading {
+        display: table-header-group;
+        background-color: #ddd;
+        font-weight: bold;
+    }
+
+    .rTableFoot {
+        display: table-footer-group;
+        font-weight: bold;
+        background-color: #ddd;
+    }
+
+    .rTableBody {
+        display: table-row-group;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtReductionDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0d'
+        });
+    });
+</script>
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
 
 @using (Html.BeginForm("BlendingVATReductionDetails", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
@@ -36,60 +82,77 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Reduction Date<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.ReductionDate1, new { @id = "txtReductionDate", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy"  })
+                                    @Html.TextBoxFor(m => m.ReductionDate1, new { @id = "txtReductionDate", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BlendingVATId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlBlendingVATId", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.BatchNo,  new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBox("txtBlendingVATName","", new { @class = "form-control", @id = "txtBlendingVATName", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Brand (in Blending VAT)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBox("txtBrandInBlendingVAT","", new { @class = "form-control", @id = "txtBrandInBlendingVAT", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
                                     <label class="control-label">Blending VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBox("txtBlendingVATCapacity","", new { @class = "form-control", @id = "txtBlendingVATCapacity", @readonly = "true" })
+                                    @Html.TextBox("txtBlendingVATCapacity", "", new { @class = "form-control", @id = "txtBlendingVATCapacity", @readonly = "true" })
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">BV BL (Before Reduction)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.BeforeRedBL, new { @class = "form-control", @id = "txtBeforeRedBL", @readonly = true })
+                            <div class="rTable">
+                                <div class="rTableRow">
+                                    <div class="rTableHead"></div>
+                                    <div class="rTableHead"><span style="font-weight: bold;">BL</span></div>
+                                    <div class="rTableHead"><span style="font-weight: bold;">Strength</span></div>
+                                    <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">BV Strength (Before Reduction) <b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.BeforeRedStrength, new { @class = "form-control", @id = "txtBeforeRedStrength", @readonly = true })
+
+                                <div class="rTableRow">
+                                    <div class="rTableCell"><strong>Blending VAT (Before Reduction)</strong></div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.BeforeRedBL, new { @id = "txtBeforeRedBL", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled",
+                                       @style = "width:160px"
+                                   })
+                                    </div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.BeforeRedStrength, new { @id = "txtBeforeRedStrength", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                    </div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.BeforeRedAL, new { @id = "txtBeforeRedAL", @class = "form-control", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                    </div>
+
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">BV AL (Before Reduction)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.BeforeRedAL, new { @class = "form-control", @id = "txtBeforeRedAL", @readonly = true })
+
+                                <div class="rTableRow">
+                                    <div class="rTableCell"><strong>Blending VAT (After Reduction) </strong></div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.AfterRedBL, new { @id = "txtAfterRedBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                    </div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.AfterRedStrength, new { @id = "txtAfterRedStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                    </div>
+                                    <div class="rTableCell">
+                                        @Html.TextBoxFor(model => model.AfterRedAL, new { @id = "txtAfterRedAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px", disabled = "disabled" })
+                                    </div>
+                                </div>
+
+                                <div class="rTableRow">
+                                    <div class="rTableCell"><strong>Wastage </strong></div>
+                                    <div class="rTableCell">
+                                         &nbsp;
+                                    </div>
+                                    <div class="rTableCell">
+                                        &nbsp;
+                                    </div>
+                                    <div class="rTableCell">
+                                        @Html.TextBox("txtWastageAL","", new { @id = "txtWastageAL", @class = "form-control", @type = "text", @style = "width:160px", @disabled = "disabled" })
+                                    </div>
                                 </div>
                             </div>
+                           <div style="height:10px"></div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">BV BL (After Reduction)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.AfterRedBL, new { @class = "form-control", @id = "txtAfterRedBL" })
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">BV Strength (After Reduction) <b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.AfterRedStrength, new { @class = "form-control", @id = "txtAfterRedStrength" })
+                                    <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">BV AL (After Reduction)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.AfterRedAL, new { @class = "form-control", @id = "txtAfterRedAL" })
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Remarks</label>
                                     @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", @id = "txtRemarks" })
@@ -124,8 +187,8 @@
                 document.getElementById("txtBeforeRedBL").value = res[0];
                 document.getElementById("txtBlendingVATCapacity").value = res[1];
                 document.getElementById("txtBeforeRedAL").value = res[4];
-                document.getElementById("txtBrandInBlendingVAT").value = res[3];
-                document.getElementById("txtBlendingVATName").value = res[5];
+                //document.getElementById("txtBrandInBlendingVAT").value = res[3];
+                //document.getElementById("txtBlendingVATName").value = res[5];
                 document.getElementById("txtBeforeRedStrength").value = res[6];
             },
             error: function (data) {
@@ -133,7 +196,54 @@
             }
         });
     }
+    function sumPAL() {
+        if (document.getElementById("txtAfterRedBL").value.trim() != "" && document.getElementById("txtAfterRedStrength").value.trim() != "") {
+            varAfRedBL = parseFloat(document.getElementById("txtAfterRedBL").value);
+            varAfRedStr = parseFloat(document.getElementById("txtAfterRedStrength").value);
+            varAfRedAL = ((varAfRedBL * varAfRedStr) / 100).toFixed(3);
+            document.getElementById("txtAfterRedAL").value = varAfRedAL;
+
+            varbfRedAL = parseFloat(document.getElementById("txtBeforeRedAL").value);
+
+            document.getElementById("txtWastageAL").value = (varbfRedAL- varAfRedAL).toString();
+            if (varbfRedAL < varAfRedAL) {
+                alert("Blending VAT Strength (After Reduction) Cannot greater than Blending VAT Strength (Before Reduction)")
+                document.getElementById("txtAfterRedStrength").value = "";
+            }
+        }
+    }
     function Validate() {
-        return true; 
+        var BrandId = $('#ddlBrand').val();
+        if (BrandId == "-1") {
+            document.getElementById("ddlBrand").focus();
+            alert("Please Select Brand");
+            return false;
+        }
+        document.getElementById("txtBatchNo").value = document.getElementById("txtBatchNo").value.trim();
+        if (document.getElementById("txtBatchNo").value == "") {
+            document.getElementById("txtBatchNo").focus();
+            alert("Please Enter Batch No");
+            return false;
+        }
+        if (document.getElementById("txtAfterRedBL").value =="") {
+            document.getElementById("txtAfterRedBL").focus();
+            alert("Please Enter Blending VAT (After Reduction) BL");
+            return false;
+        }
+        if (document.getElementById("txtAfterRedStrength").value == "") {
+            document.getElementById("txtAfterRedStrength").focus();
+            alert("Please Enter Blending VAT (After Reduction) Strength");
+            return false;
+        }
+        if (parseFloat(document.getElementById("txtAfterRedBL").value)<=0) {
+            document.getElementById("txtAfterRedBL").focus();
+            alert("Please Enter Blending VAT (After Reduction) BL");
+            return false;
+        }
+        if (parseFloat(document.getElementById("txtAfterRedStrength").value)<=0) {
+            document.getElementById("txtAfterRedStrength").focus();
+            alert("Please Enter Blending VAT (After Reduction) Strength");
+            return false;
+        }
     }
 </script>

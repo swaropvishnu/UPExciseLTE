@@ -294,11 +294,11 @@
                                 </div>
                             </center>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-        </div>
 }
 <script type="text/javascript">
     function reset() {
@@ -327,7 +327,7 @@
             $('#ddlsource_spP').removeClass('hide');
             $('#divpurchase').removeClass('hide');
             $('.divReciver').addClass('hide');
-           // $('.divReciver1').removeClass('hide');
+            // $('.divReciver1').removeClass('hide');
             $('#lblsptype').html('Purchase Type <b style="color:red; font-weight:800">*</b>');
             $('#divRecivertype').addClass('hide');
             $('#divPassNo').removeClass('hide');
@@ -346,7 +346,7 @@
             else {
                 $('#divPassNo').addClass('hide');
 
-            }        
+            }
             $.ajax({
                 type: "post",
                 url: "/CL/GetReciver",
@@ -852,7 +852,7 @@
         if (document.getElementById("txtRCurrentStorageVStrength").value != "") {
             closingstrength = parseFloat(document.getElementById("txtRCurrentStorageVStrength").value)
         }
-        
+
         document.getElementById("txtRCurrentStorageVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
 
 

@@ -6279,6 +6279,7 @@
     <Content Include="Views\DistrictWareHouse\GetPassDetailsCL.cshtml" />
     <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
     <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
+    <Content Include="Views\CL\BlendingVATSophisticationDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
