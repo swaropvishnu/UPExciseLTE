@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlan>
 
 @{
-    ViewBag.Title = "Generate And Download QR Code";
+    ViewBag.Title = "FindPreviousQRCode";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
     <input type="hidden" id="hfid" name="PlanId" />
     <input type="submit" value="Export" style="display:none" id="btnDownload" />
 }
-@using (Html.BeginForm("GenerateQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FindPreviousQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -21,54 +21,84 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i>Generate And Download QR Code
+                            <i class="fa fa-gift"></i>Download Previous QR Code
                         </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5;display:none">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">From Date</label>
+                                    @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @type = "text" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">To Date</label>
+                                    @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @type = "text" })
+                                </div>
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Brand</label>
+                                        @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                    </div>*@
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Search</button>
+                                <button type="button" class="btn default" style="background-color: crimson;color:white">Reset</button>
+                            </div>
+                        </center>
                     </div>
                     <div class="portlet-body">
                         <div>
                             <table class="table table-striped table-bordered table-hover" id="example">
                                 <thead>
                                     <tr>
-
-                                        <th>
+                                        <th scope="col">
+                                            @Html.DisplayNameFor(model => model.PlanId)
+                                        </th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.DateOfPlan1)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.Brand)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.BottleCapacity)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.Strength)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.LiquorType)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.LicenceType)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.Brand)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.NumberOfCases)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.QunatityInCaseExport)
                                         </th>
-                                        <th>
+                                        <th scope="col">
                                             @Html.DisplayNameFor(model => model.BulkLitre)
                                         </th>
-                                        <th></th>
-                                        <th></th>
+                                        <th scope="col"></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PlanId)
+                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.DateOfPlan1)
                                             </td>
@@ -100,21 +130,7 @@
                                                 @Html.DisplayFor(modelItem => item.BulkLitre)
                                             </td>
                                             <td>
-                                                @if (item.IsQRGenerated == false && item.Status != "PB")
-                                                {
-                                                    <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Generate QR Code</button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" class="btn default" style="background-color: crimson;color:white" disabled="disabled">QR Code Generated</button>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.IsQRGenerated == false && item.Status != "PB")
-                                                {
-                                                    <button type="button" class="btn green" disabled="disabled">Download QR Code</button>
-                                                }
-                                                else if (item.IsQRGenerated == true)
+                                                @if (item.IsQRGenerated == true)
                                                 {
                                                     <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>
                                                     <button type="button" class="btn green" onclick="Click('@item.EncPlanId')">Download QR Code</button>
@@ -144,49 +160,9 @@
         document.getElementById('hrefDownload').click();
     }
     function DownloadExcel(PlanId) {
-        //$("#hfname").val(name);
-        //$("#hfyojana").val(yojana);
         $("#btnDownload")[0].click();
     };
 
-    $(document).ready(function () {
-
-        $("#txtFromDate").datepicker({
-
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true
-        });
-        $("#txtToDate").datepicker({
-
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true
-        });
-    });
-
-
-    function Confirm(EncPlanId) {
-        var r = confirm("Are You sure to generate QRCode");
-        if (r == true) {
-            GenreateQR(EncPlanId);
-        }
-    }
-    function GenreateQR(PlanId) {
-        $.ajax({
-            url: '/MasterForms/GenreateQR',
-            data: { 'PlanId': PlanId },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                alert(data);
-                window.location = "../MasterForms/GenerateQRCode";
-            },
-            error: function (data) {
-                alert("Error in Finalize Plan Loading");
-            }
-        });
-    }
     //function DownloadExcel(PlanId) {
     //    $.ajax({
     //        url: '/MasterForms/DownloadExcel',
@@ -194,8 +170,8 @@
     //        datatype: "json",
     //        type: "GET",
     //        success: function (data) {
-    //            alert(data);
-    //            window.location = "../MasterForms/GenerateQRCode";
+
+    //            window.location = "../MasterForms/FindPreviousQRCode";
     //        },
     //        error: function (data) {
     //            alert("Error in Finalize Plan Loading");

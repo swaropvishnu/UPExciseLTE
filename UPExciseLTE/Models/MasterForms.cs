@@ -84,15 +84,15 @@ namespace UPExciseLTE.Models
         public decimal ConsiderationFees { get; set; } = 0;
         [Display(Name = "WholeSale Margin")]
         public decimal WHMargin { get; set; } = 0;
-        [Display(Name = "WholeSale Price")]
+        [Display(Name = "Max WholeSale Price")]
         public decimal WHPrice { get; set; } = 0;
         [Display(Name = "Retailer Margin")]
         public decimal RetMargin { get; set; } = 0;
-        [Display(Name = "Max Retailer  Price")]
+        [Display(Name = "Optimum Retailer  Price")]
         public decimal MaxRetPrice { get; set; } = 0;
-        [Display(Name = "Additional Duty")]
+        [Display(Name = "Additional Consideration Fees")]
         public decimal AdditionalDuty { get; set; } = 0;
-        [Display(Name = "Actual Maximum WholeSale Price")]
+        [Display(Name = "WholeSale Cost Price")]
         public decimal OriginalRetPrice { get; set; } = 0;
         [Display(Name = "Total Consideration Fees")]
         public decimal ExciseDuty { get; set; } = 0;
@@ -112,6 +112,8 @@ namespace UPExciseLTE.Models
         [Display(Name = "Brand Status")]
         public string BrandStatus { get; set; } = "P";
         public string Status { get; set; } = "";
+        [Display(Name = "District Name")]
+        public string DistrictName { get; set; } = "";
     }
     public class BottelingPlan
     {
@@ -177,6 +179,8 @@ namespace UPExciseLTE.Models
         public string BeforeBBTBal { get; set; } = "";
         public decimal AfterBBTBal { get; set; } = 0;
         public Message Msg { get; set; }
+        public string FromDate { get; set; } = "";
+        public string ToDate { get; set; } = "";
     }
     public class UnitTank
     {

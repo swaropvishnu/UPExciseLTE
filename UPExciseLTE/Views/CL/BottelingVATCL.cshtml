@@ -143,9 +143,8 @@
     }
     function Validate() {
         document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
-        document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
-        document.getElementById("txtUnitTankStrength").value = document.getElementById("txtUnitTankStrength").value.trim();
-        if (document.getElementById("txtUnitTank").value == "") {
+
+        if (document.getElementById("txtUnitTank").value.trim() == "") {
             alert("Please Enter Botteling VAT Name");
             document.getElementById("txtUnitTank").focus();
             return false;
@@ -155,6 +154,10 @@
             document.getElementById("txtUnitTankCapacity").focus();
             return false;
         }
-
+        if (parseFloat(document.getElementById("txtUnitTankCapacity").value) == 0) {
+            alert("Please Enter Botteling VAT Capacity");
+            document.getElementById("txtUnitTankCapacity").focus();
+            return false;
+        }
     }
 </script>

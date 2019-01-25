@@ -10,10 +10,8 @@
         background-color: #f5f5f5;
     }
 </style>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
 @using (Html.BeginForm("BreweryToManufacturerWholesale", "GatePass", FormMethod.Post, new { @id = "UploadGatePassform", @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -85,11 +83,11 @@
                                         </div>
 
                                         @*<div class="form-group col-md-4">
-                    <label class="control-label">Shop Id</label>
-                    <div>
-                        @Html.TextBoxFor(m => m.ShopId, new { @id = "txtToShopId", @class = "form-control ", @placeholder = "To Shop Id", @required = "required", @onkeyPress = "return IsNumeric(event);" })
-                    </div>
-                </div>*@
+                                                <label class="control-label">Shop Id</label>
+                                                <div>
+                                                    @Html.TextBoxFor(m => m.ShopId, new { @id = "txtToShopId", @class = "form-control ", @placeholder = "To Shop Id", @required = "required", @onkeyPress = "return IsNumeric(event);" })
+                                                </div>
+                                            </div>*@
 
                                     </div>
 
@@ -101,11 +99,11 @@
                                             </div>
                                         </div>
                                         @*<div class="form-group col-md-4">
-                    <label class="control-label"> License No</label>
-                    <div>
-                        @Html.TextBoxFor(m => m.LicenseeLicenseNo, new { @id = "txtLicenseeLicenseNo", @class = "form-control ", @placeholder = "Licensee License No", @required = "required" })
-                    </div>
-                </div>*@
+                                                <label class="control-label"> License No</label>
+                                                <div>
+                                                    @Html.TextBoxFor(m => m.LicenseeLicenseNo, new { @id = "txtLicenseeLicenseNo", @class = "form-control ", @placeholder = "Licensee License No", @required = "required" })
+                                                </div>
+                                            </div>*@
                                         <div class="form-group   col-md-4">
                                             <label class="control-label">Licencee No</label>
                                             <div>

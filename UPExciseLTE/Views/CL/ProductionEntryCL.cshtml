@@ -1,14 +1,14 @@
 ﻿@model UPExciseLTE.Models.BottelingPlanCL
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Production Plan";
-                Layout = "~/Views/Shared/_Layout.cshtml";
-                if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
-                {
-                    <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../CL/ProductionPlanList';</script>
-                }
+    ViewBag.Title = "Production Plan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg); window.location = '../CL/ProductionPlanList';</script>
+    }
 }
 <script type="text/javascript">
     var specialKeys = new Array();
@@ -201,7 +201,7 @@
             document.getElementById("txtWastageInNumber").value = TotalUnitQuantity - TotalUnit;
             //document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
             var ProBulkLiter = (TotalUnit * Quantity) / 1000;
-            document.getElementById("txtProducedBulkLitre").value = ProBulkLiter ;
+            document.getElementById("txtProducedBulkLitre").value = ProBulkLiter;
             if (document.getElementById("txtAfterBBTBal").value != "") {
                 document.getElementById("txtWastageBL").value = ProBulkLiter - parseFloat(document.getElementById("txtAfterBBTBal").value);
             }
@@ -214,7 +214,7 @@
             document.getElementById("txtProducedNumberOfCases").focus();
             return false;
         }
-        if (document.getElementById("txtAfterBBTBal").value.trim() == "" ) {
+        if (document.getElementById("txtAfterBBTBal").value.trim() == "") {
             alert("Please Enter After BBT Balance");
             document.getElementById("txtAfterBBTBal").focus();
             return false;

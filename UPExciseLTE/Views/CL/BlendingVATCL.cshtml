@@ -142,10 +142,9 @@
         }
     }
     function Validate() {
-        document.getElementById("txtBlendingVAT").value = document.getElementById("txtBlendingVAT").value.trim();
-        document.getElementById("txtBlendingVATCapacity").value = document.getElementById("txtBlendingVATCapacity").value.trim();
-        document.getElementById("txtBlendingVATStrength").value = document.getElementById("txtBlendingVATStrength").value.trim();
-        if (document.getElementById("txtBlendingVAT").value == "") {
+        document.getElementById("txtBlendingVAT").value = document.getElementById("txtBlendingVAT").value.trim(); 
+
+         if (document.getElementById("txtBlendingVAT").value == "") {
             alert("Please Enter Blending VAT Name");
             document.getElementById("txtBlendingVAT").focus();
             return false;
@@ -155,6 +154,10 @@
             document.getElementById("txtBlendingVATCapacity").focus();
             return false;
         }
-
+        if (parseFloat(document.getElementById("txtBlendingVATCapacity").value) == 0) {
+            alert("Please Enter Blending VAT Capacity");
+            document.getElementById("txtBlendingVATCapacity").focus();
+            return false;
+        }
     }
 </script>

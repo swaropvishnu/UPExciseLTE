@@ -8,165 +8,172 @@
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
+        <style>
+            .rTable {
+                display: table;
+                width: 100%;
+            }
 
+            .rTableRow {
+                display: table-row;
+            }
+
+            .rTableHeading {
+                display: table-header-group;
+                background-color: #ddd;
+            }
+
+            .rTableCell, .rTableHead {
+                display: table-cell;
+                padding: 3px 10px;
+                border: 1px solid #999999;
+            }
+
+            .rTableHeading {
+                display: table-header-group;
+                background-color: #ddd;
+                font-weight: bold;
+            }
+
+            .rTableFoot {
+                display: table-footer-group;
+                font-weight: bold;
+                background-color: #ddd;
+            }
+
+            .rTableBody {
+                display: table-row-group;
+            }
+        </style>
 @using (Html.BeginForm("StorageVATTransferToBVCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="page-content-inner">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span><i class="fa fa-gift"></i>&nbsp; Storage VAT Transfer To Blending VAT&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+        <div class="page-content-inner">
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <span><i class="fa fa-gift"></i>&nbsp; Storage VAT Transfer To Blending VAT&nbsp;(@UserSession.LoggedInUserName.ToString())</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="portlet-body form" style="background-color:#f5f5f5">
-                        <div class="form-body">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.IssuedFromSVId, (IEnumerable<SelectListItem>)ViewBag.IssuedFromSVId, new { @id = "ddlIssuedFromSVId", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.IssuedFromBlendingId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlIssuedFromBlendingId", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Brand (In Blending VAT)</label>
-                                    @Html.TextBox("txtBVBrand", "", new { @id = "txtBVBrand", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT Capacity</label>
-                                    @Html.TextBox("txtBlendingCapacity", "", new { @id = "txtBlendingCapacity", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT (Opening BL)</label>
-                                    @Html.TextBoxFor(m=>m.PrevBalanceStorageVBL, "", new { @id = "txtSVBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT (Opening Strength)</label>
-                                    @Html.TextBoxFor(m => m.PrevStorageVStrength, "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT (Opening AL)</label>
-                                    @Html.TextBoxFor(m => m.PrevStorageVAL, "", new { @id = "txSVAL", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT (Opening BL)</label>
-                                    @Html.TextBoxFor(m => m.PrevBalanceStorageVBL, "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT (Opening Strength)</label>
-                                    @Html.TextBox("txtBottelingOpStrength", "", new { @id = "txtBottelingOpStrength", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT (Opening AL)</label>
-                                    @Html.TextBox("txtBottelingOpAL", "", new { @id = "txtBottelingOpAL", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT BL (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT Strength (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Storage VAT AL (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT BL (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT Strength (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Blending VAT AL (After Transfer)</label>
-                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Transfer BL</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Transfer Strength</label>
-                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Transfer AL</label>
-                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Receive BL</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Receive Strength</label>
-                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Net Receive AL</label>
-                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Wastage BL</label>
-                                    @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Wastage Strength</label>
-                                    @Html.TextBox("txtBlendingOpStrength", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Wastage AL</label>
-                                    @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Remark<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
-                                </div>
-                            </div>
+                        <div class="portlet-body form" style="background-color:#f5f5f5">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.DropDownListFor(m => m.SVId, (IEnumerable<SelectListItem>)ViewBag.IssuedFromSVId, new { @id = "ddlIssuedFromSVId", @class = "form-control" })
+                                    </div>
 
+                                    <div class="form-group col-md-4 hide">
+                                        <label class="control-label">Batch No</label>
+                                        @Html.TextBox("txtSVSpiritType", "", new { @id = "txtSVSpiritType", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.DropDownListFor(m => m.BlendingId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlIssuedFromBlendingId", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Brand (In Blending VAT)</label>
+                                        @Html.TextBox("txtBVBrand", "", new { @id = "txtBVBrand", @class = "form-control", @readonly = true })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Blending VAT Capacity</label>
+                                        @Html.TextBox("txtBlendingCapacity", "", new { @id = "txtBlendingCapacity", @class = "form-control", @readonly = true})
+                                    </div>
+                                </div>
+                                <div class="rTable">
+                                    <div class="rTableRow">
+                                        <div class="rTableHead"></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">BL</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">Strength</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage VAT (Opening Balance) A</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBox("txtSVBal", "", new { @id = "txtSVBal", @class = "form-control", @readonly = true, @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">@Html.TextBox("txtstoragevatstrength", "", new { @id = "txtstoragevatstrength", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBox("txSVAL", "", new { @id = "txSVAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage VAT (Balance After Transfer) B</strong></div>
+                                        <div class="rTableCell">@Html.TextBox("txtStorageABL", "", new { @id = "txtStorageABL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBox("txtStorageASt", "", new { @id = "txtStorageASt", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBox("txtStorageAAL", "", new { @id = "txtStorageAAL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Net Transfer (A-B)</strong></div>
+                                        <div class="rTableCell"> @Html.TextBox("txtNetBL", "", new { @id = "txtNetBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtNetStr", "", new { @id = "txtNetStr", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txttransAL", "", new { @id = "txttransAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Blending VAT (Opening Balance) X</strong></div>
+
+                                        <div class="rTableCell">@Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtBottelingOpStrength", "", new { @id = "txtBottelingOpStrength", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtBottelingOpAL", "", new { @id = "txtBottelingOpAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    </div>
+
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Blending VAT (After Tranfer) Y</strong></div>
+                                        <div class="rTableCell"> @Html.TextBox("txtBlendingABal", "", new { @id = "txtBlendingABal", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtBlendingAStrength", "", new { @id = "txtBlendingAStrength", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtBlendingAAL", "", new { @id = "txtBlendingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Net Receive (X-Y)</strong></div>
+                                        <div class="rTableCell"> @Html.TextBox("txtRBL", "", new { @id = "txtRBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtRS", "", new { @id = "txtRS", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBox("txtRAL", "", new { @id = "txtRAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Recive)</strong></div>
+                                        <div class="rTableCell">@Html.TextBox("txtWBL", "", new { @id = "txtWBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtWAL", "", new { @id = "txtWAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    </div>
+                                    @*<div class="rTableRow">
+                                    <div class="rTableCell"><strong>Remark</strong></div>
+                                    <div">@Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "100" })</div>
+
+                                </div>*@
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">Remark</label>
+                                        @Html.TextAreaFor(model => model.Remark, new { @class = "form-control", @id = "txtRemark", @required = "required", @maxlength = "100" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <center>
+                                <div class="form-actions">
+                                    <button type="button" class="btn green" onclick="save()">Submit</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                </div>
+                            </center>
                         </div>
-                        <div class="clearfix"></div>
-                        <center>
-                            <div class="form-actions">
-                                <button type="submit" class="btn green" onclick="return Validation();">Submit</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
-                            </div>
-                        </center>
+
+
                     </div>
+
+
                 </div>
             </div>
         </div>
-    </div>
 }
 <script type="text/javascript">
     function Validation() {
@@ -220,14 +227,14 @@
             datatype: "json",
             type: "GET",
             success: function (data) {
-                var res = data.split(",");
-                document.getElementById("txtSVBal").value = res[2];
-                document.getElementById("txtSVSpiritType").value = res[3];
-                document.getElementById("txtSVAL").value = res[4];
-                
+                document.getElementById("txtSVBal").value = data[1];
+                document.getElementById("txtstoragevatstrength").value = data[2];
+                document.getElementById("txSVAL").value = data[3];
+                //document.getElementById("txtBottelingOpStrength").value = data[2];
+                //document.getElementById("txtBottelingOpAL").value = data[3];
             },
             error: function (data) {
-                alert("Error in GetUnitTankForDDl Loading");
+                alert("Error in GetBrandDetailsForDDl Loading");
             }
         });
     }
@@ -239,16 +246,17 @@
     });
     function BBTChange(BBTId) {
         $.ajax({
-            url: '/CL/GetBlendingVATForDDl',
+            url: '/CL/GetBlendingVATDetails',
             data: { 'BVId': BBTId },
             datatype: "json",
             type: "GET",
             success: function (data) {
-                var res = data.split(",");
-                document.getElementById("txtBlendingBal").value = res[0];
-                document.getElementById("txtBlendingCapacity").value = res[1];
-                document.getElementById("txtBVSpiritType").value = res[2];
-                document.getElementById("txtBVBrand").value = res[3];
+               // var res = data.split(",");
+                document.getElementById("txtBVBrand").value = data[0];
+                document.getElementById("txtBlendingCapacity").value = data[1];
+                document.getElementById("txtBlendingBal").value = data[4];
+                document.getElementById("txtBottelingOpStrength").value = data[2];
+                document.getElementById("txtBottelingOpAL").value = data[3];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");
@@ -261,9 +269,163 @@
         if (txtdipTo > txtdipForm) {
             alert("Max Transfer BL is " + txtdipForm);
             document.getElementById("txtdipTo").value = txtdipForm;
-            
+
         }
         document.getElementById("txtWastage").value = txtdipForm - txtdipTo;
+    }
+
+    function save() {
+        if (document.getElementById("ddlIssuedFromSVId").value.trim() == "-1") {
+            document.getElementById("ddlIssuedFromSVId").focus();
+            alert("select Storage VAT");
+            return;
+        }
+
+        var Objform = {
+            "TransferId": -1,
+            "RVId":-1,
+            "ImportPassNo": " ",
+            "SVId": document.getElementById("ddlIssuedFromSVId").value.trim(),
+            "BlendingId": document.getElementById("ddlIssuedFromBlendingId").value.trim(),
+            "BottlingVATId": -1,//document.getElementById("ddlIssuedFromBlendingId").value.trim(),
+            "SpiritTypeId": -1,//document.getElementById("ddlSpiritType").value.trim(),
+            "BatchNo": " ",
+            "BrandID": document.getElementById("ddlBrand").value.trim(),//document.getElementById("").value.trim(),
+            "TransactionType": "BS",
+            "SourceofSpirit": -1,//document.getElementById("ddlsource_sp").value.trim(),
+            "ReceiverType": " ",//document.getElementById("ddlsource_spR").value.trim(),
+            "PrevBalanceReceiverVBL":0,// document.getElementById("txtPrevBalanceReceiverVBL").value.trim(),
+            "PrevBalanceStorageVBL": document.getElementById("txtSVBal").value.trim(),
+            "PrevBalanceBlendingVBL": document.getElementById("txtBlendingBal").value.trim(),
+            "IssueBL": document.getElementById("txtNetBL").value.trim(),
+            "CurrentBalanceReceiverVBL": 0,//document.getElementById("txtCurrentBalanceReceiverVBL").value.trim(),
+            "CurrentBalanceSVBL": document.getElementById("txtStorageABL").value.trim(),
+            "CurrentBalanceBledingVBL": document.getElementById("txtBlendingAAL").value.trim(),
+            "CurrentBalanceBottlingVBL": "0",//document.getElementById("txtCurrentBalanceBottlingVBL").value.trim(),
+            "PrevReceiverVAL": 0,//document.getElementById("txtPrevReceiverVAL").value.trim(),
+            "PrevStorageVAL": document.getElementById("txSVAL").value.trim(),
+            "PrevBlendingVAL": document.getElementById("txtBottelingOpAL").value.trim(),
+            "PrevBottlingVAL": "0",// document.getElementById("txtPrevBottlingVAL").value.trim(),
+            "IssueAL": document.getElementById("txttransAL").value.trim(),
+            "CurrentReceiverVAL": 0,//document.getElementById("txtCurrentReceiverVAL").value.trim(),
+            "CurrentStorageVAL": document.getElementById("txtStorageAAL").value.trim(),
+            "CurrentBlendingVAL": document.getElementById("txtBlendingAAL").value.trim(),
+            "CurrentBottlingVAL": "0", //document.getElementById("txtCurrentBottlingVAL").value.trim(),
+            "PrevReceiverVStrength":0,// document.getElementById("txtPrevReceiverVStrength").value.trim(),
+            "PrevStorageVStrength": document.getElementById("txtstoragevatstrength").value.trim(),
+            "PrevBlendingVStrength": document.getElementById("txtBottelingOpStrength").value.trim(),
+            "PrevBottlingVStrength": "0",//document.getElementById("txtPrevBottlingVStrength").value.trim(),
+            "CurrentReceiverVStrength":0,// document.getElementById("txtCurrentReceiverVStrength").value.trim(),
+            "CurrentStorageVStrength": document.getElementById("txtStorageASt").value.trim(),
+            "CurrentBlendingVStrength": document.getElementById("txtBlendingAStrength").value.trim(),
+            "CurrentBottlingVStrength": "0",//document.getElementById("txtCurrentBottlingVStrength").value.trim(),
+            "WastageBL": document.getElementById("txtWBL").value.trim(),
+            "WastageStrength": document.getElementById("txtWS").value.trim(),
+            "WastageAL": document.getElementById("txtWAL").value.trim(),
+            //"TransferDate": document.getElementById("").value.trim(),
+            // "IsFinal": document.getElementById("").value.trim(),
+            "Remark": document.getElementById("txtRemark").value.trim(),
+            "IssueStength": document.getElementById("txtNetStr").value.trim(),
+        }
+
+        $.ajax({
+            url: '/CL/InsertUpdateTankTranfer',
+            data: JSON.stringify({ Objform: Objform }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "Record Save..") {
+                    alert(data);
+                    location.reload();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            }
+        });
+    }
+
+    function sumreciver() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtBlendingBal").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtBlendingBal").value)
+        }
+        if (document.getElementById("txtBottelingOpStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtBottelingOpStrength").value)
+        }
+        if (document.getElementById("txtBottelingOpAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txtBottelingOpAL").value)
+        }
+        if (document.getElementById("txtBlendingABal").value != "") {
+            closingbl = parseFloat(document.getElementById("txtBlendingABal").value)
+        }
+        if (document.getElementById("txtBlendingAStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtBlendingAStrength").value)
+        }
+        //if (document.getElementById("txtBlendingAAL").value != "") {
+        //    closingal = parseFloat(document.getElementById("txtBlendingAAL").value)
+        //}
+        document.getElementById("txtBlendingAAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+
+        document.getElementById("txtRBL").value = parseFloat(parseFloat(closingbl) - parseFloat(Openingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtRS").value = parseFloat(parseFloat(closingstrength)).toFixed(2).toString().trim();; //parseFloat(parseFloat(closingstrength) - parseFloat(Openingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtRAL").value = parseFloat((parseFloat(document.getElementById("txtRBL").value) * parseFloat(document.getElementById("txtRS").value))/100).toFixed(2).toString().trim();
+        sumwaste();
+    }
+    function sumtransfer() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtSVBal").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtSVBal").value)
+        }
+        if (document.getElementById("txtstoragevatstrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtstoragevatstrength").value)
+        }
+        if (document.getElementById("txSVAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txSVAL").value)
+        }
+        if (document.getElementById("txtStorageABL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtStorageABL").value)
+        }
+        if (document.getElementById("txtStorageASt").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtStorageASt").value)
+        }
+        //if (document.getElementById("txtStorageAAL").value != "") {
+        //    closingal = parseFloat(document.getElementById("txtStorageAAL").value)
+        //}
+        document.getElementById("txtStorageAAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+        document.getElementById("txtNetBL").value = parseFloat(parseFloat(Openingbl) - parseFloat(closingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtNetStr").value = parseFloat(parseFloat(closingstrength)).toFixed(2).toString().trim(); //parseFloat(parseFloat(Openingstrength) - parseFloat(closingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txttransAL").value = parseFloat((parseFloat(document.getElementById("txtNetBL").value) * parseFloat(document.getElementById("txtNetStr").value ))/100).toFixed(2).toString().trim();
+        sumwaste();
+    }
+    function sumwaste() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtNetBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtNetBL").value)
+        }
+        if (document.getElementById("txtNetStr").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtNetStr").value)
+        }
+        if (document.getElementById("txttransAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txttransAL").value)
+        }
+        if (document.getElementById("txtRBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtRBL").value)
+        }
+        if (document.getElementById("txtRS").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtRS").value)
+        }
+        if (document.getElementById("txtRAL").value != "") {
+            closingal = parseFloat(document.getElementById("txtRAL").value)
+        }
+
+        document.getElementById("txtWBL").value = parseFloat(parseFloat(Openingbl) - parseFloat(closingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtWS").value = parseFloat(closingstrength).toFixed(2).toString().trim();//parseFloat(parseFloat(Openingstrength) - parseFloat(closingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtWAL").value = parseFloat((parseFloat(document.getElementById("txtWBL").value) * parseFloat(document.getElementById("txtWS").value))/100).toFixed(2).toString().trim();
     }
 </script>
 

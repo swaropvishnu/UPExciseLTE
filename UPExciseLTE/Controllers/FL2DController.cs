@@ -357,7 +357,7 @@ namespace UPExciseLTE.Controllers
             try
             {
                 FL36GatePassDetails GP = new FL36GatePassDetails();
-                DataSet ds = new CommonDA().FL36GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+                DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
                 GP = new CommonBL().FL36GetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 8, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
                 ViewBag.Msg = TempData["Message"];
 
@@ -372,7 +372,7 @@ namespace UPExciseLTE.Controllers
 
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    FL1Licence = CommonBL.FL36fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
+                    FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
                     if (GP.FromLicenseType.Trim() == string.Empty)
                     {
                         if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1")

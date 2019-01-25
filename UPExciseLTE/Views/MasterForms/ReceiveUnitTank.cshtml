@@ -104,8 +104,15 @@ $(document).ready(function () {
     function Validation()
     {
         var UnitTankId = $('#ddlUnitTank').val();
-        if (UnitTankId == "-1") {
+        
+        if (UnitTankId == "-1")
+        {
             alert("Please Select Unit Tank");
+            return false;
+        }
+        if ($('#ddlBrand').val() == "-1")
+        {
+            alert("Please Select Brand");
             return false;
         }
         if (document.getElementById("txtUnitTankReceiveBL").value.trim() == "" || parseFloat(document.getElementById("txtUnitTankReceiveBL").value.trim()) <=0) {

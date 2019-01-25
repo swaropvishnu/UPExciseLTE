@@ -176,6 +176,7 @@ namespace UPExciseLTE.BLL
                 brand.PackagingType = dr["PackagingType"].ToString().Trim();
                 brand.Remark = dr["Remark"].ToString().Trim();
                 brand.Reason = dr["Reason"].ToString().Trim();
+                brand.DistrictName = dr["DistrictCode"].ToString().Trim();
                 brand.SPType = 2;
                 brand.BrandStatus = dr["BrandStatus"].ToString().Trim();
                 brand.Status = dr["Status1"].ToString().Trim();
@@ -1153,12 +1154,12 @@ namespace UPExciseLTE.BLL
 
         #region BWFL
 
-        public static List<SelectListItem> FL2BfillFL1Licence(int ParentUnitId)
-        {
-            List<SelectListItem> UnitList = new List<SelectListItem>();
-            CMODataEntryBLL.bindDropDownHnGrid("BWFL_Proc_ddlDetail", UnitList, "FL1", ParentUnitId.ToString().Trim(), "S");
-            return UnitList;
-        }
+        //public static List<SelectListItem> FL2BfillFL1Licence(int ParentUnitId)
+        //{
+        //    List<SelectListItem> UnitList = new List<SelectListItem>();
+        //    CMODataEntryBLL.bindDropDownHnGrid("BWFL_Proc_ddlDetail", UnitList, "FL1", ParentUnitId.ToString().Trim(), "S");
+        //    return UnitList;
+        //}
         public FL2BGatePassDetails FL2BGetGatePassDetails(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             DataSet ds = new CommonDA().FL2BGatePassDetails(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
@@ -1283,7 +1284,11 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetStorageVAT(BreweryId, StorageVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillStorageVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillStorageVAT(dr));
+                }
+                
             }
             return lstSVATCL;
         }
@@ -1326,7 +1331,10 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetBlendingVAT(BreweryId, BlendingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillBlendingVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBlendingVAT(dr));
+                }
             }
             return lstSVATCL;
         }
@@ -1373,7 +1381,11 @@ namespace UPExciseLTE.BLL
             DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BottelingVATId, status);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                lstSVATCL.Add(FillBottelingVAT(ds.Tables[0].Rows[0]));
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBottelingVAT(dr));
+                }
+               
             }
             return lstSVATCL;
         }
@@ -1682,6 +1694,12 @@ namespace UPExciseLTE.BLL
             }
             catch (Exception) { }
             return GP;
+        }
+        public static List<SelectListItem> fillReceiver(string status)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "RM", UserSession.LoggedInUserId.ToString().Trim(), status);
+            return breweryList;
         }
         #endregion CL BAL
 

@@ -6255,7 +6255,6 @@
     <Content Include="Views\CL\UploadGatePassCSVCL.cshtml" />
     <Content Include="Views\CL\z_StorageTrBV.cshtml" />
     <Content Include="Views\CL\StorageVATTransferToBVDetailsCL.cshtml" />
-    <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
     <Content Include="Views\BreweryWareHouse\BreweryWareHouse.cshtml" />
     <Content Include="Views\UnitMaster\GetUnitMasterDetails.cshtml" />
     <Content Include="Views\UnitMaster\UnitMaster.cshtml" />
@@ -6292,12 +6291,16 @@
     <Content Include="Views\DistrictWareHouse\UploadGatePassCSVCL.cshtml" />
     <Content Include="Views\Retailer\StockBalanceCL.cshtml" />
     <Content Include="Views\Retailer\ReceiveGatePassWHCL.cshtml" />
+    <Content Include="Views\DistrictWareHouse\GetPassDetailsCL.cshtml" />
+    <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
+    <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Content\sass\" />
+    <Folder Include="UsersService\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
