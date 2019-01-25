@@ -262,6 +262,7 @@ namespace UPExciseLTE.Controllers
             return View(lstBrand);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GetBrandDetails(FormCollection frm)
         {
             int StateId = -1;// int.Parse(frm["ddlState"].Trim());
@@ -370,6 +371,7 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BottelingPlan(BottelingPlan BP)
         {
             try
@@ -489,6 +491,7 @@ namespace UPExciseLTE.Controllers
             return View(new CommonBL().GetBottelingPlan(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", Planid, "FB"));
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ProductionEntry(BottelingPlan BP)
         {
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
@@ -686,6 +689,7 @@ namespace UPExciseLTE.Controllers
             return Ut.UnitTankCapacity.ToString() + "," + Ut.UnitTankStrength.ToString() + "," + Ut.UnitTankBulkLitre.ToString() + "," + Ut.BrandId.ToString() + "," + Ut.Brand.Trim();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReceiveUnitTank(UTTransferToBBT UTBL)
         {
             UTBL.TransferDate = CommonBL.Setdate(UTBL.TransferDate1);
@@ -730,6 +734,7 @@ namespace UPExciseLTE.Controllers
             return bbtFormation.BBTBulkLitre.ToString() + "," + bbtFormation.BBTCapacity.ToString() + "," + bbtFormation.BrandName + "," + bbtFormation.BrandId;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UTTransferToBBT(UTTransferToBBT UTTBBT)
         {
             UTTBBT.TransferDate = CommonBL.Setdate(UTTBBT.TransferDate1);
@@ -738,8 +743,7 @@ namespace UPExciseLTE.Controllers
             TempData["Message"] = str;
             return RedirectToAction("UTTransferToBBT");
         }
-        [HttpGet]
-        [ValidateAntiForgeryToken]
+        [HttpGet]       
         public ActionResult UTTransferToBBTDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
@@ -807,6 +811,7 @@ namespace UPExciseLTE.Controllers
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BBTMaster(BBTMaster BBT)
         {
             var str = new CommonDA().InsertUpdateBBT(BBT);
