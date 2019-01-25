@@ -4,10 +4,13 @@ using System.Data;
 using System.Web.Mvc;
 using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
+using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class GatePassController : Controller
     {
 

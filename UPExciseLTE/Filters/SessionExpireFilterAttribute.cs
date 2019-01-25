@@ -8,7 +8,7 @@ using UPExciseLTE.Models;
 using System.Security.Principal;
 namespace UPExciseLTE.Filters
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
 public class SessionExpireFilterAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -16,7 +16,8 @@ public class SessionExpireFilterAttribute : ActionFilterAttribute
         HttpContext ctx = HttpContext.Current;
  
         // If the browser session or authentication session has expired...
-        if (ctx.Session["tbl_Session"] == null || !filterContext.HttpContext.Request.IsAuthenticated)
+        //if (ctx.Session["tbl_Session"] == null || !filterContext.HttpContext.Request.IsAuthenticated)
+        if (ctx.Session["tbl_Session"] == null )
         {
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
@@ -31,8 +32,8 @@ public class SessionExpireFilterAttribute : ActionFilterAttribute
                 // will, in turn, redirect to the logon page.
                 filterContext.Result = new RedirectToRouteResult(
                     new RouteValueDictionary {
-                        { "Controller", "Home" },
-                        { "Action", "TimeoutRedirect" }
+                        { "Controller", "Login" },
+                        { "Action", "Logout" }
                 });
             }
         }

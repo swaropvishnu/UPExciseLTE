@@ -11,7 +11,8 @@ using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
-    [SessionExpireFilter]
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class BottlingPlanController : Controller
     {

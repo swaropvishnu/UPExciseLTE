@@ -13,9 +13,9 @@ using UPExciseLTE.Models;
 
 namespace UPExciseLTE.Controllers
 {
-    [SessionExpireFilter]
-    //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
+    //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class FL2DController : Controller
     {
         // GET: FL2D

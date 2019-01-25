@@ -10,9 +10,8 @@ using System.Data.Entity.Infrastructure;
 using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
-    [SessionExpireFilter]
-    //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class UnitMasterController : Controller
     {
         //

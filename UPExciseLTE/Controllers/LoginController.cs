@@ -18,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
     
     //[CheckAuthorization]
-    [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+    //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class LoginController : Controller
     {
         
@@ -231,6 +231,7 @@ namespace UPExciseLTE.Controllers
                 //required NameSpace: using System.Security.Principal;
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
                 Session.Clear();
+                Session.Abandon();
                 System.Web.HttpContext.Current.Session.RemoveAll();
                 // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
                 // this clears the Request.IsAuthenticated flag since this triggers a new request

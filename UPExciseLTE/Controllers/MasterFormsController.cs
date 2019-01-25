@@ -15,11 +15,10 @@ using UPExciseLTE.Models;
 using ZXing;
 
 namespace UPExciseLTE.Controllers
-{
-
-    //[CheckAuthorization]
-    //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
+{  
+    
     [SessionExpireFilterAttribute]
+    [ChkAuthorization]
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()
