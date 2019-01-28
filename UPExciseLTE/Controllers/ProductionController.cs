@@ -11,6 +11,7 @@ using UPExciseLTE.Models;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     public class ProductionController : Controller
     {

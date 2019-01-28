@@ -10,6 +10,7 @@ using UPExciseLTE.Models;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     public class GatePassController : Controller
     {
