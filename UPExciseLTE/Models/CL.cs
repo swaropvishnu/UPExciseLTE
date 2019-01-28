@@ -116,11 +116,11 @@ namespace UPExciseLTE.Models
         public decimal BlendingVATCapacity { get; set; } = 0;
         [Display(Name = "Blending VAT Bulk Litre")]
         public decimal BlendingVATBulkLitre { get; set; } = 0;
-        
         [Display(Name = "Blending VAT Strength")]
         public decimal BlendingVATStrength { get; set; } = 0;
         [Display(Name = "Blending VAT Status")]
         public string Status { get; set; } = "";
+        public string BatchNo { get; set; } = "";
         public int Type { get; set; } = 1;
     }
     public class BottelingVATCL

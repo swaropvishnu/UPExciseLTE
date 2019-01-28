@@ -1,8 +1,8 @@
 ﻿@model UPExciseLTE.Models.BlendingVATReduction
 
 @{
-    ViewBag.Title = "BlendingVATReductionDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  ViewBag.Title = "BlendingVATReductionDetails";
+  Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
@@ -64,7 +64,7 @@
 <link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
 <script src="/Content/DateCalender/jquery-ui.js"></script>
 
-@using (Html.BeginForm("BlendingVATReductionDetails", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BlendingVATSophisticationDetails", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -73,7 +73,7 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span><i class="fa fa-gift"></i>&nbsp; Reduction of Blending VAT&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            <span><i class="fa fa-gift"></i>&nbsp; Sophistication of Blending VAT&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
@@ -95,11 +95,11 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control", @readonly = "true" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
+                                    @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required", @readonly = "true" })
                                 </div>
                             </div>
                             <div class="rTable">
@@ -139,7 +139,7 @@
                                 </div>
 
                                 <div class="rTableRow">
-                                    <div class="rTableCell"><strong>Obscuration </strong></div>
+                                    <div class="rTableCell"><strong>Obscuration of AL</strong></div>
                                     <div class="rTableCell">
                                         &nbsp;
                                     </div>
@@ -190,6 +190,9 @@
                 //document.getElementById("txtBrandInBlendingVAT").value = res[3];
                 //document.getElementById("txtBlendingVATName").value = res[5];
                 document.getElementById("txtBeforeRedStrength").value = res[6];
+                document.getElementById("txtBeforeRedStrength").value = res[6];
+                $('#ddlBrand').val(res[7]);
+                document.getElementById("txtBatchNo").value = res[8];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");

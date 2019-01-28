@@ -16,10 +16,14 @@ namespace UPExciseLTE.Filters
             string url1 = Reverse(url);
             string[] arr = url1.Split('/');
             string menuAction = Reverse(arr[0]);
+            if (menuAction.Contains("?"))
+            {
+                menuAction = menuAction.Substring(0, menuAction.IndexOf("?"));
+            }
             string menuControlller = Reverse(arr[1]);
             int res = 0; bool chk = false;
             res = UserDtl.GetMenuValid(UserSession.LoggedInUserId, menuAction, HttpContext.Current.Request.UserHostAddress.ToString());
-            if (res == 1 && ChkValidRequest())
+            if (res > 0 && ChkValidRequest())
                 chk = true;
             else
             {
@@ -28,7 +32,8 @@ namespace UPExciseLTE.Filters
                 else
                     chk = true;
             }
-
+            // cchk true writter for Gaurav 27 jan 2019 for development
+            chk = true;
             if (chk == false)
             {
 

@@ -7,7 +7,7 @@
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
- 
+
 @using (Html.BeginForm("BottlingLineCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -24,11 +24,8 @@
                         <div class="form-body">
                             @Html.HiddenFor(model => model.BottlingLineId, new { @id = "hfBottlingLineId" })
                             @Html.HiddenFor(model => model.Type, new { @id = "hfBottlingLineType" })
+                               @Html.HiddenFor(model => model.BBTId, new { @id = "hfBBTId", @value = "-1" }) 
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
-                                </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
@@ -43,12 +40,9 @@
                                         @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Capactity (Number Of Cases Per Hour)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);" })
-
                                 </div>
                             </div>
                             <center>
@@ -80,7 +74,7 @@
                                             <td>@dr.LineType1</td>
                                             <td>@dr.CapacityNoOfCasePerHour</td>
                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
-                                            
+
                                             @if (dr.BottlingLineStatus == "A")
                                             {
                                                 <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
@@ -130,7 +124,7 @@
             document.getElementById("txtBottlingLineName").focus();
             return false;
         }
-        
+
         var LineType = $('#ddlLineType').val();
         if (LineType.trim() == "-1" || LineType.trim() == "") {
             alert("Please Select Line Type");
