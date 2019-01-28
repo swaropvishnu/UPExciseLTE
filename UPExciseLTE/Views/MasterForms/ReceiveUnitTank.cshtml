@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript">
 $(document).ready(function () {
        $("#txtEntryDate").datepicker({
@@ -19,6 +19,7 @@ $(document).ready(function () {
 @using (Html.BeginForm("ReceiveUnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     if (Model.Msg != null)
     {
         if (!string.IsNullOrEmpty(Model.Msg.MStatus))
@@ -64,7 +65,7 @@ $(document).ready(function () {
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand (In UT)</label>
                                     @Html.TextBox("txtUnitTankBrand", "", new { @class = "form-control", @id = "txtUnitTankBrand", @readonly = "true" })
-                                    @Html.Hidden("hfUTBrandId", -1, new {@id="hfUTBrandID" })
+                                    @Html.Hidden("hfUTBrandId", -1, new { @id = "hfUTBrandID" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
@@ -72,7 +73,7 @@ $(document).ready(function () {
                                 </div>
                             </div>
                             <div class="row">
-                               
+
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
@@ -104,7 +105,7 @@ $(document).ready(function () {
     function Validation()
     {
         var UnitTankId = $('#ddlUnitTank').val();
-        
+
         if (UnitTankId == "-1")
         {
             alert("Please Select Unit Tank");
@@ -117,7 +118,7 @@ $(document).ready(function () {
         }
         if (document.getElementById("txtUnitTankReceiveBL").value.trim() == "" || parseFloat(document.getElementById("txtUnitTankReceiveBL").value.trim()) <=0) {
             alert("Please Enter valid receive Quantity");
-            return false; 
+            return false;
         }
     }
     function UnitTankChange(UnitTankId) {

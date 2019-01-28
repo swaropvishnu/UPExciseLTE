@@ -347,7 +347,28 @@ namespace UPExciseLTE.Controllers
         }
         public ActionResult Error()
         {
-            return View();
+            try
+            {
+                // First we clean the authentication ticket like always
+                //required NameSpace: using System.Web.Security;
+                FormsAuthentication.SignOut();
+                // Second we clear the principal to ensure the user does not retain any authentication
+                //required NameSpace: using System.Security.Principal;
+                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+                Session.Clear();
+                Session.Abandon();
+                System.Web.HttpContext.Current.Session.RemoveAll();
+                // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+                // this clears the Request.IsAuthenticated flag since this triggers a new request
+                //return RedirectToLocal();
+                return View();
+            }
+            catch
+            {
+                throw;
+            }
+
+            //return View();
         }
         public ActionResult RegistrationLogin()
         {

@@ -4,10 +4,11 @@
     ViewBag.Title = "Unit Tank Transfer To Bottling Tank";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
- 
+
 @using (Html.BeginForm("UTTransferToBBT", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     if (Model.Msg != null)
     {
         if (!string.IsNullOrEmpty(Model.Msg.MStatus))
@@ -45,7 +46,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand In Unit Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBox("txtUTBrand", "", new { @id = "txtUTBrand", @class = "form-control", @readonly = true })
-                                    @Html.HiddenFor(m=>m.BrandID,new {@id="hfUTBrandId" })
+                                    @Html.HiddenFor(m => m.BrandID, new { @id = "hfUTBrandId" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
@@ -56,7 +57,7 @@
                                     @Html.TextBox("txtBBTBrand", "", new { @id = "txtBBTBrand", @class = "form-control", @readonly = true })
                                     @Html.Hidden("hfBBTBrandId", "-1", new { @id = "hfBBTBrandId" })
                                 </div>
-                               
+
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -67,14 +68,14 @@
                                     <label class="control-label">Bottling Tank Capacity</label>
                                     @Html.TextBox("txtBBTCapacity", "", new { @id = "txtBBTCapacity", @class = "form-control", @readonly = true })
                                 </div>
-                                
+
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Transfer from UT in BL (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.IssueBL, new { @id = "txtTransferBL", @class = "form-control", @onkeyUp = "CheckTransfer();", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
                             </div>
                             <div class="row">
-                              
+
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Received in BBT (in BL) (as per dip book)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.NetTransfer, "", new { @id = "txtNetTransfer", @class = "form-control", @onkeyUp = "CheckTransfer();", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
@@ -83,7 +84,7 @@
                                     <label class="control-label">Tank Transfer Wastage (in BL)</label>
                                     @Html.TextBoxFor(m => m.Wastage, new { @id = "txtWastageBL", @class = "form-control", @readonly = true, @required = "required", @onkeypress = "return isfloatNumber(this, event);", @MaxLength = 5 })
                                 </div>
-                              
+
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -100,10 +101,9 @@
     </div>
 }
 <script type="text/javascript">
-    
-    function Validation()
-    {
-        if (document.getElementById("txtWastageBL").value.trim()=="") {
+
+    function Validation() {
+        if (document.getElementById("txtWastageBL").value.trim() == "") {
             document.getElementById("txtWastageBL").value = 0;
         }
         var UnitTankId = $('#ddlUnitTank').val();
@@ -123,8 +123,7 @@
             document.getElementById("txtTransferBL").focus();
             return false;
         }
-        if (document.getElementById("txtNetTransfer").value.trim() == 0)
-        {
+        if (document.getElementById("txtNetTransfer").value.trim() == 0) {
             alert("Please Enter Received In BBT.");
             document.getElementById("txtNetTransfer").focus();
             return false;
@@ -193,19 +192,16 @@
             }
         });
     }
-    function CheckTransfer()
-    {
+    function CheckTransfer() {
         var UnitTankBal = parseFloat(document.getElementById("txtUTBal").value);
         var TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
-        if (TransferBL > UnitTankBal)
-        {
+        if (TransferBL > UnitTankBal) {
             alert("Max Transfer BL is " + UnitTankBal);
             document.getElementById("txtTransferBL").value = UnitTankBal;
             TransferBL = parseFloat(document.getElementById("txtTransferBL").value);
         }
         var NetTransfer = parseFloat(document.getElementById("txtNetTransfer").value);
-        if (NetTransfer > TransferBL)
-        {
+        if (NetTransfer > TransferBL) {
             alert("Net Transfer Cannot greater then Transfer BL");
             document.getElementById("txtNetTransfer").value = "";
             document.getElementById("txtNetTransfer").focus();
@@ -221,6 +217,6 @@
         if ((NetTransfer + BBTBalance) > BBTCapacity) {
             alert("Max Transfer is not greater than" + (BBTCapacity - BBTBalance));
         }
-        document.getElementById("txtWastageBL").value = TransferBL-NetTransfer;
+        document.getElementById("txtWastageBL").value = TransferBL - NetTransfer;
     }
 </script>

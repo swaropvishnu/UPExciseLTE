@@ -294,7 +294,7 @@
             return;
         }
 
-        if (document.getElementById("hfbrandid").value.trim() == document.getElementById("hfbottlebrandid").value.trim()) {
+        if (document.getElementById("hfbrandid").value.trim() != document.getElementById("hfbottlebrandid").value.trim()) {
             //document.getElementById("ddlBottelingId").focus();
             alert(" bottling Vat brand must be same to blending Vat brand ");
             return;
@@ -460,6 +460,74 @@
             alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
             return;
         }
+
+        if ((document.getElementById("txtNetRBL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive BL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRBL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive BL  must be greater than zero");
+
+           // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetRStr").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive Strength Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRStr").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive Strength  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+
+        if ((document.getElementById("txtNetRAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive AL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive AL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+
+        if ((document.getElementById("txtWBL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage BL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWBL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage BL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtWAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage AL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage AL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
         var Objform = {
             "TransferId": -1,
             "RVId": -1,

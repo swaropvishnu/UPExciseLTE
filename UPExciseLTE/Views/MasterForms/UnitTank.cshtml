@@ -14,22 +14,18 @@
         }
     });
 
-    function Validate()
-    {
-        if (document.getElementById("txtUnitTank").value == "")
-        {
+    function Validate() {
+        if (document.getElementById("txtUnitTank").value == "") {
             alert("Please Enter Unit Tank Name");
             document.getElementById("txtUnitTank").focus();
             return false;
         }
-        else if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == 0)
-        {
+        else if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == 0) {
             alert("Please Enter Unit Tank Capacity");
             document.getElementById("txtUnitTankCapacity").focus();
             return false;
         }
-        else
-        {
+        else {
             return true;
         }
     }
@@ -54,6 +50,7 @@
 @using (Html.BeginForm("UnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -70,7 +67,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank",@MaxLength=100 })
+                                    @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
@@ -81,9 +78,9 @@
                                         @Html.TextBoxFor(model => model.UnitTankBulkLitre, new {  @class = "form-control", @id = "txtUnitTankBulkLitre" } )
                                     </div>*@
                                 @*<div class="form-group col-md-4">
-                                    <label class="control-label">Unit Tank Strength<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
-                                </div>*@
+                                        <label class="control-label">Unit Tank Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
+                                    </div>*@
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
@@ -140,8 +137,7 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status)
-    {
+    function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
             window.location.assign("../masterforms/UnitTank?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);

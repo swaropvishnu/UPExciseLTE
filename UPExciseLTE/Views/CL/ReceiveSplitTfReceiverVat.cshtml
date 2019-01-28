@@ -230,22 +230,22 @@
             return;
         }
         if (document.getElementById("txtRVCapacity").value.trim() == "") {
-            alert("Receiver VAT Capacity (in Bulk Litre)");
+            alert("Receiver VAT Capacity (in Bulk Litre) should not be blank");
             document.getElementById("txtRVCapacity").focus();
             return;
         }
         if (document.getElementById("txtPrevBalanceReceiverVBL").value.trim() == "") {
-            alert("Receiver Opening Balance");
+            alert("Receiver Opening Balance BL should not be blank");
             document.getElementById("txtPrevBalanceReceiverVBL").focus();
             return;
         }
         if (document.getElementById("txtPrevReceiverVStrength").value.trim() == "") {
-            alert("Receiver Opening Strength");
+            alert("Receiver Opening Strength should not be blank");
             document.getElementById("txtPrevReceiverVStrength").focus();
             return;
         }
         if (document.getElementById("txtPrevReceiverVAL").value.trim() == "") {
-            alert("Receiver Opening Balance");
+            alert("Receiver Opening Balance AL should not be blank");
             document.getElementById("txtPrevReceiverVAL").focus();
             return;
         }
@@ -266,33 +266,19 @@
             return;
         }
         if (document.getElementById("txtRIssueBL").value.trim() == "") {
-            alert("Net Transfer BL");
+            alert("Net Transfer BL should not be blank");
 
             document.getElementById("txtRIssueBL").focus();
             return;
         }
         if (document.getElementById("txtRIssueAL").value.trim() == "") {
-            alert("Net Transfer AL");
+            alert("Net Transfer AL should not be blank");
 
             document.getElementById("txtRIssueAL").focus();
             return;
         }
 
-        //if (parseFloat( document.getElementById("txtPrevBalanceReceiverVBL").value.trim()) <0) {
-        //    alert("Receiver Opening Balance must be greater than zero");
-        //    document.getElementById("txtPrevBalanceReceiverVBL").focus();
-        //    return;
-        //}
-        //if (parseFloat(document.getElementById("txtPrevReceiverVStrength").value.trim()) <0) {
-        //    alert("Receiver Opening Strength must be greater than zero");
-        //    document.getElementById("txtPrevReceiverVStrength").focus();
-        //    return;
-        //}
-        //if (parseFloat(document.getElementById("txtPrevReceiverVAL").value.trim()) <0) {
-        //    alert("Receiver Opening Balance must be greater than zero");
-        //    document.getElementById("txtPrevReceiverVAL").focus();
-        //    return;
-        //}
+       
 
         if (parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value.trim()) != 0) {
             alert("Receiver Opening Balance must be  zero");
