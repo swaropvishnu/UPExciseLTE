@@ -116,6 +116,25 @@
             background-color: #5693f3;
             /*color: green*/
         }
+        input[type=text]:disabled {
+            background: #7c7a7a;
+            color: #ddd
+        }
+
+        select:disabled {
+            background: #7c7a7a !important;
+            color: #ddd !important
+        }
+
+        input:-moz-read-only { /* For Firefox */
+            background: #7c7a7a !important;
+            color: #ddd !important
+        }
+
+        input[readonly] {
+            background: #7c7a7a !important;
+            color: #ddd !important
+        }
     </style>
 </head>
 <!-- END HEAD -->

@@ -65,6 +65,40 @@ namespace UPExciseLTE.DAL
                 con.Dispose();
             }
         }
+        public static string Userpasswordchange(string UserName, string pass, string OldpPass)
+        {
+            try
+            {
+                SqlParameter[] arParms = new SqlParameter[5];
+                // @PersonID Input Parameter
+
+                arParms[0] = new SqlParameter("@pUserName", SqlDbType.NVarChar, 40);
+                arParms[0].Value = UserName;
+                arParms[1] = new SqlParameter("@pPass", SqlDbType.NVarChar, 200);
+                arParms[1].Value = pass;
+
+                arParms[2] = new SqlParameter("@OldpPass", SqlDbType.NVarChar, 200);
+                arParms[2].Value = OldpPass;
+
+                // @ProductName Output Parameter
+                arParms[3] = new SqlParameter("@pOutPut", SqlDbType.NVarChar, 40);
+                arParms[3].Direction = ParameterDirection.Output;
+                // @UnitPrice Output Parameter
+                arParms[4] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
+                arParms[4].Direction = ParameterDirection.Output;
+                // Execute the stored procedure
+                SqlHelper.ExecuteNonQuery(CommonConfig.Conn(), CommandType.StoredProcedure, "[Proc_UserPasswordChange]", arParms);
+                // create a string array of return values and assign values returned from stored procedure
+                string[] arReturnParms = new string[2];
+                arReturnParms[0] = arParms[3].Value.ToString();
+                arReturnParms[1] = arParms[4].Value.ToString();
+                return arParms[4].Value.ToString();
+            }
+            catch
+            {
+                return null;
+            }
+        }
         internal DataSet ValidateCSV(int uploadValue, int planId, int brandId, DataTable dtCaseCode)
         {
             DataSet ds = new DataSet();
@@ -785,6 +819,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("AfterRedAL", BVR.AfterRedAL));
                 cmd.Parameters.Add(new SqlParameter("Remarks", BVR.Remarks));
                 cmd.Parameters.Add(new SqlParameter("BrandId", BVR.BrandID));
+                cmd.Parameters.Add(new SqlParameter("IsSophistication", BVR.IsSophistication));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId.ToString()));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));

@@ -1357,6 +1357,7 @@ namespace UPExciseLTE.BLL
                 UT.SpiritTypeId = short.Parse(dr["SpiritTypeId"].ToString().Trim());
                 UT.BrandName = (dr["BrandName"].ToString().Trim());
                 UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.BatchNo = (dr["BatchNo"].ToString().Trim());
                 UT.BlendingVATAlcoholicLiter = decimal.Parse(dr["BlendingVATAlcoholicLiter"].ToString().Trim());
 
             }

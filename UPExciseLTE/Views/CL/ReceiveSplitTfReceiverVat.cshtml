@@ -1,0 +1,444 @@
+﻿@model UPExciseLTE.Models.TankTransferDetail
+
+@{
+    ViewBag.Title = "ReceiveSplitTfReceiverVat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("ReceiveSplitTfReceiverVat", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+
+{
+    @Html.AntiForgeryToken(){
+        if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+        {
+            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+        }
+    }
+    <style>
+        .rTable {
+            display: table;
+            width: 100%;
+        }
+
+        .rTableRow {
+            display: table-row;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+        }
+
+        .rTableCell, .rTableHead {
+            display: table-cell;
+            padding: 3px 10px;
+            border: 1px solid #999999;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .rTableFoot {
+            display: table-footer-group;
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        .rTableBody {
+            display: table-row-group;
+        }
+    </style>
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp;Receive Split  Into Receiver VAT</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Type of Spirit<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.SpiritTypeId, (IEnumerable<SelectListItem>)ViewBag.SpiritType, new { @id = "ddlSpiritType", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy", @disabled = "disabled" })
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Receiver<b style="color:red; font-weight:800">*</b></label>
+                                    <select id="ddlReceiver" class="form-control">
+                                        <option value="-1">--select--</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Receiver VAT Capacity (in Bulk Litre)</label>
+                                    @Html.TextBox("txtRVCapacity", "", new { @class = "form-control", @id = "txtRVCapacity", @disabled = "disabled"})
+                                </div>
+                            </div>
+
+                            
+                                <div class="rTable">
+                                    <div class="rTableRow">
+                                        <div class="rTableHead"></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">BL</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">Strength</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Receiver Opening Balance (a)</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevBalanceReceiverVBL, new { @id = "txtPrevBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px",@disabled= "disabled" })
+                                        </div>
+                                        <div class="rTableCell">@Html.TextBoxFor(model => model.PrevReceiverVStrength, new { @id = "txtPrevReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);" ,@style = "width:160px", @disabled = "disabled" })</div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevReceiverVAL, new { @id = "txtPrevReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);",  @disabled = "disabled", @style = "width:160px" })
+                                        </div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Receiver Balance (After Recived)</strong></div>
+                                        <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentBalanceReceiverVBL, new { @id = "txtCurrentBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentReceiverVStrength, new { @id = "txtCurrentReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.CurrentReceiverVAL, new { @id = "txtCurrentReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px", @disabled = "disabled" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Net Transfer</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtRIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell"> </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueAL, new { @id = "txtRIssueAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            
+
+                            <div class="row">
+
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Remark</label>
+                                    @Html.TextAreaFor(m => m.Remark, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtRemark",
+                                               @placeholder = "Remark",
+                                               @Maxlength = 200,
+
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;",
+                                               @rows="3"
+
+
+                                           })
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <center>
+                                <div class="form-actions">
+                                    <button type="button" class="btn green" onclick="save()">Submit</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="reset()">Reset</button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+    $.ajax({
+        type: "post",
+        url: "/CL/GetReciver",
+        data: {},
+        datatype: "json",
+        traditional: true,
+        success: function (data) {
+            $('#ddlReceiver').empty();
+            var Reciver = "";
+            for (var i = 0; i < data.length; i++) {
+                Reciver = Reciver + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+            }
+            $('#ddlReceiver').append(Reciver);
+        }
+    });
+    $('#ddlReceiver').change(function () {
+
+        $.ajax({
+            url: '/CL/GetReceiverTankdetails',
+            data: { 'Rid': $("#ddlReceiver").val() },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                document.getElementById("txtRVCapacity").value = data[0];
+                document.getElementById("txtPrevBalanceReceiverVBL").value = data[1];
+                document.getElementById("txtPrevReceiverVStrength").value = data[3];
+                document.getElementById("txtPrevReceiverVAL").value = data[2];
+            }
+        });
+    });
+
+    function sumtransfer() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtPrevBalanceReceiverVBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value)
+        }
+        if (document.getElementById("txtPrevReceiverVStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtPrevReceiverVStrength").value)
+        }
+        document.getElementById("txtPrevReceiverVAL").value = parseFloat((Openingstrength * Openingbl) / 100).toFixed(2).toString().trim();
+        if (document.getElementById("txtCurrentBalanceReceiverVBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value)
+        }
+        if (document.getElementById("txtCurrentReceiverVStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtCurrentReceiverVStrength").value)
+        }
+        document.getElementById("txtCurrentReceiverVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+        document.getElementById("txtRIssueBL").value = parseFloat(parseFloat(closingbl) - parseFloat(Openingbl )).toFixed(2).toString().trim();
+      //  document.getElementById("txtRIssueStength").value = parseFloat(closingstrength).toFixed(2).toString().trim();
+        document.getElementById("txtRIssueAL").value = parseFloat((parseFloat(document.getElementById("txtCurrentReceiverVAL").value) - parseFloat(document.getElementById("txtPrevReceiverVAL").value))).toFixed(2).toString().trim();
+    }
+
+    function reset() {
+        location.reload();
+    }
+
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    
+    function save() {
+        if (document.getElementById("ddlSpiritType").value.trim() == "-1") {
+            alert("Select Spirit");
+            document.getElementById("ddlSpiritType").focus();
+            return;
+        }
+        if (document.getElementById("ddlReceiver").value.trim() == "-1")
+        {
+            alert("Select Receiver");
+            document.getElementById("ddlReceiver").focus();
+            return;
+        }
+        if (document.getElementById("txtRVCapacity").value.trim() == "") {
+            alert("Receiver VAT Capacity (in Bulk Litre)");
+            document.getElementById("txtRVCapacity").focus();
+            return;
+        }
+        if (document.getElementById("txtPrevBalanceReceiverVBL").value.trim() == "") {
+            alert("Receiver Opening Balance");
+            document.getElementById("txtPrevBalanceReceiverVBL").focus();
+            return;
+        }
+        if (document.getElementById("txtPrevReceiverVStrength").value.trim() == "") {
+            alert("Receiver Opening Strength");
+            document.getElementById("txtPrevReceiverVStrength").focus();
+            return;
+        }
+        if (document.getElementById("txtPrevReceiverVAL").value.trim() == "") {
+            alert("Receiver Opening Balance");
+            document.getElementById("txtPrevReceiverVAL").focus();
+            return;
+        }
+        if (document.getElementById("txtCurrentBalanceReceiverVBL").value.trim() == "") {
+            alert("Enter Receiver Balance BL (After Recived)");
+            document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+            return;
+        }
+        if (document.getElementById("txtCurrentReceiverVStrength").value.trim() == "") {
+            alert("Enter Receiver Balance Strength (After Recived)");
+            document.getElementById("txtCurrentReceiverVStrength").focus();
+            return;
+        }
+        if (document.getElementById("txtCurrentReceiverVAL").value.trim() == "") {
+            alert("Enter Receiver Balance AL (After Recived)");
+
+            document.getElementById("txtCurrentReceiverVAL").focus();
+            return;
+        }
+        if (document.getElementById("txtRIssueBL").value.trim() == "") {
+            alert("Net Transfer BL");
+
+            document.getElementById("txtRIssueBL").focus();
+            return;
+        }
+        if (document.getElementById("txtRIssueAL").value.trim() == "") {
+            alert("Net Transfer AL");
+
+            document.getElementById("txtRIssueAL").focus();
+            return;
+        }
+
+        //if (parseFloat( document.getElementById("txtPrevBalanceReceiverVBL").value.trim()) <0) {
+        //    alert("Receiver Opening Balance must be greater than zero");
+        //    document.getElementById("txtPrevBalanceReceiverVBL").focus();
+        //    return;
+        //}
+        //if (parseFloat(document.getElementById("txtPrevReceiverVStrength").value.trim()) <0) {
+        //    alert("Receiver Opening Strength must be greater than zero");
+        //    document.getElementById("txtPrevReceiverVStrength").focus();
+        //    return;
+        //}
+        //if (parseFloat(document.getElementById("txtPrevReceiverVAL").value.trim()) <0) {
+        //    alert("Receiver Opening Balance must be greater than zero");
+        //    document.getElementById("txtPrevReceiverVAL").focus();
+        //    return;
+        //}
+
+        if (parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value.trim()) != 0) {
+            alert("Receiver Opening Balance must be  zero");
+            document.getElementById("txtPrevBalanceReceiverVBL").focus();
+            return;
+        }
+        
+        if (parseFloat(document.getElementById("txtPrevReceiverVAL").value.trim()) != 0) {
+            alert("Receiver Opening Balance must be  zero");
+            document.getElementById("txtPrevReceiverVAL").focus();
+            return;
+        }
+
+        if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value.trim())<0) {
+            alert("Enter Receiver Balance BL (After Recived) must be greater than zero");
+            document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+            return;
+        }
+        if (parseFloat(document.getElementById("txtCurrentReceiverVStrength").value.trim()) <0) {
+            alert("Enter Receiver Balance Strength (After Recived) must be greater than zero");
+            document.getElementById("txtCurrentReceiverVStrength").focus();
+            return;
+        }
+        if (parseFloat(document.getElementById("txtCurrentReceiverVAL").value.trim())<0) {
+            alert("Enter Receiver Balance AL (After Recived) must be greater than zero");
+
+            document.getElementById("txtCurrentReceiverVAL").focus();
+            return;
+        }
+
+
+        if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value.trim()) < parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value.trim())) {
+            alert("Receiver Balance BL (After Recived) not smaller than Receiver Opening Balance BL");
+            document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+            return;
+        }
+        
+        
+        if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value.trim()) >  parseFloat(document.getElementById("txtRVCapacity").value.trim())) {
+            alert("Receiver Balance (After Recived) BL not be greater than Receiver VAT Capacity (in Bulk Litre)");
+            document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+            return;
+        }
+
+        if (parseFloat(document.getElementById("txtRIssueBL").value.trim())<0) {
+            alert("Net Transfer BL  must be greater than zero");
+
+            document.getElementById("txtRIssueBL").focus();
+            return;
+        }
+        if (parseFloat(document.getElementById("txtRIssueAL").value.trim())<0) {
+            alert("Net Transfer AL must be greater than zero");
+
+            document.getElementById("txtRIssueAL").focus();
+            return;
+        }
+
+        var Objform = {
+            "TransferId": -1,
+            "RVId": document.getElementById("ddlReceiver").value.trim(),
+            "ImportPassNo": "",
+            "SVId": -1,
+            "BlendingId": -1,
+            "BottlingVATId": -1,
+            "SpiritTypeId": document.getElementById("ddlSpiritType").value.trim(),
+            "BatchNo": " ",
+            "BrandID": -1,
+            "TransactionType": "RR",
+            "SourceofSpirit":-1,
+            "ReceiverType": " ", 
+            "PrevBalanceReceiverVBL": document.getElementById("txtPrevBalanceReceiverVBL").value.trim(),
+            "PrevBalanceStorageVBL": 0,
+            "PrevBalanceBlendingVBL": "0",
+            "IssueBL": document.getElementById("txtRIssueBL").value.trim(),
+            "CurrentBalanceReceiverVBL": document.getElementById("txtCurrentBalanceReceiverVBL").value.trim(),
+            "CurrentBalanceSVBL": 0,
+            "CurrentBalanceBledingVBL": "0",
+            "CurrentBalanceBottlingVBL": "0",
+            "PrevReceiverVAL": document.getElementById("txtPrevReceiverVAL").value.trim(),
+            "PrevStorageVAL": 0,
+            "PrevBlendingVAL": "0",
+            "PrevBottlingVAL": "0",
+            "IssueAL": document.getElementById("txtRIssueAL").value.trim(),
+            "CurrentReceiverVAL": document.getElementById("txtCurrentReceiverVAL").value.trim(),
+            "CurrentStorageVAL": 0,
+            "CurrentBlendingVAL": "0", 
+            "CurrentBottlingVAL": "0", 
+            "PrevReceiverVStrength": document.getElementById("txtPrevReceiverVStrength").value.trim(),
+            "PrevStorageVStrength": 0,
+            "PrevBlendingVStrength": "0",
+            "PrevBottlingVStrength": "0",
+            "CurrentReceiverVStrength": document.getElementById("txtCurrentReceiverVStrength").value.trim(),
+            "CurrentStorageVStrength": 0,
+            "CurrentBlendingVStrength": "0",
+            "CurrentBottlingVStrength": "0",
+            "WastageBL": 0,
+            "WastageStrength": 0,
+            "WastageAL": 0,
+            "Remark": document.getElementById("txtRemark").value.trim(),
+            "IssueStength": 0,
+        }
+        $.ajax({
+            url: '/CL/InsertUpdateTankTranfer',
+            data: JSON.stringify({ Objform: Objform }),
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "Record Save..") {
+                    alert(data);
+                    location.reload();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            }
+        });
+    }
+
+   
+</script>
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function sumPAL() {
+        var PurchaseBL = 0, Purchase_Strength = 0;
+        if (document.getElementById("txtPIssueBL").value != "") {
+            PurchaseBL = document.getElementById("txtPIssueBL").value;
+        }
+        if (document.getElementById("txtPIssueStength").value != "") {
+            Purchase_Strength = document.getElementById("txtPIssueStength").value;
+        }
+        document.getElementById("txtIssueAL").value = parseFloat((parseFloat(PurchaseBL) * parseFloat(Purchase_Strength) / 100)).toFixed(2).toString().trim();
+    }
+
+</script>
