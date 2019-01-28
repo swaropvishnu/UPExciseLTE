@@ -18,6 +18,7 @@ namespace UPExciseLTE.Controllers
 {  
     
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     public class MasterFormsController : Controller
     {
@@ -459,6 +460,7 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public FileResult Export(string PlanId)
         {
             PlanId = new Crypto().Decrypt(PlanId);
@@ -569,6 +571,7 @@ namespace UPExciseLTE.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)
@@ -620,6 +623,7 @@ namespace UPExciseLTE.Controllers
             return View(UT);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
             string str = new CommonDA().InsertUpdateUnitTank(UT);
@@ -651,6 +655,7 @@ namespace UPExciseLTE.Controllers
             return View(RM);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BottlingLine(BottlingLine RM)
         {
             string str = new CommonDA().InsertUpdateBottlingLine(RM);
@@ -894,6 +899,7 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GatePass(GatePassDetails GP)
         {
             if (GP.Receiver == null)
@@ -922,6 +928,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSV()
         {
             if (Request.Files.Count > 0)

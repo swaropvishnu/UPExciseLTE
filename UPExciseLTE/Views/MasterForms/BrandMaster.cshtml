@@ -161,6 +161,7 @@
 @using (Html.BeginForm("BrandMaster", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row">
             <div class="col-md-12">
@@ -270,16 +271,16 @@
                                 <div class="form-group   col-md-4">
                                     @if (UserSession.LoggedInUserLevelId.Trim() == "25" || Model.LicenceType.Trim() == "PD-2")
                                     {
-                                    <label class="control-label">Box-Size (Number of Bottles / Pet)<b style="color:red; font-weight:800">*</b></label>
+                                        <label class="control-label">Box-Size (Number of Bottles / Pet)<b style="color:red; font-weight:800">*</b></label>
                                     }
                                     else
                                     {
                                         <label class="control-label">Box-Size (Number of Bottles / Cans)<b style="color:red; font-weight:800">*</b></label>
                                     }
-                                        <div>
-                                            @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "5" })
-                                        </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "5" })
                                     </div>
+                                </div>
                                 <div class="form-group   col-md-4">
                                     @if (UserSession.LoggedInUserLevelId.Trim() == "25" || Model.LicenceType.Trim() == "PD-2")
                                     {
@@ -325,23 +326,23 @@
                                 <div class="form-group   col-md-4">
                                     @if (UserSession.LoggedInUserLevelId.Trim() == "25" || Model.LicenceType.Trim() == "PD-2")
                                     {
-                                    <label class="control-label">XFactoryPrice (Per Bottle/Pet)<b style="color:red; font-weight:800">*</b></label>
+                                        <label class="control-label">XFactoryPrice (Per Bottle/Pet)<b style="color:red; font-weight:800">*</b></label>
                                     }
                                     else
                                     {
                                         <label class="control-label">XFactoryPrice (Per Bottle/Can)<b style="color:red; font-weight:800">*</b></label>
                                     }
-                                        <div>
-                                            @if (UserSession.LoggedInUserLevelId.Trim() == "25")
-                                            {
-                                                @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5", @readonly = "true" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
-                                            }
-                                        </div>
+                                    <div>
+                                        @if (UserSession.LoggedInUserLevelId.Trim() == "25")
+                                        {
+                                            @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5", @readonly = "true" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
+                                        }
                                     </div>
+                                </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Remark</label>
                                     <div>

@@ -49,6 +49,9 @@
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Connect">
+      <HintPath>..\packages\Connect.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.38.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
@@ -234,12 +237,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\CMODataEntryBLL.cs" />
-    <Compile Include="App_Code\CommonConfig.cs" />
-    <Content Include="App_Code\ConnectionConfig.cs" />
     <Compile Include="App_Code\Crypto.cs" />
     <Compile Include="App_Code\RandomImage.cs" />
     <Compile Include="App_Code\RealDataEmulator.cs" />
-    <Compile Include="App_Code\RegionInfo.cs" />
     <Compile Include="App_Code\SecurityImp.cs" />
     <Compile Include="App_Code\SMS.cs" />
     <Compile Include="App_Code\UserDtl.cs" />
@@ -264,7 +264,7 @@
     <Compile Include="Controllers\UnitWareHouseController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\ChkAuthorization.cs" />
-    <Compile Include="Filters\HandleErrorAttribute.cs" />
+    <Compile Include="Filters\NoCache.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Filters\UserAuditFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -294,6 +294,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\ConnectionConfig.cs" />
     <Content Include="Content\assets\apps\css\inbox.css" />
     <Content Include="Content\assets\apps\css\inbox.min.css" />
     <Content Include="Content\assets\apps\css\ticket.css" />
@@ -6298,6 +6299,9 @@
     <Content Include="Views\MasterForms\FindPreviousQRCode.cshtml" />
     <Content Include="Views\CL\BlendingVATtfBottelingVATCL.cshtml" />
     <Content Include="Views\CL\BlendingVATSophisticationDetails.cshtml" />
+    <Content Include="Views\Shared\DetailedError.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\CL\ReceiveSplitTfReceiverVat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

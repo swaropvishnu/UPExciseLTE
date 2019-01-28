@@ -103,18 +103,33 @@
         }
     </script>
     <style>
-        .yellow {
-            background-color: #f3ec64;
-            /*color: red*/
+        input[type=text] {
+            border-color: #999eac !important;
         }
 
-        .purple {
-            background-color: #4a5df3;
-            /*color: green*/
+        select:enabled {
+            border-color: #999eac !important;
         }
-        .blue {
-            background-color: #5693f3;
-            /*color: green*/
+
+        input[type=text]:disabled {
+            background: #dbdde0 !important;
+            color: #000000;
+        }
+
+
+        select:disabled {
+            background: #dbdde0 !important;
+            color: #000000 !important;
+        }
+
+        input:-moz-read-only {
+            background: #dbdde0 !important;
+            color: #000000 !important;
+        }
+
+        input[readonly] {
+            background: #dbdde0 !important;
+            color: #000000 !important;
         }
     </style>
 </head>
@@ -188,7 +203,7 @@
                                     </li>
                                     <!-- END NOTIFICATION DROPDOWN -->
                                     <!-- BEGIN TODO DROPDOWN -->
-                                    <li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
+                                    @*<li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
                                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                             <i class="icon-calendar"></i>
                                             <span class="badge badge-default">3</span>
@@ -233,7 +248,7 @@
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li>*@
                                     <!-- END TODO DROPDOWN -->
                                     <li class="droddown dropdown-separator">
                                         <span class="separator"></span>
@@ -248,11 +263,11 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-default">
                                             <li>
-                                                <a href="page_user_profile_1.html">
+                                                <a href="#">
                                                     <i class="icon-user"></i> My Profile
                                                 </a>
                                             </li>
-                                            <li>
+                                            @*<li>
                                                 <a href="app_calendar.html">
                                                     <i class="icon-calendar"></i> My Calendar
                                                 </a>
@@ -274,7 +289,7 @@
                                                 <a href="page_user_lock_1.html">
                                                     <i class="icon-lock"></i> Lock Screen
                                                 </a>
-                                            </li>
+                                            </li>*@
                                             <li>
                                                 <a href='@Url.Action("Logout", "Login")'>
                                                     <i class="icon-key"></i> Log Out

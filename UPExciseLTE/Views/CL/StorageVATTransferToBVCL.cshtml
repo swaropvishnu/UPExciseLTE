@@ -71,10 +71,10 @@
                                         <label class="control-label">Batch No</label>
                                         @Html.TextBox("txtSVSpiritType", "", new { @id = "txtSVSpiritType", @class = "form-control" })
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    @*<div class="form-group col-md-4">
                                         <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                         @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
@@ -84,6 +84,7 @@
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Brand (In Blending VAT)</label>
                                         @Html.TextBox("txtBVBrand", "", new { @id = "txtBVBrand", @class = "form-control", @readonly = true })
+                                        <input id="hfbbrandid" type="hidden" value="-1"/> 
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Blending VAT Capacity</label>
@@ -109,7 +110,7 @@
                                         <div class="rTableCell"><strong>Storage VAT (Balance After Transfer) B</strong></div>
                                         <div class="rTableCell">@Html.TextBox("txtStorageABL", "", new { @id = "txtStorageABL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
                                         <div class="rTableCell"> @Html.TextBox("txtStorageASt", "", new { @id = "txtStorageASt", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
-                                        <div class="rTableCell"> @Html.TextBox("txtStorageAAL", "", new { @id = "txtStorageAAL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBox("txtStorageAAL", "", new { @id = "txtStorageAAL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" , @readonly = true })</div>
                                     </div>
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Net Transfer (A-B)</strong></div>
@@ -126,10 +127,10 @@
                                     </div>
 
                                     <div class="rTableRow">
-                                        <div class="rTableCell"><strong>Blending VAT (After Tranfer) Y</strong></div>
+                                        <div class="rTableCell"><strong>Blending VAT (After Received) Y</strong></div>
                                         <div class="rTableCell"> @Html.TextBox("txtBlendingABal", "", new { @id = "txtBlendingABal", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
                                         <div class="rTableCell">@Html.TextBox("txtBlendingAStrength", "", new { @id = "txtBlendingAStrength", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
-                                        <div class="rTableCell">@Html.TextBox("txtBlendingAAL", "", new { @id = "txtBlendingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtBlendingAAL", "", new { @id = "txtBlendingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px", @readonly = true })</div>
                                     </div>
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Net Receive (X-Y)</strong></div>
@@ -140,7 +141,7 @@
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Recive)</strong></div>
                                         <div class="rTableCell">@Html.TextBox("txtWBL", "", new { @id = "txtWBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
-                                        <div class="rTableCell">@Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control hide", @readonly = true, @style = "width:160px" })</div>
                                         <div class="rTableCell">@Html.TextBox("txtWAL", "", new { @id = "txtWAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
                                     </div>
                                     @*<div class="rTableRow">
@@ -257,6 +258,7 @@
                 document.getElementById("txtBlendingBal").value = data[4];
                 document.getElementById("txtBottelingOpStrength").value = data[2];
                 document.getElementById("txtBottelingOpAL").value = data[3];
+                document.getElementById("hfbbrandid").value = data[6];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");
@@ -280,7 +282,232 @@
             alert("select Storage VAT");
             return;
         }
+        //if (document.getElementById("ddlBrand").value.trim() != document.getElementById("hfbbrandid").value.trim()) {
+        //    document.getElementById("ddlBrand").focus();
+        //    alert("Blending VAT Brand  must be same Storage VAT Brand");
+        //    return;
+        //}
+        if (document.getElementById("txtBlendingCapacity").value.trim()=="") {
+            document.getElementById("txtBlendingCapacity").focus();
+            alert("Blending VAT Capacity not be blank");
+            return;
+        }
+        if (parseFloat( document.getElementById("txtBlendingCapacity").value.trim() )<=0) {
+            document.getElementById("txtBlendingCapacity").focus();
+            alert("Blending VAT Capacity not be smaller or equal than zero");
+            return;
+        }
+        if ((document.getElementById("txtSVBal").value.trim()) == "") {
+            document.getElementById("txtSVBal").focus();
+            alert("Storage VAT (Opening Balance) BL not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtSVBal").value.trim()) < 0) {
+            document.getElementById("txtSVBal").focus();
+            alert("Storage VAT (Opening Balance) BL not be smaller or equal than zero");
+            return;
+        }
 
+        if ((document.getElementById("txSVAL").value.trim()) == "") {
+            document.getElementById("txSVAL").focus();
+            alert("Storage VAT (Opening Balance) AL  not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txSVAL").value.trim()) < 0) {
+            document.getElementById("txSVAL").focus();
+            alert("Storage VAT (Opening Balance) AL  not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtstoragevatstrength").value.trim()) == "") {
+            document.getElementById("txtstoragevatstrength").focus();
+            alert("Storage VAT (Opening Balance) Strength not be blank");
+            return;
+        }
+        
+        if (parseFloat(document.getElementById("txtstoragevatstrength").value.trim()) < 0) {
+            document.getElementById("txtstoragevatstrength").focus();
+            alert("Storage VAT (Opening Balance) Strength not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtStorageABL").value.trim()) == "") {
+            document.getElementById("txtStorageABL").focus();
+            alert(" Enter Storage VAT (Balance After Transfer) BL");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtStorageABL").value.trim()) < 0) {
+            document.getElementById("txtStorageABL").focus();
+            alert("Storage VAT (Balance After Transfer) BL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtStorageASt").value.trim())== "") {
+            document.getElementById("txtStorageASt").focus();
+            alert(" Enter Storage VAT (Balance After Transfer) Strength ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtStorageASt").value.trim()) < 0) {
+            document.getElementById("txtStorageASt").focus();
+            alert("Storage VAT (Balance After Transfer) Strength not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtStorageAAL").value.trim()) =="") {
+            document.getElementById("txtStorageAAL").focus();
+            alert(" Enter Storage VAT (Balance After Transfer) AL ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtStorageAAL").value.trim()) < 0) {
+            document.getElementById("txtStorageAAL").focus();
+            alert("Storage VAT (Balance After Transfer) AL not be smaller than zero");
+            return;
+        }
+
+        if ((document.getElementById("txtNetBL").value.trim()) =="") {
+            document.getElementById("txtNetBL").focus();
+            alert("Net Transfer BL not be blank");
+            return;
+        }
+
+        if (parseFloat(document.getElementById("txtNetBL").value.trim()) <0) {
+            document.getElementById("txtNetBL").focus();
+            alert("Net Transfer BL not be smaller than zero");
+            return;
+        }
+
+        if (parseFloat(document.getElementById("txtNetStr").value.trim()) =="") {
+            document.getElementById("txtNetStr").focus();
+            alert("Net Transfer Strength not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetStr").value.trim()) < 0) {
+            document.getElementById("txtNetStr").focus();
+            alert("Net Transfer strength not be smaller than zero");
+            return;
+        }
+        if (parseFloat(document.getElementById("txttransAL").value.trim()) =="") {
+            document.getElementById("txttransAL").focus();
+            alert("Net Transfer AL not be blank");
+            return;
+        } if (parseFloat(document.getElementById("txttransAL").value.trim()) < 0) {
+            document.getElementById("txttransAL").focus();
+            alert("Net Transfer AL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtBlendingBal").value.trim()) =="") {
+            document.getElementById("txtBlendingBal").focus();
+            alert("Blending VAT (openning balance) BL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingBal").value.trim()) < 0) {
+            document.getElementById("txtBlendingBal").focus();
+            alert("Blending VAT (openning balance) BL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtBottelingOpStrength").value.trim()) =="") {
+            document.getElementById("txtBottelingOpStrength").focus();
+            alert("Blending VAT (opening Balance) strength not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingOpStrength").value.trim()) < 0) {
+            document.getElementById("txtBottelingOpStrength").focus();
+            alert("Blending VAT (opening Balance) strength not be smaller than zero");
+            return;
+        }
+
+        if ((document.getElementById("txtBottelingOpAL").value.trim()) =="") {
+            document.getElementById("txtBottelingOpAL").focus();
+            alert("Blending VAT (opening Balance) AL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingOpAL").value.trim()) < 0) {
+            document.getElementById("txtBottelingOpAL").focus();
+            alert("Blending VAT (opening Balance) AL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtBlendingABal").value.trim()) =="") {
+            document.getElementById("txtBlendingABal").focus();
+            alert("Enter Blending VAT (Balance After Transfer) BL ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingABal").value.trim()) < 0) {
+            document.getElementById("txtBlendingABal").focus();
+            alert("Blending VAT (Balance After Transfer) BL not be smaller than zero");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingAStrength").value.trim()) =="") {
+            document.getElementById("txtBlendingAStrength").focus();
+            alert("Enter Blending VAT (Balance After Transfer) Strength ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingAStrength").value.trim()) < 0) {
+            document.getElementById("txtBlendingAStrength").focus();
+            alert("Blending VAT (Balance After Transfer) Strength not be smaller than zero");
+            return;
+
+        }
+
+        if (parseFloat(document.getElementById("txtBlendingAAL").value.trim()) =="") {
+            document.getElementById("txtBlendingAAL").focus();
+            alert("Blending VAT (Balance After Transfer) AL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingAAL").value.trim()) < 0) {
+            document.getElementById("txtBlendingAAL").focus();
+            alert("Blending VAT (Balance After Transfer) AL not be smaller than zero");
+            return;
+        }
+
+        if ((document.getElementById("txtRBL").value.trim()) =="") {
+            document.getElementById("txtRBL").focus();
+            alert("Net Recevice BL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtRBL").value.trim()) < 0) {
+            document.getElementById("txtRBL").focus();
+            alert("Net Recevice BL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtRS").value.trim()) =="") {
+            document.getElementById("txtRS").focus();
+            alert("Net Recevice Strength not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtRS").value.trim()) < 0) {
+            document.getElementById("txtRS").focus();
+            alert("Net Recevice Strength  not be smaller than zero");
+            return;
+        }
+
+        if ((document.getElementById("txtRAL").value.trim()) =="") {
+            document.getElementById("txtRAL").focus();
+            alert("Net Recevice AL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtRAL").value.trim()) < 0) {
+            document.getElementById("txtRAL").focus();
+            alert("Net Recevice AL not be smaller than zero");
+            return;
+        }
+        if ((document.getElementById("txtWBL").value.trim()) =="") {
+            document.getElementById("txtWBL").focus();
+            alert("Wastage BL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWBL").value.trim()) < 0) {
+            document.getElementById("txtWBL").focus();
+            alert("Wastage BLnot be smaller than zero");
+            return;
+        }
+        
+        if ((document.getElementById("txtWAL").value.trim()) =="") {
+            document.getElementById("txtWAL").focus();
+            alert("Wastage AL not be blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWAL").value.trim()) < 0) {
+            document.getElementById("txtWAL").focus();
+            alert("Wastage AL not be smaller than zero");
+            return;
+        }
+        
         var Objform = {
             "TransferId": -1,
             "RVId":-1,
@@ -290,7 +517,7 @@
             "BottlingVATId": -1,//document.getElementById("ddlIssuedFromBlendingId").value.trim(),
             "SpiritTypeId": -1,//document.getElementById("ddlSpiritType").value.trim(),
             "BatchNo": " ",
-            "BrandID": document.getElementById("ddlBrand").value.trim(),//document.getElementById("").value.trim(),
+            "BrandID": -1,//document.getElementById("ddlBrand").value.trim(),//document.getElementById("").value.trim(),
             "TransactionType": "BS",
             "SourceofSpirit": -1,//document.getElementById("ddlsource_sp").value.trim(),
             "ReceiverType": " ",//document.getElementById("ddlsource_spR").value.trim(),
@@ -320,7 +547,7 @@
             "CurrentBlendingVStrength": document.getElementById("txtBlendingAStrength").value.trim(),
             "CurrentBottlingVStrength": "0",//document.getElementById("txtCurrentBottlingVStrength").value.trim(),
             "WastageBL": document.getElementById("txtWBL").value.trim(),
-            "WastageStrength": document.getElementById("txtWS").value.trim(),
+            "WastageStrength":0,// document.getElementById("txtWS").value.trim(),
             "WastageAL": document.getElementById("txtWAL").value.trim(),
             //"TransferDate": document.getElementById("").value.trim(),
             // "IsFinal": document.getElementById("").value.trim(),

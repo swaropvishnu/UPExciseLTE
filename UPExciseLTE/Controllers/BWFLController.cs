@@ -13,6 +13,7 @@ using UPExciseLTE.Models;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class BWFLController : Controller

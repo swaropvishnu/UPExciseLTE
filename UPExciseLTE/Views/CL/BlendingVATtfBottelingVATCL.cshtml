@@ -69,11 +69,11 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand (In Blending VAT)</label>
-                                    @Html.TextBox("txtBlendingBrand", "", new { @id = "txtBlendingBrand", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBlendingBrand", "", new { @id = "txtBlendingBrand", @class = "form-control", @disabled = "disabled" })
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Blending Spirit Type</label>
-                                    @Html.TextBox("txtBlendingSpiritType", "", new { @id = "txtBlendingSpiritType", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBlendingSpiritType", "", new { @id = "txtBlendingSpiritType", @class = "form-control", @disabled = "disabled" })
                                     <input type="hidden" value="-1" id="hfspritid" />
                                 </div>
                             </div>
@@ -84,12 +84,13 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand (In Bottling VAT)</label>
-                                    @Html.TextBox("txtBottlingBrand", "", new { @id = "txtBottlingBrand", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBottlingBrand", "", new { @id = "txtBottlingBrand", @class = "form-control", @disabled = "disabled" })
                                     <input type="hidden" id="hfbrandid" />
+                                    <input type="hidden" id="hfbottlebrandid" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling VAT Capacity</label>
-                                    @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBottelingCapacity", @class = "form-control", @readonly = true })
+                                    @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBottelingCapacity", @class = "form-control", @disabled = "disabled" })
                                 </div>
                             </div>
 
@@ -105,54 +106,54 @@
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Blending VAT (Opening Balance) A</strong></div>
                                     <div class="rTableCell">
-                                        @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @readonly = true , @style = "width:160px" })
+                                        @Html.TextBox("txtBlendingBal", "", new { @id = "txtBlendingBal", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })
                                     </div>
-                                    <div class="rTableCell">@Html.TextBox("txtBlendingOpS", "", new { @id = "txtBlendingOpS", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
-                                    <div class="rTableCell">   @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingOpAL", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
+                                    <div class="rTableCell">@Html.TextBox("txtBlendingOpS", "", new { @id = "txtBlendingOpS", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
+                                    <div class="rTableCell">   @Html.TextBox("txtBlendingOpAL", "", new { @id = "txtBlendingOpAL", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
                                 </div>
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Blending VAT (Balance After Transfer) B</strong></div>
                                     <div class="rTableCell">@Html.TextBox("txtBlendingABL", "", new { @id = "txtBlendingABL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" }) </div>
                                     <div class="rTableCell">  @Html.TextBox("txtBlendingAStrength", "", new { @id = "txtBlendingAStrength", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
-                                    <div class="rTableCell"> @Html.TextBox("txtBlendingAAL", "", new { @id = "txtBlendingAAL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtBlendingAAL", "", new { @id = "txtBlendingAAL", @class = "form-control", @onkeyup = "sumtransfer()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px",@disabled="disabled" })</div>
                                 </div>
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Net Transfer (A-B)</strong></div>
-                                    <div class="rTableCell">  @Html.TextBox("txtNetBL", "", new { @id = "txtNetBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
-                                    <div class="rTableCell">@Html.TextBox("txtNetStr", "", new { @id = "txtNetStr", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
-                                    <div class="rTableCell"> @Html.TextBox("txtNetAL", "", new { @id = "txtNetAL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    <div class="rTableCell">  @Html.TextBox("txtNetBL", "", new { @id = "txtNetBL", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
+                                    <div class="rTableCell">@Html.TextBox("txtNetStr", "", new { @id = "txtNetStr", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtNetAL", "", new { @id = "txtNetAL", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
                                 </div>
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Bottling VAT (Opening Balance) X</strong></div>
 
-                                    <div class="rTableCell">@Html.TextBox("txtBottelingBal", "", new { @id = "txtBottelingBal", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
+                                    <div class="rTableCell">@Html.TextBox("txtBottelingBal", "", new { @id = "txtBottelingBal", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
 
-                                    <div class="rTableCell">@Html.TextBox("txtBottelingOpStrength", "", new { @id = "txtBottelingOpStrength", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
-                                    <div class="rTableCell"> @Html.TextBox("txtBottelingOpAL", "", new { @id = "txtBottelingOpAL", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
+                                    <div class="rTableCell">@Html.TextBox("txtBottelingOpStrength", "", new { @id = "txtBottelingOpStrength", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtBottelingOpAL", "", new { @id = "txtBottelingOpAL", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
                                 </div>
 
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Bottling VAT (After Tranfer) Y</strong></div>
                                     <div class="rTableCell"> @Html.TextBox("txtBottlingABL", "", new { @id = "txtBottlingABL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
                                     <div class="rTableCell">@Html.TextBox("txtBottlingAS", "", new { @id = "txtBottlingAS", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);" , @style = "width:160px" })</div>
-                                    <div class="rTableCell"> @Html.TextBox("txtBottlingAAL", "", new { @id = "txtBottlingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);" , @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtBottlingAAL", "", new { @id = "txtBottlingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);" , @style = "width:160px" , @disabled = "disabled" })</div>
                                 </div>
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Net Receive (X-Y)</strong></div>
-                                    <div class="rTableCell">@Html.TextBox("txtNetRBL", "", new { @id = "txtNetRBL", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
+                                    <div class="rTableCell">@Html.TextBox("txtNetRBL", "", new { @id = "txtNetRBL", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
                                     <div class="rTableCell">
-                                        @Html.TextBox("txtNetRStr", "", new { @id = "txtNetRStr", @class = "form-control", @readonly = true, @style = "width:160px" })
+                                        @Html.TextBox("txtNetRStr", "", new { @id = "txtNetRStr", @class = "form-control", @disabled = "disabled", @style = "width:160px" })
 
                                       
                                     </div>
-                                    <div class="rTableCell"> @Html.TextBox("txtNetRAL", "", new { @id = "txtNetRAL", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtNetRAL", "", new { @id = "txtNetRAL", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
                                 </div>
                                 <div class="rTableRow">
                                     <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Recive)</strong></div>
-                                    <div class="rTableCell"> @Html.TextBox("txtWBL", "", new { @id = "txtWBL", @class = "form-control", @readonly = true, @style = "width:160px" })</div>
-                                    <div class="rTableCell">  @Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control", @readonly = true , @style = "width:160px" })</div>
+                                    <div class="rTableCell"> @Html.TextBox("txtWBL", "", new { @id = "txtWBL", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
+                                    <div class="rTableCell">  @Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control hide", @disabled = "disabled" , @style = "width:160px" })</div>
                                     <div class="rTableCell">
-                                        @Html.TextBox("txtWAL", "", new { @id = "txtWAL", @class = "form-control", @readonly = true, @style = "width:160px" })
+                                        @Html.TextBox("txtWAL", "", new { @id = "txtWAL", @class = "form-control", @disabled = "disabled", @style = "width:160px" })
 
                                       
                                     </div>
@@ -263,6 +264,7 @@
                 document.getElementById("txtBottelingBal").value = data[4];
                 document.getElementById("txtBottelingOpStrength").value = data[2];
                 document.getElementById("txtBottelingOpAL").value = data[3];
+                document.getElementById("hfbottlebrandid").value = data[6];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");
@@ -281,6 +283,251 @@
     }
 
     function save() {
+        if (document.getElementById("ddlBlendingId").value.trim() == "-1") {
+            document.getElementById("ddlBlendingId").focus();
+            alert("select Blending VAT");
+            return;
+        }
+        if (document.getElementById("ddlBottelingId").value.trim() == "-1") {
+            document.getElementById("ddlBottelingId").focus();
+            alert("select Bottling VAT");
+            return;
+        }
+
+        if (document.getElementById("hfbrandid").value.trim() != document.getElementById("hfbottlebrandid").value.trim()) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert(" bottling Vat brand must be same to blending Vat brand ");
+            return;
+        }
+        if (document.getElementById("txtBlendingBal").value.trim() == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance BL should not be blank ");
+            return;
+        }
+        if (parseFloat( document.getElementById("txtBlendingBal").value.trim()) <0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance BL must be greater than zero ");
+            return;
+        }
+        if ((document.getElementById("txtBlendingOpS").value.trim()) =="") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance strength should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingOpS").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance strength must be greater than zero ");
+            return;
+        }
+        if ((document.getElementById("txtBlendingOpAL").value.trim()) =="") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance AL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingOpAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat opening balance AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBlendingABL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer BL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingABL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer BL must be greater than zero ");
+            return;
+        }
+        if ((document.getElementById("txtBlendingAStrength").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer Strength should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingAStrength").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer Strength must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBlendingAAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer AL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBlendingAAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Blending Vat After Tranfer AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetBL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer BL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetBL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer BL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetStr").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer Strength should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetStr").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer Strength must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer AL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txttxtNetALNetStr").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Transfer AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBottelingBal").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) BL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingBal").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) BL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBottelingOpStrength").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) Strength should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingOpStrength").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) Strength must be greater than zero ");
+            return;
+        }
+
+
+        if ((document.getElementById("txtBottelingOpAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) AL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingOpAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (Opening Balance) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBottlingABL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) BL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottlingABL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) BL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtBottlingAS").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) Strength should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottlingAS").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) Strength must be greater than zero ");
+            return;
+        }
+        if ((document.getElementById("txtBottlingAAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) AL should not be blank ");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtBottlingAAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetRBL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive BL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRBL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive BL  must be greater than zero");
+
+           // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtNetRStr").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive Strength Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRStr").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive Strength  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+
+        if ((document.getElementById("txtNetRAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive AL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtNetRAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Net Receive AL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+
+        if ((document.getElementById("txtWBL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage BL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWBL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage BL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
+        if ((document.getElementById("txtWAL").value.trim()) == "") {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage AL Should not be Blank");
+            return;
+        }
+        if (parseFloat(document.getElementById("txtWAL").value.trim()) < 0) {
+            //document.getElementById("ddlBottelingId").focus();
+            alert("Wastage AL  must be greater than zero");
+
+            // alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            return;
+        }
+
         var Objform = {
             "TransferId": -1,
             "RVId": -1,

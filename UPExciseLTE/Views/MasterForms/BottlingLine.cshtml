@@ -7,10 +7,11 @@
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
- 
+
 @using (Html.BeginForm("BottlingLine", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -80,7 +81,7 @@
                                             <td>@dr.LineType1</td>
                                             <td>@dr.CapacityNoOfCasePerHour</td>
                                             <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
-                                            
+
                                             @if (dr.BottlingLineStatus == "A")
                                             {
                                                 <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
@@ -130,7 +131,7 @@
             document.getElementById("txtBottlingLineName").focus();
             return false;
         }
-        
+
         var LineType = $('#ddlLineType').val();
         if (LineType.trim() == "-1" || LineType.trim() == "") {
             alert("Please Select Line Type");

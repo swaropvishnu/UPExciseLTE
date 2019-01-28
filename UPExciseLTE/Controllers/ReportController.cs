@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.DAL;
-using UPExciseLTE.App_Code;
 using UPExciseLTE.Models;
 using UPExciseLTE.BLL;
 using System.IO;
@@ -16,6 +15,7 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     public class ReportController : Controller
     {

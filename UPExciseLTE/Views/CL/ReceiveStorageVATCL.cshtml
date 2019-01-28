@@ -16,6 +16,7 @@
         }
     }
     <style>
+        
         .rTable {
             display: table;
             width: 100%;
@@ -74,7 +75,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Storage VAT Capacity (in Bulk Litre)</label>
-                                    @Html.TextBox("StorageVCapacity", "", new { @class = "form-control", @id = "txtUnitTankCapacity", @readonly = "true" })
+                                    @Html.TextBox("StorageVCapacity", "", new { @class = "form-control", @id = "txtUnitTankCapacity", @disabled = "disabled" })
                                 </div>
                             </div>
 
@@ -119,7 +120,7 @@
 
                                 </div>
                                 <div class="form-group col-md-4 hide" id="divRecivertype">
-                                    <label class="control-label">Receiver Type<b style="color:red; font-weight:800">*</b></label>
+                                    <label class="control-label">Receiver<b style="color:red; font-weight:800">*</b></label>
                                     <select id="ddlReceiver" class="form-control">
                                         <option value="-1">--select--</option>
 
@@ -155,6 +156,23 @@
 
                                     </div>
 
+
+
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage Vat (After Received) </strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentBalanceSVBL, new { @id = "txtPCurrentBalanceSVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" })
+
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVStrength, new { @id = "txtPCurrentStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" })
+
+
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVAL, new { @id = "txtPCurrentStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" ,@disabled="disabled"})
+                                        </div>
+                                    </div>
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Purchase </strong></div>
                                         <div class="rTableCell">
@@ -165,22 +183,6 @@
                                         </div>
                                         <div class="rTableCell">
                                             @Html.TextBoxFor(model => model.IssueAL, new { @id = "txtIssueAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
-                                        </div>
-                                    </div>
-
-                                    <div class="rTableRow">
-                                        <div class="rTableCell"><strong>Storage Vat (After Received) </strong></div>
-                                        <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.CurrentBalanceSVBL, new { @id = "txtPCurrentBalanceSVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
-
-                                        </div>
-                                        <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.CurrentStorageVStrength, new { @id = "txtPCurrentStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
-
-
-                                        </div>
-                                        <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.CurrentStorageVAL, new { @id = "txtPCurrentStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
                                         </div>
                                     </div>
                                 </div>
@@ -196,20 +198,20 @@
                                         <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
                                     </div>
                                     <div class="rTableRow">
-                                        <div class="rTableCell"><strong>Receiver Opening Balance (a)</strong></div>
+                                        <div class="rTableCell"><strong>Receiver Opening Balance</strong></div>
                                         <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.PrevBalanceReceiverVBL, new { @id = "txtPrevBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })
+                                            @Html.TextBoxFor(model => model.PrevBalanceReceiverVBL, new { @id = "txtPrevBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px",@readonly="true" })
                                         </div>
-                                        <div class="rTableCell">@Html.TextBoxFor(model => model.PrevReceiverVStrength, new { @id = "txtPrevReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBoxFor(model => model.PrevReceiverVStrength, new { @id = "txtPrevReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" , @disabled = "disabled" })</div>
                                         <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.PrevReceiverVAL, new { @id = "txtPrevReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })
+                                            @Html.TextBoxFor(model => model.PrevReceiverVAL, new { @id = "txtPrevReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" , @disabled = "disabled" })
                                         </div>
                                     </div>
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Receiver Balance (After Transfer)</strong></div>
                                         <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentBalanceReceiverVBL, new { @id = "txtCurrentBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
                                         <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentReceiverVStrength, new { @id = "txtCurrentReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
-                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.CurrentReceiverVAL, new { @id = "txtCurrentReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.CurrentReceiverVAL, new { @id = "txtCurrentReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px", @disabled = "disabled" })</div>
                                     </div>
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Net Transfer</strong></div>
@@ -238,7 +240,7 @@
                                     </div>
 
                                     <div class="rTableRow">
-                                        <div class="rTableCell"><strong>Storage VAT After Tranfer</strong></div>
+                                        <div class="rTableCell"><strong>Storage VAT (After Received)</strong></div>
                                         <div class="rTableCell">
                                             @Html.TextBoxFor(model => model.CurrentBalanceSVBL, new { @id = "txtRCurrentBalanceSVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
                                         </div>
@@ -294,11 +296,11 @@
                                 </div>
                             </center>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+        </div>
 }
 <script type="text/javascript">
     function reset() {
@@ -314,6 +316,21 @@
             UnitTankChange(SVId);
         }
     });
+
+    $('#ddlReceiver').change(function () {
+        $.ajax({
+            url: '/CL/GetReceiverTankdetails',
+            data: { 'Rid': $("#ddlReceiver").val() },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                //document.getElementById("txtRVCapacity").value = data[0];
+                document.getElementById("txtPrevBalanceReceiverVBL").value = data[1];
+                document.getElementById("txtPrevReceiverVStrength").value = data[3];
+                document.getElementById("txtPrevReceiverVAL").value = data[2];
+            }
+        });
+    });   
     $('#ddlsource_sp').change(function () {
         if (document.getElementById('ddlSVId').value == "-1") {
             alert("Please select Storage VAT");
@@ -327,7 +344,7 @@
             $('#ddlsource_spP').removeClass('hide');
             $('#divpurchase').removeClass('hide');
             $('.divReciver').addClass('hide');
-            // $('.divReciver1').removeClass('hide');
+           // $('.divReciver1').removeClass('hide');
             $('#lblsptype').html('Purchase Type <b style="color:red; font-weight:800">*</b>');
             $('#divRecivertype').addClass('hide');
             $('#divPassNo').removeClass('hide');
@@ -346,7 +363,7 @@
             else {
                 $('#divPassNo').addClass('hide');
 
-            }
+            }        
             $.ajax({
                 type: "post",
                 url: "/CL/GetReciver",
@@ -454,9 +471,9 @@
                 alert("Enter Storage Vat Strength");
                 return;
             }
-            if (parseFloat(document.getElementById("txtPIssueBL").value) < 0) {
+            if (parseFloat(document.getElementById("txtPIssueBL").value) <= 0) {
                 document.getElementById("txtPIssueBL").focus();
-                alert("Enter Purchase BL");
+                alert("Purchase BL must be greater than zero");
                 return;
             }
             if (parseFloat(document.getElementById("txtIssueAL").value) < 0) {
@@ -484,22 +501,42 @@
                 alert("Enter Storage Vat Strength");
                 return;
             }
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtUnitTankCapacity").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL not greater than Storage VAT Capacity (in Bulk Litre)");
+                return;
+            }
+
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) <= (parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL must be  greater than Storage VAT Opening Balance BL");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtUnitTankCapacity").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL must be  smaller or equal than Storage VAT Capacity (in Bulk Litre)");
+                return;
+            }
+
             //sum
-            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value) + parseFloat(document.getElementById("txtPIssueBL").value))) {
-                document.getElementById("txtPurrentBalanceSVBL").focus();
-                alert("Storage Vat BL must be smaller than (Storage VAT (Opening BL) + Purchase BL)");
-                return;
-            }
-            if (parseFloat(document.getElementById("txtPCurrentStorageVStrength").value) > (parseFloat(document.getElementById("txtPrevStorageVStrength").value) + parseFloat(document.getElementById("txtPIssueStength").value))) {
-                document.getElementById("txtPCurrentStorageVStrength").focus();
-                alert("Storage Vat Strength must be smaller than (Storage VAT (Opening Strength) + Purchase Strength)");
-                return;
-            }
-            if (parseFloat(document.getElementById("txtPCurrentStorageVAL").value) > (parseFloat(document.getElementById("txtPrevStorageVAL").value) + parseFloat(document.getElementById("txtIssueAL").value))) {
-                document.getElementById("txtPCurrentStorageVAL").focus();
-                alert("Storage Vat AL must be smaller than (Storage VAT (Opening AL) + Purchase AL)");
-                return;
-            }
+            //if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value) + parseFloat(document.getElementById("txtPIssueBL").value))) {
+            //    document.getElementById("txtPurrentBalanceSVBL").focus();
+            //    alert("Storage Vat BL must be smaller than (Storage VAT (Opening BL) + Purchase BL)");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtPCurrentStorageVStrength").value) > (parseFloat(document.getElementById("txtPrevStorageVStrength").value) + parseFloat(document.getElementById("txtPIssueStength").value))) {
+            //    document.getElementById("txtPCurrentStorageVStrength").focus();
+            //    alert("Storage Vat Strength must be smaller than (Storage VAT (Opening Strength) + Purchase Strength)");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtPCurrentStorageVAL").value) > (parseFloat(document.getElementById("txtPrevStorageVAL").value) + parseFloat(document.getElementById("txtIssueAL").value))) {
+            //    document.getElementById("txtPCurrentStorageVAL").focus();
+            //    alert("Storage Vat AL must be smaller than (Storage VAT (Opening AL) + Purchase AL)");
+            //    return;
+            //}
             var Objform = {
                 "TransferId": -1,
                 "RVId": document.getElementById("ddlReceiver").value.trim(),
@@ -742,23 +779,28 @@
                 alert("Wastage AL not be negative");
                 return;
             }
+            if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value) > parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value)) {
+                document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+                alert("Receiver Balance (After Transfer) BL Not be greater than Receiver Opening Balance BL");
+                return;
+            }
 
-            if (parseFloat(document.getElementById("txtRIssueBL").value) < parseFloat(document.getElementById("txtDIssueBL").value)) {
-                document.getElementById("txtDIssueBL").focus();
-                alert(" Net Receive BL not be greater than Net Transfer AL");
-                return;
-            }
-            if (parseFloat(document.getElementById("txtRIssueStength").value) < parseFloat(document.getElementById("txtDIssueStength").value)) {
-                document.getElementById("txtDIssueStength").focus();
-                alert(" Net Receive Strength not be greater than Net Transfer AL");
-                return;
-            }
-            if (parseFloat(document.getElementById("txtRIssueAL").value) < parseFloat(document.getElementById("txtDIssueAL").value)) {
-                document.getElementById("txtDIssueAL").focus();
-                alert(" Net Receive AL not be greater than Net Transfer AL");
+            //if (parseFloat(document.getElementById("txtRIssueBL").value) < parseFloat(document.getElementById("txtDIssueBL").value)) {
+            //    document.getElementById("txtDIssueBL").focus();
+            //    alert(" Net Receive BL not be greater than Net Transfer AL");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtRIssueStength").value) < parseFloat(document.getElementById("txtDIssueStength").value)) {
+            //    document.getElementById("txtDIssueStength").focus();
+            //    alert(" Net Receive Strength not be greater than Net Transfer AL");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtRIssueAL").value) < parseFloat(document.getElementById("txtDIssueAL").value)) {
+            //    document.getElementById("txtDIssueAL").focus();
+            //    alert(" Net Receive AL not be greater than Net Transfer AL");
 
-                return;
-            }
+            //    return;
+            //}
 
             var Objform = {
                 "TransferId": -1,
@@ -852,7 +894,7 @@
         if (document.getElementById("txtRCurrentStorageVStrength").value != "") {
             closingstrength = parseFloat(document.getElementById("txtRCurrentStorageVStrength").value)
         }
-
+        
         document.getElementById("txtRCurrentStorageVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
 
 
@@ -860,6 +902,33 @@
         document.getElementById("txtDIssueStength").value = parseFloat(parseFloat(closingstrength)).toString().trim();// parseFloat(parseFloat(closingstrength) - parseFloat(Openingstrength)).toFixed(2).toString().trim();
         document.getElementById("txtDIssueAL").value = parseFloat((parseFloat(document.getElementById("txtDIssueBL").value) * parseFloat(document.getElementById("txtDIssueStength").value)) / 100).toFixed(2).toString().trim();
         sumwaste();
+    }
+
+    function sumPreciver() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtPrevBalanceStorageVBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value)
+        }
+        if (document.getElementById("txtPrevStorageVStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtPrevStorageVStrength").value)
+        }
+        if (document.getElementById("txtPrevStorageVAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txtPrevStorageVAL").value)
+        }
+        if (document.getElementById("txtPCurrentBalanceSVBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value)
+        }
+        if (document.getElementById("txtPCurrentStorageVStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtPCurrentStorageVStrength").value)
+        }
+
+        document.getElementById("txtPCurrentStorageVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+
+        document.getElementById("txtPIssueBL").value = parseFloat(parseFloat(closingbl) - parseFloat(Openingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtPIssueStength").value = parseFloat(parseFloat(closingstrength)).toString().trim();// parseFloat(parseFloat(closingstrength) - parseFloat(Openingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtIssueAL").value = parseFloat((parseFloat(document.getElementById("txtPCurrentStorageVAL").value) - parseFloat(document.getElementById("txtPrevStorageVAL").value)) ).toFixed(2).toString().trim();
+        //sumwaste();
     }
     function sumtransfer() {
         var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
