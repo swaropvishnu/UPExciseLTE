@@ -265,6 +265,7 @@
     <Compile Include="Controllers\UnitWareHouseController.cs" />
     <Compile Include="DAL\CommonDA.cs" />
     <Compile Include="Filters\ChkAuthorization.cs" />
+    <Compile Include="Filters\NoCache.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Filters\UserAuditFilter.cs" />
     <Compile Include="Global.asax.cs">

@@ -18,6 +18,7 @@ namespace UPExciseLTE.Controllers
 {  
     
     [SessionExpireFilterAttribute]
+    [NoCache]
     [ChkAuthorization]
     public class MasterFormsController : Controller
     {

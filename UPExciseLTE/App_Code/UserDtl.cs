@@ -275,7 +275,7 @@ namespace UPExciseLTE
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("@pUserId", UserId));
 
-                ds = SqlHelper.ExecuteReader(Connection.Conn(((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null.ToString()), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
+                ds = SqlHelper.ExecuteReader(Connection.Conn(((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
                 return ds;
             }
 

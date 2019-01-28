@@ -87,7 +87,7 @@ namespace UPExciseLTE.DAL
                 arParms[4] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[4].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(CommonConfig.Conn(), CommandType.StoredProcedure, "[Proc_UserPasswordChange]", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn(((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress : null), CommandType.StoredProcedure, "[Proc_UserPasswordChange]", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[3].Value.ToString();
