@@ -50,7 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Connect">
-      <HintPath>..\packages\Connect.dll</HintPath>
+      <HintPath>C:\Users\NIC\Desktop\Connect.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.38.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
