@@ -386,7 +386,7 @@ namespace UPExciseLTE
                 arReturnParms[1] = arParms[4].Value.ToString();
                 return arParms[4].Value.ToString();
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
