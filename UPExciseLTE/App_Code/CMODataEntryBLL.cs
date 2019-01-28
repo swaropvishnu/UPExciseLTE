@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web;
 using System.Web.Mvc;
 using UPExciseLTE.Models;
+using Connect;
 //using System.Web.Mvc;
 
 namespace UPExciseLTE
@@ -30,11 +31,11 @@ namespace UPExciseLTE
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
 
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             return ds.Tables[0];
         }
@@ -51,11 +52,11 @@ namespace UPExciseLTE
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));                
 
-                sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             return sdr;
         }
@@ -72,11 +73,11 @@ namespace UPExciseLTE
         //            parameters.Add(new SqlParameter("@Parm2", parm2));
         //        if (parm3.Length > 0 && parm3 != "")
         //            parameters.Add(new SqlParameter("@Parm3", parm3));
-        //        sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+        //        sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
         //    }
         //    else
         //    {
-        //        sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+        //        sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
         //    }
         //    distNames.Insert(0, new SelectListItem { Text = "--चयन करे--", Value = "-1" });
         //    while (sdr.Read())
@@ -103,11 +104,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm3", parm3));
                 if (parm4.Length > 0 && parm4 != "")
                     parameters.Add(new SqlParameter("@Parm4", parm4));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             return ds;
         }
@@ -123,11 +124,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
 
@@ -156,11 +157,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -187,11 +188,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -220,11 +221,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -250,11 +251,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -281,11 +282,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -312,11 +313,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                abc = SqlHelper.ExecuteScalar(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                abc = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                abc = SqlHelper.ExecuteScalar(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                abc = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            return abc;
 
@@ -336,11 +337,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm3", parm3));
                 if (parm4.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm4", parm4));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -373,11 +374,11 @@ namespace UPExciseLTE
         //        if (parm4.Length > 0 && parm4 != "")
         //            parameters.Add(new SqlParameter("@Parm4", parm4));
 
-        //        ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+        //        ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
         //    }
         //    else
         //    {
-        //        ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+        //        ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
         //    }
         //    ddl.Items.Clear();
         //    if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -406,11 +407,11 @@ namespace UPExciseLTE
 //            //        parameters.Add(new SqlParameter("@Parm2", parm2));
 //            //    if (parm3.Length > 0 && parm3 != "")
 //            //        parameters.Add(new SqlParameter("@Parm3", parm3));
-//            //    ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//            //    ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 
 //            //else
 //            //{
-//            ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//            ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            //}
 
 //            ddl.Items.Clear();
@@ -448,11 +449,11 @@ namespace UPExciseLTE
                 if (parm5.Length > 0 && parm5 != "")
                     parameters.Add(new SqlParameter("@Parm5", parm5));
 
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -482,11 +483,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -513,11 +514,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -545,11 +546,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            return ds;
 //        }
@@ -566,11 +567,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm2", parm2));
 //                if (parm3.Length > 0 && parm3 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            return ds;
 //        }
@@ -589,11 +590,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@Parm3", parm3));
 //                if (parm4.Length > 0 && parm4 != "")
 //                    parameters.Add(new SqlParameter("@Parm4", parm4));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            ddl.Items.Clear();
 //            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -643,7 +644,7 @@ namespace UPExciseLTE
                 new SqlParameter("@ErrPage", UrlPage),
                 new SqlParameter("@ErrLog", ErrMsg)
             };
-                SqlHelper.ExecuteNonQuery(CommonConfig.Conn(), CommandType.Text, sql, sqlparam);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.Text, sql, sqlparam);
             }
             catch (Exception exp) { }
         }
@@ -659,11 +660,11 @@ namespace UPExciseLTE
         //            parameters.Add(new SqlParameter("@EmpType", p2));
         //        if (p6.Length > 0 && p6 != "")
         //            parameters.Add(new SqlParameter("@Parm3", p6));
-        //        ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+        //        ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
         //    }
         //    else
         //    {
-        //        ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+        //        ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
         //    }
         //    return ds;
         //}
@@ -679,11 +680,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@EmpType", p2));
 //                if (p6.Length > 0 && p6 != "")
 //                    parameters.Add(new SqlParameter("@Parm3", p6));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            return ds; 
 //        }
@@ -699,11 +700,11 @@ namespace UPExciseLTE
 //                    parameters.Add(new SqlParameter("@districtID", p2));
 //                if (p3.Length > 0 && p3 != "")
 //                    parameters.Add(new SqlParameter("@Emptype", p3));
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
 //            }
 //            else
 //            {
-//                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+//                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
 //            }
 //            return ds;
 //        }
@@ -720,11 +721,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddlofftype.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -749,11 +750,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddlofftype.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -778,11 +779,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddlofftype.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -807,11 +808,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@DepartCode", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             txtDepartID.Text ="";
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -835,11 +836,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddlOffice.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -865,11 +866,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             ddl.Items.Clear();
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -894,11 +895,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm2", parm2));
                 if (parm3 > 0 )
                     parameters.Add(new SqlParameter("@Parm3", parm3));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.Text, "select 1 from dep where DistrictCode = "+parm1 +" and dep = "+parm2+" and dep_code = "+parm3+" and  feeded = 'Y' and feededstamp is not null");
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.Text, "select 1 from dep where DistrictCode = "+parm1 +" and dep = "+parm2+" and dep_code = "+parm3+" and  feeded = 'Y' and feededstamp is not null");
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.Text, "select 1 from dep where DistrictCode = " + parm1 + " and dep = " + parm2 + " and dep_code = " + parm3 + " and  feeded = 'Y' and feededstamp is not null");
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.Text, "select 1 from dep where DistrictCode = " + parm1 + " and dep = " + parm2 + " and dep_code = " + parm3 + " and  feeded = 'Y' and feededstamp is not null");
             }
 
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -923,11 +924,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@Parm3", parm3));
                 if (parm4.Length > 0 && parm3 != "")
                     parameters.Add(new SqlParameter("@Parm4", parm4));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             txtDepartID.Text = "";
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -958,11 +959,11 @@ namespace UPExciseLTE
                     parameters.Add(new SqlParameter("@DistrictId2", districtId2));
                     parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                     parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
-                sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName, parameters.ToArray());
+                sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName, parameters.ToArray());
             }
             else
             {
-                sdr = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, ProcName);
+                sdr = SqlHelper.ExecuteReader(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, ProcName);
             }
             if (parm3 != "Z")
             { 
@@ -995,7 +996,7 @@ namespace UPExciseLTE
         #region Audit Trail
         internal static void InsertAudit(AuditTrail objaudit)
         {
-            //using (SqlConnection con = new SqlConnection(CommonConfig.Conn())
+            //using (SqlConnection con = new SqlConnection(Connection.Conn (UserSession.dbAddress))
             //{
             //    // string IP = Fetch_UserIP();
             //    List < SqlParameter > parameters = new List<SqlParameter>();
@@ -1025,7 +1026,7 @@ namespace UPExciseLTE
                 parameters.Add(new SqlParameter("@SessionID", objaudit.SessionID));
                 parameters.Add(new SqlParameter("@UserID", objaudit.UserID));
                 parameters.Add(new SqlParameter("@UsersAuditID", objaudit.UsersAuditID));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "proc_AuditTrail", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_AuditTrail", parameters.ToArray());
             }
             catch (Exception)
             {

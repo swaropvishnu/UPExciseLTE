@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Net.NetworkInformation;
 using System.Web;
 using UPExciseLTE.Models;
+using Connect;
 
 namespace UPExciseLTE.DAL
 {
@@ -15,7 +16,10 @@ namespace UPExciseLTE.DAL
         SqlDataAdapter adap;
         SqlCommand cmd;
         //SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["constr"].ToString());
-        SqlConnection con = new SqlConnection(CommonConfig.Conn());
+        //SqlConnection con = new SqlConnection(CommonConfig.Conn());
+        
+        SqlConnection con = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+         
 
         internal LoginModal GetUserDetail(LoginModal objUserData)
         {
@@ -73,7 +77,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("PlanId", planId));
                 parameters.Add(new SqlParameter("BrandId", brandId));
                 parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_ValidateCSV", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_ValidateCSV", parameters.ToArray());
             }
             catch (Exception exp)
             {
@@ -192,7 +196,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Enable", Enable));
                 parameters.Add(new SqlParameter("ShowToAll", ShowToAll));
                 parameters.Add(new SqlParameter("ShowInMenu", ShowInMenu));
-                SqlDataReader reader = SqlHelper.ExecuteReader(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetMenuMst", parameters.ToArray());
+                SqlDataReader reader = SqlHelper.ExecuteReader(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetMenuMst", parameters.ToArray());
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -353,7 +357,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("DistrictCode", DistrictCode));
                 parameters.Add(new SqlParameter("StateId", StateId));
                 parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetBrand", parameters.ToArray());
             }
             catch
             {
@@ -370,7 +374,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("YEAR", Year));
                 parameters.Add(new SqlParameter("LiquorType", filter_bad_chars_rep(LiquorType.Trim())));
                 parameters.Add(new SqlParameter("AlcoholStrength", AlcoholStrength));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetDutyCalculation", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -475,7 +479,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Mapped", filter_bad_chars_rep(Mapped.Trim())));
                 parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BatchNo.Trim())));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBottelingPlanDetail", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetBottelingPlanDetail", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -491,7 +495,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetQRCOde", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetQRCOde", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -546,7 +550,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("SpType", 1));
                 parameters.Add(new SqlParameter("UserLevelId", Convert.ToInt32(UserSession.LoggedInUserLevelId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -690,7 +694,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("UnitTankId", UnitTankId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitTank", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetUnitTank", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -709,7 +713,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("LineId", LineId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "proc_GetBottlingLine", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetBottlingLine", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -812,7 +816,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", bbtId));
                 parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
                 parameters.Add(new SqlParameter("Status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -875,7 +879,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1108,7 +1112,7 @@ namespace UPExciseLTE.DAL
                     parameters.Add(new SqlParameter("GatePassId", GatePassId));
                 if (brandId > 0)
                     parameters.Add(new SqlParameter("BrandId", brandId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception ex)
             {
@@ -1208,7 +1212,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
                 parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
                 parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetGatePassDetailsG", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetGatePassDetailsG", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1224,7 +1228,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("GatePassId", GatePassId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetGatePassUploadBrandDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetGatePassUploadBrandDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1280,7 +1284,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
                 parameters.Add(new SqlParameter("UserId",UserId));
                 parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetBrewery", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetBrewery", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1408,7 +1412,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("FormFL21Id", FormFL21Id));
                 parameters.Add(new SqlParameter("FormFLStatus", FormFLStatus));
                 parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "SP_GetFormFL21", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "SP_GetFormFL21", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1462,7 +1466,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("ChallanId", ChallanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetChallan", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetChallan", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1564,7 +1568,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("FormFL33Id", FormFL33Id));
                 parameters.Add(new SqlParameter("FormFLStatus", FormFLStatus));
                 parameters.Add(new SqlParameter("UserId", Convert.ToInt32(UserSession.LoggedInUserId)));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_proc_GetFormFL33", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "FL2D_proc_GetFormFL33", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1749,7 +1753,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
                 parameters.Add(new SqlParameter("UserId", UserId));
                 parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_PROC_GetUnitDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "FL2D_PROC_GetUnitDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1790,7 +1794,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
                 parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
                 parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "FL2D_PROC_GetGatePassDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "FL2D_PROC_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1854,7 +1858,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("UnitID", BreweryId));
                 parameters.Add(new SqlParameter("StorageVATId", StorageVATId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetStorageVAT", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_PROC_GetStorageVAT", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -1872,7 +1876,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Unitid", Unitid));
                 parameters.Add(new SqlParameter("BlendingVATId", BlendingVATId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetBlendingVAT", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_PROC_GetBlendingVAT", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2011,7 +2015,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("UnitId", UnitId));
                 parameters.Add(new SqlParameter("BottelingVATId", BottelingVATId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_GetBottelingVAT", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_PROC_GetBottelingVAT", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2154,7 +2158,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("BreweryId", BreweryId));
                 parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(Status.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetUTTransferToBBT", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2177,7 +2181,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Mapped", filter_bad_chars_rep(Mapped.Trim())));
                 parameters.Add(new SqlParameter("BatchNo", filter_bad_chars_rep(BatchNo.Trim())));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottelingPlanDetail", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_GetBottelingPlanDetail", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2270,7 +2274,7 @@ namespace UPExciseLTE.DAL
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("dbName", UserSession.PushName));
                 parameters.Add(new SqlParameter("PlanId", PlanId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetQRCOde", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_GetQRCOde", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2328,7 +2332,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("PlanId", planId));
                 parameters.Add(new SqlParameter("BrandId", brandId));
                 parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_ValidateCSV", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_ValidateCSV", parameters.ToArray());
             }
             catch (Exception exp)
             {
@@ -2347,7 +2351,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("BBTId", BBTId));
                 parameters.Add(new SqlParameter("LineId", LineId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2374,7 +2378,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
                 parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
                 parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_proc_GetGatePassDetailsG", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_GetGatePassDetailsG", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2505,7 +2509,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("UnitID", BreweryId));
                 parameters.Add(new SqlParameter("@ReciverId", ReciverId));
                 parameters.Add(new SqlParameter("status", status));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "[CL_PROC_GetReciver]", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "[CL_PROC_GetReciver]", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2622,7 +2626,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
                 parameters.Add(new SqlParameter("UnitLicenseType", UnitLicenseType));
 
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_GetUnitMaster", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetUnitMaster", parameters.ToArray());
                 return ds;
             }
             catch (Exception ex)
@@ -2641,7 +2645,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("SPType", SPType));
                 parameters.Add(new SqlParameter("DbName", UserSession.PushName));
 
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "PROC_StockBalance", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_StockBalance", parameters.ToArray());
                 return ds;
             }
             catch (Exception ex)
@@ -2660,7 +2664,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("SPType", SPType));
                 parameters.Add(new SqlParameter("DbName", UserSession.PushName));
 
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "CL_PROC_StockBalance", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_PROC_StockBalance", parameters.ToArray());
                 return ds;
             }
             catch (Exception ex)
@@ -2739,7 +2743,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("TehsilCode", TehsilCode));
                 parameters.Add(new SqlParameter("UserId", UserId));
                 parameters.Add(new SqlParameter("ParentUnitId", ParentUnitId));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "BWFL_Proc_GetUnitDetals", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "BWFL_Proc_GetUnitDetals", parameters.ToArray());
             }
             catch (Exception)
             {
@@ -2780,7 +2784,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("ToLicenseNo", filter_bad_chars_rep(ToLicenseNo.Trim())));
                 parameters.Add(new SqlParameter("FromLicenseType", filter_bad_chars_rep(FromLicenseType.Trim())));
                 parameters.Add(new SqlParameter("ToLicenseType", filter_bad_chars_rep(ToLicenseType.Trim())));
-                ds = SqlHelper.ExecuteDataset(CommonConfig.Conn(), CommandType.StoredProcedure, "BWFL_PROC_GetGatePassDetails", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "BWFL_PROC_GetGatePassDetails", parameters.ToArray());
             }
             catch (Exception)
             {
