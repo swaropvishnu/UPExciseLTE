@@ -265,8 +265,8 @@ namespace UPExciseLTE.Controllers
                 {
                     string psw = ds.Tables[0].Rows[0]["Password"].ToString();
                     string lpsw = ds.Tables[0].Rows[0]["OldPassWord"].ToString();
-                    string pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.OldPassword_CHG.ToString(), "sha256");
-                    string type_pwd_salt = FormsAuthentication.HashPasswordForStoringInConfigFile(ChangePwd.NewPassword_CHG.ToString(), "sha256");
+                    string pwd_salt = ChangePwd.OldPassword_CHG.ToString();
+                    string type_pwd_salt = ChangePwd.NewPassword_CHG.ToString();
 
                     string hashed_pwd = pwd_salt;
                     string hashed_newpwd = type_pwd_salt;
