@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Connect;
 using UPExciseLTE.Models;
+using System.Web;
 
 namespace UPExciseLTE
 {
@@ -84,7 +85,7 @@ namespace UPExciseLTE
 
             parameters.Add(new SqlParameter("@pDistictId", DistictId));
             parameters.Add(new SqlParameter("@pModule", Module));
-            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetFinalLockMap", parameters.ToArray()));
+            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_GetFinalLockMap", parameters.ToArray()));
             return res;
         }
 
@@ -94,7 +95,7 @@ namespace UPExciseLTE
             parameters.Add(new SqlParameter("@pStatus", Status));
             parameters.Add(new SqlParameter("@pDistictId", DistictId));
             parameters.Add(new SqlParameter("@pModule", Module));
-            int res = Convert.ToInt32(SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UpdateFinalLockMap", parameters.ToArray()));
+            int res = Convert.ToInt32(SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UpdateFinalLockMap", parameters.ToArray()));
             return res;
         }
 
@@ -104,7 +105,7 @@ namespace UPExciseLTE
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@pUserId", UserId));
             parameters.Add(new SqlParameter("@pPageName", PageName));         
-            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_getMenuItemValid", parameters.ToArray()));
+            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_getMenuItemValid", parameters.ToArray()));
             return res;
         }
 
@@ -141,7 +142,7 @@ namespace UPExciseLTE
                 arParms[10].Value = thanaID;
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_InsertDepartmentOffice", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_InsertDepartmentOffice", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds.Tables[0];
             }
@@ -168,7 +169,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserofficerEntry_GetbyofficerId", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserofficerEntry_GetbyofficerId", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -191,7 +192,7 @@ namespace UPExciseLTE
                 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetMobileNo", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_GetMobileNo", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -214,7 +215,7 @@ namespace UPExciseLTE
             parameters.Add(new SqlParameter("@TehsilId", TehsilId));
             parameters.Add(new SqlParameter("@ThanaId", TehsilId));
             parameters.Add(new SqlParameter("@DepartmentCode", DepartmentCode));
-            ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetDepartmentOffice", parameters.ToArray());
+            ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_GetDepartmentOffice", parameters.ToArray());
             return ds;
         }
         public static DataSet GetIsForwardandMarkedBY(string ForwardId)
@@ -222,7 +223,7 @@ namespace UPExciseLTE
             DataSet ds = new DataSet();
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@pFoarwardId", ForwardId));
-            ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetIsForwardId", parameters.ToArray());
+            ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_GetIsForwardId", parameters.ToArray());
             return ds;
         }
 
@@ -233,7 +234,7 @@ namespace UPExciseLTE
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("@pUserName", UserName));
-                ds = SqlHelper.ExecuteDataset(Connection.Conn( (UserSession. !=null)? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_VerifyUser", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn( ((HttpContext.Current.Session["tbl_Session"] != null)) ? ((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null:null), CommandType.StoredProcedure, "Proc_VerifyUser", parameters.ToArray());
             }
             catch (Exception exp) { ds = null; }
             return ds;
@@ -244,7 +245,7 @@ namespace UPExciseLTE
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@pUserName", UserName));
             parameters.Add(new SqlParameter("@Yojana_Code", yojana_code));
-            ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_VerifyApplicant", parameters.ToArray());
+            ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_VerifyApplicant", parameters.ToArray());
             return ds;
         }
         public static DataSet GetMenuData(int UserId)
@@ -255,7 +256,7 @@ namespace UPExciseLTE
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("@pUserId", UserId));
                
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
                 return ds;
             }
 
@@ -274,7 +275,7 @@ namespace UPExciseLTE
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("@pUserId", UserId));
 
-                ds = SqlHelper.ExecuteReader(Connection.Conn(UserSession.dbAddress.ToString()), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
+                ds = SqlHelper.ExecuteReader(Connection.Conn(((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null.ToString()), CommandType.StoredProcedure, "Proc_getMenuItem", parameters.ToArray());
                 return ds;
             }
 
@@ -342,7 +343,7 @@ namespace UPExciseLTE
                 arParms[23] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[23].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_CreateOPUser", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_CreateOPUser", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[22].Value.ToString();
@@ -378,7 +379,7 @@ namespace UPExciseLTE
                 arParms[4] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[4].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserPasswordChange", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserPasswordChange", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[3].Value.ToString();
@@ -417,7 +418,7 @@ namespace UPExciseLTE
                 arParms[4] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[4].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserPasswordChangeOTP", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserPasswordChangeOTP", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[3].Value.ToString();
@@ -453,7 +454,7 @@ namespace UPExciseLTE
                 arParms[4] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[4].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserPasswordChangeOTP2", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserPasswordChangeOTP2", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[3].Value.ToString();
@@ -514,7 +515,7 @@ namespace UPExciseLTE
                 arParms[17] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[17].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_CreateUser", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_CreateUser", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[16].Value.ToString();
@@ -572,7 +573,7 @@ namespace UPExciseLTE
                 //arParms[15] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 //arParms[15].Direction = ParameterDirection.Output;
                 //// Execute the stored procedure
-                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserofficerEntry_Save", arParms);
+                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserofficerEntry_Save", arParms);
                 //// create a string array of return values and assign values returned from stored procedure
                 //string[] arReturnParms = new string[2];
                 //arReturnParms[0] = arParms[14].Value.ToString();
@@ -618,7 +619,7 @@ namespace UPExciseLTE
                    };
 
 
-                string res = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserofficerEntry_Save", param).ToString();
+                string res = SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserofficerEntry_Save", param).ToString();
 
                 return res.ToString();
             }
@@ -655,7 +656,7 @@ namespace UPExciseLTE
                                        };
 
 
-                string res = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserofficerEntry_SaveAndPassword", param).ToString();
+                string res = SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserofficerEntry_SaveAndPassword", param).ToString();
 
                 return res.ToString();
             }
@@ -680,7 +681,7 @@ namespace UPExciseLTE
                    };
 
 
-                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetUserRights", param.ToArray());
+                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_GetUserRights", param.ToArray());
 
                 return res;
             }
@@ -703,7 +704,7 @@ namespace UPExciseLTE
                    };
 
 
-                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_VerifyDeleteOffice", param.ToArray());
+                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_VerifyDeleteOffice", param.ToArray());
 
                 return res.Tables[0];
             }
@@ -723,7 +724,7 @@ namespace UPExciseLTE
                    };
 
 
-                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetDepartmentOfficeTemplates", param.ToArray());
+                DataSet res = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_GetDepartmentOfficeTemplates", param.ToArray());
 
                 return res;
             }
@@ -756,7 +757,7 @@ namespace UPExciseLTE
                 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_InsertOfficeTemplate", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_InsertOfficeTemplate", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds.Tables[0];
             }
@@ -780,7 +781,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_DeleteOfficeTemplate", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_DeleteOfficeTemplate", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds.Tables[0];
             }
@@ -803,7 +804,7 @@ namespace UPExciseLTE
                 arParms[1].Value = Convert.ToInt32(Attempt);
 
                 // Execute the stored procedure
-                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserLastloginAttempt", arParms);
+                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserLastloginAttempt", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return res;
             }
@@ -832,7 +833,7 @@ namespace UPExciseLTE
                 arParms[2].Value = IPAddress;
 
                 // Execute the stored procedure
-                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_UserLastloginchange", arParms);
+                int res = SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_UserLastloginchange", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return res;
             }
@@ -853,7 +854,7 @@ namespace UPExciseLTE
             try
             {
                 string result = string.Empty;
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("exec Proc_Save_DesigName_Details @postHindiName,@postId ,@type , @dist_code, @depart_code, @OfficeCode,@userid ,@IPAddress ", Sqlcon);
                 Sqlcmd.Parameters.Add("@postHindiName", postHindiName);
@@ -894,7 +895,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("Proc_Get_DesigMaster_Details ", Sqlcon);
                 Sqlcmd.Parameters.Add("@dist_code", dist_code);
@@ -938,7 +939,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("PROC_GET_DEPARTMENT_LEVEL", Sqlcon);
                 Sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -976,7 +977,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("PROC_GET_DEPARTMENT_DETAILS", Sqlcon);
                 Sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -1012,7 +1013,7 @@ namespace UPExciseLTE
             try
             {
                 string result = string.Empty;
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("exec Proc_Save_DepartmentMaster_Details @departHindiName,@departEnglishName,@departmenttype,@parentDepartment,@departId,@isShashan,@isMandal,@isDistrict,@isTehsil,@isThana,@isBlock", Sqlcon);
                 Sqlcmd.Parameters.AddWithValue("@departHindiName", postHindiName);
@@ -1056,7 +1057,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("PROC_Parent_Depart_Details", Sqlcon);
                 Sqlcmd.Parameters.AddWithValue("@departCode", SqlDbType.Int).Value = departCode;
@@ -1095,7 +1096,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("Proc_Get_Search_Department_Details", Sqlcon);
                 Sqlcmd.Parameters.AddWithValue("@searchType", SqlDbType.Int).Value = searchType;
@@ -1138,7 +1139,7 @@ namespace UPExciseLTE
             SqlConnection con = null;
             try
             {
-                con = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                con = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 con.Open();
                 Sqlcmd = new SqlCommand("exec Proc_SaveDioFeedback @userId,@comments,@contentType,@size,@Data", con);
                 Sqlcmd.Parameters.AddWithValue("@userId", UserId);
@@ -1174,7 +1175,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetGeneralReportColumn", null);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_GetGeneralReportColumn", null);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1191,7 +1192,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "SP_Get_Department", null);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "SP_Get_Department", null);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1257,7 +1258,7 @@ namespace UPExciseLTE
                 arParms[22] = new SqlParameter("@pMessage", SqlDbType.NVarChar, 200);
                 arParms[22].Direction = ParameterDirection.Output;
                 // Execute the stored procedure
-                SqlHelper.ExecuteNonQuery(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_CreateOPUser_CSC", arParms);
+                SqlHelper.ExecuteNonQuery(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_CreateOPUser_CSC", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 string[] arReturnParms = new string[2];
                 arReturnParms[0] = arParms[21].Value.ToString();
@@ -1388,7 +1389,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_OfficeDDLDepartWise", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_OfficeDDLDepartWise", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1406,7 +1407,7 @@ namespace UPExciseLTE
             DataSet dset = null;
             try
             {
-                Sqlcon = new SqlConnection(Connection.Conn (UserSession.dbAddress));
+                Sqlcon = new SqlConnection(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null));
                 Sqlcon.Open();
                 Sqlcmd = new SqlCommand("proc_RandomGenCode ", Sqlcon);
                 Sqlcmd.Parameters.AddWithValue("@dist", p1);
@@ -1454,7 +1455,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_GetOfficeMobileNoDataEntryPassword", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_GetOfficeMobileNoDataEntryPassword", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1495,7 +1496,7 @@ namespace UPExciseLTE
                       new SqlParameter("@NodalMob",ofcNo)
                    };
 
-                string res = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_ChangeNodalOffice", param).ToString();
+                string res = SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_ChangeNodalOffice", param).ToString();
                 return res.ToString();
             }
             catch
@@ -1517,7 +1518,7 @@ namespace UPExciseLTE
                       new SqlParameter("@username",userName),
                    };
 
-                string res = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_FetchNodalOfficeDetails", param).ToString();
+                string res = SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_FetchNodalOfficeDetails", param).ToString();
                 return res.ToString();
             }
             catch
@@ -1545,7 +1546,7 @@ namespace UPExciseLTE
                
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_checkRandomPass", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_checkRandomPass", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1561,7 +1562,7 @@ namespace UPExciseLTE
 
             parameters.Add(new SqlParameter("@DepartCode", DepaertID));
             parameters.Add(new SqlParameter("@cond", cond));
-            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_getDepartmentTypeCenterState", parameters.ToArray()));
+            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_getDepartmentTypeCenterState", parameters.ToArray()));
             return res;
         }
 
@@ -1580,7 +1581,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_CompileTotalStateWiseData", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_CompileTotalStateWiseData", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return  ds.Tables[0];
             }
@@ -1605,7 +1606,7 @@ namespace UPExciseLTE
 
                 // Execute the stored procedure
                 DataSet ds = new DataSet();
-                ds = SqlHelper.ExecuteDataset(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_ComilpeDataEPDSsum", arParms);
+                ds = SqlHelper.ExecuteDataset(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_ComilpeDataEPDSsum", arParms);
                 // create a string array of return values and assign values returned from stored procedure
                 return ds;
             }
@@ -1625,7 +1626,7 @@ namespace UPExciseLTE
             parameters.Add(new SqlParameter("@parm2", DepaertID));
             parameters.Add(new SqlParameter("@parm3", OfficeCode));
             parameters.Add(new SqlParameter("@cond", cond));
-            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "proc_GetOfficeDeparTypetWiseForPPReport", parameters.ToArray()));
+            int res = Convert.ToInt32(SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "proc_GetOfficeDeparTypetWiseForPPReport", parameters.ToArray()));
             return res;
         }
 
@@ -1642,7 +1643,7 @@ namespace UPExciseLTE
                     new SqlParameter("@cond",cond),
                     new SqlParameter("@exem",isExempt),                    
                                        };
-                string res = SqlHelper.ExecuteScalar(Connection.Conn (UserSession.dbAddress), CommandType.StoredProcedure, "Proc_EmployeeReport", param).ToString();
+                string res = SqlHelper.ExecuteScalar(Connection.Conn (((HttpContext.Current.Session["tbl_Session"] != null)) ? UserSession.dbAddress:null), CommandType.StoredProcedure, "Proc_EmployeeReport", param).ToString();
 
                 return res.ToString();
             }
