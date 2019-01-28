@@ -784,6 +784,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("AfterRedStrength", BVR.AfterRedStrength));
                 cmd.Parameters.Add(new SqlParameter("AfterRedAL", BVR.AfterRedAL));
                 cmd.Parameters.Add(new SqlParameter("Remarks", BVR.Remarks));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BVR.BrandID));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId.ToString()));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
