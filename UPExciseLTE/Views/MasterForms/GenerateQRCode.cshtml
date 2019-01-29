@@ -8,6 +8,7 @@
 <script src="/Content/DateCalender/jquery-ui.js"></script>
 @using (Html.BeginForm("Export", "MasterForms", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <input type="hidden" id="hfid" name="PlanId" />
     <input type="submit" value="Export" style="display:none" id="btnDownload" />
 }
@@ -173,9 +174,11 @@
         }
     }
     function GenreateQR(PlanId) {
+        //var form = $('#__AjaxAntiForgeryForm');
+        //var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             url: '/MasterForms/GenreateQR',
-            data: { 'PlanId': PlanId },
+            data: { 'PlanId': PlanId},
             datatype: "json",
             type: "GET",
             success: function (data) {

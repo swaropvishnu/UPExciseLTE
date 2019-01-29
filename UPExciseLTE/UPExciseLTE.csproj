@@ -49,7 +49,8 @@
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Connect">
+    <Reference Include="Connect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Connect.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.38.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -5614,6 +5615,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\buttons.dataTables.min.css" />
     <Content Include="Content\CommonStyle.css" />
+    <Content Include="Content\css\loadingbar.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\util.css" />
     <Content Include="Content\DateCalender\jquery-ui.css" />
@@ -6151,6 +6153,8 @@
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-migrate-3.0.0.min.js" />
+    <Content Include="Scripts\jquery.loadingbar.js" />
+    <Content Include="Scripts\jquery.loadingbar.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -6163,6 +6167,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sha256.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -6174,10 +6179,8 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\MasterForms\BottelingPlan.cshtml" />
@@ -6202,7 +6205,6 @@
     <Content Include="Views\MasterForms\FinalizeBrand.cshtml" />
     <Content Include="Views\MasterForms\Searchplan.cshtml" />
     <Content Include="Views\MasterForms\SearchProduction.cshtml" />
-    <Content Include="Views\Shared\_ErrorMessage.cshtml" />
     <Content Include="Views\MasterForms\EditFinalBottelingPlan.cshtml" />
     <Content Include="Views\MasterForms\UploadCSV.cshtml" />
     <Content Include="Views\MasterForms\UnitTank.cshtml" />
