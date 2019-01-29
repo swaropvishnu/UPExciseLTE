@@ -15,8 +15,8 @@ using UPExciseLTE.Models;
 using ZXing;
 
 namespace UPExciseLTE.Controllers
-{  
-    
+{
+
     [SessionExpireFilterAttribute]
     [NoCache]
     [ChkAuthorization]
@@ -31,7 +31,7 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult BrandMaster()
         {
@@ -459,8 +459,8 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public FileResult Export(string PlanId)
         {
             PlanId = new Crypto().Decrypt(PlanId);
@@ -570,8 +570,8 @@ namespace UPExciseLTE.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)
@@ -614,7 +614,6 @@ namespace UPExciseLTE.Controllers
             UnitTank UT = new UnitTank();
             if (Request.QueryString["A"] != null && Request.QueryString["A"].Trim() != string.Empty)
             {
-
                 UT = new CommonBL().GetUnitTank(-1, short.Parse(new Crypto().Decrypt(Request.QueryString["A"].Trim())), "Z");
             }
             ViewBag.Msg = TempData["Msg"];
@@ -626,6 +625,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
+            UT.IsApproved = "0";
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
@@ -636,6 +636,16 @@ namespace UPExciseLTE.Controllers
             UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));
             UT.Status = Status;
             UT.Type = 3;
+            string str = new CommonDA().InsertUpdateUnitTank(UT);
+            return str;
+        }
+        public string ApprovedTankDetails(string UTId, string Status)
+        {
+            UnitTank UT = new UnitTank();
+            UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+            UT.IsApproved = "1";
+            UT.Type = 5;
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             return str;
         }
@@ -748,7 +758,7 @@ namespace UPExciseLTE.Controllers
             TempData["Message"] = str;
             return RedirectToAction("UTTransferToBBT");
         }
-        [HttpGet]       
+        [HttpGet]
         public ActionResult UTTransferToBBTDetails()
         {
             ViewBag.UnitTank = CommonBL.fillUnitTank("A");
@@ -815,6 +825,19 @@ namespace UPExciseLTE.Controllers
             }*/
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
+        #region Approved BBT
+        public string ApprovedBBT(string bbtId, string status)
+        {
+            BBTMaster bbt = new BBTMaster();
+            bbt.BBTId = int.Parse(bbtId);
+            bbt.IsApproved = status;
+            bbt.SP_Type = 5;
+            string str = new CommonDA().InsertUpdateBBT(bbt);
+            return str;
+        }
+        #endregion
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult BBTMaster(BBTMaster BBT)

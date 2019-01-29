@@ -25,11 +25,8 @@
                         <div class="form-body">
                             @Html.HiddenFor(model => model.BottlingLineId, new { @id = "hfBottlingLineId" })
                             @Html.HiddenFor(model => model.Type, new { @id = "hfBottlingLineType" })
+                            @Html.HiddenFor(model => model.BBTId, new { @id = "hfBottlingLineType",@value="-1" })
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
-                                </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
@@ -44,14 +41,13 @@
                                         @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Capactity (No Of Case Per Hour)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);" })
 
                                 </div>
                             </div>
+                            
                             <center>
                                 <div>
                                     <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
@@ -63,7 +59,6 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <tr>
                                     <th>Bottling Line Id</th>
-                                    <th>BBT Name</th>
                                     <th>Bottling Line Name</th>
                                     <th>Bottling Line Type</th>
                                     <th>Capacity (No Of Case Per Hour)</th>
@@ -76,7 +71,6 @@
                                     {
                                         <tr>
                                             <td>@dr.BottlingLineId</td>
-                                            <td>@dr.BBT</td>
                                             <td>@dr.BottlingLineName</td>
                                             <td>@dr.LineType1</td>
                                             <td>@dr.CapacityNoOfCasePerHour</td>

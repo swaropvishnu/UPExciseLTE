@@ -339,6 +339,7 @@ namespace UPExciseLTE.BLL
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 UT.Brand = (dr["BrandName"].ToString().Trim());
+                UT.IsApproved= dr["IsApproved"].ToString().Trim();
                 UT.Type = 2;
             }
             catch (Exception) { }
@@ -723,6 +724,7 @@ namespace UPExciseLTE.BLL
                 bbtFormation.Status = dr["BBTStatus"].ToString().Trim();
                 bbtFormation.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 bbtFormation.BrandName = dr["BrandName"].ToString().Trim();
+                bbtFormation.IsApproved = dr["IsApproved"].ToString().Trim();
             }
             catch (Exception) { }
             return bbtFormation;

@@ -658,6 +658,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Type", UT.Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", UT.IsApproved));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.ExecuteNonQuery();
@@ -778,6 +779,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters.Add(new SqlParameter("sp_Type", bbtFormation.SP_Type));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", bbtFormation.IsApproved));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 32676;
                 cmd.ExecuteNonQuery();
@@ -854,7 +856,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("Status", status));
                 ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_GetBBTMaster", parameters.ToArray());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ds = null;
             }
