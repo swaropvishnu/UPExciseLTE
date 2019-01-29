@@ -9,7 +9,7 @@
     }
 }
 
-@using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadCSVFile", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data",id= "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -26,6 +26,8 @@
         }
     }
     <script type="text/javascript">
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         $(document).ready(function () {
             $("#danger-alert").show();
         });
@@ -48,15 +50,17 @@
                     alert("Please Upload CSV File");
                     return false;
                 }
+
                 fileData.append(PlanId, files[0])
+                fileData.append("__RequestVerificationToken", token);
+                
                 $.ajax({
                     url: '/MasterForms/UploadCSVFile',
                     type: "POST",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
-                    data: fileData,
+                    data:  fileData  ,
                     success: function (result) {
-
                         $('#divResult').html(result);
                         $('#myModal').modal('show');
                     },
@@ -74,10 +78,10 @@
         function UploadCSV() {
             var BrandId = document.getElementById("txtPopBrandId").value;
             var PlanId = document.getElementById("txtPopPlanId").value;
-            var BottlingPlanId = $('#ddlPopBottlingLine').val()
+            var BottlingPlanId = $('#ddlPopBottlingLine').val()            
             $.ajax({
                 url: '/MasterForms/UploadVerifedCSV',
-                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId },
+                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId, '__RequestVerificationToken': token },
                 datatype: "json",
                 type: "GET",
                 success: function (data)

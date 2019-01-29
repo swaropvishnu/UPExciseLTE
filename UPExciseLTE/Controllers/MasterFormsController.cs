@@ -18,8 +18,9 @@ namespace UPExciseLTE.Controllers
 {
 
     [SessionExpireFilterAttribute]
-    [NoCache]
+    //[NoCache]
     [ChkAuthorization]
+    [HandleError(View = "Error")]
     public class MasterFormsController : Controller
     {
         public ActionResult MenuMaster()
@@ -988,6 +989,7 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePass(GatePass, 1, 0);
         }
+        [ValidateAntiForgeryToken]
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
             long GatePass = long.Parse(GatePassId);

@@ -17,9 +17,10 @@ using ZXing;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    [NoCache]
+    //[NoCache]
     [ChkAuthorization]
-    [HandleError(View = "DetailedError")]
+    [HandleError(View = "Error")]
+
     public class CLController : Controller
     {
         [HttpGet]

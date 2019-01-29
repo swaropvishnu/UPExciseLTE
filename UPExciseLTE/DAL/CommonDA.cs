@@ -179,13 +179,15 @@ namespace UPExciseLTE.DAL
             "*"
         };
             int sL_Char_Length = sL_Char.Length - 1;
-            while (sL_Char_Length >= 0)
+            int i = 0;
+            while (i <= sL_Char_Length)
             {
-                if (s.Contains(sL_Char[sL_Char_Length]))
+                if (s.Contains(sL_Char[i]))
                 {
-                    s.Replace(sL_Char[sL_Char_Length], "");
-                    break; // TODO: might not be correct. Was : Exit While
+                    s=s.Replace(sL_Char[i], "");
+                   // break; // TODO: might not be correct. Was : Exit While
                 }
+                i++;
                 sL_Char_Length -= 1;
             }
             return s;

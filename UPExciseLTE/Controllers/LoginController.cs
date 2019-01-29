@@ -19,7 +19,8 @@ namespace UPExciseLTE.Controllers
 
     //[CheckAuthorization]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
-    [NoCache]
+    //[NoCache]
+    [HandleError(View = "Error")]
     public class LoginController : Controller
     {
         
@@ -143,15 +144,6 @@ namespace UPExciseLTE.Controllers
         /// <returns></returns>
         /// 
         #region --> Generate HASH Using SHA512
-
-        #endregion
-        private string CreateSalt(int size) //Generate the salt via Randon Number Genertor cryptography
-        {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] buff = new byte[size];
-            rng.GetBytes(buff);
-            return Convert.ToBase64String(buff);
-        }
         private string CalculateHash(string input)
         {
             using (var algorithm = SHA256.Create()) //or MD5 SHA512 etc.
@@ -161,6 +153,15 @@ namespace UPExciseLTE.Controllers
                 return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
         }
+        #endregion
+        private string CreateSalt(int size) //Generate the salt via Randon Number Genertor cryptography
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] buff = new byte[size];
+            rng.GetBytes(buff);
+            return Convert.ToBase64String(buff);
+        }
+        
         ///////////////////////
         [SessionExpireFilterAttribute]
         public ActionResult FirstTimeLogin()
@@ -309,6 +310,7 @@ namespace UPExciseLTE.Controllers
             }
             return View();
         }
+
         [SessionExpireFilterAttribute]
         public ActionResult ProfileUpdate()
         {
