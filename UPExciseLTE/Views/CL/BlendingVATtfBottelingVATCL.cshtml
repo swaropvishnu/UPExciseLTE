@@ -62,35 +62,44 @@
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Blending VAT<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BlendingId, (IEnumerable<SelectListItem>)ViewBag.BlendingVAT, new { @id = "ddlBlendingId", @class = "form-control" })
 
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Brand (In Blending VAT)</label>
                                     @Html.TextBox("txtBlendingBrand", "", new { @id = "txtBlendingBrand", @class = "form-control", @disabled = "disabled" })
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Blending Spirit Type</label>
                                     @Html.TextBox("txtBlendingSpiritType", "", new { @id = "txtBlendingSpiritType", @class = "form-control", @disabled = "disabled" })
                                     <input type="hidden" value="-1" id="hfspritid" />
                                 </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Batch No (in Blending Vat)</label>
+                                    @Html.TextBox("txtBlendingBatch", "", new { @id = "txtBlendingBatch", @class = "form-control", @disabled = "disabled" })
+                                    <input type="hidden" value="-1" id="hfspritid" />
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Bottling VAT<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BottlingVATId, (IEnumerable<SelectListItem>)ViewBag.BottelingVAT, new { @id = "ddlBottelingId", @class = "form-control" })
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Brand (In Bottling VAT)</label>
                                     @Html.TextBox("txtBottlingBrand", "", new { @id = "txtBottlingBrand", @class = "form-control", @disabled = "disabled" })
                                     <input type="hidden" id="hfbrandid" />
                                     <input type="hidden" id="hfbottlebrandid" />
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Bottling VAT Capacity</label>
                                     @Html.TextBox("txtBottelingCapacity", "", new { @id = "txtBottelingCapacity", @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label"> Batch No (in Bottling VAT)</label>
+                                    @Html.TextBox("txtBottlingbatchNo", "", new { @id = "txtBottlingbatchNo", @class = "form-control", @disabled = "disabled" })
                                 </div>
                             </div>
 
@@ -133,7 +142,7 @@
                                 </div>
 
                                 <div class="rTableRow">
-                                    <div class="rTableCell"><strong>Bottling VAT (After Tranfer) Y</strong></div>
+                                    <div class="rTableCell"><strong>Bottling VAT (After Recevied) Y</strong></div>
                                     <div class="rTableCell"> @Html.TextBox("txtBottlingABL", "", new { @id = "txtBottlingABL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
                                     <div class="rTableCell">@Html.TextBox("txtBottlingAS", "", new { @id = "txtBottlingAS", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);" , @style = "width:160px" })</div>
                                     <div class="rTableCell"> @Html.TextBox("txtBottlingAAL", "", new { @id = "txtBottlingAAL", @class = "form-control", @onkeyup = "sumreciver()", @onkeypress = "return isfloatNumber(this, event);" , @style = "width:160px" , @disabled = "disabled" })</div>
@@ -149,7 +158,7 @@
                                     <div class="rTableCell"> @Html.TextBox("txtNetRAL", "", new { @id = "txtNetRAL", @class = "form-control", @disabled = "disabled" , @style = "width:160px" })</div>
                                 </div>
                                 <div class="rTableRow">
-                                    <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Recive)</strong></div>
+                                    <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Received)</strong></div>
                                     <div class="rTableCell"> @Html.TextBox("txtWBL", "", new { @id = "txtWBL", @class = "form-control", @disabled = "disabled", @style = "width:160px" })</div>
                                     <div class="rTableCell">  @Html.TextBox("txtWS", "", new { @id = "txtWS", @class = "form-control hide", @disabled = "disabled" , @style = "width:160px" })</div>
                                     <div class="rTableCell">
@@ -169,7 +178,7 @@
                         <div class="clearfix"></div>
                         <center>
                             <div class="form-actions">
-                                <button type="button" class="btn green" onclick="save()">Submit</button>
+                                <button type="button" class="btn green" onclick="save()">Issue Spirit</button>
                                 <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
                             </div>
                         </center>
@@ -239,6 +248,7 @@
                 document.getElementById("txtBlendingOpAL").value = data[3];
                 document.getElementById("hfbrandid").value = data[6];
                 document.getElementById("txtBlendingSpiritType").value = data[5];
+                document.getElementById("txtBlendingBatch").value = data[7];
             },
             error: function (data) {
                 alert("Error in GetUnitTankForDDl Loading");
@@ -265,6 +275,7 @@
                 document.getElementById("txtBottelingOpStrength").value = data[2];
                 document.getElementById("txtBottelingOpAL").value = data[3];
                 document.getElementById("hfbottlebrandid").value = data[6];
+                document.getElementById("txtBottlingbatchNo").value = data[7];
             },
             error: function (data) {
                 alert("Error in GetBBTForDDl Loading");
@@ -294,11 +305,8 @@
             return;
         }
 
-        if (document.getElementById("hfbrandid").value.trim() != document.getElementById("hfbottlebrandid").value.trim()) {
-            //document.getElementById("ddlBottelingId").focus();
-            alert(" bottling Vat brand must be same to blending Vat brand ");
-            return;
-        }
+        
+        
         if (document.getElementById("txtBlendingBal").value.trim() == "") {
             //document.getElementById("ddlBottelingId").focus();
             alert("Blending Vat opening balance BL should not be blank ");
@@ -389,7 +397,7 @@
             alert("Net Transfer AL should not be blank ");
             return;
         }
-        if (parseFloat(document.getElementById("txttxtNetALNetStr").value.trim()) < 0) {
+        if (parseFloat(document.getElementById("txtNetAL").value.trim()) < 0) {
             //document.getElementById("ddlBottelingId").focus();
             alert("Net Transfer AL must be greater than zero ");
             return;
@@ -404,6 +412,17 @@
             //document.getElementById("ddlBottelingId").focus();
             alert("Bottling VAT (Opening Balance) BL must be greater than zero ");
             return;
+        }
+        if (parseFloat(document.getElementById("txtBottelingBal").value.trim()) != 0) {
+            if (document.getElementById("hfbrandid").value.trim() != document.getElementById("hfbottlebrandid").value.trim()) {
+                //document.getElementById("ddlBottelingId").focus();
+                alert(" bottling Vat brand must be same to blending Vat brand ");
+                return;
+            }
+            if (document.getElementById("txtBlendingBatch").value.trim() != document.getElementById("txtBottlingbatchNo").value.trim()) {
+                alert(" bottling Vat batch No must be same to blending Vat batch No ");
+                return;
+            }
         }
 
         if ((document.getElementById("txtBottelingOpStrength").value.trim()) == "") {
@@ -431,33 +450,33 @@
 
         if ((document.getElementById("txtBottlingABL").value.trim()) == "") {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) BL should not be blank ");
+            alert("Bottling VAT (After Recevied)) BL should not be blank ");
             return;
         }
         if (parseFloat(document.getElementById("txtBottlingABL").value.trim()) < 0) {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) BL must be greater than zero ");
+            alert("Bottling VAT (After Recevied)) BL must be greater than zero ");
             return;
         }
 
         if ((document.getElementById("txtBottlingAS").value.trim()) == "") {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) Strength should not be blank ");
+            alert("Bottling VAT (After Recevied)) Strength should not be blank ");
             return;
         }
         if (parseFloat(document.getElementById("txtBottlingAS").value.trim()) < 0) {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) Strength must be greater than zero ");
+            alert("Bottling VAT (After Recevied)) Strength must be greater than zero ");
             return;
         }
         if ((document.getElementById("txtBottlingAAL").value.trim()) == "") {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) AL should not be blank ");
+            alert("Bottling VAT (After Recevied)) AL should not be blank ");
             return;
         }
         if (parseFloat(document.getElementById("txtBottlingAAL").value.trim()) < 0) {
             //document.getElementById("ddlBottelingId").focus();
-            alert("Bottling VAT (After Tranfer)) AL must be greater than zero ");
+            alert("Bottling VAT (After Recevied)) AL must be greater than zero ");
             return;
         }
 
@@ -536,13 +555,12 @@
             "BlendingId": document.getElementById("ddlBlendingId").value.trim(),
             "BottlingVATId": document.getElementById("ddlBottelingId").value.trim(),
             "SpiritTypeId": -1,// document.getElementById("hfspritid").value.trim(),
-            "BatchNo": " ",
+            "BatchNo": document.getElementById("txtBlendingBatch").value.trim(),
             "BrandID": document.getElementById("hfbrandid").value.trim(),//document.getElementById("").value.trim(),
             "TransactionType": "BB",
             "SourceofSpirit": -1,//document.getElementById("ddlsource_sp").value.trim(),
             "ReceiverType": " ",//document.getElementById("ddlsource_spR").value.trim(),
-            "PrevBalanceReceiverVBL": 0,// document.getElementById("txtPrevBalanceReceiverVBL").value.trim(),
-            "PrevBalanceStorageVBL": 0,//document.getElementById("txtSVBal").value.trim(),
+            
             "PrevBalanceBlendingVBL": document.getElementById("txtBlendingBal").value.trim(),
             "IssueBL": document.getElementById("txtNetBL").value.trim(),
             "CurrentBalanceReceiverVBL": 0,//document.getElementById("txtCurrentBalanceReceiverVBL").value.trim(),
@@ -562,10 +580,10 @@
             "PrevStorageVStrength": 0,//document.getElementById("txtstoragevatstrength").value.trim(),
             "PrevBlendingVStrength": document.getElementById("txtBlendingOpS").value.trim(),
             "PrevBottlingVStrength": document.getElementById("txtBottlingAS").value.trim(),
-            "CurrentReceiverVStrength": 0,// document.getElementById("txtCurrentReceiverVStrength").value.trim(),
+            "CurrentReceiverVStrength": 0,
             "CurrentStorageVStrength": 0,//document.getElementById("txtStorageASt").value.trim(),
             "CurrentBlendingVStrength": document.getElementById("txtBlendingAStrength").value.trim(),
-            "CurrentBottlingVStrength": document.getElementById("txtBottelingOpStrength").value.trim(),
+            "CurrentBottlingVStrength": document.getElementById("txtBottlingAS").value.trim(),
             "WastageBL": document.getElementById("txtWBL").value.trim(),
             "WastageStrength": document.getElementById("txtWS").value.trim(),
             "WastageAL": document.getElementById("txtWAL").value.trim(),

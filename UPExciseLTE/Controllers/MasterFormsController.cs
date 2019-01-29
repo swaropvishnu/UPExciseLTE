@@ -459,8 +459,8 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public FileResult Export(string PlanId)
         {
             PlanId = new Crypto().Decrypt(PlanId);
@@ -571,7 +571,7 @@ namespace UPExciseLTE.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)
@@ -928,7 +928,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSV()
         {
             if (Request.Files.Count > 0)

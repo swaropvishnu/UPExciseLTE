@@ -13,7 +13,7 @@ namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
     [NoCache]
-    [ChkAuthorization]
+    //[ChkAuthorization]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class BottlingPlanController : Controller
     {

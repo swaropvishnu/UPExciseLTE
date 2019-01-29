@@ -176,7 +176,7 @@
                                     <div class="rTableRow">
                                         <div class="rTableCell"><strong>Purchase </strong></div>
                                         <div class="rTableCell">
-                                            @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtPIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                            @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtPIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @disabled = "disabled", @onkeyup = "sumPAL()", @style = "width:160px" })
                                         </div>
                                         <div class="rTableCell">
                                             @Html.TextBoxFor(model => model.IssueStength, new { @id = "txtPIssueStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })

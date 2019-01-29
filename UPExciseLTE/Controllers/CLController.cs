@@ -504,6 +504,7 @@ namespace UPExciseLTE.Controllers
                     result[4] = dt.Rows[0]["BottelingVATBulkLiter"].ToString().Trim();
                     result[5] = dt.Rows[0]["SpiritType"].ToString().Trim();
                     result[6] = dt.Rows[0]["BrandId"].ToString().Trim();
+                    result[7] = dt.Rows[0]["BatchNo"].ToString().Trim();
                 }
             }
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -538,6 +539,7 @@ namespace UPExciseLTE.Controllers
                     result[4] = dt.Rows[0]["BlendingVATBulkLiter"].ToString().Trim();
                     result[5] = dt.Rows[0]["SpiritType"].ToString().Trim();
                     result[6] = dt.Rows[0]["BrandId"].ToString().Trim();
+                    result[7] = dt.Rows[0]["BatchNo"].ToString().Trim();
                 }
             }
             return Json(result, JsonRequestBehavior.AllowGet);

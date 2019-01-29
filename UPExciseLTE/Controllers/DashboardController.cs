@@ -9,7 +9,7 @@ namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
     [NoCache]
-    [ChkAuthorization]
+    //[ChkAuthorization]
     public class DashboardController : Controller
     {
         // GET: Dashboard
