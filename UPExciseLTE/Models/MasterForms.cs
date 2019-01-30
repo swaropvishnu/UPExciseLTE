@@ -204,7 +204,7 @@ namespace UPExciseLTE.Models
         public int BrandId { get; set; } = -1;
         public string Brand { get; set; } = "";
         public int Type { get; set; } = 1;
-        public string IsApproved { get; set; } = "";
+        public bool IsApproved { get; set; }
     }
     public class UTTransferToBBT
     {
@@ -268,7 +268,7 @@ namespace UPExciseLTE.Models
         public string BBTId_Encript { get; set; } = "";
         public int BrandId { get; set; } = -1;
         public string BrandName { get; set; } = "";
-        public string IsApproved { get; set; } = "";
+        public bool IsApproved { get; set; }
     }
     public class BottlingLine
     {
@@ -283,6 +283,7 @@ namespace UPExciseLTE.Models
         public string BottlingLineName { get; set; } = "";
         public string BottlingLineStatus { get; set; } = "A";
         public int Type { get; set; } = 1;
+        public bool IsApproved { get; set; }
     }
     public class GatePassDetails
     {

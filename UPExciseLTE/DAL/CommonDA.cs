@@ -702,6 +702,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Type", RM.Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", RM.IsApproved));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
                 cmd.ExecuteNonQuery();

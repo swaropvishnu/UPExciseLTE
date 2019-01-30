@@ -626,7 +626,6 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
-            UT.IsApproved = "0";
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
@@ -640,12 +639,11 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             return str;
         }
-        public string ApprovedTankDetails(string UTId, string Status)
+        public string ApprovedTankDetails(string UTId)
         {
             UnitTank UT = new UnitTank();
-            UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));
-            UT.Status = Status;
-            UT.IsApproved = "1";
+            UT.UnitTankId = int.Parse(new Crypto().Decrypt(UTId));            
+            UT.IsApproved =true;
             UT.Type = 5;
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             return str;
@@ -682,6 +680,18 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateBottlingLine(BL);
             return str;
         }
+        #region ApprovedBotllingLine
+        public string ApprovedBottlingLine(string UTId)
+        {
+            BottlingLine BL = new BottlingLine();
+            BL.BottlingLineId = int.Parse(new Crypto().Decrypt(UTId));
+            BL.IsApproved = true;
+            BL.Type = 4;
+            string str = new CommonDA().InsertUpdateBottlingLine(BL);
+            return str;
+        }
+        #endregion
+
         [HttpGet]
         public ActionResult ReceiveUnitTank()
         {
@@ -826,12 +836,13 @@ namespace UPExciseLTE.Controllers
             }*/
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
+        
         #region Approved BBT
-        public string ApprovedBBT(string bbtId, string status)
+        public string ApprovedBBT(string bbtId)
         {
             BBTMaster bbt = new BBTMaster();
             bbt.BBTId = int.Parse(bbtId);
-            bbt.IsApproved = status;
+            bbt.IsApproved = true;
             bbt.SP_Type = 5;
             string str = new CommonDA().InsertUpdateBBT(bbt);
             return str;

@@ -25,7 +25,7 @@
                         <div class="form-body">
                             @Html.HiddenFor(model => model.BottlingLineId, new { @id = "hfBottlingLineId" })
                             @Html.HiddenFor(model => model.Type, new { @id = "hfBottlingLineType" })
-                            @Html.HiddenFor(model => model.BBTId, new { @id = "hfBottlingLineType",@value="-1" })
+                            @Html.HiddenFor(model => model.BBTId, new { @id = "hfBottlingLineType", @value = "-1" })
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
@@ -47,7 +47,7 @@
 
                                 </div>
                             </div>
-                            
+
                             <center>
                                 <div>
                                     <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
@@ -74,7 +74,11 @@
                                             <td>@dr.BottlingLineName</td>
                                             <td>@dr.LineType1</td>
                                             <td>@dr.CapacityNoOfCasePerHour</td>
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
+                                            @if (dr.IsApproved == false)
+                                            {
+                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
+                                                <td><button type="button" class="btn green" onclick="ApprovedBottlingLineDetails('@dr.EncBottlingLineId')">Approved</button></td>
+                                            }
 
                                             @if (dr.BottlingLineStatus == "A")
                                             {
@@ -116,6 +120,22 @@
                 }
             });
         }
+    }
+    function ApprovedBottlingLineDetails(UTId)
+    {
+        $.ajax({
+            url: '/MasterForms/ApprovedBottlingLine',
+            data: { 'UTId': UTId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                alert(data);
+                window.location = "../MasterForms/BottlingLine";
+            },
+            error: function (data) {
+                alert("Error in Bottling Line Loading");
+            }
+        });
     }
     function Validate() {
         document.getElementById("txtBottlingLineName").value = document.getElementById("txtBottlingLineName").value.trim();

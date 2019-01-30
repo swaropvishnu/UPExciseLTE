@@ -66,10 +66,10 @@
                                         @Html.DisplayFor(modelItem => item.Status1)
                                     </td>
                                     <td>
-                                        @if (item.IsApproved == "False")
+                                        @if (item.IsApproved == false)
                                         {
                                             <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster", "MasterForms", new { Code = item.BBTId_Encript })'">Edit</button>
-                                            <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="ApprovedBBT('@item.BBTId','1')">Approved</button>
+                                            <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="ApprovedBBTDetails('@item.BBTId')">Approved</button>
                                         }
                                     </td>
                                     <td>
@@ -114,20 +114,20 @@
             }
         });
     }
-    function ApprovedBBT(BBTId, status)
+    function ApprovedBBTDetails(BBTId)
     {
-        
         $.ajax({
             url: '/MasterForms/ApprovedBBT',
-            data: { 'bbtId': BBTId, 'status': status },
-            datatype: "html",
+            data: { 'bbtId': BBTId },
+            datatype: "json",
             type: "GET",
             success: function (data)
-            {                
+            {
+                alert(data);
                 location.reload();
             },
             error: function (data) {
-                alert("Error in final brand Loading");
+                alert("Error in Unit Tank Loading");
             }
         });
     }

@@ -116,10 +116,10 @@
                                     <td>@dr.UnitTankCapacity</td>
                                     @*<td>@dr.UnitTankBulkLitre</td>*@
                                     @*<td>@dr.UnitTankStrength</td>*@
-                                    @if (dr.IsApproved == "False")
+                                    @if (dr.IsApproved == false)
                                     {
                                         <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
-                                        <td><button type="button" class="btn green" onclick="ApprovedTankDetails('@dr.Enc_UnitTankId','F')">Approved</button></td>
+                                        <td><button type="button" class="btn green" onclick="ApprovedTankDetails('@dr.Enc_UnitTankId')">Approved</button></td>
                                     }
                                     @if (dr.Status == "A")
                                     {
@@ -165,15 +165,16 @@
             });
         }
     }
-    function ApprovedTankDetails(UTId, Status)
+    function ApprovedTankDetails(UTId)
     {     
             $.ajax({
                 url: '/MasterForms/ApprovedTankDetails',
-                data: { 'UTId': UTId, 'Status': Status },
+                data: { 'UTId': UTId },
                 datatype: "json",
                 type: "GET",
                 success: function (data)
                 {
+                    alert(data);
                     window.location = "../MasterForms/UnitTank";
                 },
                 error: function (data) {
