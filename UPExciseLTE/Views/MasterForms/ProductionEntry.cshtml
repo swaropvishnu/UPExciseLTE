@@ -7,6 +7,13 @@
     {
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
+    if (Model.IsQRGenerated == false)
+    {
+        <script type="text/javascript">
+            alert('Please Generate QR Code First');
+            window.location.href = "../MasterForms/GenerateQRCode";
+        </script>
+    }
 }
 <script type="text/javascript">
     var specialKeys = new Array();
@@ -215,6 +222,7 @@
             //document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtWastageInNumber").value * Quantity)/1000;
             document.getElementById("txtProducedBulkLitre").value = (TotalUnit * Quantity) / 1000;
         }
+        document.getElementById("txtWastageBL").value = parseFloat(document.getElementById("txtBeforeBBTBal").value) - parseFloat(document.getElementById("txtProducedBulkLitre").value);
     }
     function Validation() {
         if (document.getElementById("txtProducedNumberOfCases").value.trim() == "" || parseFloat(document.getElementById("txtProducedNumberOfCases").value.trim()) <= 0) {

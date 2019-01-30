@@ -572,7 +572,7 @@ namespace UPExciseLTE.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)
@@ -929,7 +929,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSV()
         {
             if (Request.Files.Count > 0)
@@ -966,6 +966,7 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePass(GatePass, 1, 0);
         }
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {

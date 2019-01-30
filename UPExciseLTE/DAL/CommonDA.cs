@@ -119,7 +119,26 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-
+        internal DataSet ValidateDamageCSV(int uploadValue, int GatePassId, int brandId, DataTable dtCaseCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("db_Name", UserSession.PushName));
+                parameters.Add(new SqlParameter("QRCode", dtCaseCode));
+                parameters.Add(new SqlParameter("UploadValue", uploadValue));
+                parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                parameters.Add(new SqlParameter("BrandId", brandId));
+                parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "PROC_ValidateDamageCSV", parameters.ToArray());
+            }
+            catch (Exception exp)
+            {
+                ds = null;
+            }
+            return ds;
+        }
         public string filter_bad_chars_rep(string s)
         {
             string[] sL_Char = {
@@ -1308,6 +1327,40 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+        public string ReceiveGatePass(long GatePassId, short SP_Type, DataTable DamageQRCode)
+        {
+            string result = "";
+            con.Open();
+            SqlTransaction tran = con.BeginTransaction();
+            try
+            {
+                cmd = new SqlCommand("PROC_ReceiveGatePass", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Transaction = tran;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", GatePassId));
+                cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
+                cmd.Parameters.Add(new SqlParameter("DamageQRCode", DamageQRCode));
+                cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+                tran.Commit();
+            }
+            catch (Exception exp)
+            {
+                tran.Rollback();
+                result = exp.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         public DataSet GetUnitDetails(short BreweryId, string BreweryName, string BreweryLicenseNo, short DistrictCode, short TehsilCode,int ParentUnitId,int UserId)
         {
             DataSet ds = new DataSet();
@@ -1512,10 +1565,6 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-
-
-
-
         #region FL2D
         /// <summary>
         /// iNSERT OR UPDATE FL36 gate pass
@@ -1841,8 +1890,6 @@ namespace UPExciseLTE.DAL
             return ds;
         }
         #endregion
-
-
         #region CL DAL
         public string InsertUpdateStorageVAT(StorageVATCL SV)
         {
@@ -2711,7 +2758,6 @@ namespace UPExciseLTE.DAL
             }
         }
         #endregion
-
         #region BWFL
         internal string InsertUpdatePlanBWFL(BottelingPlan BP)
         {
@@ -2909,9 +2955,6 @@ namespace UPExciseLTE.DAL
             return result;
         }
         #endregion
-
-
         
-
     }
 }

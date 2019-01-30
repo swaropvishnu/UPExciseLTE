@@ -32,9 +32,14 @@ namespace UPExciseLTE.Controllers
             return View(lstGPD);
         }
         
-        public string ReceiveGatePass(string GatePassId, string DamageBottles)
+        public string ReceiveGatePass(string GatePassId)
         {
-            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
+            DataTable dt = new DataTable();
+            if (Session["CaseCode"] !=null)
+            {
+                dt = Session["CaseCode"] as DataTable;
+            }
+            string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 2, dt);
             return str;
         }
         [HttpGet]

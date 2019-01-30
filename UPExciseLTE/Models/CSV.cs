@@ -48,7 +48,27 @@ namespace UPExciseLTE.Models
                     sb.Append(ds.Tables[1].Rows.Count);
                     sb.Append("</td></tr><tr style = 'background-color:#f3f3ba' ><td> Total Case Code</td><td>");
                     sb.Append(ds.Tables[0].Rows.Count + ds.Tables[1].Rows.Count);
-                    sb.Append("</td></tr></table></div><center><button type = 'button' class='btn default' style='background-color: #659be0;color:white;border-color:#8E44AD' id='btnUploadCSV' onclick='UploadCSV();' data-dismiss='modal'>Upload CSV</button><button type = 'button' class='btn danger' style='background-color:crimson; color:white' id='btnFinal' data-dismiss='modal'>Retry</button></center></div></div></div></div></div></div>");
+                    sb.Append("</td></tr></table></div><center>");
+                    if (ds.Tables.Count>2)
+                    {
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            sb.Append("<b style='color:red'>");
+                             sb.Append(ds.Tables[2].Rows[0][0].ToString());
+                            sb.Append("</b></br><button type = 'button' class='btn danger' style='background-color:crimson; color:white' id='btnFinal' data-dismiss='modal'>Retry</button>");
+
+                        }
+                        else
+                        {
+                            sb.Append("<button type = 'button' class='btn default' style='background-color: #659be0;color:white;border-color:#8E44AD' id='btnUploadCSV' onclick='UploadCSV();' data-dismiss='modal'>Upload CSV</button><button type = 'button' class='btn danger' style='background-color:crimson; color:white' id='btnFinal' data-dismiss='modal'>Retry</button>");
+                        }
+                    }
+                    else
+                    {
+                        sb.Append("<button type = 'button' class='btn default' style='background-color: #659be0;color:white;border-color:#8E44AD' id='btnUploadCSV' onclick='UploadCSV();' data-dismiss='modal'>Upload CSV</button><button type = 'button' class='btn danger' style='background-color:crimson; color:white' id='btnFinal' data-dismiss='modal'>Retry</button>");
+                    }
+
+                    sb.Append("</center></div></div></div></div></div></div>");
                     sb.Append("<div id = 'myModal2' class='modal fade' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='portlet box green'><div class='portlet-title'><div class='caption'><div>Invalid Case Code List</div></div><button type = 'button' class='close' data-dismiss='modal' style='margin-top:15px'>&times;</button></div><div class='portlet-body form'><div><div class='modal-body'><table class='table table-striped table-bordered table-hover'><tr><th>Case Code</th><th>Status</th></tr>");
                     foreach (DataRow dr in ds.Tables[1].Rows)
                     {

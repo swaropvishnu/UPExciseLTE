@@ -252,6 +252,7 @@
     <Compile Include="Controllers\BreweryWareHouseController.cs" />
     <Compile Include="Controllers\BWFLController.cs" />
     <Compile Include="Controllers\CLController.cs" />
+    <Compile Include="Controllers\DamageUploadCSVController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DistrictWareHouseController.cs" />
     <Compile Include="Controllers\FL2DController.cs" />
@@ -6311,6 +6312,7 @@
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Content\sass\" />
     <Folder Include="UsersService\" />
+    <Folder Include="Views\DamageUploadCSV\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
