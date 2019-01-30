@@ -8,8 +8,9 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    [NoCache]
-    //[ChkAuthorization]
+    //[NoCache]
+    [ChkAuthorization]
+    [HandleError(View = "Error")]
     public class DashboardController : Controller
     {
         // GET: Dashboard

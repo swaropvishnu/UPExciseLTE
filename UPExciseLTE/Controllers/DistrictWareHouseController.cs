@@ -18,8 +18,9 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    [NoCache]
+    //[NoCache]
     [ChkAuthorization]
+    [HandleError(View = "Error")]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
     public class DistrictWareHouseController : Controller
     {

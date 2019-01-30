@@ -40,7 +40,8 @@
 
     <link href="../Content/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="../Content/buttons.dataTables.min.css" rel="stylesheet" />
-    @*@Styles.Render("~/Content/cssBlank")
+    <link href="../Content/css/loadingbar.css" rel="stylesheet" />
+    @*@Styles.Render(" ~/Content/cssBlank")
         @Styles.Render("~/Content/cssDash")
         @Styles.Render("~/Content/ReportCss")*@
 
@@ -59,7 +60,8 @@
     @*<script src="../Content/assets/global/plugins/jquery.min.js" type="text/javascript"></script>*@
     <script src="../Scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="../Scripts/jquery-migrate-3.0.0.min.js"></script>
-    <script src="../scripts/Menu.js"></script>    
+    <script src="../Scripts/Menu.js"></script>    
+    <script src="../Scripts/jquery.loadingbar.js"></script>  
     <script src="../Content/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../Content/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
     <script src="../Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
@@ -81,8 +83,33 @@
 
     <script src="../Scripts/CommonScript.js"></script>
     <script>
+        //var form = $('#__AjaxAntiForgeryForm');
+        //var token = $('input[name="__RequestVerificationToken"]', form).val();
+        //$("body").bind("ajaxSend", function(elm, xhr, s){
+        //    if (s.type == "POST") {
+        //        xhr.setRequestHeader('X-CSRF-Token', token);
+        //    }
+        //});
         $(document).ready(function () {
             myfunction();
+
+            $(".ajax-call").loadingbar({
+                replaceURL: false, /* You can visibly change the URL of the browser to reflect the clicked links by toggling this to true. Default is false. May not work in old browsers. */
+                target: "#loadingbar-frame", /* The container's selector where you want the ajax result to appear. Default is #loadingbar-frame */
+                direction: "right", /* The direction where the the loading bar will progress. Default is right. */
+	
+                /* Default Ajax Parameters.  */
+                async: true, 
+                complete: function(xhr, text) {},
+                cache: true,
+                error: function(xhr, text, e) {},
+                global: true,
+                headers: {},
+                statusCode: {},
+                success: function(data, text, xhr) {},
+                dataType: "html",
+                done: function(data) {}
+            });
         });
         function myfunction() {
             var d1 = @UserSession.LoggedInUserLevelId.ToString();
@@ -102,6 +129,16 @@
             }
         }
     </script>
+
+    <script type="text/javascript">
+        function burstCache() {
+            if (!navigator.onLine) {
+                document.body.innerHTML = 'Loading...';
+                window.location = '../Login/Error';
+            }
+        }
+    </script>
+
     <style>
         input[type=text] {
             border-color: #999eac !important;
@@ -135,7 +172,9 @@
 </head>
 <!-- END HEAD -->
 
-<body class="page-container-bg-solid">
+<body class="page-container-bg-solid" onload="burstCache();">
+    @*<a href="YOUR-URL" class="ajax-call">..</a>*@
+    <div id="loadingbar-frame"></div>
     <div class="page-wrapper">
         <div class="page-wrapper-row">
             <div class="page-wrapper-top">
@@ -339,24 +378,26 @@
                         <!-- BEGIN PAGE CONTENT BODY -->
                         <div class="page-content">
 
+                            @*<div class="container ajax-call">*@
                             <div class="container">
+                                
                                 @RenderBody()
                                 <!-- BEGIN PAGE BREADCRUMBS -->
                                 @*<ul class="page-breadcrumb breadcrumb">
-                                        <li>
-                                            <a href="index.html">Home</a>
-                                            <i class="fa fa-circle"></i>
-                                        </li>
-                                        <li>
-                                            <span>Layouts</span>
-                                        </li>
-                                    </ul>
-                                    <!-- END PAGE BREADCRUMBS -->
-                                    <!-- BEGIN PAGE CONTENT INNER -->
-                                    <div class="page-content-inner">
-                                        <div class="note note-info">
+                <li>
+                    <a href="index.html">Home</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <span>Layouts</span>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMBS -->
+            <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="page-content-inner">
+                <div class="note note-info">
 
-                                        </div>*@
+                </div>*@
                             </div>
                             <!-- END PAGE CONTENT INNER -->
                         </div>
