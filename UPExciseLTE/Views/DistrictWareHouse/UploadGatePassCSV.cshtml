@@ -3,119 +3,122 @@
     ViewBag.Title = "Upload GatePass CSV";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
 
-    $(document).ready(function () {
-        GatePassUploadBrandDetails();
-    });
+@using (Html.BeginForm("UploadGatePassCSV", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <script type="text/javascript">
 
-    function ValidateCSV() {
-        if ($('#ddlBrand').val() == "-1") {
-            alert("Please Select Brand");
-            $('#ddlBrand').focus();
-            return false;
-        }
-        // Checking whether FormData is available in browser
-        if (window.FormData !== undefined) {
+        $(document).ready(function () {
+            GatePassUploadBrandDetails();
+        });
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-            var fileUpload = $("#FileUpload1").get(0);
-            var files = fileUpload.files;
-
-            // Create FormData object
-            var fileData = new FormData();
-            var Extsplit = files[0].name.split(".");
-            var Ext = Extsplit[Extsplit.length - 1]
-            if (Ext != "csv") {
-                alert("Please Upload CSV File");
+        function ValidateCSV() {
+            if ($('#ddlBrand').val() == "-1") {
+                alert("Please Select Brand");
+                $('#ddlBrand').focus();
                 return false;
             }
+            // Checking whether FormData is available in browser
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#FileUpload1").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+                var Extsplit = files[0].name.split(".");
+                var Ext = Extsplit[Extsplit.length - 1]
+                if (Ext != "csv") {
+                    alert("Please Upload CSV File");
+                    return false;
+                }
+                var BrandId = $('#ddlBrand').val();
+                BrandId = "file" + BrandId;
+                //fileData.append(files[0].name, files[0])
+                fileData.append(BrandId, files[0])
+                fileData.append("__RequestVerificationToken", token);
+                // Looping over all files and add it to FormData object
+                /*for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }*/
+                $.ajax({
+                    url: '/DistrictWareHouse/UploadGatePassCSV',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+
+                        $('#divResult').html(result);
+                        $('#myModal').modal('show');
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+        function ShowPopup() {
+            $('#myModal2').modal('show');
+        }
+        function UploadCSV() {
+            var GatePassId = document.getElementById("hfGatePassId").value;
             var BrandId = $('#ddlBrand').val();
-            BrandId = "file" + BrandId;
-            //fileData.append(files[0].name, files[0])
-            fileData.append(BrandId, files[0])
-
-            // Looping over all files and add it to FormData object
-            /*for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }*/
+            var BatchNo = document.getElementById("txtBatchNo").value;
             $.ajax({
-                url: '/DistrictWareHouse/UploadGatePassCSV',
+                url: '../DistrictWareHouse/UploadVerifedCSV',
+                data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 6, 'PlanId': -1, 'BLID': -1, __RequestVerificationToken: token },
+                //datatype: "json",
                 type: "POST",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                success: function (result) {
-
-                    $('#divResult').html(result);
-                    $('#myModal').modal('show');
+                success: function (data) {
+                    alert(data);
+                    GatePassUploadBrandDetails();
                 },
-                error: function (err) {
-                    alert(err.statusText);
+                error: function (data) {
+                    alert("Error in Upload CSV Loading");
                 }
             });
-        } else {
-            alert("FormData is not supported.");
         }
-    }
-    function ShowPopup() {
-        $('#myModal2').modal('show');
-    }
-    function UploadCSV() {
-        var GatePassId = document.getElementById("hfGatePassId").value;
-        var BrandId = $('#ddlBrand').val();
-        var BatchNo = document.getElementById("txtBatchNo").value;
-        $.ajax({
-            url: '../UnitWareHouse/UploadVerifedCSV',
-            data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 6, 'PlanId': -1,'BLID':-1},
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                alert(data);
-                GatePassUploadBrandDetails();
-            },
-            error: function (data) {
-                alert("Error in Upload CSV Loading");
-            }
-        });
-    }
-    function GatePassUploadBrandDetails() {
-        var GatePassId = document.getElementById("hfGatePassId").value;
-        $.ajax({
-            url: '/UnitWareHouse/GetGatePassUploadBrandDetails',
-            data: { 'Gatepass': GatePassId },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                $('#divTable').html(data);
-            },
-            error: function (data) {
-                alert("Error in GatePass Upload Brand Details Loading");
-            }
-        });
-    }
-    function FinalGatePass() {
-        var r = confirm("Are You sure to Final GatePass");
-        if (r == true) {
+        function GatePassUploadBrandDetails() {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/UnitWareHouse/FinalGatePass',
+                url: '/DistrictWareHouse/GetGatePassUploadBrandDetails',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
-                    alert(data);
+                    $('#divTable').html(data);
                 },
                 error: function (data) {
                     alert("Error in GatePass Upload Brand Details Loading");
                 }
             });
         }
-    }
-</script>
-@using (Html.BeginForm("UploadGatePassCSV", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+        function FinalGatePass() {
+            var r = confirm("Are You sure to Final GatePass");
+            if (r == true) {
+                var GatePassId = document.getElementById("hfGatePassId").value;
+                $.ajax({
+                    url: '/DistrictWareHouse/FinalGatePass',
+                    data: { 'Gatepass': GatePassId, __RequestVerificationToken: token },
+                    //datatype: "json",
+                    type: "Post",
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (data) {
+                        alert("Error in GatePass Upload Brand Details Loading");
+                    }
+                });
+            }
+        }
+    </script>
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">

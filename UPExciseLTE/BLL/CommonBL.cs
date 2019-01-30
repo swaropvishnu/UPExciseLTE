@@ -385,7 +385,7 @@ namespace UPExciseLTE.BLL
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>BrandName</th><th>BatchNo</th><th>DetailDesc</th><th>TotalBL</th><th>Strength</th></tr>");
+                    sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>BrandName</th><th>BatchNo</th><th>Bottles X No of Case X Quantity (in ml.)Contained in each </th><th>TotalBL</th><th>Strength</th></tr>");
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         sb.Append("<tr>");
@@ -424,7 +424,7 @@ namespace UPExciseLTE.BLL
             GPBM.BatchNo = (dr["BatchNo"].ToString().Trim());
             GPBM.BrandName = (dr["BrandName"].ToString().Trim());
             GPBM.DetailsDesc = (dr["DetailDesc"].ToString().Trim());
-            GPBM.Strength = decimal.Parse((dr["Strength"].ToString().Trim()));
+            GPBM.Strength = ((dr["Strength"].ToString().Trim()));
             GPBM.TotalBL = decimal.Parse((dr["TotalBL"].ToString().Trim()));    
             return GPBM;
         }
