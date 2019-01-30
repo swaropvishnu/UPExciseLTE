@@ -320,6 +320,7 @@ namespace UPExciseLTE.BLL
                 RW.CapacityNoOfCasePerHour = int.Parse((dr["CapacityNoOfCasePerHour"].ToString().Trim()));
                 RW.Type = 2;
                 RW.EncBottlingLineId = new Crypto().Encrypt(dr["BottlingLineId"].ToString().Trim());
+                RW.IsApproved = Convert.ToBoolean(dr["IsApproved"].ToString().Trim());
             }
             catch (Exception) { }
             return RW;
@@ -339,6 +340,7 @@ namespace UPExciseLTE.BLL
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 UT.Brand = (dr["BrandName"].ToString().Trim());
+                UT.IsApproved= Convert.ToBoolean(dr["IsApproved"].ToString().Trim());
                 UT.Type = 2;
             }
             catch (Exception) { }
@@ -723,6 +725,7 @@ namespace UPExciseLTE.BLL
                 bbtFormation.Status = dr["BBTStatus"].ToString().Trim();
                 bbtFormation.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
                 bbtFormation.BrandName = dr["BrandName"].ToString().Trim();
+                bbtFormation.IsApproved = Convert.ToBoolean(dr["IsApproved"].ToString().Trim());
             }
             catch (Exception) { }
             return bbtFormation;

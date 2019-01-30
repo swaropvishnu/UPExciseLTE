@@ -110,22 +110,26 @@
                                 {
                                     foreach (UnitTank dr in (ViewBag.UnitTank as List<UnitTank>))
                                     {
-                                        <tr>
-                                            <td>@dr.UnitTankId</td>
-                                            <td>@dr.UnitTankName</td>
-                                            <td>@dr.UnitTankCapacity</td>
-                                            @*<td>@dr.UnitTankBulkLitre</td>*@
-                                            @*<td>@dr.UnitTankStrength</td>*@
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
-                                            @if (dr.Status == "A")
-                                            {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Deactive</button></td>
-                                            }
-                                            else
-                                            {
-                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','A')">Active</button></td>
-                                            }
-                                        </tr>
+                                <tr>
+                                    <td>@dr.UnitTankId</td>
+                                    <td>@dr.UnitTankName</td>
+                                    <td>@dr.UnitTankCapacity</td>
+                                    @*<td>@dr.UnitTankBulkLitre</td>*@
+                                    @*<td>@dr.UnitTankStrength</td>*@
+                                    @if (dr.IsApproved == false)
+                                    {
+                                        <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
+                                        <td><button type="button" class="btn green" onclick="ApprovedTankDetails('@dr.Enc_UnitTankId')">Approved</button></td>
+                                    }
+                                    @if (dr.Status == "A")
+                                    {
+                                        <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Deactive</button></td>
+                                    }
+                                    else
+                                    {
+                                        <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','A')">Active</button></td>
+                                    }
+                                </tr>
                                     }
                                 }
                             </table>
@@ -137,12 +141,15 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status) {
-        if (Status == 'E') {
+    function UnitTankDetails(UTId, Status)
+    {
+        if (Status == 'E')
+        {
             window.location.assign("../masterforms/UnitTank?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
         }
-        else {
+        else
+        {
             $.ajax({
                 url: '/MasterForms/UpdateUnitTank',
                 data: { 'UTId': UTId, 'Status': Status },
@@ -157,5 +164,22 @@
                 }
             });
         }
+    }
+    function ApprovedTankDetails(UTId)
+    {     
+            $.ajax({
+                url: '/MasterForms/ApprovedTankDetails',
+                data: { 'UTId': UTId },
+                datatype: "json",
+                type: "GET",
+                success: function (data)
+                {
+                    alert(data);
+                    window.location = "../MasterForms/UnitTank";
+                },
+                error: function (data) {
+                    alert("Error in Unit Tank Loading");
+                }
+            });        
     }
 </script>
