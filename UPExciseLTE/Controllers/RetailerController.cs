@@ -25,9 +25,16 @@ namespace UPExciseLTE.Controllers
             lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 6, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
             return View(lstGPD);
         }
-        public string ReceiveGatePass(string GatePassId, string DamageBottles)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string ReceiveGatePass(string GatePassId)
         {
-            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
+            DataTable dt = new DataTable();
+            if (Session["CaseCode"] != null)
+            {
+                dt = Session["CaseCode"] as DataTable;
+            }
+            string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 3, dt);
             return str;
         }
         [HttpGet]

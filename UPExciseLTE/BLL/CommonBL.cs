@@ -428,7 +428,10 @@ namespace UPExciseLTE.BLL
             GPBM.BrandName = (dr["BrandName"].ToString().Trim());
             GPBM.DetailsDesc = (dr["DetailDesc"].ToString().Trim());
             GPBM.Strength = ((dr["Strength"].ToString().Trim()));
-            GPBM.TotalBL = decimal.Parse((dr["TotalBL"].ToString().Trim()));    
+            GPBM.DamageBottles = ((dr["DamageBottles"].ToString().Trim()));    
+            GPBM.AvailbleBottles = dr["AvailbleBottles"].ToString().Trim();    
+            GPBM.TotalBottles = dr["TotalBottles"].ToString().Trim();    
+            GPBM.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());    
             return GPBM;
         }
         public List<GatePassBrandMapping> GetGatePassBrandDetailsList(long GatePassId)

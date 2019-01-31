@@ -347,6 +347,9 @@ namespace UPExciseLTE.Models
         public string DetailsDesc { get; set; } = "";
         public decimal TotalBL { get; set; } = 0;
         public string Strength { get; set; } = "";
+        public string TotalBottles { get; set; } = "";
+        public string AvailbleBottles { get; set; } = "";
+        public string DamageBottles { get; set; } = "";
     }
    
 }
