@@ -571,8 +571,8 @@ namespace UPExciseLTE.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)

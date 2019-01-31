@@ -25,7 +25,7 @@
                                     }
                                 }
                             }
-                            
+
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color: #f5f5f5">
@@ -41,9 +41,9 @@
                                 <th>Import fee (per Ltr.)</th>
                                 @if (Request.QueryString["V"].ToString().Trim() == "P")
                                 {
-                                <th>Transaction No</th>
-                                <th>Bank Name</th>
-                                <th>Challan Slip</th>
+                                    <th>Transaction No</th>
+                                    <th>Bank Name</th>
+                                    <th>Challan Slip</th>
                                 }
                                 <th>Reason (Mandatory for Rejection)</th>
                                 <th></th>
@@ -79,18 +79,18 @@
                                     </td>
                                     @if (Request.QueryString["V"].ToString().Trim() == "P")
                                     {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TransactionNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Bankname)
-                                    </td>
-                                    <td>
-                                        <a href="#" id="hrefChallan" onclick="ShowChallan('@item.ChallanId');">View</a>
-                                    </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TransactionNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Bankname)
+                                        </td>
+                                        <td>
+                                            <a href="#" id="hrefChallan" onclick="ShowChallan('@item.ChallanId');">View</a>
+                                        </td>
                                     }
                                     <td>
-                                        @Html.TextBox("txtReason", "", new { @id = "txtReason_"+item.FL21ID , @class = "form-control",@width="100px",@MaxLength=150})
+                                        @Html.TextBox("txtReason", "", new { @id = "txtReason_" + item.FL21ID, @class = "form-control", @width = "100px", @MaxLength = 150 })
                                     </td>
                                     <td>
                                         @if (Request.QueryString["V"].Trim() == "F")
@@ -103,14 +103,14 @@
                                         }
                                     </td>
                                     <td>
-                                    @if (Request.QueryString["V"].Trim() == "F")
-                                    {
-                                      <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')" >Reject Form</button>
-                                    }
-                                    else if (Request.QueryString["V"].Trim() == "P")
-                                    {
-                                        <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('C','@item.FL21ID')">Reject Challan</button>
-                                    }
+                                        @if (Request.QueryString["V"].Trim() == "F")
+                                        {
+                                            <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('R','@item.FL21ID')">Reject Form</button>
+                                        }
+                                        else if (Request.QueryString["V"].Trim() == "P")
+                                        {
+                                            <button type="button" id="btnReject" class="btn danger" style="background-color:crimson; color:white" onclick="FinalBrand('C','@item.FL21ID')">Reject Challan</button>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -153,7 +153,7 @@
                                                     <div class="row">
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Valid From Date<b style="color:red; font-weight:800">*</b></label>
-                                                            @Html.TextBox("txtPopFromDate", "", new { @id = "txtPopFromDate", @class = "form-control", @maxlength="10",@placeHolder="dd/MM/yyyy" })
+                                                            @Html.TextBox("txtPopFromDate", "", new { @id = "txtPopFromDate", @class = "form-control", @maxlength = "10", @placeHolder = "dd/MM/yyyy" })
                                                         </div>
                                                         <div class="form-group  col-md-4">
                                                             <label class="control-label">Valid To Date<b style="color:red; font-weight:800">*</b></label>
@@ -190,88 +190,90 @@
             </div>
         </div>
     </div>
-
+    
 }
-<script type="text/javascript">
-    function ShowChallan(ChallanId) {
-        $.ajax({
-            url: '/BWFL/PreviewChallan',
-            data: { 'ChallanId': ChallanId },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                document.getElementById("divChallan").innerHTML = data;
-                //window.open("data:application/pdf;base64," + data);
-                $('#myModal3').modal('show');
-            },
-            error: function (data) {
-                alert("Error in Show Challan Loading");
-            }
-        });
-    }
-    function FinalizeForm(FormId, ConsignerName, ConsigneeName, TotalBL, TotalFees, TransNo) {
-        document.getElementById("txtPopFormId").value = FormId;
-        document.getElementById("txtPopConsignerName").value = ConsignerName;
-        document.getElementById("txtPopConsigneeName").value = ConsigneeName;
-        document.getElementById("txtPopTotalBL").value = TotalBL;
-        document.getElementById("txtPopTotalFees").value = TotalFees;
-        document.getElementById("txtPopTransNo").value = TransNo;
-        $('#myModal2').modal('show');
-    }
-    function FinalBrand(status, FL21) {
-        var reason = "", txtPopFromDate = "01/01/1900", txtPopToDate = "01/01/1900";
-        if (status == "R" || status == "C") {
-            var txtReasonId = 'txtReason_' + FL21;
-            reason = document.getElementById(txtReasonId).value
-            if (reason == "") {
-                alert("Please Enter Reason");
-                document.getElementById(txtReasonId).focus();
-                return false;
-            }
-        }
-        if (status == "A") {
-            reason = "Verify Form";
-            var r = confirm("Are You sure to finalize this Form.");
-            if (r == false) {
-                return false;
-            }
-            txtPopFromDate = document.getElementById("txtPopFromDate").value;
-            if (txtPopFromDate == '') {
-                alert("Please Enter Valid From Date");
-                document.getElementById("txtPopFromDate").focus();
-                return false;
-            }
-            txtPopToDate = document.getElementById("txtPopToDate").value;
-            if (txtPopToDate == '') {
-                alert("Please Enter Valid To Date");
-                document.getElementById("txtPopToDate").focus();
-                return false;
-            }
-        }
-        else if (status == "R") {
-            var r = confirm("Are You sure to Reject this Form.");
-            if (r == false) {
-                return false;
-            }
-           // reason = "Reject Form";
-        }
-        $.ajax({
-            url: '/BWFL/FinalFormFL21',
-            data: { 'FL21ID': FL21, 'status': status, 'reason': reason, 'FromDate': txtPopFromDate, 'ToDate': txtPopToDate },
-            datatype: "json",
-            type: "GET",
-            success: function (data) {
-                alert(data);
-                if (status == 'V') {
-                    window.location = "../BWFL/FinalizeFormFL21?V=F";
+    <script type="text/javascript">
+
+        function ShowChallan(ChallanId) {
+            $.ajax({
+                url: '/BWFL/PreviewChallan',
+                data: { 'ChallanId': ChallanId },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    document.getElementById("divChallan").innerHTML = data;
+                    //window.open("data:application/pdf;base64," + data);
+                    $('#myModal3').modal('show');
+                },
+                error: function (data) {
+                    alert("Error in Show Challan Loading");
                 }
-                else {
-                    window.location = "../BWFL/FinalizeFormFL21?V=P";
+            });
+        }
+        function FinalizeForm(FormId, ConsignerName, ConsigneeName, TotalBL, TotalFees, TransNo) {
+            document.getElementById("txtPopFormId").value = FormId;
+            document.getElementById("txtPopConsignerName").value = ConsignerName;
+            document.getElementById("txtPopConsigneeName").value = ConsigneeName;
+            document.getElementById("txtPopTotalBL").value = TotalBL;
+            document.getElementById("txtPopTotalFees").value = TotalFees;
+            document.getElementById("txtPopTransNo").value = TransNo;
+            $('#myModal2').modal('show');
+        }
+        function FinalBrand(status, FL21) {
+            var reason = "", txtPopFromDate = "01/01/1900", txtPopToDate = "01/01/1900";
+            if (status == "R" || status == "C") {
+                var txtReasonId = 'txtReason_' + FL21;
+                reason = document.getElementById(txtReasonId).value
+                if (reason == "") {
+                    alert("Please Enter Reason");
+                    document.getElementById(txtReasonId).focus();
+                    return false;
                 }
-            },
-            error: function (data) {
-                alert("Error in final F.L. 21 Loading");
             }
-        });
-    }
-</script>
+            if (status == "A") {
+                reason = "Verify Form";
+                var r = confirm("Are You sure to finalize this Form.");
+                if (r == false) {
+                    return false;
+                }
+                txtPopFromDate = document.getElementById("txtPopFromDate").value;
+                if (txtPopFromDate == '') {
+                    alert("Please Enter Valid From Date");
+                    document.getElementById("txtPopFromDate").focus();
+                    return false;
+                }
+                txtPopToDate = document.getElementById("txtPopToDate").value;
+                if (txtPopToDate == '') {
+                    alert("Please Enter Valid To Date");
+                    document.getElementById("txtPopToDate").focus();
+                    return false;
+                }
+            }
+            else if (status == "R") {
+                var r = confirm("Are You sure to Reject this Form.");
+                if (r == false) {
+                    return false;
+                }
+                // reason = "Reject Form";
+            }
+            $.ajax({
+                url: '/BWFL/FinalFormFL21',
+                data: { 'FL21ID': FL21, 'status': status, 'reason': reason, 'FromDate': txtPopFromDate, 'ToDate': txtPopToDate },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    alert(data);
+                    if (status == 'V') {
+                        window.location = "../BWFL/FinalizeFormFL21?V=F";
+                    }
+                    else {
+                        window.location = "../BWFL/FinalizeFormFL21?V=P";
+                    }
+                },
+                error: function (data) {
+                    alert("Error in final F.L. 21 Loading");
+                }
+            });
+        }
+    </script>
+
