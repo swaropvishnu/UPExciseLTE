@@ -995,6 +995,8 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonBL().GetGatePassUploadBrandDetailsTable(GatePass);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
@@ -1025,9 +1027,16 @@ namespace UPExciseLTE.Controllers
             lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
             return View(lstGPD);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ReceiveGatePass(string GatePassId, string DamageBottles)
         {
-            string str = new CommonDA().FinalGatePass(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
+            DataTable dt = new DataTable();
+            if (Session["CaseCode"] != null)
+            {
+                dt = Session["CaseCode"] as DataTable;
+            }
+            string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 1, dt);
             return str;
         }
         /*Copy From Vijay For Show Gate Pass*/

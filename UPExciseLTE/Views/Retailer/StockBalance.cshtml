@@ -40,6 +40,9 @@
                                 <th style="color:#b32121">
                                     Available Stock (Bottel / Can)
                                 </th>
+                                <th style="color:#b32121">
+                                    Damage Stock (Bottel / Can)
+                                </th>
                             </tr>
                             @foreach (System.Data.DataRow item in dt.Rows)
                             {
@@ -62,6 +65,9 @@
                                 </td>
                                 <td>
                                     @item["BottelBal"]
+                                </td>
+                                <td>
+                                    @item["DamageBottelBal"]
                                 </td>
                             </tr>
                             

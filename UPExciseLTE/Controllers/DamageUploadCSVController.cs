@@ -119,5 +119,59 @@ namespace UPExciseLTE.Controllers
                 return Json("No files selected.");
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReceiveGatePassDistrictWH()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = ValidateCSV(2, int.Parse(files.Keys[0].Replace("file", "")), -1, file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReceiveGatePassRetailer()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = ValidateCSV(3, int.Parse(files.Keys[0].Replace("file", "")), -1, file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
     }
 }

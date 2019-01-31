@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.GatePassDetails>
 
 @{
-    ViewBag.Title = "GetPassDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+                /**/
+
+                ViewBag.Title = "GetPassDetails";
+                Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("ReceiveGatePassWH", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+@using (Html.BeginForm("ReceiveGatePassWH", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -34,15 +36,15 @@
             $('#myModal3').modal('show');
         }
         function ReceiveGatePass() {
-            var GatePassId = document.getElementById("hfPopGatePassId").value; 
+            var GatePassId = document.getElementById("hfPopGatePassId").value;
             $.ajax({
-                url: '/DistrictWareHouse/ReceiveGatePass',
-                data: { 'GatePassId': GatePassId },
-                datatype: "json",
-                type: "GET",
+                url: '/MasterForms/ReceiveGatePass',
+                data: { 'GatePassId': GatePassId, __RequestVerificationToken: token},
+                //datatype: "json",
+                type: "POST",
                 success: function (data) {
                     alert(data);
-                    window.location = "../DistrictWareHouse/ReceiveGatePassWH";
+                    window.location = "../MasterForms/ReceiveGatePassWH";
                 },
                 error: function (data) {
                     alert("Error in Receive GatePass Loading");
@@ -234,7 +236,7 @@
                                                     </div>
                                                 </div>
                                                 <p style="color:red"> <b>Note:- Please Upload Only Damage QRCode CSV</b></p>
-                                                 <center>
+                                                <center>
                                                     <button type="button" class="btn green" id="btnValidateCSV" onclick="ValidateCSV();">Validate CSV</button>
                                                     <button type="button" class="btn green" id="btnUpload" onclick="ReceiveGatePass();" style="display:none">Receive GatePass</button>
                                                     <button type='button' class='btn danger' style='background-color:crimson; color:white' data-dismiss='modal'>Close</button>

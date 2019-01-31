@@ -346,7 +346,7 @@ namespace UPExciseLTE.Models
         public string BatchNo { get; set; } = "";
         public string DetailsDesc { get; set; } = "";
         public decimal TotalBL { get; set; } = 0;
-        public decimal Strength { get; set; } = 0;
+        public string Strength { get; set; } = "";
     }
    
 }

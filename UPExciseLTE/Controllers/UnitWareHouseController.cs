@@ -135,11 +135,15 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonBL().GetGatePassUploadBrandDetailsTable(GatePass);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePass(GatePass, 1, 0);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
             long GatePass = long.Parse(GatePassId);

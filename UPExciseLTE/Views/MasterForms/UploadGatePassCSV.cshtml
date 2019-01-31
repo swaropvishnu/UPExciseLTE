@@ -209,9 +209,9 @@
                 var GatePassId = document.getElementById("hfGatePassId").value;
                 $.ajax({
                     url: '/MasterForms/FinalGatePass',
-                    data: { 'Gatepass': GatePassId },
-                    datatype: "json",
-                    type: "GET",
+                    data: { 'Gatepass': GatePassId, __RequestVerificationToken: token },
+                   // datatype: "json",
+                    type: 'POST',
                     success: function (data) {
                         alert(data);
                     },

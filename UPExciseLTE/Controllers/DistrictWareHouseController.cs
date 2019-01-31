@@ -31,7 +31,8 @@ namespace UPExciseLTE.Controllers
             lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 4, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
             return View(lstGPD);
         }
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ReceiveGatePass(string GatePassId)
         {
             DataTable dt = new DataTable();
@@ -120,6 +121,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSV()
         {
             if (Request.Files.Count > 0)
@@ -151,11 +153,15 @@ namespace UPExciseLTE.Controllers
             long GatePass = long.Parse(Gatepass);
             return new CommonBL().GetGatePassUploadBrandDetailsTable(GatePass);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePass(GatePass, 1, 0);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
             long GatePass = long.Parse(GatePassId);
@@ -249,6 +255,8 @@ namespace UPExciseLTE.Controllers
                 return Content(ex.Message);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ReceiveGatePassCL(string GatePassId, string DamageBottles)
         {
             string str = new CommonDA().FinalGatePassCL(long.Parse(GatePassId.Trim()), 2, int.Parse(DamageBottles.Trim()));
