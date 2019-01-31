@@ -45,6 +45,7 @@ namespace UPExciseLTE.Controllers
             return View(FL21);
         }
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult FormFL21(FormFL21 FL)
         {
             FL.lstFL21 = (Session["lstFL21BrandMapp"] as List<FL21BrandMapp>);
@@ -83,12 +84,13 @@ namespace UPExciseLTE.Controllers
             }
             return View(new CommonBL().GetFormFL21List(-1, status));
         }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public string FinalFormFL21(string FL21ID, string status, string reason,string FromDate,string ToDate)
         {
             string str = "";
             try
             {
-                
                 FormFL21 FL21 = new FormFL21();
                 FL21.FL21ID = int.Parse(FL21ID);
                 FL21.SPType = 3;
@@ -121,7 +123,7 @@ namespace UPExciseLTE.Controllers
                 FL21 = new CommonBL().GetFormFL21(int.Parse(new Crypto().Decrypt(Request.QueryString["Code"].Trim())), "Z");
             }
             return View(FL21);
-        }
+        }        
         public string FL21BrandMapp(string BrandId, string TotalCase, string RateofPermit,string UnderBondYesNo,string BondExecutedYesNo)
         {
             List<FL21BrandMapp> lstFL21BrandMapp = (Session["lstFL21BrandMapp"] as List<FL21BrandMapp>);
@@ -174,6 +176,8 @@ namespace UPExciseLTE.Controllers
             sb.Append("</table></div>");
             return sb.ToString();
         }
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult FormFL21List(string hfFormId, HttpPostedFileBase fileChallan, string txtTotalFees,string txtBankName,string txtTransactionDate,string txtTransactionNo)
         {
             Challan Ch = new Challan();
@@ -335,6 +339,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult GatePassForBWFL(GatePassDetails GP)
         {
             if (GP.Receiver == null)
@@ -401,6 +406,7 @@ namespace UPExciseLTE.Controllers
             return View(objGatePass);
         }
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult FL2BGatePass(FL2BGatePassDetails GP)
         {
             if (GP.Receiver == null)

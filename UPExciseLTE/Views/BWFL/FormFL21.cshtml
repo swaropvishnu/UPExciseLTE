@@ -24,7 +24,7 @@
     }
 
 </script>
-@using (Html.BeginForm("FormFL21", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FormFL21", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken();
     @Html.ValidationSummary(true);
@@ -265,6 +265,7 @@
     </div>
 }
 <script type="text/javascript">
+    
     function AddBrand() {
         var BrandId = $('#ddlBrand').val();
         if (BrandId == "-1") {
@@ -382,11 +383,7 @@
             document.getElementById("txtFromConsignorAddress").focus();
             return false;
         }
-        if (document.getElementById("txtPermitFees").value == 0) {
-            alert("Please fill permit fees.");
-            document.getElementById("txtPermitFees").focus();
-            return false;
-        }
+        
         if (document.getElementById("txtRateofPermit").value == 0) {
             alert("Please fill import pass fee.");
             document.getElementById("txtRateofPermit").focus();
