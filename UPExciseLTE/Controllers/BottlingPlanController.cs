@@ -23,7 +23,7 @@ namespace UPExciseLTE.Controllers
         {
             BottelingPlan BP = new BottelingPlan();
             ViewBag.Msg = TempData["Message"];
-            ViewBag.Brand = CommonBL.fillBrand("S");
+            ViewBag.Brand = CommonBL.fillBWFLBrand("S");
             ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {

@@ -16,9 +16,12 @@ namespace UPExciseLTE.Filters
             string url1 = Reverse(url);
             string[] arr = url1.Split('/');
             string menuAction = Reverse(arr[0]);
-            if (menuAction.Contains("?"))
+            if (!menuAction.Contains("FinalizeFormFL"))
             {
-                menuAction = menuAction.Substring(0, menuAction.IndexOf("?"));
+                if (menuAction.Contains("?"))
+                {
+                    menuAction = menuAction.Substring(0, menuAction.IndexOf("?"));
+                }
             }
             string menuControlller = Reverse(arr[1]);
             int res = 0; bool chk = false;

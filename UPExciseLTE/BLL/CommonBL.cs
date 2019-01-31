@@ -72,6 +72,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.LoggedInUserId.ToString(), SelectType);
             return BrandList;
         }
+        public static List<SelectListItem> fillBWFLBrand(string SelectType)
+        {
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BWFLBR", UserSession.LoggedInUserId.ToString(), SelectType);
+            return BrandList;
+        }
         public static List<SelectListItem> fillBrandForCSV(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
