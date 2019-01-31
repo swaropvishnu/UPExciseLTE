@@ -405,7 +405,7 @@ namespace UPExciseLTE.Controllers
             ViewBag.ToLicenseTypes = ToLicenseTypes;
             return View(objGatePass);
         }
-        [HttpPost]
+        //[HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult FL2BGatePass(FL2BGatePassDetails GP)
         {
@@ -438,6 +438,77 @@ namespace UPExciseLTE.Controllers
         {
             return View();
         }
+        #endregion
+        #region BWFLPermit1GatePass
+        [HttpGet]
+        public ActionResult BWFLPermit1GatePass()
+        {
+            FL2BGatePassDetails objGatePass = new FL2BGatePassDetails();
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            objGatePass = new CommonBL().FL2BGetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 9, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+            ViewBag.Msg = TempData["Message"];
+
+            List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
+            List<SelectListItem> FL1Licence = new List<SelectListItem>();
+            SelectListItem SLI = new SelectListItem();
+
+            SLI = new SelectListItem();
+            SLI.Text = "BWFL-2B";
+            SLI.Value = "BWFL-2B";
+            ToLicenseTypes.Add(SLI);
+
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
+                if (objGatePass.FromLicenseType.Trim() == string.Empty)
+                {
+                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-22")
+                    {
+                        objGatePass.FromLicenseType = "FL-22";
+                    }
+                    else if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1A")
+                    {
+                        objGatePass.FromLicenseType = "FL-1A";
+                    }
+                    objGatePass.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
+                    objGatePass.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
+                    objGatePass.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
+                }
+            }
+            if (!string.IsNullOrEmpty(objGatePass.ToLicenseType.Trim()) && ToLicenseTypes.Find(x => x.Text.Trim() == objGatePass.ToLicenseType.Trim().Trim()) != null)
+            {
+                ToLicenseTypes.Find(x => x.Value.Trim() == objGatePass.ToLicenseType.Trim()).Selected = true;
+            }
+            if (!string.IsNullOrEmpty(objGatePass.ToLicenceNo.Trim()) &&
+                FL1Licence.Find(x => x.Text.Trim() == objGatePass.ToLicenceNo.Trim()) != null)
+            {
+                FL1Licence.Find(x => x.Text.Trim() == objGatePass.ToLicenceNo.Trim()).Selected = true;
+            }
+            ViewBag.FL1Licence = FL1Licence;
+            ViewBag.Districts = CommonBL.fillDistict("N");
+            ViewBag.ToLicenseTypes = ToLicenseTypes;
+            return View(objGatePass);
+        }
+        public ActionResult BWFLPermit1GatePass(FL2BGatePassDetails GP)
+        {
+            if (GP.Receiver == null)
+            {
+                GP.Receiver = "";
+            }
+            if (GP.ImportPermitNo == null)
+            {
+                GP.ImportPermitNo = "";
+            }
+            GP.GatepassLicenseNo = "FL-2B";
+            GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
+            GP.UploadValue = 4;
+            GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
+            GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
+            string str = new CommonDA().FL2BInsertUpdateGatePassDetails(GP);
+            TempData["Message"] = str;
+            return RedirectToAction("FL2BGatePass");
+        }
+
         #endregion
 
     }

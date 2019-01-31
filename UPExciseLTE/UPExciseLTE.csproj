@@ -6305,6 +6305,7 @@
     <Content Include="Views\Shared\DetailedError.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\CL\ReceiveSplitTfReceiverVat.cshtml" />
+    <Content Include="Views\BWFL\BWFLPermit1GatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
