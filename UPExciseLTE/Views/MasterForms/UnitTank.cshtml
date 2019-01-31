@@ -7,50 +7,53 @@
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
     }
 }
-<script type="text/javascript">
-    $(document).ready(function () {
-        if (document.getElementById("txtUnitTank").value.trim() != "") {
-            document.getElementById("btnSubmit").innerHTML = "Update";
-        }
-    });
-
-    function Validate() {
-        if (document.getElementById("txtUnitTank").value == "") {
-            alert("Please Enter Unit Tank Name");
-            document.getElementById("txtUnitTank").focus();
-            return false;
-        }
-        else if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == 0) {
-            alert("Please Enter Unit Tank Capacity");
-            document.getElementById("txtUnitTankCapacity").focus();
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    function isfloatNumber(txt, evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode == 46) {
-            //Check if the text already contains the . character
-            if (txt.value.indexOf('.') === -1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            if (charCode > 31
-                && (charCode < 48 || charCode > 57))
-                return false;
-        }
-        return true;
-    }
-</script>
-@using (Html.BeginForm("UnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UnitTank", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    <script type="text/javascript">
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        $(document).ready(function () {
+            if (document.getElementById("txtUnitTank").value.trim() != "") {
+                document.getElementById("btnSubmit").innerHTML = "Update";
+            }
+        });
+
+        function Validate() {
+            if (document.getElementById("txtUnitTank").value == "") {
+                alert("Please Enter Unit Tank Name");
+                document.getElementById("txtUnitTank").focus();
+                return false;
+            }
+            else if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == 0) {
+                alert("Please Enter Unit Tank Capacity");
+                document.getElementById("txtUnitTankCapacity").focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function isfloatNumber(txt, evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode == 46) {
+                //Check if the text already contains the . character
+                if (txt.value.indexOf('.') === -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (charCode > 31
+                    && (charCode < 48 || charCode > 57))
+                    return false;
+            }
+            return true;
+        }
+    </script>
+
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
@@ -110,26 +113,29 @@
                                 {
                                     foreach (UnitTank dr in (ViewBag.UnitTank as List<UnitTank>))
                                     {
-                                <tr>
-                                    <td>@dr.UnitTankId</td>
-                                    <td>@dr.UnitTankName</td>
-                                    <td>@dr.UnitTankCapacity</td>
-                                    @*<td>@dr.UnitTankBulkLitre</td>*@
-                                    @*<td>@dr.UnitTankStrength</td>*@
-                                    @if (dr.IsApproved == false)
-                                    {
-                                        <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
-                                        <td><button type="button" class="btn green" onclick="ApprovedTankDetails('@dr.Enc_UnitTankId')">Approved</button></td>
-                                    }
-                                    @if (dr.Status == "A")
-                                    {
-                                        <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Deactive</button></td>
-                                    }
-                                    else
-                                    {
-                                        <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','A')">Active</button></td>
-                                    }
-                                </tr>
+                                        <tr>
+                                            <td>@dr.UnitTankId</td>
+                                            <td>@dr.UnitTankName</td>
+                                            <td>@dr.UnitTankCapacity</td>
+                                            @*<td>@dr.UnitTankBulkLitre</td>*@
+                                            @*<td>@dr.UnitTankStrength</td>*@
+                                            @if (dr.IsApproved == false)
+                                            {
+                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','E')">Edit</button></td>
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="ApprovedTankDetails('@dr.Enc_UnitTankId')">Approved</button></td>
+                                            }
+                                            else
+                                            {
+                                                if (dr.Status == "A")
+                                                {
+                                                    <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_UnitTankId','D')">Deactive</button></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_UnitTankId','A')">Active</button></td>
+                                                }
+                                            }
+                                        </tr>
                                     }
                                 }
                             </table>
@@ -141,20 +147,17 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status)
-    {
-        if (Status == 'E')
-        {
+    function UnitTankDetails(UTId, Status) {
+        if (Status == 'E') {
             window.location.assign("../masterforms/UnitTank?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
         }
-        else
-        {
+        else {
             $.ajax({
                 url: '/MasterForms/UpdateUnitTank',
-                data: { 'UTId': UTId, 'Status': Status },
-                datatype: "json",
-                type: "GET",
+                data: { 'UTId': UTId, 'Status': Status, __RequestVerificationToken: token },
+                //datatype: "json",
+                type: "POST",
                 success: function (data) {
                     alert(data);
                     window.location = "../MasterForms/UnitTank";
@@ -165,21 +168,19 @@
             });
         }
     }
-    function ApprovedTankDetails(UTId)
-    {     
-            $.ajax({
-                url: '/MasterForms/ApprovedTankDetails',
-                data: { 'UTId': UTId },
-                datatype: "json",
-                type: "GET",
-                success: function (data)
-                {
-                    alert(data);
-                    window.location = "../MasterForms/UnitTank";
-                },
-                error: function (data) {
-                    alert("Error in Unit Tank Loading");
-                }
-            });        
+    function ApprovedTankDetails(UTId) {
+        $.ajax({
+            url: '/MasterForms/ApprovedTankDetails',
+            data: { 'UTId': UTId, __RequestVerificationToken: token },
+            //datatype: "json",
+            type: "POST",
+            success: function (data) {
+                alert(data);
+                window.location = "../MasterForms/UnitTank";
+            },
+            error: function (data) {
+                alert("Error in Unit Tank Loading");
+            }
+        });
     }
 </script>

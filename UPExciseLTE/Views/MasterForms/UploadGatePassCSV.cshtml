@@ -125,12 +125,21 @@
                 $('#ddlBrand').focus();
                 return false;
             }
+            if (document.getElementById("txtBatchNo").value.trim() == "") {
+                alert("Please Enter Batch No");
+                document.getElementById("txtBatchNo").focus();
+                return false;
+            }
+            
             // Checking whether FormData is available in browser
             if (window.FormData !== undefined) {
 
                 var fileUpload = $("#FileUpload1").get(0);
                 var files = fileUpload.files;
-
+                if (files.length==0) {
+                    alert("Please Upload File");
+                    return false;
+                }
                 // Create FormData object
                 var fileData = new FormData();
                 var Extsplit = files[0].name.split(".");

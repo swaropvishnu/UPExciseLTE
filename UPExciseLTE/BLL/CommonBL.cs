@@ -385,7 +385,7 @@ namespace UPExciseLTE.BLL
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>BrandName</th><th>BatchNo</th><th>Bottles X No of Case X Quantity (in ml.)Contained in each </th><th>TotalBL</th><th>Strength</th></tr>");
+                    sb.Append("<div class='row'><table class='table table-striped table-bordered table-hover'><tr><th>Srno</th><th>BrandName</th><th>BatchNo</th><th>Bottles X No of Case X Quantity (in ml.)Contained in each </th><th>Total Bottles</th><th>Available Bottles</th><th>Damage Bottles</th><th>TotalBL</th><th>Strength</th></tr>");
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         sb.Append("<tr>");
@@ -393,6 +393,9 @@ namespace UPExciseLTE.BLL
                         sb.Append("<td>"); sb.Append(dr["BrandName"]); sb.Append("</td>");
                         sb.Append("<td>"); sb.Append(dr["BatchNo"]); sb.Append("</td>");
                         sb.Append("<td>"); sb.Append(dr["DetailDesc"]); sb.Append("</td>");
+                        sb.Append("<td>"); sb.Append(dr["TotalBottles"]); sb.Append("</td>");
+                        sb.Append("<td>"); sb.Append(dr["AvailbleBottles"]); sb.Append("</td>");
+                        sb.Append("<td>"); sb.Append(dr["DamageBottles"]); sb.Append("</td>");
                         sb.Append("<td>"); sb.Append(dr["TotalBL"]); sb.Append("</td>");
                         sb.Append("<td>"); sb.Append(dr["Strength"]); sb.Append("</td>");
                         sb.Append("</tr>");

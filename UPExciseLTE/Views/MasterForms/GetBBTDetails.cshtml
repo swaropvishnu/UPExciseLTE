@@ -6,7 +6,7 @@
 
     string str = ViewBag.Msg;
 }
-@using (Html.BeginForm("GetBBTDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GetBBTDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -91,20 +91,23 @@
         </div>
     </div>
 
-}
+
 <script src="~/Scripts/CommonScript.js"></script>
 <script type="text/javascript">
     @*function BrandMaster() {
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
     }*@
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
     function DeleteBBT(BBTId, status)
     {        
         $.ajax({
             url: '/MasterForms/DeleteBBT',
-            data: { 'bbtId': BBTId, 'status': status },
-            datatype: "html",
-            type: "GET",
+            data: {'bbtId': BBTId, 'status': status, __RequestVerificationToken: token },
+            //datatype: "html",
+            type: "POST",
             success: function (data) {
                 alert(data);
                 location.reload();
@@ -118,9 +121,9 @@
     {
         $.ajax({
             url: '/MasterForms/ApprovedBBT',
-            data: { 'bbtId': BBTId },
-            datatype: "json",
-            type: "GET",
+            data: {'bbtId': BBTId, __RequestVerificationToken: token },
+            //datatype: "json",
+            type: "POST",
             success: function (data)
             {
                 alert(data);
@@ -132,4 +135,4 @@
         });
     }
 </script>
-
+}

@@ -299,6 +299,8 @@ namespace UPExciseLTE.Controllers
                 return View(lstBrand);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalBrand(string BrandId, string Status, string Reason)
         {
             string str = "";
@@ -317,6 +319,8 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string DeleteBrand(string BrandId)
         {
             string str = "";
@@ -402,6 +406,8 @@ namespace UPExciseLTE.Controllers
         {
             return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "PB"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalizePlan(string PlanId)
         {
             string str = "";
@@ -445,6 +451,8 @@ namespace UPExciseLTE.Controllers
             ViewBag.Brand = CommonBL.fillBrand("A");
             return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string GenreateQR(string PlanId)
         {
             string str = "";
@@ -460,8 +468,8 @@ namespace UPExciseLTE.Controllers
             }
             return str;
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public FileResult Export(string PlanId)
         {
             PlanId = new Crypto().Decrypt(PlanId);
@@ -508,6 +516,8 @@ namespace UPExciseLTE.Controllers
         {
             return View(new CommonBL().GetBottelingPlanList(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FreezePlanSuccess(string PlanId)
         {
             string str = "";
@@ -630,6 +640,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateUnitTank(string UTId, string Status)
         {
             UnitTank UT = new UnitTank();
@@ -639,6 +651,8 @@ namespace UPExciseLTE.Controllers
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             return str;
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ApprovedTankDetails(string UTId)
         {
             UnitTank UT = new UnitTank();
@@ -671,6 +685,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLine");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateBottlingLine(string UTId, string Status)
         {
             BottlingLine BL = new BottlingLine();
@@ -681,6 +697,8 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         #region ApprovedBotllingLine
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ApprovedBottlingLine(string UTId)
         {
             BottlingLine BL = new BottlingLine();
@@ -813,7 +831,8 @@ namespace UPExciseLTE.Controllers
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string DeleteBBT(string bbtId, string status)
         {
             BBTMaster bbt = new BBTMaster();
@@ -836,8 +855,10 @@ namespace UPExciseLTE.Controllers
             }*/
             //return PartialView("~/Views/Shared/_ErrorMessage.cshtml", "");
         }
-        
+
         #region Approved BBT
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string ApprovedBBT(string bbtId)
         {
             BBTMaster bbt = new BBTMaster();
