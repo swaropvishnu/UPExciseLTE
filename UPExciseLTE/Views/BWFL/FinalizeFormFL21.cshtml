@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<UPExciseLTE.Models.FormFL21>
 
-@using (Html.BeginForm("FinalizeForm", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FinalizeForm", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -190,10 +190,9 @@
             </div>
         </div>
     </div>
-    
-}
     <script type="text/javascript">
-
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         function ShowChallan(ChallanId) {
             $.ajax({
                 url: '/BWFL/PreviewChallan',
@@ -258,9 +257,9 @@
             }
             $.ajax({
                 url: '/BWFL/FinalFormFL21',
-                data: { 'FL21ID': FL21, 'status': status, 'reason': reason, 'FromDate': txtPopFromDate, 'ToDate': txtPopToDate },
-                datatype: "json",
-                type: "GET",
+                data: { 'FL21ID': FL21, 'status': status, 'reason': reason, 'FromDate': txtPopFromDate, 'ToDate': txtPopToDate, __RequestVerificationToken: token },
+                //datatype: "json",
+                type: "POST",
                 success: function (data) {
                     alert(data);
                     if (status == 'V') {
@@ -276,4 +275,6 @@
             });
         }
     </script>
+}
+    
 

@@ -45,7 +45,7 @@ namespace UPExciseLTE.Controllers
             return View(FL21);
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult FormFL21(FormFL21 FL)
         {
             FL.lstFL21 = (Session["lstFL21BrandMapp"] as List<FL21BrandMapp>);
@@ -83,9 +83,9 @@ namespace UPExciseLTE.Controllers
                 }
             }
             return View(new CommonBL().GetFormFL21List(-1, status));
-        }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        }  
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalFormFL21(string FL21ID, string status, string reason,string FromDate,string ToDate)
         {
             string str = "";
@@ -177,7 +177,7 @@ namespace UPExciseLTE.Controllers
             return sb.ToString();
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult FormFL21List(string hfFormId, HttpPostedFileBase fileChallan, string txtTotalFees,string txtBankName,string txtTransactionDate,string txtTransactionNo)
         {
             Challan Ch = new Challan();
@@ -339,7 +339,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult GatePassForBWFL(GatePassDetails GP)
         {
             if (GP.Receiver == null)
