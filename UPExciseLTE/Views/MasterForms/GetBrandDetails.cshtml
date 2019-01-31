@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit/Delete Brand";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("GetBrandDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GetBrandDetails", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -200,9 +200,10 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-}
-<script type="text/javascript">
     function BrandMaster() {
         var url = '@Url.Action("BrandMaster", "MasterForms", null)';
         window.location.href = url;
@@ -210,9 +211,9 @@
     function FinalBrand(BrandId) {
         $.ajax({
             url: '/MasterForms/DeleteBrand',
-            data: { 'BrandId': BrandId },
-            datatype: "json",
-            type: "GET",
+            data: { 'BrandId': BrandId, __RequestVerificationToken: token  },
+            //datatype: "json",
+            type: "POST",
             success: function (data) {
                 alert(data);
                 window.location = "../MasterForms/GetBrandDetails";
@@ -222,5 +223,7 @@
             }
         });
     }
-</script>
+    </script>
+}
+
 

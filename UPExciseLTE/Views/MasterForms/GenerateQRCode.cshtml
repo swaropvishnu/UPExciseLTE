@@ -12,7 +12,7 @@
     <input type="hidden" id="hfid" name="PlanId" />
     <input type="submit" value="Export" style="display:none" id="btnDownload" />
 }
-@using (Html.BeginForm("GenerateQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GenerateQRCode", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -132,9 +132,10 @@
         </div>
     </div>
 
-}
-
 <script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
     $(document).ready(function () {
         $('#example').DataTable({
             "pagingType": "full_numbers"
@@ -178,9 +179,9 @@
         //var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             url: '/MasterForms/GenreateQR',
-            data: { 'PlanId': PlanId},
-            datatype: "json",
-            type: "GET",
+            data: { 'PlanId': PlanId, __RequestVerificationToken: token},
+            //datatype: "json",
+            type: "POST",
             success: function (data) {
                 alert(data);
                 window.location = "../MasterForms/GenerateQRCode";
@@ -206,3 +207,4 @@
     //    });
     //}
 </script>
+}

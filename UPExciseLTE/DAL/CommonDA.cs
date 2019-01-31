@@ -1345,6 +1345,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("SP_Type", SP_Type));
                 cmd.Parameters.Add(new SqlParameter("DamageQRCode", DamageQRCode));
                 cmd.Parameters.Add(new SqlParameter("UserId", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip",IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;

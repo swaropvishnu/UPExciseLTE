@@ -8,7 +8,7 @@
     }
 }
 
-@using (Html.BeginForm("BottlingLine", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottlingLine", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm"}))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -77,16 +77,18 @@
                                             @if (dr.IsApproved == false)
                                             {
                                                 <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
-                                                <td><button type="button" class="btn green" onclick="ApprovedBottlingLineDetails('@dr.EncBottlingLineId')">Approved</button></td>
-                                            }
-
-                                            @if (dr.BottlingLineStatus == "A")
-                                            {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="ApprovedBottlingLineDetails('@dr.EncBottlingLineId')">Approved</button></td>
                                             }
                                             else
                                             {
+                                                if (dr.BottlingLineStatus == "A")
+                                                {
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
+                                                }
+                                                else
+                                                {
                                                 <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','A')">Active</button></td>
+                                                }
                                             }
                                         </tr>
                                     }
@@ -100,6 +102,8 @@
     </div>
 }
 <script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
     function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
             window.location.assign("../masterforms/BottlingLine?A=" + UTId)
@@ -108,9 +112,9 @@
         else {
             $.ajax({
                 url: '/MasterForms/UpdateBottlingLine',
-                data: { 'UTId': UTId, 'Status': Status },
-                datatype: "json",
-                type: "GET",
+                data: { 'UTId': UTId, 'Status': Status, __RequestVerificationToken: token },
+                //datatype: "json",
+                type: "POST",
                 success: function (data) {
                     alert(data);
                     window.location = "../MasterForms/BottlingLine";
@@ -125,9 +129,9 @@
     {
         $.ajax({
             url: '/MasterForms/ApprovedBottlingLine',
-            data: { 'UTId': UTId },
-            datatype: "json",
-            type: "GET",
+            data: { 'UTId': UTId, __RequestVerificationToken: token },
+            //datatype: "json",
+            type: "POST",
             success: function (data) {
                 alert(data);
                 window.location = "../MasterForms/BottlingLine";
