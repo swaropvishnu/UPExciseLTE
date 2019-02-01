@@ -157,7 +157,7 @@
                     fileData.append(files[i].name, files[i]);
                 }*/
                 $.ajax({
-                    url: '/UnitWareHouse/UploadGatePassCSV',
+                    url: '/BWFL/UploadGatePassCSV',
                     type: "POST",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
@@ -222,7 +222,7 @@
                     type: 'POST',
                     success: function (data) {
                         alert(data);
-                        window.open("../UnitWareHouse/Gatepass","_self")
+                        window.open("../BWFL/FL2BGatePass","_self")
                     },
                     error: function (data) {
                         alert("Error in GatePass Upload Brand Details Loading");

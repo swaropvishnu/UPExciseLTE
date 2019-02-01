@@ -18,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
 
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     public class MasterFormsController : Controller
@@ -1050,7 +1050,7 @@ namespace UPExciseLTE.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string ReceiveGatePass(string GatePassId, string DamageBottles)
+        public string ReceiveGatePass(string GatePassId)
         {
             DataTable dt = new DataTable();
             if (Session["CaseCode"] != null)

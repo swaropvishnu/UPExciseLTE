@@ -16,7 +16,7 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
@@ -104,6 +104,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSV()
         {
             if (Request.Files.Count > 0)

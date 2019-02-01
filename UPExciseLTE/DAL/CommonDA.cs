@@ -656,6 +656,7 @@ namespace UPExciseLTE.DAL
             }
             return result;
         }
+
         public string InsertUpdateUnitTank(UnitTank UT)
         {
             string result = "";
@@ -2840,20 +2841,7 @@ namespace UPExciseLTE.DAL
             }
             return ds;
         }
-        /// <summary>
-        /// Get FL-2B Gate pass detail
-        /// </summary>
-        /// <param name="GatePassId"></param>
-        /// <param name="FromDate"></param>
-        /// <param name="Todate"></param>
-        /// <param name="UploadValue"></param>
-        /// <param name="Status"></param>
-        /// <param name="IsReceive"></param>
-        /// <param name="FromLicenseNo"></param>
-        /// <param name="ToLicenseNo"></param>
-        /// <param name="FromLicenseType"></param>
-        /// <param name="ToLicenseType"></param>
-        /// <returns></returns>
+          
         public DataSet FL2BGatePassDetails(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
         {
             DataSet ds = new DataSet();
@@ -2960,7 +2948,45 @@ namespace UPExciseLTE.DAL
             return result;
         }
 
-        
+        public string BWFLUploadCSV(long gatePassId, DataTable dbBarCode, int UploadValue, int BrandId, string BatchNo, int PlanId, short BottlingLineId)
+        {
+            con.Open();
+            string result = "";
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "BWFL_Proc_InsertUploadCSV";
+                cmd.CommandTimeout = 3000;
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("GatePassId", gatePassId));
+                cmd.Parameters.Add(new SqlParameter("dbBarCode", dbBarCode));
+                cmd.Parameters.Add(new SqlParameter("UploadValue", UploadValue));
+                cmd.Parameters.Add(new SqlParameter("BrandId", BrandId));
+                cmd.Parameters.Add(new SqlParameter("BatchNo", BatchNo));
+                cmd.Parameters.Add(new SqlParameter("PlanId", PlanId));
+                cmd.Parameters.Add(new SqlParameter("BottlingLineId", BottlingLineId));
+                cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
+                cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("Msg", ""));
+                cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
+                cmd.Parameters["Msg"].Size = 256;
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["Msg"].Value.ToString().Trim();
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return result;
+        }
         #endregion
 
     }

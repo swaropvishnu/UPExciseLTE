@@ -82,7 +82,7 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <span>
-                                <i class="fa fa-gift"></i>&nbsp;Bonded Warehouse To Manufacturer Wholesale&nbsp;
+                                <i class="fa fa-gift"></i>&nbsp;Bonded Warehouse To District Wholesale&nbsp;
                             </span>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Dispatch Type<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }, new SelectListItem { Text = "CSD", Value = "CSD" } }, new { @id = "ddlDispatchType", @class = "form-control " })
+                                    @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }}, new { @id = "ddlDispatchType", @class = "form-control " })
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Gate Pass Type<b style="color:red; font-weight:800">*</b></label>
@@ -282,10 +282,11 @@
                         <center>
                             <div class="form-actions">
                                 <button type="submit" class="btn green" id="btnSave" onclick="return Validation();">Save</button>
-                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../UnitWareHouse/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
-                                <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
-                            </div>
-                        </center>
+                                <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../BWFL/UploadGAtePassCSV?A=' + document.getElementById('hfGatePassId').value + '&B=' + document.getElementById('hfUploadValue').value ">Upload CSV</button>
+                                @*<button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
+        </div>*@
+                                <p style="color:red"><b>Note:- Gatepass can be finalize only after CSV Upload.</b></p>
+</center>
                         <div class="form-body">
                             <div id="divTable"></div>
                         </div>

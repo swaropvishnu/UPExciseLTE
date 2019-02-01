@@ -6306,6 +6306,12 @@
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\CL\ReceiveSplitTfReceiverVat.cshtml" />
     <Content Include="Views\BWFL\BWFLPermit1GatePass.cshtml" />
+    <Content Include="Views\BWFL\UploadGAtePassCSVFL22.cshtml" />
+    <Content Include="Views\BWFL\GetPassDetailsFL22.cshtml" />
+    <Content Include="Views\BWFL\GatePassPreview.cshtml" />
+    <Content Include="Views\BWFL\ReceiveGatePass.cshtml" />
+    <Content Include="Views\Shared\_NoneLayout.cshtml" />
+    <Content Include="Views\BWFL\UploadGatePassCSV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

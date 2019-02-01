@@ -12,7 +12,7 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     public class DamageUploadCSVController : Controller
@@ -160,6 +160,33 @@ namespace UPExciseLTE.Controllers
                         HttpFileCollectionBase files = Request.Files;
                         HttpPostedFileBase file = files[0];
                         str = ValidateCSV(3, int.Parse(files.Keys[0].Replace("file", "")), -1, file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReceiveGatePassBWFL()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = ValidateCSV(11, int.Parse(files.Keys[0].Replace("file", "")), -1, file);
                     }
                     return Json(str);
                 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -9,11 +12,12 @@ using UPExciseLTE.BLL;
 using UPExciseLTE.DAL;
 using UPExciseLTE.Filters;
 using UPExciseLTE.Models;
+using ZXing;
 
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
@@ -360,7 +364,7 @@ namespace UPExciseLTE.Controllers
         {
             FL2BGatePassDetails objGatePass = new FL2BGatePassDetails();
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
-            objGatePass = new CommonBL().FL2BGetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 9, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+            objGatePass = new CommonBL().FL2BGetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 4, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
             ViewBag.Msg = TempData["Message"];
 
             List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
@@ -377,14 +381,7 @@ namespace UPExciseLTE.Controllers
                 FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
                 if (objGatePass.FromLicenseType.Trim() == string.Empty)
                 {
-                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1")
-                    {
-                        objGatePass.FromLicenseType = "FL-1";
-                    }
-                    else if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1A")
-                    {
-                        objGatePass.FromLicenseType = "FL-1A";
-                    }
+                    objGatePass.FromLicenseType = "BWFL-2B"; 
                     objGatePass.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     objGatePass.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     objGatePass.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
@@ -445,7 +442,7 @@ namespace UPExciseLTE.Controllers
         {
             FL2BGatePassDetails objGatePass = new FL2BGatePassDetails();
             DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
-            objGatePass = new CommonBL().FL2BGetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 9, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+            objGatePass = new CommonBL().FL2BGetGatePassDetails(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 10, "P", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
             ViewBag.Msg = TempData["Message"];
 
             List<SelectListItem> ToLicenseTypes = new List<SelectListItem>();
@@ -462,22 +459,11 @@ namespace UPExciseLTE.Controllers
                 FL1Licence = CommonBL.fillFL1Licence(int.Parse(ds.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
                 if (objGatePass.FromLicenseType.Trim() == string.Empty)
                 {
-                    if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-22")
-                    {
-                        objGatePass.FromLicenseType = "FL-22";
-                    }
-                    else if (ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim() == "FL-1A")
-                    {
-                        objGatePass.FromLicenseType = "FL-1A";
-                    }
+                    objGatePass.FromLicenseType = "FL-22";
                     objGatePass.FromLicenceNo = ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim();
                     objGatePass.FromConsignorName = ds.Tables[0].Rows[0]["UnitName"].ToString().Trim();
                     objGatePass.ConsignorAddress = ds.Tables[0].Rows[0]["UnitAddress"].ToString().Trim();
                 }
-            }
-            if (!string.IsNullOrEmpty(objGatePass.ToLicenseType.Trim()) && ToLicenseTypes.Find(x => x.Text.Trim() == objGatePass.ToLicenseType.Trim().Trim()) != null)
-            {
-                ToLicenseTypes.Find(x => x.Value.Trim() == objGatePass.ToLicenseType.Trim()).Selected = true;
             }
             if (!string.IsNullOrEmpty(objGatePass.ToLicenceNo.Trim()) &&
                 FL1Licence.Find(x => x.Text.Trim() == objGatePass.ToLicenceNo.Trim()) != null)
@@ -489,6 +475,8 @@ namespace UPExciseLTE.Controllers
             ViewBag.ToLicenseTypes = ToLicenseTypes;
             return View(objGatePass);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BWFLPermit1GatePass(FL2BGatePassDetails GP)
         {
             if (GP.Receiver == null)
@@ -499,17 +487,163 @@ namespace UPExciseLTE.Controllers
             {
                 GP.ImportPermitNo = "";
             }
-            GP.GatepassLicenseNo = "FL-2B";
+            GP.GatepassLicenseNo = "TR-";
             GP.GatePassSourceId = long.Parse(UserSession.LoggedInUserLevelId);
-            GP.UploadValue = 4;
+            GP.UploadValue = 10;
             GP.FromDate = CommonBL.Setdate(GP.FromDate1.Trim());
             GP.ToDate = CommonBL.Setdate(GP.ToDate1.Trim());
             string str = new CommonDA().FL2BInsertUpdateGatePassDetails(GP);
             TempData["Message"] = str;
-            return RedirectToAction("FL2BGatePass");
+            return RedirectToAction("BWFLPermit1GatePass");
+        }
+        [HttpGet]
+        public ActionResult UploadGAtePassCSVFL22(string A, string B)
+        {
+            GatePassDetails GP = new GatePassDetails();
+            ViewBag.Brand = CommonBL.fillBWFLBrand("S");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 10, "P", "P", "", "", "", "");
+            return View(GP);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadGAtePassCSVFL22()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = CSV.ValidateCSV(10, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string UploadVerifedCSVFL22(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
+        {
+            long GatePass = long.Parse(GatePassId);
+            int Brand = int.Parse(BrandId);
+            int Plan = int.Parse(PlanId);
+            short BottlingLineId = short.Parse(BLID);
+            return new CommonDA().BWFLUploadCSV(GatePass, (Session["CaseCode"] as DataTable), int.Parse(UploadValue), Brand, BatchNo, Plan, BottlingLineId);
+        }
+        public ActionResult GetPassDetailsFL22()
+        {
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            // lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 2, "Z","P","","","","");
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 10, "Z", "P", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim(), "");
+            return View(lstGPD);
+        }
+        public ActionResult GatePassPreview()
+        {
+            GatePassDetails GP = new GatePassDetails();
+            long GatePassId = long.Parse(new Crypto().Decrypt(Request.QueryString["GatePass"].Trim()));
+            GP = new CommonBL().GetGatePassDetailsG(GatePassId, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), -1, "Z", "Z", "", "", "", "");
+            string qrcode = GP.GatePassNo;
+            ViewBag.QRCodeImage = GenerateQRCode(qrcode);
+            ViewBag.GetGatePassBrandDetailsList = new CommonBL().GetGatePassBrandDetailsList(GatePassId);
+            return View(GP);
+        }
+        private string GenerateQRCode(string qrcodeText)
+        {
+            string folderPath = "~/Img/";
+            string imagePath = "~/Img/QrCode.jpg";
+            // If the directory doesn't exist then create it.
+            if (!Directory.Exists(Server.MapPath(folderPath)))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var barcodeWriter = new BarcodeWriter();
+            barcodeWriter.Format = BarcodeFormat.QR_CODE;
+            var result = barcodeWriter.Write(qrcodeText);
+
+            string barcodePath = Server.MapPath(imagePath);
+            var barcodeBitmap = new Bitmap(result);
+            using (MemoryStream memory = new MemoryStream())
+            {
+                using (FileStream fs = new FileStream(barcodePath, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    barcodeBitmap.Save(memory, ImageFormat.Jpeg);
+                    byte[] bytes = memory.ToArray();
+                    fs.Write(bytes, 0, bytes.Length);
+                }
+            }
+            return imagePath;
+        }
+        public ActionResult ReceiveGatePass()
+        {
+            DataSet ds = new CommonDA().GetUnitDetails(-1, "", "", -1, -1, -1, UserSession.LoggedInUserId);
+            List<GatePassDetails> lstGPD = new List<GatePassDetails>();
+            lstGPD = new CommonBL().GetGatePassDetailsList(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/4000"), 10, "A", "P", "", ds.Tables[0].Rows[0]["UnitLicenseno"].ToString().Trim(), "", ds.Tables[0].Rows[0]["UnitLicenseType"].ToString().Trim());
+            return View(lstGPD);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string ReceiveGatePass(string GatePassId)
+        {
+            DataTable dt = new DataTable();
+            if (Session["CaseCode"] != null)
+            {
+                dt = Session["CaseCode"] as DataTable;
+            }
+            string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 1, dt);
+            return str;
+        }
+        [HttpGet]
+        public ActionResult UploadGatePassCSV(string A, string B)
+        {
+            GatePassDetails GP = new GatePassDetails();
+            ViewBag.Brand = CommonBL.fillBrand("S");
+            GP = new CommonBL().GetGatePassDetailsG(-1, CommonBL.Setdate("01/01/1900"), CommonBL.Setdate("31/12/3999"), 4, "P", "P", "", "", "", "");
+            return View(GP);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadGatePassCSV()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string str = "";
+                    if (Request.Files[0] != null)
+                    {
+
+                        HttpFileCollectionBase files = Request.Files;
+                        HttpPostedFileBase file = files[0];
+                        str = CSV.ValidateCSV(4, -1, int.Parse(files.Keys[0].Replace("file", "")), file);
+                    }
+                    return Json(str);
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
         }
 
         #endregion
-
+        //UploadGAtePassCSV
     }
 }

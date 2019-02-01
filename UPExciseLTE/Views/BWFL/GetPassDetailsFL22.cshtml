@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("GetPassDetails", "UnitWarehouse", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GenerateGatePass", "GatePass", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -24,9 +24,9 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        @*<th>
                                             Gate Pass Type
-                                        </th>
+                                        </th>*@
                                         <th>
                                             From Date
                                         </th>
@@ -65,9 +65,9 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
+                                            @*<td>
                                                 @item.GPType
-                                            </td>
+                                            </td>*@
                                             <td>
                                                 @item.FromDate1
                                             </td>
@@ -101,11 +101,11 @@
                                             <td>
                                                 @if (item.Status == "P")
                                                 {
-                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "UnitWareHouse", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "BWFL", new { GatePass = item.EncGatePassId })'">Draft Gatepass</button>
                                                 }
                                                 else
                                                 {
-                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "UnitWareHouse", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
+                                                    <button type="button" class="btn green" onclick="window.location.href='@Url.Action("GatePassPreview", "BWFL", new { GatePass = item.EncGatePassId })'">Generate Gatepass</button>
                                                 }
                                             </td>
                                         </tr>

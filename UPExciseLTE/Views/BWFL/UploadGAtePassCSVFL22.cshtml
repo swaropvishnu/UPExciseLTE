@@ -3,7 +3,8 @@
     ViewBag.Title = "Upload GatePass CSV";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("UploadGatePassCSV", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+
+@using (Html.BeginForm("BWLPermit1GatePass", "MasterForms", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -95,7 +96,7 @@
                             <center>
                                 <div class="form-actions">
                                     <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>
-                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../UnitWareHouse/GatePass'">Back To Gatepass Details</button>
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../BWFL/BWLPermit1GatePass'">Back To Gatepass Details</button>
                                     <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
                                 </div>
                             </center>
@@ -110,7 +111,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -130,12 +130,13 @@
                 document.getElementById("txtBatchNo").focus();
                 return false;
             }
+
             // Checking whether FormData is available in browser
             if (window.FormData !== undefined) {
 
                 var fileUpload = $("#FileUpload1").get(0);
                 var files = fileUpload.files;
-                if (files.length == 0) {
+                if (files.length==0) {
                     alert("Please Upload File");
                     return false;
                 }
@@ -157,7 +158,7 @@
                     fileData.append(files[i].name, files[i]);
                 }*/
                 $.ajax({
-                    url: '/UnitWareHouse/UploadGatePassCSV',
+                    url: '../BWFL/UploadGAtePassCSVFL22',
                     type: "POST",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
@@ -183,9 +184,9 @@
             var BrandId = $('#ddlBrand').val();
             var BatchNo = document.getElementById("txtBatchNo").value;
             $.ajax({
-                url: '../UnitWareHouse/UploadVerifedCSV',
-                data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 4, 'PlanId': -1, 'BLID': -1, __RequestVerificationToken: token},
-                //datatype: "json",
+                url: '/BWFL/UploadVerifedCSVFL22',
+                data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 10, 'PlanId': -1, 'BLID': -1, __RequestVerificationToken: token },
+               // datatype: "json",
                 type: 'POST',
                 success: function (data) {
                     alert(data);
@@ -199,7 +200,7 @@
         function GatePassUploadBrandDetails() {
             var GatePassId = document.getElementById("hfGatePassId").value;
             $.ajax({
-                url: '/UnitWareHouse/GetGatePassUploadBrandDetails',
+                url: '/MasterForms/GetGatePassUploadBrandDetails',
                 data: { 'Gatepass': GatePassId },
                 datatype: "json",
                 type: "GET",
@@ -216,13 +217,13 @@
             if (r == true) {
                 var GatePassId = document.getElementById("hfGatePassId").value;
                 $.ajax({
-                    url: '/UnitWareHouse/FinalGatePass',
+                    url: '/MasterForms/FinalGatePass',
                     data: { 'Gatepass': GatePassId, __RequestVerificationToken: token },
-                    //datatype: "json",
+                   // datatype: "json",
                     type: 'POST',
                     success: function (data) {
                         alert(data);
-                        window.open("../UnitWareHouse/Gatepass","_self")
+                        window.open("../BWFL/BWFLPermit1GatePass", "_self")
                     },
                     error: function (data) {
                         alert("Error in GatePass Upload Brand Details Loading");
