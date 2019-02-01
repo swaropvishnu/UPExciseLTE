@@ -2,7 +2,7 @@
  @{ 
      
  }
-@using (Html.BeginForm("FormFL21List", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("FormFL21List", "BWFL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -173,6 +173,8 @@
     <input type="hidden" value="" id="hfDetails" />
 }
 <script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
     function validateForm()
     {
         txtTotalFees=document.getElementById("txtTotalFees").value
@@ -259,8 +261,8 @@
         }
         $.ajax({
             url: '/BWFL/FinalFormFL21',
-            data: { 'FL21ID': FL21, 'status': status, 'reason': reason },
-            datatype: "json",
+            data: { 'FL21ID': FL21, 'status': status, 'reason': reason, __RequestVerificationToken: token },
+            //datatype: "json",
             type: "POST",
             success: function (data) {
                 alert(data);
