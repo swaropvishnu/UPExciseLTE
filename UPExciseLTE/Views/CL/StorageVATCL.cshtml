@@ -57,14 +57,7 @@
                                     <label class="control-label">Storage Vat Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.StorageVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
                                 </div>
-                                @*<div class="form-group col-md-4">
-                                        <label class="control-label">Storage Vat Bulk Litre</label>
-                                        @Html.TextBoxFor(model => model.UnitTankBulkLitre, new {  @class = "form-control", @id = "txtUnitTankBulkLitre" } )
-                                    </div>*@
-                                @*<div class="form-group col-md-4">
-                                        <label class="control-label">Storage Vat Strength<b style="color:red; font-weight:800">*</b></label>
-                                        @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
-                                    </div>*@
+                               
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
@@ -94,22 +87,46 @@
                                 {
                                     foreach (StorageVATCL dr in (ViewBag.StorageVATList as List<StorageVATCL>))
                                     {
-                                        <tr>
-                                            <td>@dr.StorageVATId</td>
-                                            <td>@dr.StorageVATName</td>
-                                            <td>@dr.StorageVATCapacity</td>
-                                            @*<td>@dr.SpiritType</td>
-                                                <td>@dr.StorageVATBulkLitre</td>*@
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button></td>
-                                            @if (dr.Status == "A")
-                                            {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_StorageVATId','D')">Deactive</button></td>
-                                            }
-                                            else
-                                            {
-                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','A')">Active</button></td>
-                                            }
-                                        </tr>
+                                <tr>
+                                    <td>@dr.StorageVATId</td>
+                                    <td>@dr.StorageVATName</td>
+                                    <td>@dr.StorageVATCapacity</td>
+                                    @if (dr.Status == "A")
+                                    {
+                                        <td>Active</td>
+
+                                    }
+                                    else
+                                    {
+                                        <td>Deactive</td>
+
+                                    }
+                                    @if (dr.IsApproved == true)
+                                    {
+                                        @if (dr.Status == "A")
+                                        {
+                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_StorageVATId','D')">Deactive</button></td>
+                                        }
+                                        else
+                                        {
+                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','A')">Active</button></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                            <td>
+                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button>
+                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Approved</button>
+
+
+                                            </td>
+
+                                    }
+                                    
+
+
+
+                                </tr>
                                     }
                                 }
                             </table>

@@ -40,6 +40,10 @@ namespace UPExciseLTE.Controllers
             {
                 dt = Session["CaseCode"] as DataTable;
             }
+            else
+            {
+                dt.Columns.Add("CaseBarCode");
+            }
             string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 2, dt);
             return str;
         }

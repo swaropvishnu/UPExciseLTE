@@ -62,7 +62,7 @@
                             <center>
                                 <div>
                                     <button type="button" class="btn green" onclick="return SaveReciver()" id="btnSubmit">Save</button>
-                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="Reset()">Reset</button>
                                 </div>
                             </center>
                         </div>
@@ -72,9 +72,10 @@
                                     <th>SrNo</th>
                                     <th>Receiver VAT Name</th>
                                     <th>Receiver Capacity (in Bulk Litre)</th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                     @*<th></th>*@
+
                                 </tr>
                                 @if (ViewBag.StorageVATList != null)
                                 {
@@ -86,17 +87,43 @@
                                             <td>@i</td>
                                             <td>@dr.Recivername</td>
                                             <td>@dr.ReciverCapacity</td>
-                                            <td><button type="button" class="btn green" onclick="update('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername')">Edit</button></td>
                                             @if (dr.Status == "A")
                                             {
-                                                <td><button type="button" class="btn btn-danger" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','D','@dr.UnitId')">Deactive</button></td>
-
+                                                <td>Active</td>
                                             }
                                             else
                                             {
-                                                <td><button type="button" class="btn green" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId')">Active</button></td>
+                                                <td>De-Active</td>
 
                                             }
+                                            @if (dr.IsApproved == true)
+                                            {
+
+                                                if (dr.Status == "A")
+                                                {
+                                                    <td><button type="button" class="btn btn-danger" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','D','@dr.UnitId',@dr.IsApproved)">Deactive</button></td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td><button type="button" class="btn green" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId',@dr.IsApproved)">Active</button></td>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn green" onclick="update('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername')">Edit</button>
+
+                                                    <button type="button" class="btn blue" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','@dr.Status','@dr.UnitId',true)">Approved</button>
+                                                </td>
+
+
+                                            }
+
+
+
+
 
                                             @*<td><button type="button" class="btn btn-danger" onclick="deleteReciver('@dr.ReciverID')">delete</button></td>*@
 
@@ -139,12 +166,13 @@
                 "Recivername": document.getElementById("txtreciver").value.trim(),
                 "ReciverCapacity": document.getElementById("txtcapacity").value.trim(),
                 "Status": "A",
-                "sptype": '1'
+                "sptype": '1',
+                "IsApproved": false
 
             }
             $.ajax({
                 url: '/CL/InsertUpdateReciver',
-                data: { Objform: Objform },
+                data: { Objform: Objform, __RequestVerificationToken: token },
                 type: 'POST',
 
                 success: function (data) {
@@ -161,9 +189,10 @@
             document.getElementById("txtreciver").value = Recivername;
             document.getElementById("txtcapacity").value = ReciverCapacity;
             $('#btnSubmit').html("Update");
+            document.getElementById("txtreciver").focus();
         }
 
-        function updatestatus(ReciverID, ReciverCapacity, Recivername, status, UnitID) {
+        function updatestatus(ReciverID, ReciverCapacity, Recivername, status, UnitID, approved) {
 
             var x = confirm("Are you sure?");
             if (x) {
@@ -173,8 +202,8 @@
                     "Recivername": Recivername,
                     "ReciverCapacity": ReciverCapacity,
                     "Status": status,
-                    "sptype": '1'
-
+                    "sptype": '1',
+                    "IsApproved": approved
                 }
                 $.ajax({
                     url: '/CL/InsertUpdateReciver',
@@ -195,36 +224,14 @@
 
         }
 
-        function deleteReciver(ReciverID) {
-            var x = confirm("Are you sure?");
-            if (x) {
-                var Objform = {
-                    "ReciverID": ReciverID,
-                    "UnitID": 0,
-                    "Recivername": " ",
-                    "ReciverCapacity": 0,
-                    "Status": "A",
-                    "sptype": '2'
+        function Reset() {
+            document.getElementById("hfReciverID").value = "-1";
 
-                }
-                $.ajax({
-                    url: '/CL/InsertUpdateReciver',
-                    data: { Objform: Objform, __RequestVerificationToken: token },
-                    type: 'POST',
-
-                    success: function (data) {
-
-                        alert(data);
-                        location.reload();
-                    }
-                });
-                return true;
-            }
-            else {
-                return false;
-            }
-
+            document.getElementById("txtreciver").value = "";
+            document.getElementById("txtcapacity").value = "0";
+            $('#btnSubmit').html("Save");
         }
+
     </script>
 
 }

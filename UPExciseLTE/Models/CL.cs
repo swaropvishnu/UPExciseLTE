@@ -33,6 +33,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Storage VAT Status")]
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
+        public bool IsApproved { get; set; }
 
     }
     public class Reciver
@@ -43,6 +44,7 @@ namespace UPExciseLTE.Models
         public string Status { get; set; }
         public string sptype { get; set; }
         public int UnitId { get; set; }
+        public bool IsApproved { get; set; }
     }
 
     public class TankTransferDetail

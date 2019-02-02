@@ -6312,6 +6312,8 @@
     <Content Include="Views\BWFL\ReceiveGatePass.cshtml" />
     <Content Include="Views\Shared\_NoneLayout.cshtml" />
     <Content Include="Views\BWFL\UploadGatePassCSV.cshtml" />
+    <Content Include="Views\CL\GetFinalizedPlan.cshtml" />
+    <Content Include="Views\CL\ReceiveGatePassWH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
