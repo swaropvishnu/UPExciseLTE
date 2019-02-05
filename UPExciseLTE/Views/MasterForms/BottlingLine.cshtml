@@ -30,20 +30,34 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
+
+                                    @Html.ValidationMessageFor(m => m.BottlingLineName);
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.LineType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Automatic", Value = "A" }, new SelectListItem { Text = "Semi Automatic", Value = "S" }, new SelectListItem { Text = "Manual", Value = "M" } }, new { @id = "ddlLineType", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.LineType);
+
+
                                 </div>
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
                                         @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+
+                                        @Html.ValidationMessageFor(m => m.UnitId);
+
+
+
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Capactity (No Of Case Per Hour)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);" })
+
+                                    @Html.ValidationMessageFor(m => m.CapacityNoOfCasePerHour);
+
 
                                 </div>
                             </div>

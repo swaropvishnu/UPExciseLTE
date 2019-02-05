@@ -95,26 +95,40 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Dispatch Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.DispatchType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Civil", Value = "Civil" }, new SelectListItem { Text = "CSD", Value = "CSD" } }, new { @id = "ddlDispatchType", @class = "form-control " })
+
+                                    @Html.ValidationMessageFor(m => m.DispatchType)
+
                                     @Html.DropDownList("hfddlGatePassType", new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "hfddlGatePassType", @class = "hide" })
+                                    
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Gate Pass Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.GatePassType, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "Inside UP", Value = "1" }, new SelectListItem { Text = "Outside UP", Value = "2" }, new SelectListItem { Text = "Outside India", Value = "3" } }, new { @id = "ddlGatePassType", @class = "form-control " })
+                                    @Html.ValidationMessageFor(m => m.GatePassType)
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Issue Date<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.FromDate1, new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @readonly = true })
+                                    @Html.ValidationMessageFor(m => m.FromDate1)
+
+
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Valid Till<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.ToDate1, new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required" })
+
+                                    @Html.ValidationMessageFor(m => m.ToDate1)
+
                                 </div>
                                 <div class="form-group   col-md-4" id="divImportPermitNo">
                                     <label class="control-label">Import Permit No/ Validity<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ImportPermitNo, new { @id = "txtImportPermitNo", @class = "form-control ", @placeholder = "Import Permit No" })
+                                        @Html.ValidationMessageFor(m => m.ImportPermitNo)
+
                                     </div>
                                 </div>
                             </div>
@@ -122,15 +136,24 @@
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">From License Type<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.FromLicenseType, new { @id = "txtFromLicenceType", @class = "form-control ", @placeholder = "Valid till", @required = "required", @readonly = true })
+                                    @Html.ValidationMessageFor(m => m.FromLicenseType)
+
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">From License No<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.FromLicenceNo, new { @id = "txtFromLicenceNo", @class = "form-control", @readonly = true, @placeholder = "From Licence No", @required = "required" })
+
+                                    @Html.ValidationMessageFor(m => m.FromLicenceNo)
+
+
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Consignor Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @readonly = true })
+
+                                        @Html.ValidationMessageFor(m => m.FromConsignorName)
+
                                     </div>
                                 </div>
                             </div>
@@ -145,11 +168,15 @@
                                     <label class="control-label" id="lblToLic">To License No<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlToLicenseNo", (IEnumerable<SelectListItem>)ViewBag.FL1Licence, new { @id = "ddlToLicenseNo", @class = "hide" })
                                     @Html.TextBoxFor(m => m.ToLicenceNo, new { @id = "txtToLicenceNo", @class = "form-control ", @placeholder = "To Licence No", @required = "required", @readonly = true, @MaxLength = 150 })
+                                    @Html.ValidationMessageFor(m => m.ToLicenceNo)
+
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label" id="lblConsi">Consignee Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @readonly = true, @MaxLength = 250 })
+                                        @Html.ValidationMessageFor(m => m.ToConsigeeName)
+
                                     </div>
                                 </div>
                             </div>
@@ -158,6 +185,9 @@
                                     <label class="control-label">Address of Consignor Godown<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.ConsignorAddress, new { @id = "txtConsignorAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250, @readonly = true })
+
+                                        @Html.ValidationMessageFor(m => m.ConsignorAddress)
+
                                     </div>
                                 </div>
 
@@ -165,12 +195,18 @@
                                     <label class="control-label">Address of Consignee Godown<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.ConsigneeAddress, new { @id = "txtAddress", @class = "form-control ", @placeholder = "Address", @required = "required", @MaxLength = 250 })
+
+                                        @Html.ValidationMessageFor(m => m.ConsignorAddress)
+
                                     </div>
                                 </div>
                                 <div class="form-group  col-md-4" id="divICD">
                                     <label class="control-label">Address of Designated ICD<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.Receiver, new { @id = "txtICDAddress", @class = "form-control ", @placeholder = "ICD Address", @MaxLength = 250 })
+                                        @Html.ValidationMessageFor(m => m.Receiver)
+
+
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +215,9 @@
                                     <label class="control-label">Vehicle Driver Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.DriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required" })
+
+                                        @Html.ValidationMessageFor(m => m.DriverName)
+
                                     </div>
                                 </div>
 
@@ -186,12 +225,19 @@
                                     <label class="control-label">Vehicle No<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required" })
+
+                                        @Html.ValidationMessageFor(m => m.VehicleNo)
+
+
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Dispatch By<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.DispatchedBy, new { @id = "txtDispatchBy", @class = "form-control ", @placeholder = "By Road/ By Air/ By Ship", @required = "required" })
+
+                                        @Html.ValidationMessageFor(m => m.DispatchedBy)
+
                                     </div>
                                 </div>
                             </div>
@@ -200,12 +246,17 @@
                                     <label class="control-label">Route Details<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.RouteDetails, new { @id = "txtAreaRouteDetails", @class = "form-control ", @placeholder = "Route Details", @required = "required", @MaxLength = 250 })
+                                        @Html.ValidationMessageFor(m => m.RouteDetails)
+
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Vehicle Agency Name And Address<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextAreaFor(m => m.AgencyNameAndAddress, new { @id = "txtAreaVehicleAgencyNameAndAddress", @class = "form-control ", @placeholder = "Vehicle Agency Name And Address", @required = "required", @MaxLength = 250 })
+
+                                        @Html.ValidationMessageFor(m => m.RouteDetails)
+
                                     </div>
                                 </div>
                             </div>
@@ -218,14 +269,22 @@
 
                                     <div class="col-md-4 ">
                                         @Html.DropDownListFor(m => m.district_code_census1, (IEnumerable<SelectListItem>)ViewBag.Districts, new { @id = "MDistrictId1", @class = "form-control col-md-4" })
+                                        @Html.ValidationMessageFor(m => m.district_code_census1)
 
                                     </div>
                                     <div class="col-md-4 ">
                                         @Html.DropDownListFor(m => m.district_code_census2, (IEnumerable<SelectListItem>)ViewBag.Districts, new { @id = "MDistrictId2", @class = "form-control col-md-4" })
 
+                                        @Html.ValidationMessageFor(m => m.district_code_census2)
+
+
                                     </div>
                                     <div class="col-md-4 ">
                                         @Html.DropDownListFor(m => m.district_code_census3, (IEnumerable<SelectListItem>)ViewBag.Districts, new { @id = "MDistrictId3", @class = "form-control col-md-4" })
+                                        @Html.ValidationMessageFor(m => m.district_code_census3)
+
+
+
                                     </div>
 
                                 </div>
@@ -237,12 +296,18 @@
                                     <label class="control-label">Check Post Via</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.CheckPostVia, new { @id = "txtCheckPostVia", @class = "form-control ", @placeholder = "Check Post Via", @MaxLength = 150 })
+
+                                        @Html.ValidationMessageFor(m => m.CheckPostVia)
+
+
+
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">In Bond Value<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.InBondValue, new { @id = "txtInBondValue", @class = "form-control ", @placeholder = "In-Bond Value", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                                        @Html.ValidationMessageFor(m => m.InBondValue)
 
                                     </div>
                                 </div>
@@ -250,6 +315,7 @@
                                     <label class="control-label">Export Pass Fees<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ExportDuty, new { @id = "txtExportDuty", @class = "form-control ", @placeholder = "Export Duty", @required = "required", @onkeypress = "return isfloatNumber(this, event);" })
+                                        @Html.ValidationMessageFor(m => m.ExportDuty)
 
                                     </div>
                                 </div>
@@ -261,6 +327,7 @@
                                     <label class="control-label">Gross Weight<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.GrossWeight, new { @id = "txtGrossWeight", @class = "form-control ", @placeholder = "Gross Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum(); " })
+                                        @Html.ValidationMessageFor(m => m.GrossWeight)
 
                                     </div>
                                 </div>
@@ -268,6 +335,7 @@
                                     <label class="control-label">Tare Weight<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.TareWeight, new { @id = "txtTareWeight", @class = "form-control ", @placeholder = "Tare Weight", @required = "required", @onkeypress = "return isfloatNumber(this, event);", @onChange = "Sum();" })
+                                        @Html.ValidationMessageFor(m => m.TareWeight)
 
                                     </div>
                                 </div>
@@ -275,6 +343,7 @@
                                     <label class="control-label">Net Weight</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.NetWeight, new { @id = "txtNetWeight", @class = "form-control ", @placeholder = "Net Weight", @required = "required", @readonly = true })
+                                        @Html.ValidationMessageFor(m => m.NetWeight)
 
                                     </div>
                                 </div>
