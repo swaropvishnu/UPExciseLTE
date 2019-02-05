@@ -1,0 +1,238 @@
+﻿@model UPExciseLTE.Models.Reciver
+
+@{
+    /**/
+
+    ViewBag.Title = "ReceiverMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
+}
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    if (document.getElementById("txtUnitTank").value.trim() != "") {
+    //        document.getElementById("btnSubmit").innerHTML = "Update";
+    //    }
+    //});
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm("ReceiverMaster", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; Receiver VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.UnitId, new { @id = "hfUnitId" })
+                            @Html.HiddenFor(model => model.ReciverID, new { @id = "hfReciverID" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Receiver Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.Recivername, new { @class = "form-control", @id = "txtreciver", @MaxLength = 100, @required = "required" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label"> Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.ReciverCapacity, new { @class = "form-control", @id = "txtcapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
+                                </div>
+                            </div>
+                            <center>
+                                <div>
+                                    <button type="button" class="btn green" onclick="return SaveReciver()" id="btnSubmit">Save</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="Reset()">Reset</button>
+                                </div>
+                            </center>
+                        </div>
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+                                    <th>SrNo</th>
+                                    <th>Receiver VAT Name</th>
+                                    <th>Receiver Capacity (in Bulk Litre)</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    @*<th></th>*@
+
+                                </tr>
+                                @if (ViewBag.StorageVATList != null)
+                                {
+                                    int i = 0;
+                                    foreach (Reciver dr in (ViewBag.StorageVATList as List<Reciver>))
+                                    {
+                                        i = i + 1;
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@dr.Recivername</td>
+                                            <td>@dr.ReciverCapacity</td>
+                                            @if (dr.Status == "A")
+                                            {
+                                                <td>Active</td>
+                                            }
+                                            else
+                                            {
+                                                <td>De-Active</td>
+
+                                            }
+                                            @if (dr.IsApproved == true)
+                                            {
+
+                                                if (dr.Status == "A")
+                                                {
+                                                    <td><button type="button" class="btn btn-danger" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','D','@dr.UnitId',@dr.IsApproved)">Deactive</button></td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td><button type="button" class="btn green" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId',@dr.IsApproved)">Active</button></td>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn green" onclick="update('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername')">Edit</button>
+
+                                                    <button type="button" class="btn blue" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','@dr.Status','@dr.UnitId',true)">Approved</button>
+                                                </td>
+
+
+                                            }
+
+
+
+
+
+                                            @*<td><button type="button" class="btn btn-danger" onclick="deleteReciver('@dr.ReciverID')">delete</button></td>*@
+
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        function SaveReciver() {
+
+            if (document.getElementById("txtreciver").value.trim() == "") {
+                document.getElementById("txtreciver").focus();
+                alert("Please Enter Receiver Name");
+                return false;
+            }
+            if (document.getElementById("txtcapacity").value.trim() == "") {
+                document.getElementById("txtcapacity").focus();
+                alert("Please Enter Receiver VAT Capacity");
+                return false;
+            }
+            if (parseFloat(document.getElementById("txtcapacity").value) == 0) {
+                document.getElementById("txtcapacity").focus();
+                alert("Please Enter Receiver VAT Capacity");
+                return false;
+            }
+            var Objform = {
+                "ReciverID": document.getElementById("hfReciverID").value.trim(),
+                "UnitID": document.getElementById("hfUnitId").value.trim(),
+                "Recivername": document.getElementById("txtreciver").value.trim(),
+                "ReciverCapacity": document.getElementById("txtcapacity").value.trim(),
+                "Status": "A",
+                "sptype": '1',
+                "IsApproved": false
+
+            }
+            $.ajax({
+                url: '/CL/InsertUpdateReciver',
+                data: { Objform: Objform, __RequestVerificationToken: token },
+                type: 'POST',
+
+                success: function (data) {
+
+                    alert(data);
+                    location.reload();
+                }
+            });
+            return;
+        }
+
+        function update(ReciverID, ReciverCapacity, Recivername) {
+            document.getElementById("hfReciverID").value = ReciverID;
+            document.getElementById("txtreciver").value = Recivername;
+            document.getElementById("txtcapacity").value = ReciverCapacity;
+            $('#btnSubmit').html("Update");
+            document.getElementById("txtreciver").focus();
+        }
+
+        function updatestatus(ReciverID, ReciverCapacity, Recivername, status, UnitID, approved) {
+
+            var x = confirm("Are you sure?");
+            if (x) {
+                var Objform = {
+                    "ReciverID": ReciverID,
+                    "UnitID": UnitID,
+                    "Recivername": Recivername,
+                    "ReciverCapacity": ReciverCapacity,
+                    "Status": status,
+                    "sptype": '1',
+                    "IsApproved": approved
+                }
+                $.ajax({
+                    url: '/CL/InsertUpdateReciver',
+                    data: { Objform: Objform, __RequestVerificationToken: token },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        alert(data);
+                        location.reload();
+                    }
+                });
+                return true;
+            }
+            else {
+            }
+            return false;
+
+        }
+
+        function Reset() {
+            document.getElementById("hfReciverID").value = "-1";
+
+            document.getElementById("txtreciver").value = "";
+            document.getElementById("txtcapacity").value = "0";
+            $('#btnSubmit').html("Save");
+        }
+
+    </script>
+
+}
+

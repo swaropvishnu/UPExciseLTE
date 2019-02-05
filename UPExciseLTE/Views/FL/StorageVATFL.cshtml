@@ -1,4 +1,4 @@
-﻿@model UPExciseLTE.Models.StorageVATCL
+﻿@model UPExciseLTE.Models.StorageVATFL
 
 @{
     ViewBag.Title = "StorageVATCL";
@@ -103,7 +103,7 @@
                                     }
                                     @if (dr.IsApproved == true)
                                     {
-                                        if (dr.Status == "A")
+                                        @if (dr.Status == "A")
                                         {
                                             <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_StorageVATId','D')">Deactive</button></td>
                                         }

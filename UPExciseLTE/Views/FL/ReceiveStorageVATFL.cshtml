@@ -1,0 +1,1017 @@
+﻿@model UPExciseLTE.Models.TankTransferDetail
+
+
+@{
+    ViewBag.Title = "Receive Wort Into Storage VAT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("ReceiveStorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+
+{
+    @Html.AntiForgeryToken(){
+        if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+        {
+            <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+        }
+    }
+    <style>
+        
+        .rTable {
+            display: table;
+            width: 100%;
+        }
+
+        .rTableRow {
+            display: table-row;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+        }
+
+        .rTableCell, .rTableHead {
+            display: table-cell;
+            padding: 3px 10px;
+            border: 1px solid #999999;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .rTableFoot {
+            display: table-footer-group;
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        .rTableBody {
+            display: table-row-group;
+        }
+    </style>
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp;Receive Spirit Into Storage VAT</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Type of Spirit<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.SpiritTypeId, (IEnumerable<SelectListItem>)ViewBag.SpiritType, new { @id = "ddlSpiritType", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy", @disabled = "disabled" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Storage VAT<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownListFor(model => model.SVId, (IEnumerable<SelectListItem>)ViewBag.IssuedFromSVId, new { @id = "ddlSVId", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Storage VAT Capacity (in Bulk Litre)</label>
+                                    @Html.TextBox("StorageVCapacity", "", new { @class = "form-control", @id = "txtUnitTankCapacity", @disabled = "disabled" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Source of Spirit<b style="color:red; font-weight:800">*</b></label>
+                                    <select id="ddlsource_sp" class="form-control">
+                                        <option value="-1">--Select--</option>
+                                        <option value="P">Purchase</option>
+                                        <option value="R">Receiver</option>
+
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label" id="lblsptype">Purchase Type<b style="color:red; font-weight:800">*</b></label>
+
+                                    <select id="ddlsource_spP" class="form-control">
+                                        <option value="-1">--Select--</option>
+                                        <option value="Out of Country">Out of Country</option>
+                                        <option value="Out of State">Out of State</option>
+                                        <option value="Inside State">Inside State</option>
+
+                                    </select>
+                                    <select id="ddlsource_spR" class="form-control hide">
+                                        <option value="-1">--Select--</option>
+                                        <option value="Distillation">Distillation</option>
+                                        <option value="Re-distillation">Re-distillation</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4 hide" id="divPassNo">
+
+
+                                    <label class="control-label">Pass No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.ImportPassNo, new { @id = "txtImportPassNo", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+
+
+
+
+
+
+                                </div>
+                                <div class="form-group col-md-4 hide" id="divRecivertype">
+                                    <label class="control-label">Receiver<b style="color:red; font-weight:800">*</b></label>
+                                    <select id="ddlReceiver" class="form-control">
+                                        <option value="-1">--select--</option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row hide" id="divpurchase">
+
+                                <div class="rTable">
+                                    <div class="rTableRow">
+                                        <div class="rTableHead"></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">BL</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">Strength</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
+                                    </div>
+
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage VAT Opening Balance</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevBalanceStorageVBL, new { @id = "txtPrevBalanceStorageVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled",
+                                           @style = "width:160px"
+                                       })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevStorageVStrength, new { @id = "txtPrevStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevStorageVAL, new { @id = "txtPrevStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage Vat (After Received) </strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentBalanceSVBL, new { @id = "txtPCurrentBalanceSVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" })
+
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVStrength, new { @id = "txtPCurrentStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" })
+
+
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVAL, new { @id = "txtPCurrentStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPreciver()", @style = "width:160px" ,@disabled="disabled"})
+                                        </div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Purchase </strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtPIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @disabled = "disabled", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueStength, new { @id = "txtPIssueStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueAL, new { @id = "txtIssueAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumPAL()", @style = "width:160px" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="divReciver hide">
+                                <div class="rTable">
+                                    <div class="rTableRow">
+                                        <div class="rTableHead"></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">BL</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">Strength</span></div>
+                                        <div class="rTableHead"><span style="font-weight: bold;">AL=((BL*Strength)/100)</span></div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Receiver Opening Balance</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevBalanceReceiverVBL, new { @id = "txtPrevBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px",@readonly="true" })
+                                        </div>
+                                        <div class="rTableCell">@Html.TextBoxFor(model => model.PrevReceiverVStrength, new { @id = "txtPrevReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" , @disabled = "disabled" })</div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevReceiverVAL, new { @id = "txtPrevReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" , @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Receiver Balance (After Transfer)</strong></div>
+                                        <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentBalanceReceiverVBL, new { @id = "txtCurrentBalanceReceiverVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBoxFor(model => model.CurrentReceiverVStrength, new { @id = "txtCurrentReceiverVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px" })</div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.CurrentReceiverVAL, new { @id = "txtCurrentReceiverVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumtransfer()", @style = "width:160px", @disabled = "disabled" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Net Transfer</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtRIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.IssueStength, new { @id = "txtRIssueStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.IssueAL, new { @id = "txtRIssueAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })
+                                        </div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage VAT Opening Balance</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevBalanceStorageVBL, new { @id = "txtRPrevBalanceStorageVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled",
+                                           @style = "width:160px"
+                                       })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevStorageVStrength, new { @id = "txtRPrevStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.PrevStorageVAL, new { @id = "txtRPrevStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @style = "width:160px" })
+                                        </div>
+
+                                    </div>
+
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Storage VAT (After Received)</strong></div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentBalanceSVBL, new { @id = "txtRCurrentBalanceSVBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVStrength, new { @id = "txtRCurrentStorageVStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
+                                        </div>
+                                        <div class="rTableCell">
+                                            @Html.TextBoxFor(model => model.CurrentStorageVAL, new { @id = "txtRCurrentStorageVAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @onkeypress = "return isfloatNumber(this, event);", @onkeyup = "sumreciver()", @style = "width:160px" })
+                                        </div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Net Receive</strong></div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.IssueBL, new { @id = "txtDIssueBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">@Html.TextBoxFor(model => model.IssueStength, new { @id = "txtDIssueStength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell"> @Html.TextBoxFor(model => model.IssueAL, new { @id = "txtDIssueAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                    </div>
+                                    <div class="rTableRow">
+                                        <div class="rTableCell"><strong>Wastage =(Net Transfer  - Net Recive)</strong></div>
+                                        <div class="rTableCell">@Html.TextBoxFor(model => model.WastageBL, new { @id = "txtWastageBL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">   @Html.TextBoxFor(model => model.WastageStrength, new { @id = "txtWastageStrength", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                        <div class="rTableCell">  @Html.TextBoxFor(model => model.WastageAL, new { @id = "txtWastageAL", @class = "form-control", @required = "required", @Value = "", @type = "text", @disabled = "disabled", @onkeypress = "return isfloatNumber(this, event);", @style = "width:160px" })</div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Remark</label>
+                                    @Html.TextAreaFor(m => m.Remark, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "txtRemark",
+                                               @placeholder = "Remark",
+                                               @Maxlength = 200,
+
+                                               @ondrop = "return false;",
+                                               @npaste = "return false;",
+                                               @rows="3"
+
+
+                                           })
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <center>
+                                <div class="form-actions">
+                                    <button type="button" class="btn green" onclick="save()">Submit</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="reset()">Reset</button>
+                                </div>
+                            </center>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+}
+<script type="text/javascript">
+    function reset() {
+        location.reload();
+    }
+
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    $('#ddlSVId').change(function () {
+        var SVId = $('#ddlSVId').val();
+        if (SVId != "-1") {
+            UnitTankChange(SVId);
+        }
+    });
+
+    $('#ddlReceiver').change(function () {
+        $.ajax({
+            url: '/CL/GetReceiverTankdetails',
+            data: { 'Rid': $("#ddlReceiver").val() },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                //document.getElementById("txtRVCapacity").value = data[0];
+                document.getElementById("txtPrevBalanceReceiverVBL").value = data[1];
+                document.getElementById("txtPrevReceiverVStrength").value = data[3];
+                document.getElementById("txtPrevReceiverVAL").value = data[2];
+            }
+        });
+    });   
+    $('#ddlsource_sp').change(function () {
+        if (document.getElementById('ddlSVId').value == "-1") {
+            alert("Please select Storage VAT");
+            document.getElementById('ddlsource_sp').value = "-1";
+            document.getElementById('ddlSVId').focus();
+            return;
+        }
+
+        if (document.getElementById('ddlsource_sp').value == "P") {
+            $('#ddlsource_spR').addClass('hide');
+            $('#ddlsource_spP').removeClass('hide');
+            $('#divpurchase').removeClass('hide');
+            $('.divReciver').addClass('hide');
+           // $('.divReciver1').removeClass('hide');
+            $('#lblsptype').html('Purchase Type <b style="color:red; font-weight:800">*</b>');
+            $('#divRecivertype').addClass('hide');
+            $('#divPassNo').removeClass('hide');
+        }
+        else {
+            $('#ddlsource_spP').addClass('hide');
+            $('#ddlsource_spR').removeClass('hide');
+            $('.divReciver').removeClass('hide');
+            //$('.divReciver1').removeClass('hide');
+            $('#divpurchase').addClass('hide');
+            $('#lblsptype').html('Reciver Type <b style="color:red; font-weight:800">*</b>');
+            $('#divRecivertype').removeClass('hide');
+            if ($('#divPassNo').hasClass('hide')) {
+
+            }
+            else {
+                $('#divPassNo').addClass('hide');
+
+            }        
+            $.ajax({
+                type: "post",
+                url: "/CL/GetReciver",
+                data: {},
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#ddlReceiver').empty();
+                    var Reciver = "";
+                    for (var i = 0; i < data.length; i++) {
+                        Reciver = Reciver + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlReceiver').append(Reciver);
+                }
+            });
+
+        }
+
+    });
+    function Validation() {
+        var UnitTankId = $('#ddlSVId').val();
+        if (UnitTankId == "-1") {
+            alert("Please Select Storage VAT");
+            return false;
+        }
+        if (document.getElementById("txtUnitTankReceiveBL").value.trim() == "" || parseFloat(document.getElementById("txtUnitTankReceiveBL").value.trim()) <= 0) {
+            alert("Please Enter valid receive Quantity");
+            return false;
+        }
+    }
+    function UnitTankChange(UnitTankId) {
+        $.ajax({
+            url: '/CL/GetStorageVATDetails',
+            data: { 'SVID': UnitTankId },
+            datatype: "json",
+            type: "GET",
+            success: function (data) {
+                //var res = data.split(",");
+                document.getElementById("txtUnitTankCapacity").value = data[0];
+                document.getElementById("txtPrevStorageVStrength").value = data[2];
+                document.getElementById("txtPrevStorageVAL").value = data[3];
+                document.getElementById("txtPrevBalanceStorageVBL").value = data[1];
+
+                document.getElementById("txtRPrevStorageVStrength").value = data[2];
+                document.getElementById("txtRPrevStorageVAL").value = data[3];
+                document.getElementById("txtRPrevBalanceStorageVBL").value = data[1];
+
+                //document.getElementById("txtSpiritType").value = res[1];
+                //document.getElementById("txtUnitTankBalance").value = res[2];
+            },
+            error: function (data) {
+                alert("Error in GetBrandDetailsForDDl Loading");
+            }
+        });
+    }
+    function Calculation() {
+        var ReceiveLtr = document.getElementById("txtUnitTankReceiveBL").value;
+        var Balance = parseFloat(document.getElementById("txtUnitTankCapacity").value) - parseFloat(document.getElementById("txtUnitTankBalance").value);
+        if (parseFloat(Balance) < parseFloat(ReceiveLtr)) {
+            alert("Maximum Received Quantity is " + Balance)
+            document.getElementById("txtUnitTankReceiveBL").value = Balance;
+        }
+    }
+    function save() {
+        if (document.getElementById("ddlsource_sp").value == "P") {
+            if (document.getElementById("ddlsource_spP").value == "-1") {
+                document.getElementById("ddlsource_spP").focus();
+                alert("Select Purchase Type");
+                return;
+            }
+
+            if (document.getElementById("txtImportPassNo").value == "") {
+                document.getElementById("txtImportPassNo").focus();
+                alert("Enter Pass No");
+                return;
+            }
+
+            if (document.getElementById("txtPIssueBL").value == "") {
+                document.getElementById("txtPIssueBL").focus();
+                alert("Enter Purchase BL");
+                return;
+            }
+            if (document.getElementById("txtIssueAL").value == "") {
+                document.getElementById("txtIssueAL").focus();
+                alert("Enter Purchase AL");
+                return;
+            }
+            if (document.getElementById("txtPIssueStength").value == "") {
+                document.getElementById("txtPIssueStength").focus();
+                alert("Enter Purchase Strength");
+                return;
+            }
+            if (document.getElementById("txtPCurrentBalanceSVBL").value == "") {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Enter Storage Vat BL");
+                return;
+            }
+            if (document.getElementById("txtPCurrentStorageVStrength").value == "") {
+                document.getElementById("txtPCurrentStorageVStrength").focus();
+                alert("Enter Storage Vat AL");
+                return;
+            }
+            if (document.getElementById("txtPCurrentStorageVAL").value == "") {
+                document.getElementById("txtPCurrentStorageVAL").focus();
+                alert("Enter Storage Vat Strength");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPIssueBL").value) <= 0) {
+                document.getElementById("txtPIssueBL").focus();
+                alert("Purchase BL must be greater than zero");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtIssueAL").value) < 0) {
+                document.getElementById("txtIssueAL").focus();
+                alert("Enter Purchase AL");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPIssueStength").value) < 0) {
+                document.getElementById("txtPIssueStength").focus();
+                alert("Enter Purchase Strength");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) < 0) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Enter Storage Vat BL");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPCurrentStorageVStrength").value) < 0) {
+                document.getElementById("txtPCurrentStorageVStrength").focus();
+                alert("Enter Storage Vat AL");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPCurrentStorageVAL").value) < 0) {
+                document.getElementById("txtPCurrentStorageVAL").focus();
+                alert("Enter Storage Vat Strength");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtUnitTankCapacity").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL not greater than Storage VAT Capacity (in Bulk Litre)");
+                return;
+            }
+
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) <= (parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL must be  greater than Storage VAT Opening Balance BL");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtUnitTankCapacity").value))) {
+                document.getElementById("txtPCurrentBalanceSVBL").focus();
+                alert("Storage Vat (After Received) BL must be  smaller or equal than Storage VAT Capacity (in Bulk Litre)");
+                return;
+            }
+
+            //sum
+            //if (parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value) > (parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value) + parseFloat(document.getElementById("txtPIssueBL").value))) {
+            //    document.getElementById("txtPurrentBalanceSVBL").focus();
+            //    alert("Storage Vat BL must be smaller than (Storage VAT (Opening BL) + Purchase BL)");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtPCurrentStorageVStrength").value) > (parseFloat(document.getElementById("txtPrevStorageVStrength").value) + parseFloat(document.getElementById("txtPIssueStength").value))) {
+            //    document.getElementById("txtPCurrentStorageVStrength").focus();
+            //    alert("Storage Vat Strength must be smaller than (Storage VAT (Opening Strength) + Purchase Strength)");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtPCurrentStorageVAL").value) > (parseFloat(document.getElementById("txtPrevStorageVAL").value) + parseFloat(document.getElementById("txtIssueAL").value))) {
+            //    document.getElementById("txtPCurrentStorageVAL").focus();
+            //    alert("Storage Vat AL must be smaller than (Storage VAT (Opening AL) + Purchase AL)");
+            //    return;
+            //}
+            var Objform = {
+                "TransferId": -1,
+                "RVId": document.getElementById("ddlReceiver").value.trim(),
+                "ImportPassNo": document.getElementById("txtImportPassNo").value.trim(),
+                "SVId": document.getElementById("ddlSVId").value.trim(),
+                "SpiritTypeId": document.getElementById("ddlSpiritType").value.trim(),
+                "TransactionType": "PS",
+                "SourceofSpirit": document.getElementById("ddlsource_sp").value.trim(),
+                "ReceiverType": document.getElementById("ddlsource_spP").value.trim(),
+                "PrevBalanceStorageVBL": document.getElementById("txtPrevBalanceStorageVBL").value.trim(),
+                "PrevStorageVAL": document.getElementById("txtPrevStorageVAL").value.trim(),
+                "PrevStorageVStrength": document.getElementById("txtPrevStorageVStrength").value.trim(),
+                "IssueBL": document.getElementById("txtPIssueBL").value.trim(),
+                "IssueAL": document.getElementById("txtIssueAL").value.trim(),
+                "CurrentBalanceSVBL": document.getElementById("txtPCurrentBalanceSVBL").value.trim(),
+                "CurrentStorageVStrength": document.getElementById("txtPCurrentStorageVStrength").value.trim(),
+                "CurrentStorageVAL": document.getElementById("txtPCurrentStorageVAL").value.trim(),
+                "IssueStength": document.getElementById("txtPIssueStength").value.trim(),
+                "Remark": document.getElementById("txtRemark").value.trim(),
+            }
+            $.ajax({
+                url: '/CL/InsertUpdateTankTranfer',
+                data: JSON.stringify({ Objform: Objform }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data == "Record Save..") {
+                        alert(data);
+                        location.reload();
+                    }
+                    else {
+                        alert(data);
+                    }
+
+
+                }
+            });
+        }
+        else if (document.getElementById("ddlsource_sp").value == "R") {
+
+            if (document.getElementById("ddlSVId").value == "-1") {
+                document.getElementById("ddlSVId").focus();
+                alert("Select Storage VAT");
+                return;
+            }
+            if (document.getElementById("ddlsource_spR").value == "-1") {
+                document.getElementById("ddlsource_spR").focus();
+                alert("Select Receiver Type ");
+                return;
+            }
+            if (document.getElementById("ddlReceiver").value == "-1") {
+                document.getElementById("ddlReceiver").focus();
+                alert("Select Receiver ");
+                return;
+            }
+            if (document.getElementById("txtPrevBalanceReceiverVBL").value == "") {
+                document.getElementById("txtPrevBalanceReceiverVBL").focus();
+                alert("Enter Receiver Opening BL");
+                return;
+            }
+            if (document.getElementById("txtPrevReceiverVStrength").value == "") {
+                document.getElementById("txtPrevReceiverVStrength").focus();
+                alert("Enter Receiver Opening Strength");
+                return;
+            }
+            if (document.getElementById("txtPrevReceiverVAL").value == "") {
+                document.getElementById("txtPrevReceiverVAL").focus();
+                alert("Enter Receiver Opening AL");
+                return;
+            }
+            if (document.getElementById("txtCurrentBalanceReceiverVBL").value == "") {
+                document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+                alert("Enter Receiver BL (After Tranfer)");
+                return;
+            }
+            if (document.getElementById("txtCurrentReceiverVStrength").value == "") {
+                document.getElementById("txtCurrentReceiverVStrength").focus();
+                alert("Enter Receiver Strength (After Tranfer)");
+                return;
+            }
+            if (document.getElementById("txtCurrentReceiverVAL").value == "") {
+                document.getElementById("txtCurrentReceiverVAL").focus();
+                alert("Enter Receiver AL (After Tranfer)");
+                return;
+            }
+            if (document.getElementById("txtRIssueBL").value == "") {
+                document.getElementById("txtRIssueBL").focus();
+                alert("Net Transfer BL");
+                return;
+            }
+            if (document.getElementById("txtRIssueStength").value == "") {
+                document.getElementById("txtRIssueStength").focus();
+                alert("Net Transfer Strength");
+                return;
+            }
+            if (document.getElementById("txtRIssueAL").value == "") {
+                document.getElementById("txtRIssueAL").focus();
+                alert("Net Transfer AL");
+
+                return;
+            }
+            if (document.getElementById("txtRCurrentBalanceSVBL").value == "") {
+                document.getElementById("txtRCurrentBalanceSVBL").focus();
+                alert("Enter Storage Vat BL (After Transfer)");
+                return;
+            }
+            if (document.getElementById("txtRCurrentStorageVStrength").value == "") {
+                document.getElementById("txtRCurrentStorageVStrength").focus();
+                alert("Enter Storage Vat Strength (After Transfer)");
+                return;
+            }
+            if (document.getElementById("txtRCurrentStorageVAL").value == "") {
+                document.getElementById("txtRCurrentStorageVAL").focus();
+                alert("Enter Storage Vat AL (After Transfer)");
+                return;
+            }
+
+            if (document.getElementById("txtDIssueBL").value == "") {
+                document.getElementById("txtDIssueBL").focus();
+                alert("Net Receive BL");
+                return;
+            }
+            if (document.getElementById("txtDIssueStength").value == "") {
+                document.getElementById("txtDIssueStength").focus();
+                alert("Net Receive Strength");
+                return;
+            }
+            if (document.getElementById("txtDIssueAL").value == "") {
+                document.getElementById("txtDIssueAL").focus();
+                alert("Net Recive AL");
+                return;
+            }
+
+            if (document.getElementById("txtWastageBL").value == "") {
+                document.getElementById("txtWastageBL").focus();
+                alert("Wastage BL");
+                return;
+            }
+            if (document.getElementById("txtWastageStrength").value == "") {
+                document.getElementById("txtWastageStrength").focus();
+                alert("Wastage Strength");
+                return;
+            }
+            if (document.getElementById("txtWastageAL").value == "") {
+                document.getElementById("txtWastageAL").focus();
+                alert("Wastage AL");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value) < 0) {
+                document.getElementById("txtPrevBalanceReceiverVBL").focus();
+                alert(" Receiver Opening BL  not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPrevReceiverVStrength").value) < 0) {
+                document.getElementById("txtPrevReceiverVStrength").focus();
+                alert("Enter Receiver Opening Strength not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtPrevReceiverVAL").value) < 0) {
+                document.getElementById("txtPrevReceiverVAL").focus();
+                alert("Enter Receiver Opening AL not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value) < 0) {
+                document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+                alert("Enter Receiver BL (After Tranfer) not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtCurrentReceiverVStrength").value) < 0) {
+                document.getElementById("txtCurrentReceiverVStrength").focus();
+                alert("Enter Receiver Strength (After Tranfer) not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtCurrentReceiverVAL").value) < 0) {
+                document.getElementById("txtCurrentReceiverVAL").focus();
+                alert("Enter Receiver AL (After Tranfer) not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRIssueBL").value) < 0) {
+                document.getElementById("txtRIssueBL").focus();
+                alert("Net Transfer BL not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRIssueStength").value) < 0) {
+                document.getElementById("txtRIssueStength").focus();
+                alert("Net Transfer Strength not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRIssueAL").value) < 0) {
+                document.getElementById("txtRIssueAL").focus();
+                alert("Net Transfer AL not be negative");
+
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRCurrentBalanceSVBL").value) < 0) {
+                document.getElementById("txtRCurrentBalanceSVBL").focus();
+                alert("Enter Storage Vat BL (After Transfer) not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRCurrentStorageVStrength").value) < 0) {
+                document.getElementById("txtRCurrentStorageVStrength").focus();
+                alert("Enter Storage Vat Strength (After Transfer) not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtRCurrentStorageVAL").value) < 0) {
+                document.getElementById("txtRCurrentStorageVAL").focus();
+                alert("Enter Storage Vat AL (After Transfer) not be negative");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtDIssueBL").value) < 0) {
+                document.getElementById("txtDIssueBL").focus();
+                alert("Net Receive BL not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtDIssueStength").value) < 0) {
+                document.getElementById("txtDIssueStength").focus();
+                alert("Net Receive Strength not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtDIssueAL").value) < 0) {
+                document.getElementById("txtDIssueAL").focus();
+                alert("Net Recive AL not be negative");
+                return;
+            }
+
+            if (parseFloat(document.getElementById("txtWastageBL").value) < 0) {
+                document.getElementById("txtWastageBL").focus();
+                alert("Wastage BL not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtWastageStrength").value) < 0) {
+                document.getElementById("txtWastageStrength").focus();
+                alert("Wastage Strength not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtWastageAL").value) < 0) {
+                document.getElementById("txtWastageAL").focus();
+                alert("Wastage AL not be negative");
+                return;
+            }
+            if (parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value) > parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value)) {
+                document.getElementById("txtCurrentBalanceReceiverVBL").focus();
+                alert("Receiver Balance (After Transfer) BL Not be greater than Receiver Opening Balance BL");
+                return;
+            }
+
+            //if (parseFloat(document.getElementById("txtRIssueBL").value) < parseFloat(document.getElementById("txtDIssueBL").value)) {
+            //    document.getElementById("txtDIssueBL").focus();
+            //    alert(" Net Receive BL not be greater than Net Transfer AL");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtRIssueStength").value) < parseFloat(document.getElementById("txtDIssueStength").value)) {
+            //    document.getElementById("txtDIssueStength").focus();
+            //    alert(" Net Receive Strength not be greater than Net Transfer AL");
+            //    return;
+            //}
+            //if (parseFloat(document.getElementById("txtRIssueAL").value) < parseFloat(document.getElementById("txtDIssueAL").value)) {
+            //    document.getElementById("txtDIssueAL").focus();
+            //    alert(" Net Receive AL not be greater than Net Transfer AL");
+
+            //    return;
+            //}
+
+            var Objform = {
+                "TransferId": -1,
+                "RVId": document.getElementById("ddlReceiver").value.trim(),
+                "ImportPassNo": document.getElementById("txtImportPassNo").value.trim(),
+                "SVId": document.getElementById("ddlSVId").value.trim(),
+                "BlendingId": -1,
+                "BottlingVATId": -1,
+                "SpiritTypeId": document.getElementById("ddlSpiritType").value.trim(),
+                "BatchNo": " ",
+                "BrandID": -1,//document.getElementById("").value.trim(),
+                "TransactionType": "RS",
+                "SourceofSpirit": document.getElementById("ddlsource_sp").value.trim(),
+                "ReceiverType": document.getElementById("ddlsource_spR").value.trim(),
+                "PrevBalanceReceiverVBL": document.getElementById("txtPrevBalanceReceiverVBL").value.trim(),
+                "PrevBalanceStorageVBL": document.getElementById("txtRPrevBalanceStorageVBL").value.trim(),
+                "PrevBalanceBlendingVBL": "0",//document.getElementById("txtPrevBalanceBlendingVBL").value.trim(),
+                "IssueBL": document.getElementById("txtRIssueBL").value.trim(),
+                "CurrentBalanceReceiverVBL": document.getElementById("txtCurrentBalanceReceiverVBL").value.trim(),
+                "CurrentBalanceSVBL": document.getElementById("txtRCurrentBalanceSVBL").value.trim(),
+                "CurrentBalanceBledingVBL": "0",//document.getElementById("txtCurrentBalanceBledingVBL").value.trim(),
+                "CurrentBalanceBottlingVB": "0",//document.getElementById("txtCurrentBalanceBottlingVBL").value.trim(),
+                "PrevReceiverVAL": document.getElementById("txtPrevReceiverVAL").value.trim(),
+                "PrevStorageVAL": document.getElementById("txtRPrevStorageVAL").value.trim(),
+                "PrevBlendingVAL": "0",// document.getElementById("txtPrevBlendingVAL").value.trim(),
+                "PrevBottlingVAL": "0",// document.getElementById("txtPrevBottlingVAL").value.trim(),
+                "IssueAL": document.getElementById("txtRIssueAL").value.trim(),
+                "CurrentReceiverVAL": document.getElementById("txtCurrentReceiverVAL").value.trim(),
+                "CurrentStorageVAL": document.getElementById("txtRCurrentStorageVAL").value.trim(),
+                "CurrentBlendingVAL": "0", //document.getElementById("txtCurrentBlendingVAL").value.trim(),
+                "CurrentBottlingVAL": "0", //document.getElementById("txtCurrentBottlingVAL").value.trim(),
+                "PrevReceiverVStrength": document.getElementById("txtPrevReceiverVStrength").value.trim(),
+                "PrevStorageVStrength": document.getElementById("txtRPrevStorageVStrength").value.trim(),
+                "PrevBlendingVStrength": "0",// document.getElementById("txtPrevBlendingVStrength").value.trim(),
+                "PrevBottlingVStrength": "0",//document.getElementById("txtPrevBottlingVStrength").value.trim(),
+                "CurrentReceiverVStrength": document.getElementById("txtCurrentReceiverVStrength").value.trim(),
+                "CurrentStorageVStrength": document.getElementById("txtRCurrentStorageVStrength").value.trim(),
+                "CurrentBlendingVStrength": "0",//document.getElementById("txtCurrentBlendingVStrength").value.trim(),
+                "CurrentBottlingVStrength": "0",//document.getElementById("txtCurrentBottlingVStrength").value.trim(),
+                "WastageBL": document.getElementById("txtWastageBL").value.trim(),
+                "WastageStrength": document.getElementById("txtWastageStrength").value.trim(),
+                "WastageAL": document.getElementById("txtWastageAL").value.trim(),
+                //"TransferDate": document.getElementById("").value.trim(),
+                // "IsFinal": document.getElementById("").value.trim(),
+                "Remark": document.getElementById("txtRemark").value.trim(),
+                "IssueStength": document.getElementById("txtRIssueStength").value.trim(),
+            }
+
+            $.ajax({
+                url: '/CL/InsertUpdateTankTranfer',
+                data: JSON.stringify({ Objform: Objform }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data == "Record Save..") {
+                        alert(data);
+                        location.reload();
+                    }
+                    else {
+                        alert(data);
+                    }
+
+
+                }
+            });
+        }
+        else {
+            document.getElementById("ddlsource_sp").focus();
+            alert("Please Select Source of Spirit");
+            return;
+        }
+    }
+
+    function Pstr() {
+
+    }
+    function sumreciver() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtPrevBalanceStorageVBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value)
+        }
+        if (document.getElementById("txtPrevStorageVStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtPrevStorageVStrength").value)
+        }
+        if (document.getElementById("txtPrevStorageVAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txtPrevStorageVAL").value)
+        }
+        if (document.getElementById("txtRCurrentBalanceSVBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtRCurrentBalanceSVBL").value)
+        }
+        if (document.getElementById("txtRCurrentStorageVStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtRCurrentStorageVStrength").value)
+        }
+        
+        document.getElementById("txtRCurrentStorageVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+
+        document.getElementById("txtDIssueBL").value = parseFloat(parseFloat(closingbl) - parseFloat(Openingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtDIssueStength").value = parseFloat(parseFloat(closingstrength)).toString().trim();// parseFloat(parseFloat(closingstrength) - parseFloat(Openingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtDIssueAL").value = parseFloat((parseFloat(document.getElementById("txtDIssueBL").value) * parseFloat(document.getElementById("txtDIssueStength").value)) / 100).toFixed(2).toString().trim();
+        sumwaste();
+    }
+
+    function sumPreciver() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtPrevBalanceStorageVBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtPrevBalanceStorageVBL").value)
+        }
+        if (document.getElementById("txtPrevStorageVStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtPrevStorageVStrength").value)
+        }
+        if (document.getElementById("txtPrevStorageVAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txtPrevStorageVAL").value)
+        }
+        if (document.getElementById("txtPCurrentBalanceSVBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtPCurrentBalanceSVBL").value)
+        }
+        if (document.getElementById("txtPCurrentStorageVStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtPCurrentStorageVStrength").value)
+        }
+
+        document.getElementById("txtPCurrentStorageVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+
+        document.getElementById("txtPIssueBL").value = parseFloat(parseFloat(closingbl) - parseFloat(Openingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtPIssueStength").value = parseFloat(parseFloat(closingstrength)).toString().trim();// parseFloat(parseFloat(closingstrength) - parseFloat(Openingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtIssueAL").value = parseFloat((parseFloat(document.getElementById("txtPCurrentStorageVAL").value) - parseFloat(document.getElementById("txtPrevStorageVAL").value)) ).toFixed(2).toString().trim();
+        //sumwaste();
+    }
+    function sumtransfer() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtPrevBalanceReceiverVBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtPrevBalanceReceiverVBL").value)
+        }
+        if (document.getElementById("txtPrevReceiverVStrength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtPrevReceiverVStrength").value)
+        }
+        //if (document.getElementById("txtPrevReceiverVAL").value != "") {
+        //    OpeningAL = parseFloat(document.getElementById("txtPrevReceiverVAL").value)
+        //}
+        document.getElementById("txtPrevReceiverVAL").value = parseFloat((Openingstrength * Openingbl) / 100).toFixed(2).toString().trim();
+        if (document.getElementById("txtCurrentBalanceReceiverVBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtCurrentBalanceReceiverVBL").value)
+        }
+        if (document.getElementById("txtCurrentReceiverVStrength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtCurrentReceiverVStrength").value)
+        }
+        //if (document.getElementById("txtCurrentReceiverVAL").value != "") {
+        //    closingal = parseFloat(document.getElementById("txtCurrentReceiverVAL").value)
+        //}
+
+        document.getElementById("txtCurrentReceiverVAL").value = parseFloat((closingstrength * closingbl) / 100).toFixed(2).toString().trim();
+
+
+        document.getElementById("txtRIssueBL").value = parseFloat(parseFloat(Openingbl) - parseFloat(closingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtRIssueStength").value = parseFloat(closingstrength).toFixed(2).toString().trim();//parseFloat(parseFloat(Openingstrength) - parseFloat(closingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtRIssueAL").value = parseFloat((parseFloat(document.getElementById("txtRIssueBL").value) * parseFloat(document.getElementById("txtRIssueStength").value)) / 100).toFixed(2).toString().trim();
+        sumwaste();
+    }
+    function sumwaste() {
+        var Openingbl = 0, OpeningAL = 0, Openingstrength = 0, closingbl = 0, closingal = 0, closingstrength = 0;
+        if (document.getElementById("txtRIssueBL").value != "") {
+            Openingbl = parseFloat(document.getElementById("txtRIssueBL").value)
+        }
+        if (document.getElementById("txtRIssueStength").value != "") {
+            Openingstrength = parseFloat(document.getElementById("txtRIssueStength").value)
+        }
+        if (document.getElementById("txtRIssueAL").value != "") {
+            OpeningAL = parseFloat(document.getElementById("txtRIssueAL").value)
+        }
+        if (document.getElementById("txtDIssueBL").value != "") {
+            closingbl = parseFloat(document.getElementById("txtDIssueBL").value)
+        }
+        if (document.getElementById("txtDIssueStength").value != "") {
+            closingstrength = parseFloat(document.getElementById("txtDIssueStength").value)
+        }
+        if (document.getElementById("txtDIssueAL").value != "") {
+            closingal = parseFloat(document.getElementById("txtDIssueAL").value)
+        }
+
+        document.getElementById("txtWastageBL").value = parseFloat(parseFloat(Openingbl) - parseFloat(closingbl)).toFixed(2).toString().trim();
+        document.getElementById("txtWastageStrength").value = parseFloat(closingstrength).toFixed(2).toString().trim();//parseFloat(parseFloat(Openingstrength) - parseFloat(closingstrength)).toFixed(2).toString().trim();
+        document.getElementById("txtWastageAL").value = parseFloat((parseFloat(document.getElementById("txtWastageBL").value) * parseFloat(document.getElementById("txtWastageStrength").value) / 100)).toFixed(2).toString().trim();
+    }
+
+
+</script>
+<script type="text/javascript">
+    var specialKeys = new Array();
+    specialKeys.push(47); // for Forward Slash(/)
+    specialKeys.push(8); //Backspace
+    specialKeys.push(9); // Tab
+    specialKeys.push(37); // for left Arrow
+    //  specialKeys.push(39); // for Right Arrow
+    function IsNumeric(e) {
+        var keyCode = e.which ? e.which : e.keyCode
+        var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1); // For Decimal To All Number
+        if (ret == false) {
+            //alert("Only numaric value allowed.");
+        }
+        return ret;
+    }
+    function sumPAL() {
+        var PurchaseBL = 0, Purchase_Strength = 0;
+        if (document.getElementById("txtPIssueBL").value != "") {
+            PurchaseBL = document.getElementById("txtPIssueBL").value;
+        }
+        if (document.getElementById("txtPIssueStength").value != "") {
+            Purchase_Strength = document.getElementById("txtPIssueStength").value;
+        }
+        document.getElementById("txtIssueAL").value = parseFloat((parseFloat(PurchaseBL) * parseFloat(Purchase_Strength) / 100)).toFixed(2).toString().trim();
+    }
+
+</script>

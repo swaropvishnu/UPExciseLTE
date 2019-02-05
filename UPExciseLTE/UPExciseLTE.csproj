@@ -256,6 +256,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DistrictWareHouseController.cs" />
     <Compile Include="Controllers\FL2DController.cs" />
+    <Compile Include="Controllers\FLController.cs" />
     <Compile Include="Controllers\GatePassController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MasterFormsController.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Models\AuditTrail.cs" />
     <Compile Include="Models\BBTFormation.cs" />
     <Compile Include="Models\BWFL.cs" />
+    <Compile Include="Models\FL.cs" />
     <Compile Include="Models\FL2D.cs" />
     <Compile Include="Models\CL.cs" />
     <Compile Include="Models\GatePass.cs" />
@@ -6314,6 +6316,35 @@
     <Content Include="Views\BWFL\UploadGatePassCSV.cshtml" />
     <Content Include="Views\CL\GetFinalizedPlan.cshtml" />
     <Content Include="Views\CL\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\FL\BlendingVATFL.cshtml" />
+    <Content Include="Views\FL\BlendingVATReductionDetails.cshtml" />
+    <Content Include="Views\FL\BlendingVATSophisticationDetails.cshtml" />
+    <Content Include="Views\FL\BlendingVATtfBottelingVATFL.cshtml" />
+    <Content Include="Views\FL\BottelingPlanFL.cshtml" />
+    <Content Include="Views\FL\BottelingVATFL.cshtml" />
+    <Content Include="Views\FL\BottlingLineFL.cshtml" />
+    <Content Include="Views\FL\EditFinalBottelingPlanFL.cshtml" />
+    <Content Include="Views\FL\FreezePlanFL.cshtml" />
+    <Content Include="Views\FL\GatePassFL.cshtml" />
+    <Content Include="Views\FL\GatePassPreviewFL.cshtml" />
+    <Content Include="Views\FL\GenerateQRCodeFL.cshtml" />
+    <Content Include="Views\FL\GetBottelingVATDetailsFL.cshtml" />
+    <Content Include="Views\FL\GetFinalizedPlan.cshtml" />
+    <Content Include="Views\FL\GetPassDetailsFL.cshtml" />
+    <Content Include="Views\FL\ProductionEntryFL.cshtml" />
+    <Content Include="Views\FL\ProductionPlanListFL.cshtml" />
+    <Content Include="Views\FL\ReceiveGatePassWH.cshtml" />
+    <Content Include="Views\FL\ReceiverMaster.cshtml" />
+    <Content Include="Views\FL\ReceiveSplitTfReceiverVat.cshtml" />
+    <Content Include="Views\FL\ReceiveStorageVATFL.cshtml" />
+    <Content Include="Views\FL\SearchplanFL.cshtml" />
+    <Content Include="Views\FL\SearchProductionFL.cshtml" />
+    <Content Include="Views\FL\StorageVATFL.cshtml" />
+    <Content Include="Views\FL\StorageVATRecevDetailsFL.cshtml" />
+    <Content Include="Views\FL\StorageVATTransferToBVFL.cshtml" />
+    <Content Include="Views\FL\StorageVATTransferToBVDetailsCL.cshtml" />
+    <Content Include="Views\FL\UploadCSVFL.cshtml" />
+    <Content Include="Views\FL\UploadGatePassCSVFL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

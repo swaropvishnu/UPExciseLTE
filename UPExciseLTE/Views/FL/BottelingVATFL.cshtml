@@ -1,7 +1,7 @@
-﻿@model UPExciseLTE.Models.StorageVATCL
+﻿@model UPExciseLTE.Models.BottelingVATFL
 
 @{
-    ViewBag.Title = "StorageVATCL";
+    ViewBag.Title = "BottelingVATCL";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
@@ -31,33 +31,39 @@
         return true;
     }
 </script>
-@using (Html.BeginForm("StorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottelingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
     <div class="page-content-inner">
         <div class="row ">
             <div class="col-md-12">
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span><i class="fa fa-gift"></i>&nbsp; Storage VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                            <span><i class="fa fa-gift"></i>&nbsp; Bottling VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
                         </div>
                     </div>
                     <div class="portlet-body form" style="background-color:#f5f5f5">
                         <div class="form-body">
-                            @Html.HiddenFor(model => model.StorageVATId, new { @id = "hfUnitTankId" })
+                            @Html.HiddenFor(model => model.BottelingVATId, new { @id = "hfUnitTankId" })
                             @Html.HiddenFor(model => model.Type, new { @id = "hfUnitTankType" })
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Storage Vat Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.StorageVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100, @required = "required" })
+                                    <label class="control-label">Bottling VAT Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BottelingVATName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Storage Vat Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.StorageVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
+                                    <label class="control-label">Bottling VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BottelingVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
                                 </div>
-                               
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Botteling VAT Bulk Litre</label>
+                                        @Html.TextBoxFor(model => model.UnitTankBulkLitre, new {  @class = "form-control", @id = "txtUnitTankBulkLitre" } )
+                                    </div>*@
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Botteling VAT Strength<b style="color:red; font-weight:800">*</b></label>
+                                        @Html.TextBoxFor(model => model.UnitTankStrength, new { @class = "form-control", @id = "txtUnitTankStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
+                                    </div>*@
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
@@ -75,58 +81,34 @@
                         <div>
                             <table class="table table-striped table-bordered table-hover">
                                 <tr>
-                                    <th>Storage Vat Id</th>
-                                    <th>Storage Vat Name</th>
-                                    <th>Storage Vat Capacity (in Bulk Litre)</th>
-                                    @*<th>Spirit Type</th>
-                                        <th>Spirit Bulk Litre</th>*@
+                                    <th>Bottling VAT Id</th>
+                                    <th>Bottling VAT Name</th>
+                                    <th>Bottling VAT Capacity (in Bulk Litre)</th>
+                                    @*<th>Botteling VAT Bulk Litre</th>*@
+                                    @*<th>Botteling VAT Strength</th>*@
                                     <th></th>
                                     <th></th>
                                 </tr>
-                                @if (ViewBag.StorageVATList != null)
+                                @if (ViewBag.BottelingVATCL != null)
                                 {
-                                    foreach (StorageVATCL dr in (ViewBag.StorageVATList as List<StorageVATCL>))
+                                    foreach (BottelingVATCL dr in (ViewBag.BottelingVATCL as List<BottelingVATCL>))
                                     {
-                                <tr>
-                                    <td>@dr.StorageVATId</td>
-                                    <td>@dr.StorageVATName</td>
-                                    <td>@dr.StorageVATCapacity</td>
-                                    @if (dr.Status == "A")
-                                    {
-                                        <td>Active</td>
-
-                                    }
-                                    else
-                                    {
-                                        <td>Deactive</td>
-
-                                    }
-                                    @if (dr.IsApproved == true)
-                                    {
-                                        if (dr.Status == "A")
-                                        {
-                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_StorageVATId','D')">Deactive</button></td>
-                                        }
-                                        else
-                                        {
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','A')">Active</button></td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                            <td>
-                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button>
-                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Approved</button>
-
-
-                                            </td>
-
-                                    }
-                                    
-
-
-
-                                </tr>
+                                        <tr>
+                                            <td>@dr.BottelingVATId</td>
+                                            <td>@dr.BottelingVATName</td>
+                                            <td>@dr.BottelingVATCapacity</td>
+                                            @*<td>@dr.UnitTankBulkLitre</td>*@
+                                            @*<td>@dr.UnitTankStrength</td>*@
+                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','E')">Edit</button></td>
+                                            @if (dr.Status == "A")
+                                            {
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','D')">Deactive</button></td>
+                                            }
+                                            else
+                                            {
+                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','A')">Active</button></td>
+                                            }
+                                        </tr>
                                     }
                                 }
                             </table>
@@ -140,42 +122,40 @@
 <script type="text/javascript">
     function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
-            window.location.assign("../CL/StorageVATCL?A=" + UTId)
+            window.location.assign("../CL/BottelingVATCL?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
         }
         else {
             $.ajax({
-                url: '/CL/UpdateStorageVAT',
+                url: '/CL/UpdateBottelingVAT',
                 data: { 'UTId': UTId, 'Status': Status },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     alert(data);
-                    window.location = "../CL/StorageVATCL";
+                    window.location = "../CL/BottelingVATCL";
                 },
                 error: function (data) {
-                    alert("Error in Storage Vat Loading");
+                    alert("Error in Botteling VAT Loading");
                 }
             });
         }
     }
     function Validate() {
         document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
-        document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
-         
-        if (document.getElementById("txtUnitTank").value == "") {
-            alert("Please Enter Storage Vat Name");
+
+        if (document.getElementById("txtUnitTank").value.trim() == "") {
+            alert("Please Enter Botteling VAT Name");
             document.getElementById("txtUnitTank").focus();
             return false;
         }
         if (document.getElementById("txtUnitTankCapacity").value == "" || document.getElementById("txtUnitTankCapacity").value == "0") {
-            alert("Please Enter Storage Vat Capacity");
+            alert("Please Enter Botteling VAT Capacity");
             document.getElementById("txtUnitTankCapacity").focus();
             return false;
         }
-
         if (parseFloat(document.getElementById("txtUnitTankCapacity").value) == 0) {
-            alert("Please Enter Storage Vat Capacity");
+            alert("Please Enter Botteling VAT Capacity");
             document.getElementById("txtUnitTankCapacity").focus();
             return false;
         }
