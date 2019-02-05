@@ -9,7 +9,7 @@
     }
 }
 
-@using (Html.BeginForm("UploadCSVFileCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadCSVFileCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" , id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -26,6 +26,8 @@
         }
     }
     <script type="text/javascript">
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         $(document).ready(function () {
             $("#danger-alert").show();
         });
@@ -49,6 +51,7 @@
                     return false;
                 }
                 fileData.append(PlanId, files[0])
+                fileData.append("__RequestVerificationToken", token);
                 $.ajax({
                     url: '/CL/UploadCSVFile',
                     type: "POST",
@@ -77,9 +80,9 @@
             var BottlingPlanId = $('#ddlPopBottlingLine').val()
             $.ajax({
                 url: '/CL/UploadVerifedCSV',
-                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId },
-                datatype: "json",
-                type: "GET",
+                data: { 'GatePassId': -1, 'BrandId': BrandId, 'BatchNo': '', 'UploadValue': 1, 'PlanId': PlanId, 'BLID': BottlingPlanId, __RequestVerificationToken: token },
+                //datatype: "json",
+                type: "POST",
                 success: function (data) {
                     alert(data);
                     $('#myModal3').modal('toggle')

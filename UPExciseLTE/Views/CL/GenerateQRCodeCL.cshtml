@@ -8,10 +8,11 @@
 <script src="/Content/DateCalender/jquery-ui.js"></script>
 @using (Html.BeginForm("Export", "CL", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <input type="hidden" id="hfid" name="PlanId" />
     <input type="submit" value="Export" style="display:none" id="btnDownload" />
 }
-@using (Html.BeginForm("GenerateQRCodeCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("GenerateQRCodeCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" ,@id= "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -144,7 +145,8 @@
 }
 
 <script type="text/javascript">
-
+    var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
     function Click(PlanId) {
         $("#hfid").val(PlanId);
         document.getElementById('hrefDownload').click();
@@ -181,9 +183,9 @@
     function GenreateQR(PlanId) {
         $.ajax({
             url: '/CL/GenreateQR',
-            data: { 'PlanId': PlanId },
-            datatype: "json",
-            type: "GET",
+            data: { 'PlanId': PlanId, __RequestVerificationToken: token },
+           // datatype: "json",
+            type: "Post",
             success: function (data) {
                 alert(data);
                 window.location = "../CL/GenerateQRCodeCL";

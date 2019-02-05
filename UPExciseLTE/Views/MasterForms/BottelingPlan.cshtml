@@ -68,14 +68,23 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Date of Plan<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.DateOfPlan1, new { @id = "txtDateofPlan", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy", @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.DateOfPlan1);
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @required = "required" })
+
+                                 
+
                                 </div>
                                 <div class="form-group col-md-4" style="display:none">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(m => m.BrandId);
+
+
                                 </div>
                             </div>
 
@@ -83,15 +92,23 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.BrandId);
+
+
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank Balance</label>
                                     @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.BBTBulkLitre);
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand (in BBT)</label>
                                     @Html.TextBox("txtBBTBrand", "", new { @id = "txtBBTBrand", @class = "form-control", @readonly = true })
+                                   
+
+
                                     @Html.Hidden("hfBBTBrandId", "-1", new { @id = "hfBBTBrandId" })
                                 </div>
                                 <div class="form-group col-md-4" style="display:none">

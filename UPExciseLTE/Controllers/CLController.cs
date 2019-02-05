@@ -39,14 +39,15 @@ namespace UPExciseLTE.Controllers
             return Json(CommonBL.fillReceiver("S"), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReceiverMaster(StorageVATCL UT)
         {
             string str = new CommonDA().InsertUpdateStorageVAT(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATCL");
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateReciver(Reciver Objform)
         {
             try
@@ -60,6 +61,8 @@ namespace UPExciseLTE.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateTankTranfer(TankTransferDetail Objform)
         {
                try
@@ -94,6 +97,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATCL");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateStorageVAT(string UTId, string Status)
         {
             StorageVATCL UT = new StorageVATCL();
@@ -124,6 +129,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("BlendingVATCL");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateBlendingVAT(string UTId, string Status)
         {
             BlendingVATCL UT = new BlendingVATCL();
@@ -154,6 +161,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("BottelingVATCL");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateBottelingVAT(string UTId, string Status)
         {
             BottelingVATCL UT = new BottelingVATCL();
@@ -214,6 +223,8 @@ namespace UPExciseLTE.Controllers
             BottelingVATCL bbtFormation = new CommonBL().GetBottelingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BBTId), "A");
             return bbtFormation.BottelingVATBulkLitre.ToString() + "," + bbtFormation.BottelingVATCapacity.ToString() + "," + bbtFormation.BrandName + "," + bbtFormation.BrandId + "," + bbtFormation.BottelingVATStrength + "," + bbtFormation.BottelingVATAlcoholicLiter + "," + bbtFormation.BatchNo;
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GetBottlingTankForddl(string ddlBBT)
         {
             return Json(CommonBL.BottlingLineCL("S", ddlBBT), JsonRequestBehavior.AllowGet);
@@ -243,6 +254,8 @@ namespace UPExciseLTE.Controllers
         {
             return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "PB"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalizePlan(string PlanId)
         {
             string str = "";
@@ -274,6 +287,8 @@ namespace UPExciseLTE.Controllers
             ViewBag.Brand = CommonBL.fillBrand("A");
             return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "Z"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string GenreateQR(string PlanId)
         {
             string str = "";
@@ -290,7 +305,7 @@ namespace UPExciseLTE.Controllers
             return str;
         }
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public FileResult Export(string PlanId)
         {
             PlanId = new Crypto().Decrypt(PlanId);
@@ -314,8 +329,10 @@ namespace UPExciseLTE.Controllers
             ViewBag.Brand = CommonBL.fillBrand("A");
             return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
         }
+       
         public ActionResult ProductionEntryCL(string A)
         {
+           // TempData["Message"] = "";
             ViewBag.Msg = "";
             A = new Crypto().Decrypt(A);
             int Planid = int.Parse(A);
@@ -328,6 +345,9 @@ namespace UPExciseLTE.Controllers
             string UserId = (Session["tbl_Session"] as DataTable).Rows[0]["UserId"].ToString().Trim();
             BP.Type = 1;
             string str = new CommonDA().InsertUpdateProductionPlanCL(BP);
+            TempData["Message"] = str.Trim();
+            TempData.Keep();
+            //ViewBag.Msg = str.Trim();
             return RedirectToAction("ProductionEntryCL", new { A = BP.EncPlanId });
         }
         [HttpGet]
@@ -335,6 +355,8 @@ namespace UPExciseLTE.Controllers
         {
             return View(new CommonBL().GetBottelingPlanListCL(CommonBL.Setdate("01/01/1900"), DateTime.Now, short.Parse(CommonBL.fillBrewery()[0].Value), -1, "Z", "", -1, "FB"));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FreezePlanSuccess(string PlanId)
         {
             string str = "";
@@ -381,7 +403,7 @@ namespace UPExciseLTE.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadCSVFile()
         {
             if (Request.Files.Count > 0)
@@ -431,6 +453,8 @@ namespace UPExciseLTE.Controllers
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLineCL");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateBottlingLineCL(string UTId, string Status)
         {
             BottlingLineCL BL = new BottlingLineCL();
@@ -441,6 +465,8 @@ namespace UPExciseLTE.Controllers
             return str;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetStorageVATDetails(string SVID)
         {
             string[] result = new string[5];
@@ -490,6 +516,8 @@ namespace UPExciseLTE.Controllers
          return View(lstUtBl);*/
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetBottlingTankdetails(string BTID)
         {
             string[] result = new string[8];
@@ -522,7 +550,8 @@ namespace UPExciseLTE.Controllers
             }
             return View(SVBL);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetBlendingVATDetails(string BVId)
         {
             //BlendingVATCL BVT = new CommonBL().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A");
@@ -558,7 +587,8 @@ namespace UPExciseLTE.Controllers
             }
             return View(TTD); 
         }
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string GetBlendingVATForDDl(string BVId)
         {
             BlendingVATCL BVT = new CommonBL().GetBlendingVAT(short.Parse(CommonBL.fillBrewery()[0].Value), short.Parse(BVId), "A");
@@ -674,7 +704,7 @@ namespace UPExciseLTE.Controllers
             return View(GP);
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadGatePassCSVCL()
         {
             if (Request.Files.Count > 0)
@@ -701,16 +731,22 @@ namespace UPExciseLTE.Controllers
                 return Json("No files selected.");
             }
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string GetGatePassUploadBrandDetails(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
             return new CommonBL().GetGatePassUploadBrandDetailsTable(GatePass);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string FinalGatePass(string Gatepass)
         {
             long GatePass = long.Parse(Gatepass);
             return new CommonDA().FinalGatePassCL(GatePass, 1, 0);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UploadVerifedCSV(string GatePassId, string BrandId, string BatchNo, string UploadValue, string PlanId, string BLID)
         {
             long GatePass = long.Parse(GatePassId);
@@ -748,6 +784,8 @@ namespace UPExciseLTE.Controllers
             ViewBag.GetGatePassBrandDetailsList = new CommonBL().GetGatePassBrandDetailsList(GatePassId);
             return View(GP);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         private string GenerateQRCode(string qrcodeText)
         {
             string folderPath = "~/Img/";
@@ -884,6 +922,8 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("BlendingVATReductionDetails");
         }
         #endregion
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetReceiverTankdetails(string Rid)
         {
             string[] result = new string[8];

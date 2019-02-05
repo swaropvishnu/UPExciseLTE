@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit/Finalize Botteling Plan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("EditFinalBottelingPlan", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditFinalBottelingPlan", "CL", FormMethod.Post, new { @enctype = "multipart/form-data",id= "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -103,6 +103,9 @@
     </div>
 }
 <script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
     function load(PlanId)
     {
         window.location = "../CL/BottelingPlanCL?A=" + PlanId;
@@ -110,9 +113,9 @@
     function FinalizePlan(PlanId) {
         $.ajax({
             url: '/CL/FinalizePlan',
-            data: { 'PlanId': PlanId },
-            datatype: "json",
-            type: "GET",
+            data: { 'PlanId': PlanId, __RequestVerificationToken: token },
+          //  datatype: "json",
+            type: "POST",
             success: function (data) {
                 alert(data);
                 window.location = "../CL/EditFinalBottelingPlanCL";
