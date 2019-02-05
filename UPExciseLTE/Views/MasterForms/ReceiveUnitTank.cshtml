@@ -43,24 +43,33 @@ $(document).ready(function () {
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Batch Final Date</label>
                                     @Html.TextBoxFor(model => model.TransferDate1, new { @class = "form-control", @id = "txtEntryDate", @placeholder = "dd/MM/yyyy", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.TransferDate1)
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(model => model.IssuedFromUTId, (IEnumerable<SelectListItem>)ViewBag.UnitTank, new { @id = "ddlUnitTank", @class = "form-control", @required = "required", @placeholder = "dd/MM/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.IssuedFromUTId)
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Capacity (in Bulk Litre)</label>
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.UnitTankCapacity)
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4" style="display:none">
                                     <label class="control-label">Strength</label>
                                     @Html.TextBoxFor(m => m.Strength, new { @class = "form-control", @id = "txtUnitTankStrength", @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.Strength)
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Balance (in Bulk Litre)</label>
                                     @Html.TextBox("txtUnitTankBalance", "", new { @class = "form-control", @id = "txtUnitTankBalance", @readonly = "true" })
+                                    
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand (In UT)</label>
@@ -70,6 +79,9 @@ $(document).ready(function () {
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BrandID, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(m => m.BrandID)
+
                                 </div>
                             </div>
                             <div class="row">
@@ -77,6 +89,9 @@ $(document).ready(function () {
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Receive (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.IssueBL, new { @class = "form-control", @id = "txtUnitTankReceiveBL", onkeypress = "return isfloatNumber(this, event);", @required = "required", @maxlength = "10", @onkeyUp = "Calculation();" })
+
+                                    @Html.ValidationMessageFor(m => m.IssueBL)
+
                                 </div>
                             </div>
                         </div>

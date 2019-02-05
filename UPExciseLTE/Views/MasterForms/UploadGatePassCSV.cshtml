@@ -46,15 +46,22 @@
                                     <div>
                                         @Html.HiddenFor(m => m.GatePassId, new { @id = "hfGatePassId" })
                                         @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.VehicleNo)
+
+
                                     </div>
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">From Valid Date<b style="color:red; font-weight:800">*</b></label>
                                     @Html.EditorFor(m => m.FromDate1, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @readonly = "true" } })
+                                    @Html.ValidationMessageFor(m => m.FromDate1)
+
                                 </div>
                                 <div class="form-group  col-md-4">
                                     <label class="control-label">Valid Till Date<b style="color:red; font-weight:800">*</b></label>
                                     @Html.EditorFor(m => m.ToDate1, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = "true" } })
+                                    @Html.ValidationMessageFor(m => m.ToDate1)
+
                                 </div>
                             </div>
                             <div class="row">
@@ -62,18 +69,26 @@
                                     <label class="control-label">Vehicle Driver Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.DriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.DriverName)
+
+
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Consignor Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.FromConsignorName)
+
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
                                     <label class="control-label">Consignee Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled" })
+
+                                        @Html.ValidationMessageFor(m => m.ToConsigeeName)
+
                                     </div>
                                 </div>
                             </div>
@@ -81,6 +96,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownList("ddlBrand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control", @name = "ddlBrand" })
+                                    
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>

@@ -33,7 +33,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Storage VAT Status")]
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
-        public bool IsApproved { get; set; } 
+        public bool IsApproved { get; set; }
 
     }
     public class Reciver

@@ -1276,9 +1276,9 @@ namespace UPExciseLTE.BLL
                 UT.Recivername = (dr["Reciver_name"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.UnitId = short.Parse(dr["Unit_Id"].ToString().Trim());
-
+                UT.IsApproved= bool.Parse(dr["IsApproved"].ToString().Trim());
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
             return UT;
         }
         public StorageVATCL GetStorageVAT(short BreweryId, short StorageVATId, string status)

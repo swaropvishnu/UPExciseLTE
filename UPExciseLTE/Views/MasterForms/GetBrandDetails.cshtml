@@ -23,18 +23,23 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">State</label>
                                     <div>
-                                        @Html.DropDownList("ddlState",(IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control" })
+                                        @Html.DropDownList("ddlState", (IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control" })
+                                        
+
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Licence Type</label>
                                     <div>
                                         @Html.DropDownList("ddlLicenseType", new List<SelectListItem> { new SelectListItem { Text = "-All-", Value = "" }, new SelectListItem { Text = "FL3", Value = "FL3" }, new SelectListItem { Text = "FL3A", Value = "FL3A" } }, new { @id = "ddlLicense", @class = "form-control" })
+
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Licence Number</label>
                                     @Html.TextBox("txtLicenseNo", "", new { @id = "txtLicenseNo", @class = "form-control", @Value = "" })
+                                    
                                 </div>
                                 @*<div class="form-group col-md-4">
                     <label class="control-label">Brewery</label>

@@ -1920,6 +1920,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Type", SV.Type));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", SV.IsApproved));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
@@ -2572,6 +2573,9 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("c_user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("c_user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("c_mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("dbName", UserSession.PushName));
+                cmd.Parameters.Add(new SqlParameter("@sptype", TTD.sptype));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", TTD.IsApproved));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
                 cmd.Parameters["Msg"].Size = 256;
