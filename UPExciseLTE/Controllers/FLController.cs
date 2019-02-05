@@ -40,7 +40,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReceiverMaster(StorageVATFL UT)
         {
-            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+            UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateStorageVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATFL");
@@ -91,7 +91,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult StorageVATFL(StorageVATFL UT)
         {
-            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+            UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateStorageVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATFL");
@@ -124,7 +124,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BlendingVATFL(BlendingVATFL UT)
         {
-            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+            UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBlendingVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("BlendingVATFL");
@@ -157,7 +157,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BottelingVATFL(BottelingVATFL UT)
         {
-            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+            UT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBottelingVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("BottelingVATFL");

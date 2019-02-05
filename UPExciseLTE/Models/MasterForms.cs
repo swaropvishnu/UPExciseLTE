@@ -171,7 +171,7 @@ namespace UPExciseLTE.Models
         public string Brand { get; set; }
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
-        [Range(0, 50000, ErrorMessage = "Range can be only in 0 to 50000")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         [Display(Name = "BBT Bulk Litre")]
         public decimal BBTBulkLitre { get; set; } = 0;
         public string Status { get; set; }
@@ -180,22 +180,29 @@ namespace UPExciseLTE.Models
         public string BottleCapacity { get; set; }
         public bool IsQRGenerated { get; set; }
         // Production Plan Data
+        [Range(0, 50000, ErrorMessage = "Range can be only in 0 to 50000")]
         [Display(Name = "Produced Number of cases")]
         public int ProducedNumberOfCases { get; set; }
         [Display(Name = "Produced Total Unit (Can/Bottles)")]
+        [Range(0, 50000, ErrorMessage = "Range can be only in 0 to 50000")]
         public decimal ProducedBoxQuantity { get; set; }
         [Display(Name = "Produced Bulk Litre")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal ProducedBulkLitre { get; set; }
         [Display(Name = "Produced Total Unit")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public int ProducedTotalUnit { get; set; }
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         [Display(Name = "Wastage in Number")]
-        public int WastageInNumber { get; set; }
+        public decimal WastageInNumber { get; set; }
         [Display(Name = "Wastage BL")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal WastageBL { get; set; }
         [Display(Name = "Is Production Final")]
         public short IsProductionFinal { get; set; }
         public string TotalRevenue { get; set; }
         public string BeforeBBTBal { get; set; } = "";
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal AfterBBTBal { get; set; } = 0;
         public Message Msg { get; set; }
         public string FromDate { get; set; } = "";
@@ -213,8 +220,10 @@ namespace UPExciseLTE.Models
         [Display(Name = "Unit Tank Name")]
         public string UnitTankName { get; set; } = "";
         [Display(Name = "Unit Tank Capacity")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal UnitTankCapacity { get; set; } = 0;
         [Display(Name = "Unit Tank Open Balance")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal UnitTankBulkLitre { get; set; } = 0;
         [Display(Name = "Unit Tank Strength")]
         public decimal UnitTankStrength { get; set; } = 0;
@@ -241,8 +250,10 @@ namespace UPExciseLTE.Models
         public string BBTName { get; set; } = "";
         public string TransactionType { get; set; } = "R";
         [Display(Name = "Issue BL")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal IssueBL { get; set; } = 0;
         [Display(Name = "Wastage")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal Wastage { get; set; } = 0;
         [Display(Name = "Remark")]
         public string Remark { get; set; } = "";
@@ -252,6 +263,7 @@ namespace UPExciseLTE.Models
         public string Strength { get; set; } = "";
         [Display(Name = "Transfer Date")]
         public DateTime TransferDate { get; set; } = DateTime.Now;
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal NetTransfer { get; set; } = 0;
         [Display(Name = "Transfer Date")]
         public string TransferDate1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
@@ -275,8 +287,10 @@ namespace UPExciseLTE.Models
         [Display(Name = "Bottling Tank Name")]
         public string BBTName { get; set; } = "";
         [Display(Name = "Bottling Tank Capacity")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal BBTCapacity { get; set; }
-        [Display(Name = "Bottling Balance (in B.L.)")] 
+        [Display(Name = "Bottling Balance (in B.L.)")]
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal BBTBulkLitre { get; set; }
         public int SP_Type { get; set; } = 1;
         [Display(Name = "Status")]
@@ -294,6 +308,7 @@ namespace UPExciseLTE.Models
         public int BottlingLineId { get; set; } = -1;
         public string LineType { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
         public string LineType1 { get; set; } = "A";// A for Automatic S for Semi Automatic M for Manual
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public int CapacityNoOfCasePerHour { get; set; } = 0;
         public string EncBottlingLineId { get; set; } = "";
         public int BBTId { get; set; } = -1;
@@ -318,7 +333,6 @@ namespace UPExciseLTE.Models
         public DateTime ToDate { get; set; } = DateTime.Now;
         public string ToDate1 { get; set; } = "";
         public string ToLicenseType { get; set; } = "";
-       
         public string ToLicenceNo { get; set; } = "";
         public string ToConsigeeName { get; set; } = "";
         public string FromLicenseType { get; set; } = "";
@@ -336,8 +350,11 @@ namespace UPExciseLTE.Models
         public string ConsignorAddress { get; set; } = "";
         public string ImportPermitNo { get; set; }="";
         public string ConsigneeAddress { get; set; } = "";
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal GrossWeight { get; set; } = 0;
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal TareWeight { get; set; } = 0;
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal NetWeight { get; set; } = 0;
         public int district_code_census1 { get; set; } = -1;
         public int district_code_census2 { get; set; } = -1;
@@ -364,6 +381,7 @@ namespace UPExciseLTE.Models
         public string BrandName { get; set; } = "";
         public string BatchNo { get; set; } = "";
         public string DetailsDesc { get; set; } = "";
+        [Range(0, 100000, ErrorMessage = "Range can be only in 0 to 100000")]
         public decimal TotalBL { get; set; } = 0;
         public string Strength { get; set; } = "";
         public string TotalBottles { get; set; } = "";

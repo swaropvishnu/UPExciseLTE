@@ -238,6 +238,70 @@ namespace UPExciseLTE.Controllers
         {
             if (ModelState.IsValid)
             {
+                B.BrandName = B.BrandName.Trim();
+                B.AlcoholType = B.AlcoholType.Trim();
+                if (string.IsNullOrEmpty(B.BrandName))
+                {
+                    TempData["Message"] = "Please Enter Brand Name";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.AdditionalDuty<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Additional Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.AlcoholType))
+                {
+                    TempData["Message"] = "Please Enter Valid Alcohol Type";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.BrandRegistrationNumber))
+                {
+                    TempData["Message"] = "Please Enter Brand Registration Number";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ConsiderationFees<=0)
+                {
+                    TempData["Message"] = "Please Enter Brand Consideration Fees";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ExciseDuty <= 0)
+                {
+                    TempData["Message"] = "Please Enter Brand Excise Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceNo))
+                {
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceType))
+                {
+                    if (UserSession.LoggedInUserLevelId.Trim() == "15") //ex BreweryUnnao1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "BE";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "50") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "BWFL-2B";
+                        B.LiquorType = "BE";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "25") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "PD-2";
+                        B.LiquorType = "CL";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "55") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "F" +
+                            "L";
+                    }
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
+
                 if (B.Remark == null)
                 {
                     //TempData["Message"] = "Please Submit Remark";
@@ -256,7 +320,11 @@ namespace UPExciseLTE.Controllers
                     return RedirectToAction("BrandMaster", new { Code = B.brandID_incrpt });
                 }
             }
-            return RedirectToAction("BrandMaster");
+            else
+            {
+                TempData["Message"] = "Invalid Model";
+                return RedirectToAction("BrandMaster");
+            }
         }
         [HttpGet]
         public ActionResult GetBrandDetails()
