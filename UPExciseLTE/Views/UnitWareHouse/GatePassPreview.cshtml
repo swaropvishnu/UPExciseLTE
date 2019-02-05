@@ -192,28 +192,36 @@
                                     <th style="padding:10px">Description of Foreign Liquor</th>
                                     <th style="padding:10px">Batch No</th>
                                     <th style="padding:10px">Bottles X No of Case X Quantity (in ml.)<br /> Contained in each</th>
+                                    <th style="padding:10px">Total Bottels</th>
+                                    <th style="padding:10px">Damage Bottles</th>
+
+                                    <th style="padding:10px">Availble Bottles</th>
                                     <th style="padding:10px">Total Litres (BL)</th>
-                                    <th style="padding:10px">Alcoholic Strength (%)</th>
+                                    <th style="padding:10px">Alcoholic Strength</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (GatePassBrandMapping item in ViewBag.GetGatePassBrandDetailsList)
                                 {
-                                    <tr style="border-bottom:1px solid #47494c">
-                                        <td style="padding:10px">
-                                            @Html.DisplayFor(modelItem => item.Srno)
-                                        </td>
-                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.BrandName)</td>
-                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.BatchNo)</td>
-                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.DetailsDesc)</td>
-                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.TotalBL)</td>
-                                        <td style="padding:10px">@Html.DisplayFor(modelItem => item.Strength)</td>
-                                    </tr>
+                                <tr style="border-bottom:1px solid #47494c">
+                                    <td style="padding:10px">
+                                        @Html.DisplayFor(modelItem => item.Srno)
+                                    </td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.BrandName)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.BatchNo)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.DetailsDesc)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.TotalBottles)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.DamageBottles)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.AvailbleBottles)</td>
+
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.TotalBL)</td>
+                                    <td style="padding:10px">@Html.DisplayFor(modelItem => item.Strength)</td>
+                                </tr>
                                 }
                             </tbody>
                             <tfoot>
                                 <tr style="border-bottom:1px solid #47494c">
-                                    <td colspan="2" style="padding:10px"></td>
+                                    <td colspan="5" style="padding:10px"></td>
                                     <td style="padding:10px;padding:10px">Total :</td>
                                     <td style="padding:10px;padding:10px">@Model.TotalBottle</td>
                                     <td style="padding:10px;padding:10px">@Model.TotalBL</td>

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_NoneLayout.cshtml";
 }
 
 
@@ -29,6 +30,17 @@
         <p>Controller Name: @Model.ControllerName</p>
         <p>Action Name: @Model.ActionName</p>
         <p>Exception: @Model.Exception</p> 
+        @{ 
+            FormsAuthentication.SignOut();
+            // Second we clear the principal to ensure the user does not retain any authentication
+            //required NameSpace: using System.Security.Principal;
+            Session.Clear();
+            System.Web.HttpContext.Current.Session.RemoveAll();
+            // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+            // this clears the Request.IsAuthenticated flag since this triggers a new request
+            Session.Abandon(); // it will clear the session at the end of request
+        }
+
         <center>
             <img src="../Content/assets/pages/media/pages/earth.jpg" class="img-responsive" alt="" style="height:500px">
         </center>

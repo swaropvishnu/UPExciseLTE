@@ -1,0 +1,163 @@
+﻿@model UPExciseLTE.Models.BlendingVATFL
+@{
+    ViewBag.Title = "Blending VAT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
+    {
+        <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (document.getElementById("txtBlendingVAT").value.trim() != "") {
+            document.getElementById("btnSubmit").innerHTML = "Update";
+        }
+
+    });
+    function isfloatNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm("BlendingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span><i class="fa fa-gift"></i>&nbsp; Blending VAT Master&nbsp; (@UserSession.LoggedInUserName.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            @Html.HiddenFor(model => model.BlendingVATId, new { @id = "hfBlendingVATId" })
+                            @Html.HiddenFor(model => model.Type, new { @id = "hfBlendingVATType" })
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT Name<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BlendingVATName, new { @class = "form-control", @id = "txtBlendingVAT",@MaxLength=100 })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BlendingVATCapacity, new { @class = "form-control", @id = "txtBlendingVATCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
+                                </div>
+                                @*<div class="form-group col-md-4">
+                                        <label class="control-label">Blending VAT Bulk Litre</label>
+                                        @Html.TextBoxFor(model => model.BlendingVATBulkLitre, new {  @class = "form-control", @id = "txtBlendingVATBulkLitre" } )
+                                    </div>*@
+                                @*<div class="form-group col-md-4">
+                                    <label class="control-label">Blending VAT Strength<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBoxFor(model => model.BlendingVATStrength, new { @class = "form-control", @id = "txtBlendingVATStrength", @required = "required", onkeypress = "return isfloatNumber(this, event);", @MaxLength = "3" })
+                                </div>*@
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <label class="control-label">Brewery</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <center>
+                                <div>
+                                    <button type="submit" class="btn green" onclick="return Validate();" id="btnSubmit">Save</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white">Reset</button>
+                                </div>
+                            </center>
+                        </div>
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+                                    <th>Blending VAT Id</th>
+                                    <th>Blending VAT Name</th>
+                                    <th>Blending VAT Capacity (in Bulk Litre)</th>
+                                    @*<th>Blending VAT Bulk Litre</th>*@
+                                    @*<th>Blending VAT Strength</th>*@
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                @if (ViewBag.BlendingVATCL != null)
+                                {
+                                    foreach (BlendingVATCL dr in (ViewBag.BlendingVATCL as List<BlendingVATCL>))
+                                    {
+                                        <tr>
+                                            <td>@dr.BlendingVATId</td>
+                                            <td>@dr.BlendingVATName</td>
+                                            <td>@dr.BlendingVATCapacity</td>
+                                            @*<td>@dr.BlendingVATBulkLitre</td>*@
+                                            @*<td>@dr.BlendingVATStrength</td>*@
+                                            <td><button type="button" class="btn green" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','E')">Edit</button></td>
+                                            @if (dr.Status == "A")
+                                            {
+                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','D')">Deactive</button></td>
+                                            }
+                                            else
+                                            {
+                                                <td><button type="button" class="btn green" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','A')">Active</button></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function BlendingVATDetails(UTId, Status) {
+        if (Status == 'E') {
+            window.location.assign("../CL/BlendingVATCL?A=" + UTId)
+            //window.location("BlendingVAT?A=" + UTId);
+        }
+        else {
+            $.ajax({
+                url: '/CL/UpdateBlendingVAT',
+                data: { 'UTId': UTId, 'Status': Status },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    alert(data);
+                    window.location = "../CL/BlendingVATCL";
+                },
+                error: function (data) {
+                    alert("Error in Blending VAT Loading");
+                }
+            });
+        }
+    }
+    function Validate() {
+        document.getElementById("txtBlendingVAT").value = document.getElementById("txtBlendingVAT").value.trim(); 
+
+         if (document.getElementById("txtBlendingVAT").value == "") {
+            alert("Please Enter Blending VAT Name");
+            document.getElementById("txtBlendingVAT").focus();
+            return false;
+        }
+        if (document.getElementById("txtBlendingVATCapacity").value == "" || document.getElementById("txtBlendingVATCapacity").value == "0") {
+            alert("Please Enter Blending VAT Capacity");
+            document.getElementById("txtBlendingVATCapacity").focus();
+            return false;
+        }
+        if (parseFloat(document.getElementById("txtBlendingVATCapacity").value) == 0) {
+            alert("Please Enter Blending VAT Capacity");
+            document.getElementById("txtBlendingVATCapacity").focus();
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,235 @@
+﻿@model UPExciseLTE.Models.GatePassDetails
+@{
+    ViewBag.Title = "Upload GatePass CSV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("UploadGatePassCSV", "UnitWareHouse", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+
+                            @if (Request.QueryString["B"] != null)
+                            {
+                                if (Request.QueryString["B"].Trim() != string.Empty && Request.QueryString["B"].Trim() == "1")
+                                {
+                                    <span>
+                                        <i class="fa fa-gift"></i> &nbsp; Update CSV (Brewery To Manufacturer Wholesale)&nbsp;
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        <i class="fa fa-gift"></i> &nbsp; Gatepass Upload CSV for Dispatch&nbsp;
+                                    </span>
+                                }
+                            }
+                            else
+                            {
+                                <span>
+                                    <i class="fa fa-gift"></i> &nbsp; Gatepass Upload CSV for Dispatch&nbsp;
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color:#f5f5f5">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Vehicle No<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.HiddenFor(m => m.GatePassId, new { @id = "hfGatePassId" })
+                                        @Html.TextBoxFor(m => m.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control ", @placeholder = "Vehicle No", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">From Valid Date<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.EditorFor(m => m.FromDate1, new { htmlAttributes = new { @id = "txtDate", @class = "form-control ", @placeholder = "Date", @required = "required", @readonly = "true" } })
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <label class="control-label">Valid Till Date<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.EditorFor(m => m.ToDate1, new { htmlAttributes = new { @id = "txtValidTill", @class = "form-control ", @placeholder = "Valid Till", @required = "required", @readonly = "true" } })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Vehicle Driver Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.DriverName, new { @id = "txtVehicleDriverName", @class = "form-control ", @placeholder = "Vehicle Driver Name", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Consignor Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.FromConsignorName, new { @id = "txtConsignorName", @class = "form-control ", @placeholder = "Consignor Name", @required = "required", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label class="control-label">Consignee Name<b style="color:red; font-weight:800">*</b></label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ToConsigeeName, new { @id = "txtConsigneeName", @class = "form-control ", @placeholder = "Consignee Name", @required = "required", @disabled = "disbled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.DropDownList("ddlBrand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control", @name = "ddlBrand" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Batch No<b style="color:red; font-weight:800">*</b></label>
+                                    @Html.TextBox("txtBatchNo", "", new { @id = "txtBatchNo", @class = "form-control ", @placeholder = "Batch No", @required = "required" })
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Select CSV<b style="color:red; font-weight:800">*</b></label>
+                                    <input type="file" class="btn btn-default required" name="impCSVUpload" id="FileUpload1" value="Upload Gatepass CSV" />
+                                </div>
+
+                            </div>
+                            <center>
+                                <div class="form-actions">
+                                    <button type="button" class="btn green" id="btnUpload" onclick="ValidateCSV();">Validate CSV</button>
+                                    <button type="button" class="btn default" style="background-color: #659be0;color:white;border-color:#8E44AD" id="btnUploadCSV" onclick="window.location.href = '../UnitWareHouse/GatePass'">Back To Gatepass Details</button>
+                                    <button type="button" class="btn danger" style="background-color:crimson; color:white" id="btnFinal" onclick="FinalGatePass();">Final Gatepass</button>
+                                </div>
+                            </center>
+                        </div>
+
+                        <div id="divResult"></div>
+                        <div class="form-body">
+                            <div id="divTable"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            GatePassUploadBrandDetails();
+        });
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        function ValidateCSV() {
+            if ($('#ddlBrand').val() == "-1") {
+                alert("Please Select Brand");
+                $('#ddlBrand').focus();
+                return false;
+            }
+            if (document.getElementById("txtBatchNo").value.trim() == "") {
+                alert("Please Enter Batch No");
+                document.getElementById("txtBatchNo").focus();
+                return false;
+            }
+            // Checking whether FormData is available in browser
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#FileUpload1").get(0);
+                var files = fileUpload.files;
+                if (files.length == 0) {
+                    alert("Please Upload File");
+                    return false;
+                }
+                // Create FormData object
+                var fileData = new FormData();
+                var Extsplit = files[0].name.split(".");
+                var Ext = Extsplit[Extsplit.length - 1]
+                if (Ext != "csv") {
+                    alert("Please Upload CSV File");
+                    return false;
+                }
+                var BrandId = $('#ddlBrand').val();
+                BrandId = "file" + BrandId;
+                //fileData.append(files[0].name, files[0])
+                fileData.append(BrandId, files[0])
+                fileData.append("__RequestVerificationToken", token);
+                // Looping over all files and add it to FormData object
+                /*for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }*/
+                $.ajax({
+                    url: '/BWFL/UploadGatePassCSV',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+
+                        $('#divResult').html(result);
+                        $('#myModal').modal('show');
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+        function ShowPopup() {
+            $('#myModal2').modal('show');
+        }
+        function UploadCSV() {
+            var GatePassId = document.getElementById("hfGatePassId").value;
+            var BrandId = $('#ddlBrand').val();
+            var BatchNo = document.getElementById("txtBatchNo").value;
+            $.ajax({
+                url: '../UnitWareHouse/UploadVerifedCSV',
+                data: { 'GatePassId': GatePassId, 'BrandId': BrandId, 'BatchNo': BatchNo, 'UploadValue': 4, 'PlanId': -1, 'BLID': -1, __RequestVerificationToken: token},
+                //datatype: "json",
+                type: 'POST',
+                success: function (data) {
+                    alert(data);
+                    GatePassUploadBrandDetails();
+                },
+                error: function (data) {
+                    alert("Error in Upload CSV Loading");
+                }
+            });
+        }
+        function GatePassUploadBrandDetails() {
+            var GatePassId = document.getElementById("hfGatePassId").value;
+            $.ajax({
+                url: '/UnitWareHouse/GetGatePassUploadBrandDetails',
+                data: { 'Gatepass': GatePassId },
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    $('#divTable').html(data);
+                },
+                error: function (data) {
+                    alert("Error in GatePass Upload Brand Details Loading");
+                }
+            });
+        }
+        function FinalGatePass() {
+            var r = confirm("Are You sure to Final GatePass");
+            if (r == true) {
+                var GatePassId = document.getElementById("hfGatePassId").value;
+                $.ajax({
+                    url: '/UnitWareHouse/FinalGatePass',
+                    data: { 'Gatepass': GatePassId, __RequestVerificationToken: token },
+                    //datatype: "json",
+                    type: 'POST',
+                    success: function (data) {
+                        alert(data);
+                        window.open("../BWFL/FL2BGatePass","_self")
+                    },
+                    error: function (data) {
+                        alert("Error in GatePass Upload Brand Details Loading");
+                    }
+                });
+            }
+        }
+    </script>
+}
+

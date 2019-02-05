@@ -72,6 +72,12 @@ namespace UPExciseLTE.BLL
             CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BR", UserSession.LoggedInUserId.ToString(), SelectType);
             return BrandList;
         }
+        public static List<SelectListItem> fillBWFLBrand(string SelectType)
+        {
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", BrandList, "BWFLBR", UserSession.LoggedInUserId.ToString(), SelectType);
+            return BrandList;
+        }
         public static List<SelectListItem> fillBrandForCSV(string SelectType)
         {
             List<SelectListItem> BrandList = new List<SelectListItem>();
@@ -428,7 +434,10 @@ namespace UPExciseLTE.BLL
             GPBM.BrandName = (dr["BrandName"].ToString().Trim());
             GPBM.DetailsDesc = (dr["DetailDesc"].ToString().Trim());
             GPBM.Strength = ((dr["Strength"].ToString().Trim()));
-            GPBM.TotalBL = decimal.Parse((dr["TotalBL"].ToString().Trim()));    
+            GPBM.DamageBottles = ((dr["DamageBottles"].ToString().Trim()));    
+            GPBM.AvailbleBottles = dr["AvailbleBottles"].ToString().Trim();    
+            GPBM.TotalBottles = dr["TotalBottles"].ToString().Trim();    
+            GPBM.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());    
             return GPBM;
         }
         public List<GatePassBrandMapping> GetGatePassBrandDetailsList(long GatePassId)
@@ -1420,41 +1429,7 @@ namespace UPExciseLTE.BLL
             catch (Exception) { }
             return UT;
         }
-       /* public List<SVTransferToBV> GetSVTransferToBTList(DateTime FromDate, DateTime ToDate, int StorageVATId, string Status, short UnitId, int BledingVATId)
-        {
-            List<SVTransferToBV> UnitTankBLDetailList = new List<SVTransferToBV>();
-            DataSet ds = new CommonDA().GetSVTransferToBV(FromDate, ToDate, StorageVATId, Status, UnitId, BledingVATId);
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    UnitTankBLDetailList.Add(GetSVTransferToBTDetail(dr));
-                }
-            }
-            return UnitTankBLDetailList;
-        }
-        private SVTransferToBV GetSVTransferToBTDetail(DataRow dr)
-        {
-            SVTransferToBV UTBL = new SVTransferToBV();
-            try
-            {
-                UTBL.Srno = int.Parse(dr["Srno"].ToString().Trim());
-                UTBL.IssuedFromStorageVATId = int.Parse(dr["IssuedFromStorageVATId"].ToString().Trim());
-                UTBL.StorageVAT = (dr["StorageVAT"].ToString().Trim());
-                UTBL.BlendingVATID = int.Parse(dr["BlendingVATID"].ToString().Trim());
-                UTBL.BlendingVAT = (dr["BlendingVAT"].ToString().Trim());
-                UTBL.IssueBL = decimal.Parse(dr["IssueBL"].ToString().Trim());
-                UTBL.Wastage = decimal.Parse(dr["Wastage"].ToString().Trim());
-                UTBL.TransferDate1 = dr["TransferDate"].ToString().Trim();
-                UTBL.Remark = dr["Remark"].ToString().Trim();
-                UTBL.PrevBalanceBV = dr["PrevBalanceBV"].ToString().Trim();
-                UTBL.PrevBalanceSV = dr["PrevBalanceSV"].ToString().Trim();
-                UTBL.CurrentBalanceSV = dr["CurrentBalanceSV"].ToString().Trim();
-                UTBL.CurrentBalanceBV = dr["CurrentBalanceBV"].ToString().Trim();
-            }
-            catch (Exception) { }
-            return UTBL;
-        }*/
+        
         public static List<SelectListItem> fillBottelingVATCL(string Select)
         {
             List<SelectListItem> breweryList = new List<SelectListItem>();
@@ -1769,7 +1744,446 @@ namespace UPExciseLTE.BLL
             }
         }
         #endregion
+        #region FL
+        public List<ReciverFL> GetReciverListFL(short BreweryId, short StorageVATId, string status)
+        {
+            List<ReciverFL> lstSVATCL = new List<ReciverFL>();
+            DataSet ds = new CommonDA().GetReciverFL(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dataRow in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillReciverFL(dataRow));
+                }
+            }
+            return lstSVATCL;
+        }
+        private ReciverFL FillReciverFL(DataRow dr)
+        {
+            ReciverFL UT = new ReciverFL();
+            try
+            {
+                UT.ReciverCapacity = decimal.Parse(dr["Reciver_Capacity"].ToString().Trim());
+                UT.ReciverID = int.Parse(dr["Reciver_ID"].ToString().Trim());
+                UT.Recivername = (dr["Reciver_name"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["Unit_Id"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public StorageVATFL GetStorageVATFL(short BreweryId, short StorageVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetStorageVATFL(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillStorageVATFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new StorageVATFL();
+            }
+        }
+        public List<StorageVATFL> GetStorageVATListFL(short BreweryId, short StorageVATId, string status)
+        {
+            List<StorageVATFL> lstSVATCL = new List<StorageVATFL>();
+            DataSet ds = new CommonDA().GetStorageVATFL(BreweryId, StorageVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillStorageVATFL(dr));
+                }
 
+            }
+            return lstSVATCL;
+        }
+        private StorageVATFL FillStorageVATFL(DataRow dr)
+        {
+            StorageVATFL UT = new StorageVATFL();
+            try
+            {
+                UT.StorageVATId = int.Parse(dr["StorageVATId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
+                UT.StorageVATName = (dr["StorageVATName"].ToString().Trim());
+                UT.StorageVATCapacity = decimal.Parse(dr["StorageVATCapacity"].ToString().Trim());
+                UT.StorageVATBulkLitre = decimal.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
+                UT.StorageVATStrength = decimal.Parse(dr["StorageVATStrength"].ToString().Trim());
+                UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.SpiritTypeID = short.Parse(dr["SpiritTypeId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.StorageVATAlcoholicLiter = decimal.Parse(dr["StorageVATAlcoholicLiter"].ToString().Trim());
+                UT.Type = 2;
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public BlendingVATFL GetBlendingVATFL(short BreweryId, short BlendingVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetBlendingVAT(BreweryId, BlendingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBlendingVATFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BlendingVATFL();
+            }
+        }
+        public List<BlendingVATFL> GetBlendingVATListFL(short BreweryId, short BlendingVATId, string status)
+        {
+            List<BlendingVATFL> lstSVATCL = new List<BlendingVATFL>();
+            DataSet ds = new CommonDA().GetBlendingVATFL(BreweryId, BlendingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBlendingVATFL(dr));
+                }
+            }
+            return lstSVATCL;
+        }
+        private BlendingVATFL FillBlendingVATFL(DataRow dr)
+        {
+            BlendingVATFL UT = new BlendingVATFL();
+            try
+            {
+                UT.BlendingVATId = int.Parse(dr["BlendingVATId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
+                UT.BlendingVATName = (dr["BlendingVATName"].ToString().Trim());
+                UT.BlendingVATName = (dr["BlendingVATName"].ToString().Trim());
+                UT.BlendingVATCapacity = decimal.Parse(dr["BlendingVATCapacity"].ToString().Trim());
+                UT.BlendingVATBulkLitre = decimal.Parse(dr["BlendingVATBulkLiter"].ToString().Trim());
+                UT.BlendingVATStrength = decimal.Parse(dr["BlendingVATStrength"].ToString().Trim());
+                UT.Enc_BlendingVATId = new Crypto().Encrypt(dr["BlendingVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+                UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                UT.SpiritTypeId = short.Parse(dr["SpiritTypeId"].ToString().Trim());
+                UT.BrandName = (dr["BrandName"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.BatchNo = (dr["BatchNo"].ToString().Trim());
+                UT.BlendingVATAlcoholicLiter = decimal.Parse(dr["BlendingVATAlcoholicLiter"].ToString().Trim());
+
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public BottelingVATFL GetBottelingVATFL(short UnitId, short BottelingVATId, string status)
+        {
+            DataSet ds = new CommonDA().GetBottelingVATDetailsFL(UnitId, BottelingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottelingVATFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottelingVATFL();
+            }
+        }
+        public List<BottelingVATFL> GetBottelingVATListFL(short UnitId, short BottelingVATId, string status)
+        {
+            List<BottelingVATFL> lstSVATCL = new List<BottelingVATFL>();
+            DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BottelingVATId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstSVATCL.Add(FillBottelingVATFL(dr));
+                }
+
+            }
+            return lstSVATCL;
+        }
+        private BottelingVATFL FillBottelingVATFL(DataRow dr)
+        {
+            BottelingVATFL UT = new BottelingVATFL();
+            try
+            {
+                UT.BottelingVATId = int.Parse(dr["BottelingVATId"].ToString().Trim());
+                UT.UnitId = short.Parse(dr["UnitId"].ToString().Trim());
+                UT.BottelingVATName = (dr["BottelingVATName"].ToString().Trim());
+                UT.BottelingVATCapacity = decimal.Parse(dr["BottelingVATCapacity"].ToString().Trim());
+                UT.BottelingVATBulkLitre = decimal.Parse(dr["BottelingVATBulkLiter"].ToString().Trim());
+                UT.BottelingVATStrength = decimal.Parse(dr["BottelingVATStrength"].ToString().Trim());
+                UT.Enc_BottelingVATId = new Crypto().Encrypt(dr["BottelingVATId"].ToString().Trim());
+                UT.Status = (dr["Status"].ToString().Trim());
+                UT.Type = 2;
+                UT.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                UT.SpiritTypeId = short.Parse(dr["SpiritTypeId"].ToString().Trim());
+                UT.BrandName = (dr["BrandName"].ToString().Trim());
+                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+                UT.BottelingVATAlcoholicLiter = decimal.Parse(dr["BottelingVATAlcoholicLiter"].ToString().Trim());
+                UT.BatchNo = (dr["BatchNo"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return UT;
+        }
+        public static List<SelectListItem> fillBottelingVATFL(string Select)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BVFL", UserSession.LoggedInUserId.ToString().Trim(), Select);
+            return breweryList;
+        }
+         
+        private BottelingPlanFL FillBottlingPlanFL(DataRow dr)
+        {
+            BottelingPlanFL Plan = new BottelingPlanFL();
+            try
+            {
+                Plan.PlanId = int.Parse(dr["PlanId"].ToString().Trim());
+                Plan.EncPlanId = new Crypto().Encrypt(dr["PlanId"].ToString().Trim());
+                Plan.DateOfPlan1 = (dr["DateOfPlan1"].ToString().Trim());
+                Plan.DateOfPlan = DateTime.Parse(dr["DateOfPlan"].ToString().Trim());
+                Plan.LiquorType = dr["LiquorType"].ToString().Trim();
+                Plan.LicenceType = dr["LicenceType"].ToString().Trim();
+                Plan.Brand = dr["BrandName"].ToString().Trim();
+                Plan.NumberOfCases = int.Parse(dr["NumberOfCases"].ToString().Trim());
+                Plan.BulkLitre = decimal.Parse(dr["BulkLiter"].ToString().Trim());
+                Plan.Status = dr["Status"].ToString().Trim();
+                Plan.BrandId = int.Parse(dr["BrandId"].ToString().Trim());
+                Plan.MappedOrNot = short.Parse(dr["MappedOrNot"].ToString().Trim());
+                Plan.BatchNo = (dr["BatchNo"].ToString().Trim());
+                Plan.LiquorType = (dr["Liquor"].ToString().Trim());
+                Plan.LicenceType = (dr["LicenceType"].ToString().Trim());
+                Plan.LicenseNo = (dr["LicenceNo"].ToString().Trim());
+                Plan.State = (dr["state_name_u"].ToString().Trim());
+                Plan.BottleCapacity = (dr["QuantityInBottle"].ToString().Trim());
+                Plan.Strength = (dr["Strength"].ToString().Trim());
+                Plan.TotalUnitQuantity = int.Parse((dr["TotalUnit"].ToString().Trim()));
+                Plan.IsQRGenerated = bool.Parse(dr["IsQRGenerated"].ToString().Trim());
+                Plan.QunatityInCaseExport = int.Parse(dr["BoxQuantity"].ToString().Trim());
+                Plan.ProducedNumberOfCases = int.Parse(dr["ProducedNumberOfCases"].ToString().Trim());
+                Plan.ProducedBoxQuantity = decimal.Parse(dr["ProducedBoxQuantity"].ToString().Trim());
+                Plan.ProducedBulkLitre = decimal.Parse(dr["ProducedBulkLiter"].ToString().Trim());
+                Plan.ProducedTotalUnit = int.Parse(dr["ProducedTotalUnit"].ToString().Trim());
+                Plan.WastageInNumber = int.Parse(dr["WastageInNumber"].ToString().Trim());
+                Plan.WastageBL = decimal.Parse(dr["WastageBL"].ToString().Trim());
+                Plan.IsProductionFinal = short.Parse(dr["IsProductionFinal"].ToString().Trim());
+                Plan.TotalRevenue = dr["TotalRevenue"].ToString().Trim();
+                Plan.Type = 2;
+                Plan.BVId = int.Parse(dr["BottelingVATId"].ToString().Trim());
+                Plan.BVBulkLitre = decimal.Parse(dr["BVBulkLitre"].ToString().Trim());
+                Plan.BeforeBVBal = (dr["BeforeBVBal"].ToString().Trim());
+                Plan.AfterBVBal = decimal.Parse(dr["AfterBVBal"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return Plan;
+        }
+        public List<BottelingVATCL> BottelingVATListFL(short UnitId, short BVID, string status)
+        {
+            var bbtFormationList = new List<BottelingVATCL>();
+            DataSet ds = new CommonDA().GetBottelingVATDetails(UnitId, BVID, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    bbtFormationList.Add(FillBottelingVAT(dr));
+                }
+            }
+            return bbtFormationList;
+        }
+        public static List<SelectListItem> BottlingLineFL(string Select, string BBTID)
+        {
+            List<SelectListItem> breweryList = new List<SelectListItem>();
+            CMODataEntryBLL.bindDropDownHnGrid("proc_ddlDetail", breweryList, "BLFL", BBTID, Select);
+            return breweryList;
+        }
+        public List<BottelingPlanFL> GetBottelingPlanListFL(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+            List<BottelingPlanFL> lstPlan = new List<BottelingPlanFL>();
+            DataSet ds = new CommonDA().GetBottelingPlanDetailCL(FromDate, ToDate, BreweryId, BrandId, Mapped, BatchNo, PlanId, Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstPlan.Add(FillBottlingPlanFL(dr));
+                }
+            }
+            return lstPlan;
+        }
+        public BottelingPlanFL GetBottelingPlanFL(DateTime FromDate, DateTime ToDate, short BreweryId, int BrandId, string Mapped, string BatchNo, int PlanId, string Status)
+        {
+
+            DataSet ds = new CommonDA().GetBottelingPlanDetailCL(FromDate, ToDate, BreweryId, BrandId, Mapped, BatchNo, PlanId, Status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottlingPlanFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottelingPlanFL();
+            }
+        }
+        public BottlingLineFL GetBottlingLineFL(short BreweryId, int BBTID, int LineId, string status)
+        {
+            DataSet ds = new CommonDA().GetBottlingLineCL(BreweryId, BBTID, LineId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillBottlingLineFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new BottlingLineFL();
+            }
+        }
+
+        private BottlingLineFL FillBottlingLineFL(DataRow dr)
+        {
+            BottlingLineFL RW = new BottlingLineFL();
+            try
+            {
+                RW.BottlingLineId = int.Parse(dr["BottlingLineId"].ToString().Trim());
+                RW.BottlingLineName = (dr["BottlingLineName"].ToString().Trim());
+                RW.BottlingLineStatus = (dr["BottlingLineStatus"].ToString().Trim());
+                RW.BBTId = int.Parse((dr["BBTId"].ToString().Trim()));
+                RW.BBT = dr["BBTName"].ToString().Trim();
+                RW.UnitId = short.Parse((dr["UnitId"].ToString().Trim()));
+                RW.LineType = ((dr["LineType"].ToString().Trim()));
+                RW.LineType1 = ((dr["LineType1"].ToString().Trim()));
+                RW.CapacityNoOfCasePerHour = int.Parse((dr["CapacityNoOfCasePerHour"].ToString().Trim()));
+                RW.Type = 2;
+                RW.EncBottlingLineId = new Crypto().Encrypt(dr["BottlingLineId"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return RW;
+        }
+        public List<BottlingLineFL> GetBottlingLineDetailsFL(short BreweryId, int BBTID, int LineId, string status)
+        {
+            List<BottlingLineFL> lstUnitTank = new List<BottlingLineFL>();
+            DataSet ds = new CommonDA().GetBottlingLineFL(BreweryId, BBTID, LineId, status);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstUnitTank.Add(FillBottlingLineFL(dr));
+                }
+            }
+            return lstUnitTank;
+        }
+        public List<UTTransferToBBTFL> GetUTTransferToBBTListFL(DateTime FromDate, DateTime ToDate, int UnitTankId, string Status, short BreweryId, int BBTId)
+        {
+            List<UTTransferToBBTFL> UnitTankBLDetailList = new List<UTTransferToBBTFL>();
+            DataSet ds = new CommonDA().GetUTTransferToBBT(FromDate, ToDate, UnitTankId, Status, BreweryId, BBTId);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    UnitTankBLDetailList.Add(GetUTTransferToBBTDetailFL(dr));
+                }
+            }
+            return UnitTankBLDetailList;
+        }
+        private UTTransferToBBTFL GetUTTransferToBBTDetailFL(DataRow dr)
+        {
+            UTTransferToBBTFL UTBL = new UTTransferToBBTFL();
+            try
+            {
+                UTBL.Srno = int.Parse(dr["Srno"].ToString().Trim());
+                UTBL.IssuedFromUTId = int.Parse(dr["IssuedFromUTId"].ToString().Trim());
+                UTBL.UnitTank = (dr["UnitTankName"].ToString().Trim());
+                UTBL.BBTID = int.Parse(dr["BBTId"].ToString().Trim());
+                UTBL.BBTName = (dr["BBTName"].ToString().Trim());
+                UTBL.IssueBL = decimal.Parse(dr["IssueBL"].ToString().Trim());
+                UTBL.Wastage = decimal.Parse(dr["Wastage"].ToString().Trim());
+                UTBL.TransferDate1 = dr["TransferDate"].ToString().Trim();
+                UTBL.Remark = dr["Remark"].ToString().Trim();
+                UTBL.PrevBalanceBBT = dr["PrevBalanceBBT"].ToString().Trim();
+                UTBL.PrevBalanceUT = dr["PrevBalanceUT"].ToString().Trim();
+                UTBL.CurrentBalanceUT = dr["CurrentBalanceUT"].ToString().Trim();
+                UTBL.CurrentBalanceBBT = dr["CurrentBalanceBBT"].ToString().Trim();
+                UTBL.BrandID = int.Parse(dr["BrandId"].ToString().Trim());
+                UTBL.Brand = (dr["BrandName"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return UTBL;
+        }
+        public GatePassDetailsFL GetGatePassDetailsGFL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            DataSet ds = new CommonDA().GetGatePassDetailsGFL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                return FillGatePassDetailsFL(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return new GatePassDetailsFL();
+            }
+        }
+        public List<GatePassDetailsFL> GetGatePassDetailsListFL(long GatePassId, DateTime FromDate, DateTime Todate, int UploadValue, string Status, string IsReceive, string FromLicenseNo, string ToLicenseNo, string FromLicenseType, string ToLicenseType)
+        {
+            List<GatePassDetailsFL> lstGPD = new List<GatePassDetailsFL>();
+            DataSet ds = new CommonDA().GetGatePassDetailsGFL(GatePassId, FromDate, Todate, UploadValue, Status, IsReceive, FromLicenseNo, ToLicenseNo, FromLicenseType, ToLicenseType);
+            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lstGPD.Add(FillGatePassDetailsFL(dr));
+                }
+            }
+            return lstGPD;
+        }
+        private GatePassDetailsFL FillGatePassDetailsFL(DataRow dr)
+        {
+            GatePassDetailsFL GP = new GatePassDetailsFL();
+            try
+            {
+                GP.GatepassLicenseNo = dr["GatepassLicenseNo"].ToString().Trim();
+                GP.GPType = dr["GatePassType"].ToString().Trim();
+                GP.EncGatePassId = new Crypto().Encrypt(dr["GatePassId"].ToString().Trim());
+                GP.ConsigneeAddress = dr["ConsigneeAddress"].ToString().Trim();
+                GP.DispatchedBy = dr["DispatchedBy"].ToString().Trim();
+                GP.DispatchType = dr["DispatchType"].ToString().Trim();
+                GP.ImportPermitNo = dr["ImportPermitNo"].ToString().Trim();
+                GP.ConsignorAddress = dr["ConsignorAddress"].ToString().Trim();
+                GP.AgencyNameAndAddress = dr["AgencyNameAndAddress"].ToString().Trim();
+                GP.district_code_census1 = int.Parse(dr["district_code_census1"].ToString().Trim());
+                GP.district_code_census2 = int.Parse(dr["district_code_census2"].ToString().Trim());
+                GP.district_code_census3 = int.Parse(dr["district_code_census3"].ToString().Trim());
+                GP.DriverName = dr["DriverName"].ToString().Trim();
+                GP.FromConsignorName = dr["FromConsignorName"].ToString().Trim();
+                GP.FromDate = DateTime.Parse(dr["FromDate"].ToString().Trim());
+                GP.FromDate1 = (dr["FromDate1"].ToString().Trim());
+                GP.FromLicenseType = (dr["FromLicenseType"].ToString().Trim());
+                GP.GatePassId = long.Parse((dr["GatePassId"].ToString().Trim()));
+                GP.EncGatePassId = new Crypto().Encrypt((dr["GatePassId"].ToString().Trim()));
+                GP.GatePassNo = (dr["GatePassNo"].ToString().Trim());
+                GP.GatePassSourceId = long.Parse((dr["GatePassSourceId"].ToString().Trim()));
+                GP.GrossWeight = decimal.Parse(dr["GrossWeight"].ToString().Trim());
+                GP.LicenseeAddress = (dr["LicenseeAddress"].ToString().Trim());
+                GP.LicenseeName = (dr["LicenseeName"].ToString().Trim());
+                GP.LicenseeNo = (dr["LicenseeNo"].ToString().Trim());
+                GP.NetWeight = decimal.Parse(dr["NetWeight"].ToString().Trim());
+                GP.Receiver = dr["Receiver"].ToString().Trim();
+                GP.RouteDetails = (dr["RouteDetails"].ToString().Trim());
+                GP.ShopId = int.Parse(dr["ShopId"].ToString().Trim());
+                GP.ShopName = (dr["ShopName"].ToString().Trim());
+                GP.SP_Type = 2;
+                GP.Status = (dr["Status"].ToString().Trim());
+                GP.TareWeight = decimal.Parse(dr["TareWeight"].ToString().Trim());
+                GP.ToConsigeeName = (dr["ToConsigeeName"].ToString().Trim());
+                GP.ToDate = DateTime.Parse(dr["ToDate"].ToString().Trim());
+                GP.ToDate1 = (dr["ToDate1"].ToString().Trim());
+                GP.ToLicenseType = (dr["ToLicenseType"].ToString().Trim());
+                GP.UploadValue = int.Parse(dr["UploadValue"].ToString().Trim());
+                GP.VehicleNo = (dr["VehicleNo"].ToString().Trim());
+                GP.FromLicenceNo = (dr["FromLicenceNo"].ToString().Trim());
+                GP.ToLicenceNo = (dr["ToLicenceNo"].ToString().Trim());
+                GP.TotalCase = int.Parse(dr["TotalCase"].ToString().Trim());
+                GP.TotalBottle = int.Parse(dr["TotalBottle"].ToString().Trim());
+                GP.TotalBL = decimal.Parse(dr["TotalBL"].ToString().Trim());
+                GP.TotalConsiderationFees = decimal.Parse(dr["ConsiderationFees"].ToString().Trim());
+                GP.InBondValue = decimal.Parse(dr["InBondValue"].ToString().Trim());
+                GP.ExportDuty = decimal.Parse(dr["ExportDuty"].ToString().Trim());
+                GP.GatePassType = short.Parse(dr["GatePassTypeID"].ToString().Trim());
+                GP.CheckPostVia = (dr["CheckPostVia"].ToString().Trim());
+                GP.AdditionalConsiFees = decimal.Parse(dr["AdditionalConsiFees"].ToString().Trim());
+            }
+            catch (Exception) { }
+            return GP;
+        }
+        #endregion
 
 
     }

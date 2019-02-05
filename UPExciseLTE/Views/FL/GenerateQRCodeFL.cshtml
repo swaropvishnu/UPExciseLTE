@@ -1,0 +1,213 @@
+﻿@model IEnumerable<UPExciseLTE.Models.BottelingPlanFL>
+
+@{
+    ViewBag.Title = "Generate And Download QR Code";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
+<script src="/Content/DateCalender/jquery-ui.js"></script>
+@using (Html.BeginForm("Export", "CL", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="hfid" name="PlanId" />
+    <input type="submit" value="Export" style="display:none" id="btnDownload" />
+}
+@using (Html.BeginForm("GenerateQRCodeCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" ,@id= "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="page-content-inner">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Generate And Download QR Code
+                        </div>
+                    </div>
+                    <div class="portlet-body form" style="background-color: #f5f5f5;display:none">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">From Date</label>
+                                    @Html.TextBox("From Date", "", new { @id = "txtFromDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">To Date</label>
+                                    @Html.TextBox("To Date", "", new { @id = "txtToDate", @class = "form-control", @required = "required", @Value = "", @type = "text" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Brand</label>
+                                    @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <center>
+                            <div class="form-actions">
+                                <button type="submit" class="btn green">Search</button>
+                                <button type="button" class="btn default" style="background-color: crimson;color:white">Reset</button>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="portlet-body">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <tr>
+
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.PlanId)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.DateOfPlan1)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.LiquorType)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.LicenceType)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.Brand)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.NumberOfCases)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.QunatityInCaseExport)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.BulkLitre)
+                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PlanId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateOfPlan1)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LiquorType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LicenceType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Brand)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumberOfCases)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.QunatityInCaseExport)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BulkLitre)
+                                        </td>
+                                        <td>
+                                            @if (item.IsQRGenerated == false && item.Status != "PB")
+                                            {
+                                                <button type="button" class="btn default" style="background-color: crimson;color:white" onclick="Confirm('@item.EncPlanId')">Generate QR Code</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn default" style="background-color: crimson;color:white" disabled="disabled">QR Code Generated</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.IsQRGenerated == false && item.Status != "PB")
+                                            {
+                                                <button type="button" class="btn green" disabled="disabled">Download QR Code</button>
+                                            }
+                                            else if (item.IsQRGenerated == true)
+                                            {
+                                                <a href='javascript:;' onclick="DownloadExcel('@item.EncPlanId')" id="hrefDownload" hidden="hidden"></a>
+                                                <button type="button" class="btn green" onclick="Click('@item.EncPlanId')">Download QR Code</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+    function Click(PlanId) {
+        $("#hfid").val(PlanId);
+        document.getElementById('hrefDownload').click();
+    }
+    function DownloadExcel(PlanId) {
+        //$("#hfname").val(name);
+        //$("#hfyojana").val(yojana);
+        $("#btnDownload")[0].click();
+    };
+
+    $(document).ready(function () {
+
+        $("#txtFromDate").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+        $("#txtToDate").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+
+    function Confirm(EncPlanId) {
+        var r = confirm("Are You sure to generate QRCode");
+        if (r == true) {
+            GenreateQR(EncPlanId);
+        }
+    }
+    function GenreateQR(PlanId) {
+        $.ajax({
+            url: '/CL/GenreateQR',
+            data: { 'PlanId': PlanId, __RequestVerificationToken: token },
+           // datatype: "json",
+            type: "Post",
+            success: function (data) {
+                alert(data);
+                window.location = "../CL/GenerateQRCodeCL";
+            },
+            error: function (data) {
+                alert("Error in Finalize Plan Loading");
+            }
+        });
+    }
+    //function DownloadExcel(PlanId) {
+    //    $.ajax({
+    //        url: '/CL/DownloadExcel',
+    //        data: { 'PlanId': PlanId },
+    //        datatype: "json",
+    //        type: "GET",
+    //        success: function (data) {
+    //            alert(data);
+    //            window.location = "../CL/GenerateQRCode";
+    //        },
+    //        error: function (data) {
+    //            alert("Error in Finalize Plan Loading");
+    //        }
+    //    });
+    //}
+</script>

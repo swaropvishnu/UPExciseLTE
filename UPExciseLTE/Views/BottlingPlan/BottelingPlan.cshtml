@@ -5,17 +5,18 @@
     if (ViewBag.Msg != null && ViewBag.Msg != string.Empty)
     {
         <script type="text/javascript"> var msg = '@ViewBag.Msg'; alert(msg);</script>
-    }
-    string css = "";
+        }
+        string css = "";
 
-    if (UserSession.LoggedInUserLevelId.Trim() == "15")// brewery
-    {
-        css = "row";
-    }
-    else if (UserSession.LoggedInUserLevelId.Trim() == "50" || UserSession.LoggedInUserLevelId.Trim() == "55") //bwfl
-    {
-        css = "hide";
-    }
+        if (UserSession.LoggedInUserLevelId.Trim() == "15")// brewery
+        {
+            css = "row";
+        }
+        else if (UserSession.LoggedInUserLevelId.Trim() == "50" || UserSession.LoggedInUserLevelId.Trim() == "55") //bwfl
+        {
+            css = "hide";
+        } 
+}
     <link href="/Content/DateCalender/jquery-ui.css" rel="stylesheet" />
     <script src="/Content/DateCalender/jquery-ui.js"></script>
 
@@ -140,8 +141,8 @@
             </div>
         </div>
 
-    }
-    <script type="text/javascript">
+
+        <script type="text/javascript">
     function Validation()
     {
         document.getElementById("txtBatchNo").value = document.getElementById("txtBatchNo").value.trim();
@@ -165,71 +166,72 @@
         var url = '@Url.Action("EditFinalBottelingPlan", "MasterForms", null)';
         window.location.href = url;
     }
-    </script>
-    <script type="text/javascript">
+        </script>
+        <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#txtDateofPlan").datepicker({
+            $(document).ready(function () {
+                $("#txtDateofPlan").datepicker({
 
-                dateFormat: "dd/mm/yy",
-                changeMonth: true,
-                changeYear: true,
-                minDate: '0d'
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: '0d'
+                });
             });
-        });
 
-        $('#ddlBrand').change(function () {
-            var BrandId = $('#ddlBrand').val();
-            if (BrandId != "-1") {
-                BrandChange(BrandId);
-            }
-        });
-
-        function BrandChange(BrandId) {
-            $.ajax({
-                url: '../MasterForms/GetBrandDetailsForDDl',
-                data: { 'BrandId': BrandId },
-                datatype: "json",
-                type: "GET",
-                success: function (data) {
-                    var res = data.split(",");
-                    //document.getElementById("txtLiquorType").value = res[0];
-                    document.getElementById("txtLicenseType").value = res[1];
-                    document.getElementById("txtLicenseNo").value = res[2];
-                    document.getElementById("txtBottleInCase").value = res[3];
-                    document.getElementById("txtQuantityInBottle").value = res[4];
-                    document.getElementById("txtStrength").value = res[5];
-                    document.getElementById("txtState").value = res[6];
-
-                    var BBTBrandID = document.getElementById("hfBBTBrandId").value;
-
-                    if (BrandId != -1 && BBTBrandID != -1) {
-                        if (BBTBrandID != BrandId) {
-                            alert("Invalid Selection. BBT has different Brand");
-                        }
-                    }
-
-                },
-                error: function (data) {
-                    alert("Error in GetBrandDetailsForDDl Loading");
+            $('#ddlBrand').change(function () {
+                var BrandId = $('#ddlBrand').val();
+                if (BrandId != "-1") {
+                    BrandChange(BrandId);
                 }
             });
-        }
-        function Calculation() {
-            var NoofCase = document.getElementById("txtNoOfCase").value;
-            if (NoofCase == "") {
-                alert("Please Select Brand First");
-                return;
-            }
-            var txtBottleInCase = document.getElementById("txtBottleInCase").value;
-            if (NoofCase != null && NoofCase != '' && txtBottleInCase != null && txtBottleInCase != '') {
-                var Quantity = document.getElementById("txtQuantityInBottle").value;
 
-                var lblBulkLitre = (parseFloat(NoofCase) * parseFloat(txtBottleInCase) * parseFloat(Quantity)) / 1000;
-                var TotalUnit = NoofCase * txtBottleInCase;
-                document.getElementById("lblBulkLitre").value = lblBulkLitre;
-                document.getElementById("lblTotalUnitQuantity").value = TotalUnit;
+            function BrandChange(BrandId) {
+                $.ajax({
+                    url: '../MasterForms/GetBrandDetailsForDDl',
+                    data: { 'BrandId': BrandId },
+                    datatype: "json",
+                    type: "GET",
+                    success: function (data) {
+                        var res = data.split(",");
+                        //document.getElementById("txtLiquorType").value = res[0];
+                        document.getElementById("txtLicenseType").value = res[1];
+                        document.getElementById("txtLicenseNo").value = res[2];
+                        document.getElementById("txtBottleInCase").value = res[3];
+                        document.getElementById("txtQuantityInBottle").value = res[4];
+                        document.getElementById("txtStrength").value = res[5];
+                        document.getElementById("txtState").value = res[6];
+
+                        var BBTBrandID = document.getElementById("hfBBTBrandId").value;
+
+                        if (BrandId != -1 && BBTBrandID != -1) {
+                            if (BBTBrandID != BrandId) {
+                                alert("Invalid Selection. BBT has different Brand");
+                            }
+                        }
+
+                    },
+                    error: function (data) {
+                        alert("Error in GetBrandDetailsForDDl Loading");
+                    }
+                });
             }
-        }
-    </script>
+            function Calculation() {
+                var NoofCase = document.getElementById("txtNoOfCase").value;
+                if (NoofCase == "") {
+                    alert("Please Select Brand First");
+                    return;
+                }
+                var txtBottleInCase = document.getElementById("txtBottleInCase").value;
+                if (NoofCase != null && NoofCase != '' && txtBottleInCase != null && txtBottleInCase != '') {
+                    var Quantity = document.getElementById("txtQuantityInBottle").value;
+
+                    var lblBulkLitre = (parseFloat(NoofCase) * parseFloat(txtBottleInCase) * parseFloat(Quantity)) / 1000;
+                    var TotalUnit = NoofCase * txtBottleInCase;
+                    document.getElementById("lblBulkLitre").value = lblBulkLitre;
+                    document.getElementById("lblTotalUnitQuantity").value = TotalUnit;
+                }
+            }
+        </script>
+    }
 

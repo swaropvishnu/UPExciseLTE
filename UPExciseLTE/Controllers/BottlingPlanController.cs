@@ -12,7 +12,7 @@ using UPExciseLTE.Models;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
@@ -23,7 +23,7 @@ namespace UPExciseLTE.Controllers
         {
             BottelingPlan BP = new BottelingPlan();
             ViewBag.Msg = TempData["Message"];
-            ViewBag.Brand = CommonBL.fillBrand("S");
+            ViewBag.Brand = CommonBL.fillBWFLBrand("S");
             ViewBag.Msg = TempData["Message"];
             if (Request.QueryString["A"] != null && Request.QueryString["A"].ToString().Trim() != string.Empty)
             {
@@ -34,6 +34,7 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult BottelingPlan(BottelingPlan BP)
         {
+           
             try
             {
                 BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);

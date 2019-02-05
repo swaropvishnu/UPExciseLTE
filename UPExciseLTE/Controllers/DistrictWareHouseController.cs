@@ -18,7 +18,7 @@ using UPExciseLTE.Filters;
 namespace UPExciseLTE.Controllers
 {
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     //[HandleError(ExceptionType = typeof(DbUpdateException), View = "Error")]
@@ -39,6 +39,10 @@ namespace UPExciseLTE.Controllers
             if (Session["CaseCode"] !=null)
             {
                 dt = Session["CaseCode"] as DataTable;
+            }
+            else
+            {
+                dt.Columns.Add("CaseBarCode");
             }
             string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 2, dt);
             return str;

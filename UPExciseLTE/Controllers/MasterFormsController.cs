@@ -18,7 +18,7 @@ namespace UPExciseLTE.Controllers
 {
 
     [SessionExpireFilterAttribute]
-    //[NoCache]
+    [NoCache]
     [ChkAuthorization]
     [HandleError(View = "Error")]
     public class MasterFormsController : Controller
@@ -236,22 +236,94 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BrandMaster(BrandMaster B)
         {
+            if (ModelState.IsValid)
+            {
+                B.BrandName = B.BrandName.Trim();
+                B.AlcoholType = B.AlcoholType.Trim();
+                if (string.IsNullOrEmpty(B.BrandName))
+                {
+                    TempData["Message"] = "Please Enter Brand Name";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.AdditionalDuty<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Additional Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.AlcoholType))
+                {
+                    TempData["Message"] = "Please Enter Valid Alcohol Type";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.BrandRegistrationNumber))
+                {
+                    TempData["Message"] = "Please Enter Brand Registration Number";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ConsiderationFees<=0)
+                {
+                    TempData["Message"] = "Please Enter Brand Consideration Fees";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ExciseDuty <= 0)
+                {
+                    TempData["Message"] = "Please Enter Brand Excise Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceNo))
+                {
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceType))
+                {
+                    if (UserSession.LoggedInUserLevelId.Trim() == "15") //ex BreweryUnnao1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "BE";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "50") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "BWFL-2B";
+                        B.LiquorType = "BE";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "25") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "PD-2";
+                        B.LiquorType = "CL";
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "55") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "F" +
+                            "L";
+                    }
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
 
-            if (B.Remark == null)
-            {
-                //TempData["Message"] = "Please Submit Remark";
-                //return RedirectToAction("BrandMaster",new {BrandMaster=B });
-                B.Remark = "";
-            }
-            string str = new CommonDA().InsertUpdateBrand(B);
-            TempData["Message"] = str;
-            if (B.SPType == 1)
-            {
-                return RedirectToAction("BrandMaster");
+                if (B.Remark == null)
+                {
+                    //TempData["Message"] = "Please Submit Remark";
+                    //return RedirectToAction("BrandMaster",new {BrandMaster=B });
+                    B.Remark = "";
+                }
+                B.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+                string str = new CommonDA().InsertUpdateBrand(B);
+                TempData["Message"] = str;
+                if (B.SPType == 1)
+                {
+                    return RedirectToAction("BrandMaster");
+                }
+                else
+                {
+                    return RedirectToAction("BrandMaster", new { Code = B.brandID_incrpt });
+                }
             }
             else
             {
-                return RedirectToAction("BrandMaster", new { Code = B.brandID_incrpt });
+                TempData["Message"] = "Invalid Model";
+                return RedirectToAction("BrandMaster");
             }
         }
         [HttpGet]
@@ -636,6 +708,12 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
+            if (short.Parse(CommonBL.fillBrewery()[0].Value)!= UT.BreweryId)
+            {
+                TempData["Msg"] = "UT Id not Valid";
+                return RedirectToAction("UnitTank");
+            }
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
@@ -681,6 +759,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BottlingLine(BottlingLine RM)
         {
+            RM.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBottlingLine(RM);
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLine");
@@ -828,6 +907,7 @@ namespace UPExciseLTE.Controllers
                     ViewBag.Msg = TempData["Msg"].ToString();
                 }
             }
+             
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
@@ -839,6 +919,7 @@ namespace UPExciseLTE.Controllers
             bbt.BBTId = int.Parse(bbtId);
             bbt.Status = status;
             bbt.SP_Type = 4;
+
             string str = new CommonDA().InsertUpdateBBT(bbt);
 
             return str;
@@ -875,6 +956,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BBTMaster(BBTMaster BBT)
         {
+            BBT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             var str = new CommonDA().InsertUpdateBBT(BBT);
             TempData["Message"] = str;
             return RedirectToAction("BBTMaster");
@@ -1050,12 +1132,15 @@ namespace UPExciseLTE.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string ReceiveGatePass(string GatePassId, string DamageBottles)
+        public string ReceiveGatePass(string GatePassId)
         {
             DataTable dt = new DataTable();
             if (Session["CaseCode"] != null)
             {
                 dt = Session["CaseCode"] as DataTable;
+            }
+            else {
+                dt.Columns.Add("CaseBarCode");
             }
             string str = new CommonDA().ReceiveGatePass(long.Parse(GatePassId.Trim()), 1, dt);
             return str;
