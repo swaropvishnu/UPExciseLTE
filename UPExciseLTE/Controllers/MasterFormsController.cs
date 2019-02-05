@@ -262,12 +262,12 @@ namespace UPExciseLTE.Controllers
                 }
                 if (B.ConsiderationFees<=0)
                 {
-                    TempData["Message"] = "Please Enter Brand Consideration Fees";
+                    TempData["Message"] = "Please Enter Valid Brand Consideration Fees";
                     return RedirectToAction("BrandMaster");
                 }
                 if (B.ExciseDuty <= 0)
                 {
-                    TempData["Message"] = "Please Enter Brand Excise Duty";
+                    TempData["Message"] = "Please Enter Valid Brand Excise Duty";
                     return RedirectToAction("BrandMaster");
                 }
                 if (string.IsNullOrEmpty(B.LicenceNo))
@@ -281,27 +281,100 @@ namespace UPExciseLTE.Controllers
                     {
                         B.LicenceType = "FL-3";
                         B.LiquorType = "BE";
+                        if (B.Strength < 0 && B.Strength>10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
                     }
                     else if (UserSession.LoggedInUserLevelId.Trim() == "50") // ex BWFLLucknow1
                     {
                         B.LicenceType = "BWFL-2B";
                         B.LiquorType = "BE";
+                        if (B.Strength < 0 && B.Strength > 10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
                     }
                     else if (UserSession.LoggedInUserLevelId.Trim() == "25") // ex BWFLLucknow1
                     {
                         B.LicenceType = "PD-2";
                         B.LiquorType = "CL";
+                        if (B.Strength != 25 || B.Strength != 36 || B.Strength != decimal.Parse("42.80"))
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
                     }
                     else if (UserSession.LoggedInUserLevelId.Trim() == "55") // ex BWFLLucknow1
                     {
                         B.LicenceType = "FL-3";
-                        B.LiquorType = "F" +
-                            "L";
+                        B.LiquorType = "FL";
+                        if (B.Strength < 0 && B.Strength > 10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
                     }
                     TempData["Message"] = "Please Enter Brand Licence No";
                     return RedirectToAction("BrandMaster");
                 }
-
+                if (B.MaxRetPrice<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Optimum Retailer Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.MRP <= 0)
+                {
+                    TempData["Message"] = "Please Enter Valid MRP";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.OriginalRetPrice <= 0)
+                {
+                    TempData["Message"] = "Please Enter Original Retail Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.PackagingType))
+                {
+                    TempData["Message"] = "Please Select Brand Packaging Type";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.QuantityInBottleML<=0 && B.QuantityInBottleML > 50000)
+                {
+                    TempData["Message"] = "Please Enter Valid Capacity of Bottle/ Can (in ml.)";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.QuantityInCase<0 && B.QuantityInCase >999)
+                {
+                    TempData["Message"] = "Please Enter Valid Quantity In Case";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.RetMargin < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid Retail Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.RetMargin < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid Retail Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.WHMargin< 0)
+                {
+                    TempData["Message"] = "Please Enter Valid WholeSale Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.WHPrice < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid WholeSale Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.XFactoryPrice < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid XFactory Price";
+                    return RedirectToAction("BrandMaster");
+                }
                 if (B.Remark == null)
                 {
                     //TempData["Message"] = "Please Submit Remark";
