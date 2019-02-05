@@ -278,7 +278,7 @@
                                         <label class="control-label">Box-Size (Number of Bottles / Cans)<b style="color:red; font-weight:800">*</b></label>
                                     }
                                     <div>
-                                        @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "5" })
+                                        @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "3" })
                                     </div>
                                 </div>
                                 <div class="form-group   col-md-4">
@@ -399,15 +399,15 @@
                                         </tr>
                                         <tr>
                                             <td style="width:10%">@Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "lblXFactoryPrice", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.ConsiderationFees, new { @id = "lblConsiderationFees", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.WHMargin, new { @id = "lblWHMargin", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.WHPrice, new { @id = "lblWHPrice", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.RetMargin, new { @id = "lblRetMargin", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.MaxRetPrice, new { @id = "lblMaxRetPrice", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.MRP, new { @id = "lblMRP", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "lblAdditionalDuty", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.ExciseDuty, new { @id = "lblExciseDuty", @class = "form-control", @readonly = "true" })</td>
-                                            <td style="width:10%">@Html.TextBoxFor(m => m.OriginalRetPrice, new { @id = "lblOriginalRetPrice", @class = "form-control", @readonly = "true" })</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.ConsiderationFees, new { @id = "lblConsiderationFees", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.WHMargin, new { @id = "lblWHMargin", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.WHPrice, new { @id = "lblWHPrice", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.RetMargin, new { @id = "lblRetMargin", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.MaxRetPrice, new { @id = "lblMaxRetPrice", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.MRP, new { @id = "lblMRP", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.AdditionalDuty, new { @id = "lblAdditionalDuty", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.ExciseDuty, new { @id = "lblExciseDuty", @class = "form-control"})</td>
+                                            <td style="width:10%">@Html.TextBoxFor(m => m.OriginalRetPrice, new { @id = "lblOriginalRetPrice", @class = "form-control"})</td>
                                         </tr>
                                     </table>
                                 }

@@ -11,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+
     <script type="text/javascript">
         var form = $('#__AjaxAntiForgeryForm');
         var token = $('input[name="__RequestVerificationToken"]', form).val();

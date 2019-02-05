@@ -636,6 +636,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
