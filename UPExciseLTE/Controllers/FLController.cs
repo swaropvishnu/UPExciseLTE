@@ -40,6 +40,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReceiverMaster(StorageVATFL UT)
         {
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateStorageVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATFL");
@@ -90,6 +91,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult StorageVATFL(StorageVATFL UT)
         {
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateStorageVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("StorageVATFL");
@@ -122,6 +124,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BlendingVATFL(BlendingVATFL UT)
         {
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBlendingVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("BlendingVATFL");
@@ -154,6 +157,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BottelingVATFL(BottelingVATFL UT)
         {
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBottelingVATFL(UT);
             TempData["Msg"] = str;
             return RedirectToAction("BottelingVATFL");
@@ -197,7 +201,7 @@ namespace UPExciseLTE.Controllers
                 ViewBag.Msg = "Invalid Date. Please use dd/MM/yyyy format.";
                 return View(BP);
             }
-
+             
             string str = new CommonDA().InsertUpdatePlanFL(BP);
             TempData["Message"] = str;
             if (BP.Type == 1)
@@ -441,6 +445,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BottlingLineFL(BottlingLineFL RM)
         {
+            RM.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBottlingLineFL(RM);
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLineFL");

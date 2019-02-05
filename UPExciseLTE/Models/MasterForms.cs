@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UPExciseLTE.Filters;
+
 namespace UPExciseLTE.Models
 {
     #region DynamicMenu
@@ -52,6 +54,7 @@ namespace UPExciseLTE.Models
     public class BrandMaster
     {
         [Display(Name = "Brand Id")]
+        
         public int BrandId { get; set; } = -1;
         public string brandID_incrpt { get; set; } = "";
         [Display(Name = "Brewery Id")]
@@ -67,6 +70,7 @@ namespace UPExciseLTE.Models
         [Display(Name = "Brand Registration Number")]
         public string BrandRegistrationNumber { get; set; } = "";
         [Display(Name = "Strength of Alcohol(%)")]
+        [Range(0,100, ErrorMessage = "Range can be only in 0 to 100")]
         public decimal Strength { get; set; } = 0;
         [Display(Name = "Strength of Alcohol")]
         public string AlcoholType { get; set; } = "";
@@ -79,28 +83,40 @@ namespace UPExciseLTE.Models
         [Display(Name = "Excise Tin")]
         public string ExciseTin { get; set; } = "";
         [Display(Name = "XFactory Price")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal XFactoryPrice { get; set; } = 0;
         [Display(Name = "Consideration Fees")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal ConsiderationFees { get; set; } = 0;
         [Display(Name = "WholeSale Margin")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal WHMargin { get; set; } = 0;
         [Display(Name = "Max WholeSale Price")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal WHPrice { get; set; } = 0;
         [Display(Name = "Retailer Margin")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal RetMargin { get; set; } = 0;
         [Display(Name = "Optimum Retailer  Price")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal MaxRetPrice { get; set; } = 0;
         [Display(Name = "Additional Consideration Fees")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal AdditionalDuty { get; set; } = 0;
         [Display(Name = "WholeSale Cost Price")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal OriginalRetPrice { get; set; } = 0;
         [Display(Name = "Total Consideration Fees")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal ExciseDuty { get; set; } = 0;
         [Display(Name = "MRP")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public decimal MRP { get; set; } = 0;
         [Display(Name = "Box-Size (Number of Bottles / Cans)")]
+        [Range(0, 999, ErrorMessage = "Range can be only in 0 to 999")]
         public int QuantityInCase { get; set; } = 0;
         [Display(Name = "Capacity of Bottle/ Can (in ml.)")]
+        [Range(0, 5000, ErrorMessage = "Range can be only in 0 to 5000")]
         public int QuantityInBottleML { get; set; } = 650;
         [Display(Name = "Packaging Type")]
         public string PackagingType { get; set; } = "";
@@ -126,11 +142,13 @@ namespace UPExciseLTE.Models
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; } = -1;
         [Display(Name = "Plan Date")]
+        [DateAttribute]
         public DateTime DateOfPlan { get; set; } = DateTime.Now;
         [Display(Name = "Plan Date")]
         public string DateOfPlan1 { get; set; } = DateTime.Now.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
         [Display(Name = "Batch No")]
         public string BatchNo { get; set; } = "";
+        [Range(0, 50000, ErrorMessage = "Range can be only in 0 to 50000")]
         [Display(Name = "Number Of Cases")]
         public int NumberOfCases { get; set; } = 0;
         [Display(Name = "Mapped Unmapped")]
@@ -153,6 +171,7 @@ namespace UPExciseLTE.Models
         public string Brand { get; set; }
         [Display(Name = "Strength of Alcohol")]
         public string Strength { get; set; }
+        [Range(0, 50000, ErrorMessage = "Range can be only in 0 to 50000")]
         [Display(Name = "BBT Bulk Litre")]
         public decimal BBTBulkLitre { get; set; } = 0;
         public string Status { get; set; }

@@ -34,6 +34,7 @@ namespace UPExciseLTE.Controllers
         [HttpPost]
         public ActionResult BottelingPlan(BottelingPlan BP)
         {
+           
             try
             {
                 BP.DateOfPlan = CommonBL.Setdate(BP.DateOfPlan1);
