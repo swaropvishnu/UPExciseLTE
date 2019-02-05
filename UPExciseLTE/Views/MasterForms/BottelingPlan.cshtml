@@ -83,7 +83,7 @@
                                     <label class="control-label">Brand<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BrandId, (IEnumerable<SelectListItem>)ViewBag.Brand, new { @id = "ddlBrand", @class = "form-control" })
 
-                                    @Html.ValidationMessageFor(m => m.BrandId);
+                                    @Html.ValidationMessageFor(m => m.BrandId)
 
 
                                 </div>
@@ -93,7 +93,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BBTId, (IEnumerable<SelectListItem>)ViewBag.BBT, new { @id = "ddlBBT", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.BBTId);
+                                    @Html.ValidationMessageFor(m => m.BBTId)
 
 
                                 </div>
@@ -101,7 +101,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Tank Balance</label>
                                     @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBalance", @class = "form-control", @required = "required", @readonly = "true" })
-                                    @Html.ValidationMessageFor(m => m.BBTBulkLitre);
+                                    @Html.ValidationMessageFor(m => m.BBTBulkLitre)
 
                                 </div>
                                 <div class="form-group col-md-4">
@@ -119,7 +119,7 @@
                                 <div class="form-group col-md-4" style="display:none">
                                     <label class="control-label">Bottling Line<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.BottlingLineId, (IEnumerable<SelectListItem>)ViewBag.BottlingLine, new { @id = "ddlBottlingLineId", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.BottlingLineId);
+                                    @Html.ValidationMessageFor(m => m.BottlingLineId)
 
                                 </div>
                             </div>
@@ -129,14 +129,14 @@
                                     <label class="control-label">For Mapped/ Unmapped Data<b style="color:red; font-weight:800">*</b></label>
                                     @Html.DropDownListFor(m => m.MappedOrNot, new List<SelectListItem> { new SelectListItem { Text = "Mapped", Value = "1", Selected = true }, new SelectListItem { Text = "UnMapped", Value = "0" } }, new { @id = "ddlMaped", @class = "form-control" })
 
-                                    @Html.ValidationMessageFor(m => m.MappedOrNot);
+                                    @Html.ValidationMessageFor(m => m.MappedOrNot)
 
 
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand License Type</label>
                                     @Html.TextBoxFor(m => m.LicenceType, new { @id = "txtLicenseType", @class = "form-control", @required = "required", @readonly = "true" })
-                                    @Html.ValidationMessageFor(m => m.LicenceType);
+                                    @Html.ValidationMessageFor(m => m.LicenceType)
 
                                 </div>
                                 <div class="form-group col-md-4">
@@ -147,7 +147,7 @@
                                     <label class="control-label">State</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.State, new { @id = "txtState", @class = "form-control", @required = "required", @readonly = "true" })
-                                        @Html.ValidationMessageFor(m => m.State);
+                                        @Html.ValidationMessageFor(m => m.State)
 
                                     </div>
                                 </div>
@@ -157,14 +157,14 @@
                                     <label class="control-label">Number of Case<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.NumberOfCases, new { @id = "txtNoOfCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @onkeyUp = "Calculation();", @maxlength = 5 })
 
-                                    @Html.ValidationMessageFor(m => m.NumberOfCases);
+                                    @Html.ValidationMessageFor(m => m.NumberOfCases)
 
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label" id="lblBoxQuantity">Box-Size (Number of Bottles / Cans)</label>
                                     @Html.TextBoxFor(m => m.QunatityInCaseExport, new { @id = "txtBottleInCase", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true", @onkeyUp = "Calculation();" })
 
-                                    @Html.ValidationMessageFor(m => m.QunatityInCaseExport);
+                                    @Html.ValidationMessageFor(m => m.QunatityInCaseExport)
 
 
                                 </div>
@@ -172,7 +172,7 @@
                                     <label class="control-label">Capacity of Bottle/ Can (in ml.)</label>
                                     @Html.TextBoxFor(m => m.BottleCapacity, new { @id = "txtQuantityInBottle", @class = "form-control", @required = "required", @onkeyPress = "return IsNumeric(event);", @readonly = "true" })
 
-                                    @Html.ValidationMessageFor(m => m.BottleCapacity);
+                                    @Html.ValidationMessageFor(m => m.BottleCapacity)
 
 
                                 </div>
@@ -181,20 +181,20 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Strength of Alcohol</label>
                                     @Html.TextBoxFor(m => m.Strength, new { @id = "txtStrength", @class = "form-control", @required = "required", @readonly = "true" }) @*Mild or Strong not show percent*@
-                                    @Html.ValidationMessageFor(m => m.Strength);
+                                    @Html.ValidationMessageFor(m => m.Strength)
 
 
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bulk Litre</label>
                                     @Html.TextBoxFor(m => m.BulkLitre, new { @id = "lblBulkLitre", @class = "form-control", @required = "required", @readonly = "true" })
-                                    @Html.ValidationMessageFor(m => m.BulkLitre);
+                                    @Html.ValidationMessageFor(m => m.BulkLitre)
 
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Total Unit (Cans/Bottles)</label>
                                     @Html.TextBoxFor(m => m.TotalUnitQuantity, new { @id = "lblTotalUnitQuantity", @class = "form-control", @required = "required", @readonly = "true" })
-                                    @Html.ValidationMessageFor(m => m.TotalUnitQuantity);
+                                    @Html.ValidationMessageFor(m => m.TotalUnitQuantity)
 
                                 </div>
                             </div>

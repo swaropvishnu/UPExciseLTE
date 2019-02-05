@@ -205,7 +205,7 @@
 
                                         <div>
                                             @Html.DropDownListFor(m => m.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @id = "ddlState", @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.StateId);
+                                            @Html.ValidationMessageFor(m => m.StateId)
 
                                         </div>
                                 </div>
@@ -213,21 +213,21 @@
                                     <label class="control-label">Brewery</label>
                                     <div>
                                         @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
-                                        @Html.ValidationMessageFor(m => m.BreweryId);
+                                        @Html.ValidationMessageFor(m => m.BreweryId)
 
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(m => m.BrandName, new { @id = "txtBrandName", @class = "form-control", @required = "required", @MaxLength = "150" })
-                                    @Html.ValidationMessageFor(m => m.BrandName);
+                                    @Html.ValidationMessageFor(m => m.BrandName)
 
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Brand Registration Number<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.BrandRegistrationNumber, new { @id = "txtBrandRegistrationNumber", @class = "form-control", @required = "required", @MaxLength = "50" })
-                                        @Html.ValidationMessageFor(m => m.BrandRegistrationNumber);
+                                        @Html.ValidationMessageFor(m => m.BrandRegistrationNumber)
 
 
                                     </div>
@@ -243,14 +243,14 @@
                                             <div class="form-group  col-md-6">
                                                 @Html.DropDownListFor(m => m.Strength, new List<SelectListItem> { new SelectListItem { Text = "--Select--", Value = "-1" }, new SelectListItem { Text = "25%", Value = "25.000" }, new SelectListItem { Text = "36%", Value = "36.000" }, new SelectListItem { Text = "42.8%", Value = "42.800" } }, new { @id = "ddlAlcoholStrength", @class = "form-control " })
 
-                                                @Html.ValidationMessageFor(m => m.Strength);
+                                                @Html.ValidationMessageFor(m => m.Strength)
 
 
                                             </div>
                                             <div class="form-group  col-md-6">
                                                 @Html.DropDownListFor(m => m.AlcoholType, new List<SelectListItem> { new SelectListItem { Text = "Spiced", Value = "Spiced" }, new SelectListItem { Text = "Plain", Value = "Plain" } }, new { @id = "ddlAlcoholType", @class = "form-control " })
 
-                                                @Html.ValidationMessageFor(m => m.AlcoholType);
+                                                @Html.ValidationMessageFor(m => m.AlcoholType)
 
 
                                             </div>
@@ -266,7 +266,7 @@
                                             <div class="form-group  col-md-6">
                                                 @Html.TextBoxFor(m => m.AlcoholType, new { @id = "txtAlcoholType", @class = "form-control", @readonly = "true" }) @*5 Mild And above Strong*@
 
-                                                @Html.ValidationMessageFor(m => m.AlcoholType);
+                                                @Html.ValidationMessageFor(m => m.AlcoholType)
 
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@
                                     <div>
                                         @Html.DropDownListFor(m => m.LiquorType, (IEnumerable<SelectListItem>)ViewBag.LiquorType, new { @id = "ddlLiquorType", @class = "form-control" })
 
-                                        @Html.ValidationMessageFor(m => m.LiquorType);
+                                        @Html.ValidationMessageFor(m => m.LiquorType)
 
                                     </div>
                                 </div>
@@ -286,7 +286,7 @@
                                     <div>
                                         @Html.DropDownListFor(m => m.LicenceType, (IEnumerable<SelectListItem>)ViewBag.LicenseType, new { @id = "ddlLicense", @class = "form-control" })
 
-                                        @Html.ValidationMessageFor(m => m.LiquorType);
+                                        @Html.ValidationMessageFor(m => m.LiquorType)
 
 
                                     </div>
@@ -298,7 +298,7 @@
                                     <div>
                                         @Html.TextBoxFor(m => m.LicenceNo, new { @id = "txtLicenseNo", @class = "form-control", @required = "required", @MaxLength = "50" })
 
-                                        @Html.ValidationMessageFor(m => m.LicenceNo);
+                                        @Html.ValidationMessageFor(m => m.LicenceNo)
 
                                     </div>
                                 </div>
@@ -315,7 +315,7 @@
                                             @Html.TextBoxFor(m => m.QuantityInCase, new { @id = "txtQuantityInCase", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @MaxLength = "3" })
 
 
-                                            @Html.ValidationMessageFor(m => m.QuantityInCase);
+                                            @Html.ValidationMessageFor(m => m.QuantityInCase)
 
 
                                         </div>
@@ -336,7 +336,7 @@
                                             @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleMLCL", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @Value = "200", @readonly = "true", @MaxLength = "5" })
 
 
-                                            @Html.ValidationMessageFor(m => m.QuantityInBottleML);
+                                            @Html.ValidationMessageFor(m => m.QuantityInBottleML)
 
                                         </div>
                                     }
@@ -346,7 +346,7 @@
                                             @Html.TextBoxFor(m => m.QuantityInBottleML, new { @id = "txtQuantityInBottleML", @class = "form-control", @onkeyPress = "return IsNumeric(event);", @required = "required", @style = "display:none", @MaxLength = "5" })
 
 
-                                            @Html.ValidationMessageFor(m => m.QuantityInBottleML);
+                                            @Html.ValidationMessageFor(m => m.QuantityInBottleML)
 
 
                                             @Html.DropDownList("ddlQuantityInBottleML", new List<SelectListItem> { new SelectListItem { Text = "650", Value = "650", Selected = true }, new SelectListItem { Text = "500", Value = "500" }, new SelectListItem { Text = "330", Value = "330" } }, new { @id = "ddlQuantityInBottleML", @class = "form-control" })
@@ -366,14 +366,14 @@
                                         {
                                             @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Bottle", Value = "Bottle" }, new SelectListItem { Text = "Pet", Value = "Pet" } }, new { @id = "ddlPackagingType", @class = "form-control" })
 
-                                            @Html.ValidationMessageFor(m => m.PackagingType);
+                                            @Html.ValidationMessageFor(m => m.PackagingType)
 
                                         }
                                         else
                                         {
                                             @Html.DropDownListFor(m => m.PackagingType, new List<SelectListItem> { new SelectListItem { Text = "Can", Value = "Can" }, new SelectListItem { Text = "Bottle", Value = "Bottle" } }, new { @id = "ddlPackagingType", @class = "form-control" })
 
-                                            @Html.ValidationMessageFor(m => m.PackagingType);
+                                            @Html.ValidationMessageFor(m => m.PackagingType)
 
 
                                         }
@@ -393,14 +393,14 @@
                                             {
                                                 @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5", @readonly = "true" })
 
-                                                @Html.ValidationMessageFor(m => m.XFactoryPrice);
+                                                @Html.ValidationMessageFor(m => m.XFactoryPrice)
 
 
                                             }
                                             else
                                             {
                                                 @Html.TextBoxFor(m => m.XFactoryPrice, new { @id = "txtXFactoryPrice", @class = "form-control", onkeypress = "return isfloatNumber(this, event);", @required = "required", @MaxLength = "5" })
-                                                @Html.ValidationMessageFor(m => m.XFactoryPrice);
+                                                @Html.ValidationMessageFor(m => m.XFactoryPrice)
 
                                             }
                                         </div>
@@ -409,7 +409,7 @@
                                     <label class="control-label">Remark</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.Remark, new { @id = "txtRemarks", @class = "form-control", @MaxLength = "100" })
-                                        @Html.ValidationMessageFor(m => m.Remark);
+                                        @Html.ValidationMessageFor(m => m.Remark)
 
                                     </div>
                                 </div>

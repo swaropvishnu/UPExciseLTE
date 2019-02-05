@@ -42,7 +42,7 @@
                                     <label class="control-label">Bottling Tank Name<b style="color:red; font-weight:800">*</b></label>
                                     <div>
                                         @Html.TextBoxFor(m => m.BBTName, new { @id = "txtBBTName", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Name", @MaxLength = "150" })
-                                        @Html.ValidationMessageFor(m => m.BBTName);
+                                        @Html.ValidationMessageFor(m => m.BBTName) 
                                     </div>
                                 </div>
                                 <div class="form-group  col-md-4">
@@ -50,14 +50,14 @@
                                     <div>
                                         @Html.TextBoxFor(m => m.BBTCapacity, new { @id = "txtBBTCapacity", @class = "form-control", @required = "required", @Placeholder = "Bottling Tank Capacity", @onkeyPress = "return IsNumeric(event);", @MaxLength = "5" })
 
-                                        @Html.ValidationMessageFor(m => m.BBTCapacity);
+                                        @Html.ValidationMessageFor(m => m.BBTCapacity) 
                                     </div>
                                 </div>
                                 <div class="form-group  col-md-4 display-hide">
                                     <label class="control-label">Opening Balance(BL)</label>
                                     <div>
                                         @Html.TextBoxFor(m => m.BBTBulkLitre, new { @id = "txtBBTBulkLitre", @class = "form-control", @required = "required", @Placeholder = "Bottling TankOpening Balance", @onkeypress = "return isfloatNumber(this, event);" })
-                                        @Html.ValidationMessageFor(m => m.BBTBulkLitre);
+                                        @Html.ValidationMessageFor(m => m.BBTBulkLitre) 
 
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     <div>
                                         @Html.DropDownListFor(m => m.UnitId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
 
-                                        @Html.ValidationMessageFor(m => m.UnitId);
+                                        @Html.ValidationMessageFor(m => m.UnitId) 
 
 
                                     </div>
