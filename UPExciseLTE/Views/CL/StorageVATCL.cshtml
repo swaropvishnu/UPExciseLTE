@@ -31,7 +31,7 @@
         return true;
     }
 </script>
-@using (Html.BeginForm("StorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("StorageVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "frmStorageVATCL" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -57,7 +57,7 @@
                                     <label class="control-label">Storage Vat Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.StorageVATCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
                                 </div>
-                               
+
                                 <div class="form-group col-md-4" style="display:none;">
                                     <label class="control-label">Brewery</label>
                                     <div>
@@ -87,46 +87,45 @@
                                 {
                                     foreach (StorageVATCL dr in (ViewBag.StorageVATList as List<StorageVATCL>))
                                     {
-                                <tr>
-                                    <td>@dr.StorageVATId</td>
-                                    <td>@dr.StorageVATName</td>
-                                    <td>@dr.StorageVATCapacity</td>
-                                    @if (dr.Status == "A")
-                                    {
-                                        <td>Active</td>
+                                        <tr>
+                                            <td>@dr.StorageVATId</td>
+                                            <td>@dr.StorageVATName</td>
+                                            <td>@dr.StorageVATCapacity</td>
+                                            @if (dr.Status == "A")
+                                            {
+                                                <td>Active</td>
 
-                                    }
-                                    else
-                                    {
-                                        <td>Deactive</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Deactive</td>
 
-                                    }
-                                    @if (dr.IsApproved == true)
-                                    {
-                                        if (dr.Status == "A")
-                                        {
-                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_StorageVATId','D')">Deactive</button></td>
-                                        }
-                                        else
-                                        {
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','A')">Active</button></td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                            <td>
-                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button>
-                                                <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Approved</button>
+                                            }
+                                            @if (dr.IsApproved == true)
+                                            {
+                                                if (dr.Status == "A")
+                                                {
+                                                    //UTId, Status, isApproved, StorageVATCapacity
+                                                    <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="stausUpdate('@dr.Enc_StorageVATId','D')">Deactive</button></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><button type="button" class="btn green" onclick="stausUpdate('@dr.Enc_StorageVATId','A')">Active</button></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_StorageVATId','E')">Edit</button>
+                                                    <button type="button" class="btn blue" onclick="stausUpdate('@dr.Enc_StorageVATId','')">Approve</button>
+                                                </td>
 
-
-                                            </td>
-
-                                    }
-                                    
+                                            }
 
 
 
-                                </tr>
+
+                                        </tr>
                                     }
                                 }
                             </table>
@@ -138,31 +137,61 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status) {
+    var form = $("#frmStorageVATCL");
+    var token = $("input[name= '__RequestVerificationToken']", form).val();
+
+    function UnitTankDetails(UTId, Status, isApproved, StorageVATCapacity, type) {
+
         if (Status == 'E') {
             window.location.assign("../CL/StorageVATCL?A=" + UTId)
             //window.location("UnitTank?A=" + UTId);
         }
-        else {
+        //else {
+        //    $.ajax({
+        //        url: '/CL/UpdateStorageVAT',
+        //        data: { 'UTId': UTId, 'Status': Status, 'isApproved': isApproved, 'StorageVATCapacity': StorageVATCapacity, '__RequestVerificationToken': token },
+        //        datatype: "json",
+        //        type: "POST",  // changed POST from GET
+        //        success: function (data) {
+
+        //            //alert(data);
+        //            window.location = "../CL/StorageVATCL";
+        //        },
+        //        error: function (data) {
+        //            alert("Error in Storage Vat Loading");
+        //        }
+        //    });
+        //}
+    }
+
+    function stausUpdate(UTId, Status) {
+
+        var x = confirm("Are you sure to update status ?");
+        if (x) {
             $.ajax({
-                url: '/CL/UpdateStorageVAT',
-                data: { 'UTId': UTId, 'Status': Status },
-                datatype: "json",
-                type: "GET",
+                url: '/CL/UpdateStorageVATJson',
+                data: { 'UTId': UTId, 'Status': Status, '__RequestVerificationToken': token },
+                type: "POST",
                 success: function (data) {
                     alert(data);
-                    window.location = "../CL/StorageVATCL";
+                    location.reload();
                 },
                 error: function (data) {
                     alert("Error in Storage Vat Loading");
                 }
             });
         }
+      
     }
+
+
+
+
+
     function Validate() {
         document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();
         document.getElementById("txtUnitTankCapacity").value = document.getElementById("txtUnitTankCapacity").value.trim();
-         
+
         if (document.getElementById("txtUnitTank").value == "") {
             alert("Please Enter Storage Vat Name");
             document.getElementById("txtUnitTank").focus();

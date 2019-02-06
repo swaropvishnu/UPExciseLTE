@@ -61,6 +61,18 @@ namespace UPExciseLTE.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string UpdateReciverStatus(Reciver Objform)
+        {
+            Objform.IsApproved = true;
+            Objform.sptype = "1";
+
+            return new CommonDA().InsertUpdateReciver(Objform);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult InsertUpdateTankTranfer(TankTransferDetail Objform)
@@ -98,16 +110,42 @@ namespace UPExciseLTE.Controllers
             return RedirectToAction("StorageVATCL");
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public string UpdateStorageVAT(string UTId, string Status)
+       [ValidateAntiForgeryToken]
+        public string UpdateStorageVAT(string UTId, string Status,bool isApproved,decimal StorageVATCapacity,short Type)
         {
             StorageVATCL UT = new StorageVATCL();
             UT.StorageVATId = int.Parse(new Crypto().Decrypt(UTId));
             UT.Status = Status;
-            UT.Type = 3;
+            UT.Type = Type;
+            UT.StorageVATCapacity = StorageVATCapacity;
+            UT.IsApproved = isApproved;
             string str = new CommonDA().InsertUpdateStorageVAT(UT);
             return str;
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult UpdateStorageVATJson(string UTId, string Status)
+        {
+            StorageVATCL UT = new StorageVATCL();
+            UT.StorageVATId = int.Parse(new Crypto().Decrypt(UTId));
+            UT.Status = Status;
+
+            switch(Status)
+            {
+                case "A":
+                case "D":
+                    UT.Type = 3;
+                    break;
+                default :
+                    UT.Type = 5;
+                    break;
+            }
+
+            string str = new CommonDA().InsertUpdateStorageVAT(UT);
+            return Json(str,JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult BlendingVATCL()
         {
@@ -135,8 +173,22 @@ namespace UPExciseLTE.Controllers
         {
             BlendingVATCL UT = new BlendingVATCL();
             UT.BlendingVATId = int.Parse(new Crypto().Decrypt(UTId));
-            UT.Status = Status;
-            UT.Type = 3;
+
+           
+
+            switch (Status)
+            {
+                case "A":
+                case "D":
+                    UT.Status = Status;
+                    UT.Type = 3;
+                    break;
+                default:
+                    UT.Status = "A";
+                    UT.Type = 5;
+                    break;
+            }
+
             string str = new CommonDA().InsertUpdateBlendingVAT(UT);
             return str;
         }
@@ -168,7 +220,19 @@ namespace UPExciseLTE.Controllers
             BottelingVATCL UT = new BottelingVATCL();
             UT.BottelingVATId = int.Parse(new Crypto().Decrypt(UTId));
             UT.Status = Status;
-            UT.Type = 3;
+         
+            switch(Status)
+            {
+                case "A":
+                case "D":
+                    UT.Type = 3;
+                    break;
+                default:
+                    UT.Type = 5;
+                    UT.Status = "A";
+                    break;
+            }
+
             string str = new CommonDA().InsertUpdateBottelingVAT(UT);
             return str;
         }
@@ -460,7 +524,18 @@ namespace UPExciseLTE.Controllers
             BottlingLineCL BL = new BottlingLineCL();
             BL.BottlingLineId = int.Parse(new Crypto().Decrypt(UTId));
             BL.BottlingLineStatus = Status;
-            BL.Type = 3;
+           switch(Status)
+            {
+                case "A":
+                case "D":
+                    BL.Type = 3;
+                    break;
+                default:
+                    BL.Type = 5;
+
+                    break;
+            }
+         
             string str = new CommonDA().InsertUpdateBottlingLineCL(BL);
             return str;
         }
