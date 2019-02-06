@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Bottling Line Name<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName" })
+                                    @Html.TextBoxFor(model => model.BottlingLineName, new { @class = "form-control", @id = "txtBottlingLineName",@MaxLength=50 })
 
                                     @Html.ValidationMessageFor(m => m.BottlingLineName)
 
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Capactity (No Of Case Per Hour)<b style="color:red; font-weight:800">*</b></label>
-                                    @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);" })
+                                    @Html.TextBoxFor(model => model.CapacityNoOfCasePerHour, new { @class = "form-control", @id = "txtCapacityNoOfCasePerHour", @onkeyPress = "return IsNumeric(event);",@MaxLength=6 })
 
                                     @Html.ValidationMessageFor(m => m.CapacityNoOfCasePerHour)
 
