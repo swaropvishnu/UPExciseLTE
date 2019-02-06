@@ -45,33 +45,39 @@
                                     @Html.DisplayNameFor(model => model.Status1)
                                 </th>
                                 <th>Edit </th>
-                                <th>Delete</th>
+                                <th></th>
                             </tr>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BBTId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BBTName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BBTCapacity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BBTBulkLitre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status1)
+                                </td>
+
+                                @if (item.IsApproved == false)
+                                {
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.BBTId)
+                                        <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster", "MasterForms", new { Code = item.BBTId_Encript })'">Edit</button>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.BBTName)
+                                        <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="ApprovedBBTDetails('@item.BBTId')">Approved</button>
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BBTCapacity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BBTBulkLitre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Status1)
-                                    </td>
-                                    <td>
-                                        @if (item.IsApproved == false)
-                                        {
-                                            <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="window.location.href='@Url.Action("BBTMaster", "MasterForms", new { Code = item.BBTId_Encript })'">Edit</button>
-                                            <button type="button" class="btn green" style="background-color: #659be0; color:white" onclick="ApprovedBBTDetails('@item.BBTId')">Approved</button>
-                                        }
-                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
                                     <td>
                                         @if (item.Status == "A")
                                         {
@@ -82,6 +88,7 @@
                                             <button type="button" class="btn green" onclick="DeleteBBT('@item.BBTId','A')">Active</button>
                                         }
                                     </td>
+                                    }
                                 </tr>
                             }
                         </table>

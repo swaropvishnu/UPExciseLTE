@@ -236,22 +236,167 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BrandMaster(BrandMaster B)
         {
-
-            if (B.Remark == null)
+            if (ModelState.IsValid)
             {
-                //TempData["Message"] = "Please Submit Remark";
-                //return RedirectToAction("BrandMaster",new {BrandMaster=B });
-                B.Remark = "";
-            }
-            string str = new CommonDA().InsertUpdateBrand(B);
-            TempData["Message"] = str;
-            if (B.SPType == 1)
-            {
-                return RedirectToAction("BrandMaster");
+                B.BrandName = B.BrandName.Trim();
+                B.AlcoholType = B.AlcoholType.Trim();
+                if (string.IsNullOrEmpty(B.BrandName))
+                {
+                    TempData["Message"] = "Please Enter Brand Name";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.AdditionalDuty<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Additional Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.AlcoholType))
+                {
+                    TempData["Message"] = "Please Enter Valid Alcohol Type";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.BrandRegistrationNumber))
+                {
+                    TempData["Message"] = "Please Enter Brand Registration Number";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ConsiderationFees<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Brand Consideration Fees";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.ExciseDuty <= 0)
+                {
+                    TempData["Message"] = "Please Enter Valid Brand Excise Duty";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceNo))
+                {
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.LicenceType))
+                {
+                    if (UserSession.LoggedInUserLevelId.Trim() == "15") //ex BreweryUnnao1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "BE";
+                        if (B.Strength < 0 && B.Strength>10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "50") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "BWFL-2B";
+                        B.LiquorType = "BE";
+                        if (B.Strength < 0 && B.Strength > 10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "25") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "PD-2";
+                        B.LiquorType = "CL";
+                        if (B.Strength != 25 || B.Strength != 36 || B.Strength != decimal.Parse("42.80"))
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
+                    }
+                    else if (UserSession.LoggedInUserLevelId.Trim() == "55") // ex BWFLLucknow1
+                    {
+                        B.LicenceType = "FL-3";
+                        B.LiquorType = "FL";
+                        if (B.Strength < 0 && B.Strength > 10)
+                        {
+                            TempData["Message"] = "Please Enter Valid Strength";
+                            return RedirectToAction("BrandMaster");
+                        }
+                    }
+                    TempData["Message"] = "Please Enter Brand Licence No";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.MaxRetPrice<=0)
+                {
+                    TempData["Message"] = "Please Enter Valid Optimum Retailer Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.MRP <= 0)
+                {
+                    TempData["Message"] = "Please Enter Valid MRP";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.OriginalRetPrice <= 0)
+                {
+                    TempData["Message"] = "Please Enter Original Retail Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (string.IsNullOrEmpty(B.PackagingType))
+                {
+                    TempData["Message"] = "Please Select Brand Packaging Type";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.QuantityInBottleML<=0 && B.QuantityInBottleML > 50000)
+                {
+                    TempData["Message"] = "Please Enter Valid Capacity of Bottle/ Can (in ml.)";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.QuantityInCase<0 && B.QuantityInCase >999)
+                {
+                    TempData["Message"] = "Please Enter Valid Quantity In Case";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.RetMargin < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid Retail Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.RetMargin < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid Retail Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.WHMargin< 0)
+                {
+                    TempData["Message"] = "Please Enter Valid WholeSale Margin";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.WHPrice < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid WholeSale Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.XFactoryPrice < 0)
+                {
+                    TempData["Message"] = "Please Enter Valid XFactory Price";
+                    return RedirectToAction("BrandMaster");
+                }
+                if (B.Remark == null)
+                {
+                    //TempData["Message"] = "Please Submit Remark";
+                    //return RedirectToAction("BrandMaster",new {BrandMaster=B });
+                    B.Remark = "";
+                }
+                B.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
+                string str = new CommonDA().InsertUpdateBrand(B);
+                TempData["Message"] = str;
+                if (B.SPType == 1)
+                {
+                    return RedirectToAction("BrandMaster");
+                }
+                else
+                {
+                    return RedirectToAction("BrandMaster", new { Code = B.brandID_incrpt });
+                }
             }
             else
             {
-                return RedirectToAction("BrandMaster", new { Code = B.brandID_incrpt });
+                TempData["Message"] = "Invalid Model";
+                return RedirectToAction("BrandMaster");
             }
         }
         [HttpGet]
@@ -636,6 +781,12 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UnitTank(UnitTank UT)
         {
+            if (short.Parse(CommonBL.fillBrewery()[0].Value)!= UT.BreweryId)
+            {
+                TempData["Msg"] = "UT Id not Valid";
+                return RedirectToAction("UnitTank");
+            }
+            UT.BreweryId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateUnitTank(UT);
             TempData["Msg"] = str;
             return RedirectToAction("UnitTank");
@@ -681,6 +832,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BottlingLine(BottlingLine RM)
         {
+            RM.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             string str = new CommonDA().InsertUpdateBottlingLine(RM);
             TempData["Msg"] = str;
             return RedirectToAction("BottlingLine");
@@ -828,6 +980,7 @@ namespace UPExciseLTE.Controllers
                     ViewBag.Msg = TempData["Msg"].ToString();
                 }
             }
+             
             bbtFormations = new CommonBL().GetBBTMasterList(-1, "Z");
             return View(bbtFormations);
         }
@@ -839,6 +992,7 @@ namespace UPExciseLTE.Controllers
             bbt.BBTId = int.Parse(bbtId);
             bbt.Status = status;
             bbt.SP_Type = 4;
+
             string str = new CommonDA().InsertUpdateBBT(bbt);
 
             return str;
@@ -875,6 +1029,7 @@ namespace UPExciseLTE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BBTMaster(BBTMaster BBT)
         {
+            BBT.UnitId = short.Parse(CommonBL.fillBrewery()[0].Value);
             var str = new CommonDA().InsertUpdateBBT(BBT);
             TempData["Message"] = str;
             return RedirectToAction("BBTMaster");

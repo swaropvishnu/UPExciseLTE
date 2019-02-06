@@ -11,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+
     <script type="text/javascript">
         var form = $('#__AjaxAntiForgeryForm');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -71,10 +72,15 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Name<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.UnitTankName, new { @class = "form-control", @id = "txtUnitTank", @MaxLength = 100 })
+
+                                    @Html.ValidationMessageFor(m => m.UnitTankName)
+
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Unit Tank Capacity (in Bulk Litre)<b style="color:red; font-weight:800">*</b></label>
                                     @Html.TextBoxFor(model => model.UnitTankCapacity, new { @class = "form-control", @id = "txtUnitTankCapacity", @required = "required", @MaxLength = "5", onkeypress = "return isfloatNumber(this, event);" })
+                                    @Html.ValidationMessageFor(m => m.UnitTankCapacity)
+
                                 </div>
                                 @*<div class="form-group col-md-4">
                                         <label class="control-label">Unit Tank Bulk Litre</label>
@@ -88,6 +94,8 @@
                                     <label class="control-label">Brewery</label>
                                     <div>
                                         @Html.DropDownListFor(m => m.BreweryId, (IEnumerable<SelectListItem>)ViewBag.Brewery, new { @id = "ddlBrewery", @class = "form-control", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.BreweryId)
+
                                     </div>
                                 </div>
                             </div>
