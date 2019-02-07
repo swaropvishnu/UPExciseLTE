@@ -1997,6 +1997,8 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(SV.Status.Trim())));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", SV.IsApproved));
+                
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Type", SV.Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
@@ -2077,6 +2079,9 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("Status", filter_bad_chars_rep(SV.Status.Trim())));
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", SV.IsApproved));
+
+
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
                 cmd.Parameters.Add(new SqlParameter("Type", SV.Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
@@ -2137,6 +2142,7 @@ namespace UPExciseLTE.DAL
                 cmd.Parameters.Add(new SqlParameter("user_id", UserSession.LoggedInUserId));
                 cmd.Parameters.Add(new SqlParameter("user_ip", IpAddress));
                 cmd.Parameters.Add(new SqlParameter("mac", MacAddress));
+                cmd.Parameters.Add(new SqlParameter("IsApproved", RM.IsApproved));
                 cmd.Parameters.Add(new SqlParameter("Type", RM.Type));
                 cmd.Parameters.Add(new SqlParameter("Msg", ""));
                 cmd.Parameters["Msg"].Direction = ParameterDirection.InputOutput;
@@ -2446,7 +2452,7 @@ namespace UPExciseLTE.DAL
                 parameters.Add(new SqlParameter("status", status));
                 ds = SqlHelper.ExecuteDataset(Connection.Conn(UserSession.dbAddress), CommandType.StoredProcedure, "CL_proc_GetBottlingLine", parameters.ToArray());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ds = null;
             }

@@ -1319,13 +1319,14 @@ namespace UPExciseLTE.BLL
                 UT.StorageVATBulkLitre = decimal.Parse(dr["StorageVATBulkLiter"].ToString().Trim());
                 UT.StorageVATStrength = decimal.Parse(dr["StorageVATStrength"].ToString().Trim());
                 UT.Enc_StorageVATId = new Crypto().Encrypt(dr["StorageVATId"].ToString().Trim());
-                UT.SpiritType = (dr["SpiritType"].ToString().Trim());
+               // UT.SpiritType = (dr["SpiritType"].ToString().Trim());
                 UT.SpiritTypeID = short.Parse(dr["SpiritTypeId"].ToString().Trim());
                 UT.Status = (dr["Status"].ToString().Trim());
                 UT.StorageVATAlcoholicLiter = decimal.Parse(dr["StorageVATAlcoholicLiter"].ToString().Trim());
                 UT.Type = 2;
+                UT.IsApproved = bool.Parse(dr["IsApproved"].ToString().Trim());
             }
-            catch (Exception) { }
+            catch (Exception e) { }
             return UT;
         }
         public BlendingVATCL GetBlendingVAT(short BreweryId, short BlendingVATId, string status)
@@ -1374,9 +1375,10 @@ namespace UPExciseLTE.BLL
                 UT.SpiritType = (dr["SpiritType"].ToString().Trim());
                 UT.BatchNo = (dr["BatchNo"].ToString().Trim());
                 UT.BlendingVATAlcoholicLiter = decimal.Parse(dr["BlendingVATAlcoholicLiter"].ToString().Trim());
+                UT.IsApproved = bool.Parse(dr["IsApproved"].ToString().Trim());
 
             }
-            catch (Exception) { }
+            catch (Exception e) { }
             return UT;
         }
         public BottelingVATCL GetBottelingVAT(short UnitId, short BottelingVATId, string status)
@@ -1425,8 +1427,9 @@ namespace UPExciseLTE.BLL
                 UT.SpiritType = (dr["SpiritType"].ToString().Trim());
                 UT.BottelingVATAlcoholicLiter = decimal.Parse(dr["BottelingVATAlcoholicLiter"].ToString().Trim());
                 UT.BatchNo = (dr["BatchNo"].ToString().Trim());
+                UT.IsApproved =bool.Parse(dr["IsApproved"].ToString().Trim());
             }
-            catch (Exception) { }
+            catch (Exception e) { }
             return UT;
         }
         
@@ -1548,8 +1551,9 @@ namespace UPExciseLTE.BLL
                 RW.CapacityNoOfCasePerHour = int.Parse((dr["CapacityNoOfCasePerHour"].ToString().Trim()));
                 RW.Type = 2;
                 RW.EncBottlingLineId = new Crypto().Encrypt(dr["BottlingLineId"].ToString().Trim());
+                RW.IsApproved =bool.Parse((dr["IsApproved"].ToString().Trim()));
             }
-            catch (Exception) { }
+            catch (Exception e) { }
             return RW;
         }
         public List<BottlingLineCL> GetBottlingLineDetailsCL(short BreweryId, int BBTID, int LineId, string status)

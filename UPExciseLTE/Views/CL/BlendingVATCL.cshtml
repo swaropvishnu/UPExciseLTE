@@ -31,7 +31,7 @@
         return true;
     }
 </script>
-@using (Html.BeginForm("BlendingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BlendingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -93,22 +93,33 @@
                                 {
                                     foreach (BlendingVATCL dr in (ViewBag.BlendingVATCL as List<BlendingVATCL>))
                                     {
-                                        <tr>
-                                            <td>@dr.BlendingVATId</td>
-                                            <td>@dr.BlendingVATName</td>
-                                            <td>@dr.BlendingVATCapacity</td>
-                                            @*<td>@dr.BlendingVATBulkLitre</td>*@
-                                            @*<td>@dr.BlendingVATStrength</td>*@
-                                            <td><button type="button" class="btn green" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','E')">Edit</button></td>
-                                            @if (dr.Status == "A")
+                                <tr>
+                                    <td>@dr.BlendingVATId</td>
+                                    <td>@dr.BlendingVATName</td>
+                                    <td>@dr.BlendingVATCapacity</td>
+                                    @*<td>@dr.BlendingVATBulkLitre</td>*@
+                                    @*<td>@dr.BlendingVATStrength</td>*@
+                                    @if (dr.IsApproved)
+                                    {
+                                        <td>
+                                            @if (dr.Status.Equals("A"))
                                             {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','D')">Deactive</button></td>
+                                            <button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="updateBlendingVATCLStatus('@dr.Enc_BlendingVATId','D')">Deactive</button>
                                             }
                                             else
                                             {
-                                                <td><button type="button" class="btn green" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','A')">Active</button></td>
+                                            <button type="button" class="btn green" onclick="updateBlendingVATCLStatus('@dr.Enc_BlendingVATId','A')">Active</button>
                                             }
-                                        </tr>
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                        <td>
+                                            <button type="button" class="btn green" onclick="BlendingVATDetails('@dr.Enc_BlendingVATId','E')">Edit</button>
+                                            <button type="button" class="btn blue" onclick="updateBlendingVATCLStatus('@dr.Enc_BlendingVATId','')">Approve</button>
+                                        </td>
+                                        }
+                                    </tr>
                                     }
                                 }
                             </table>
@@ -120,26 +131,51 @@
     </div>
 }
 <script type="text/javascript">
-    function BlendingVATDetails(UTId, Status) {
-        if (Status == 'E') {
-            window.location.assign("../CL/BlendingVATCL?A=" + UTId)
-            //window.location("BlendingVAT?A=" + UTId);
-        }
-        else {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    function updateBlendingVATCLStatus(UTId, Status)
+    {
+        var x = confirm("Are you sure to update status ?");
+        if (x) {
             $.ajax({
                 url: '/CL/UpdateBlendingVAT',
-                data: { 'UTId': UTId, 'Status': Status },
+                data: { 'UTId': UTId, 'Status': Status, '__RequestVerificationToken': token },
                 datatype: "json",
-                type: "GET",
+                type: "POST",
                 success: function (data) {
                     alert(data);
-                    window.location = "../CL/BlendingVATCL";
+                    location.reload();
                 },
                 error: function (data) {
                     alert("Error in Blending VAT Loading");
                 }
             });
         }
+
+    }
+   
+
+    function BlendingVATDetails(UTId, Status) {
+        if (Status == 'E') {
+            window.location.assign("../CL/BlendingVATCL?A=" + UTId)
+            //window.location("BlendingVAT?A=" + UTId);
+        }
+        //else {
+        //    $.ajax({
+        //        url: '/CL/UpdateBlendingVAT',
+        //        data: { 'UTId': UTId, 'Status': Status },
+        //        datatype: "json",
+        //        type: "GET",
+        //        success: function (data) {
+        //            alert(data);
+        //            window.location = "../CL/BlendingVATCL";
+        //        },
+        //        error: function (data) {
+        //            alert("Error in Blending VAT Loading");
+        //        }
+        //    });
+        //}
     }
     function Validate() {
         document.getElementById("txtBlendingVAT").value = document.getElementById("txtBlendingVAT").value.trim(); 

@@ -31,7 +31,7 @@
         return true;
     }
 </script>
-@using (Html.BeginForm("BottelingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottelingVATCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -93,22 +93,34 @@
                                 {
                                     foreach (BottelingVATCL dr in (ViewBag.BottelingVATCL as List<BottelingVATCL>))
                                     {
-                                        <tr>
-                                            <td>@dr.BottelingVATId</td>
-                                            <td>@dr.BottelingVATName</td>
-                                            <td>@dr.BottelingVATCapacity</td>
-                                            @*<td>@dr.UnitTankBulkLitre</td>*@
-                                            @*<td>@dr.UnitTankStrength</td>*@
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','E')">Edit</button></td>
-                                            @if (dr.Status == "A")
-                                            {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','D')">Deactive</button></td>
-                                            }
-                                            else
-                                            {
-                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','A')">Active</button></td>
-                                            }
-                                        </tr>
+                                <tr>
+                                    <td>@dr.BottelingVATId</td>
+                                    <td>@dr.BottelingVATName</td>
+                                    <td>@dr.BottelingVATCapacity</td>
+                                    @*<td>@dr.UnitTankBulkLitre</td>*@
+                                    @*<td>@dr.UnitTankStrength</td>*@
+
+                                    @if (dr.IsApproved)
+                                    {
+                                        if (dr.Status == "A")
+                                        {
+                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UpdateStatusBottlingVATCL('@dr.Enc_BottelingVATId','D')">Deactive</button></td>
+                                        }
+                                        else
+                                        {
+                                            <td><button type="button" class="btn green" onclick="UpdateStatusBottlingVATCL('@dr.Enc_BottelingVATId','A')">Active</button></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <button type="button" class="btn green" onclick="UnitTankDetails('@dr.Enc_BottelingVATId','E')">Edit</button>
+                                            <button type="button" class="btn blue" onclick="UpdateStatusBottlingVATCL('@dr.Enc_BottelingVATId','')">Approve</button>
+                                        </td>
+                                    }
+
+
+                                </tr>
                                     }
                                 }
                             </table>
@@ -120,26 +132,51 @@
     </div>
 }
 <script type="text/javascript">
-    function UnitTankDetails(UTId, Status) {
-        if (Status == 'E') {
-            window.location.assign("../CL/BottelingVATCL?A=" + UTId)
-            //window.location("UnitTank?A=" + UTId);
-        }
-        else {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    function UpdateStatusBottlingVATCL(UTId, Status) {
+        var x = confirm("Are you sure to update status ?");
+        if (x) {
             $.ajax({
                 url: '/CL/UpdateBottelingVAT',
-                data: { 'UTId': UTId, 'Status': Status },
+                data: { 'UTId': UTId, 'Status': Status, '__RequestVerificationToken': token },
                 datatype: "json",
-                type: "GET",
+                type: "POST",
                 success: function (data) {
                     alert(data);
-                    window.location = "../CL/BottelingVATCL";
+                    location.reload();
                 },
                 error: function (data) {
                     alert("Error in Botteling VAT Loading");
                 }
             });
         }
+    }
+
+  
+
+
+    function UnitTankDetails(UTId, Status) {
+        if (Status == 'E') {
+            window.location.assign("../CL/BottelingVATCL?A=" + UTId)
+            //window.location("UnitTank?A=" + UTId);
+        }
+        //else {
+        //    $.ajax({
+        //        url: '/CL/UpdateBottelingVAT',
+        //        data: { 'UTId': UTId, 'Status': Status },
+        //        datatype: "json",
+        //        type: "GET",
+        //        success: function (data) {
+        //            alert(data);
+        //            window.location = "../CL/BottelingVATCL";
+        //        },
+        //        error: function (data) {
+        //            alert("Error in Botteling VAT Loading");
+        //        }
+        //    });
+        //}
     }
     function Validate() {
         document.getElementById("txtUnitTank").value = document.getElementById("txtUnitTank").value.trim();

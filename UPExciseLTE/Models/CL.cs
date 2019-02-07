@@ -124,6 +124,8 @@ namespace UPExciseLTE.Models
         public string Status { get; set; } = "";
         public string BatchNo { get; set; } = "";
         public int Type { get; set; } = 1;
+
+        public bool IsApproved { get; set; }
     }
     public class BottelingVATCL
     {
@@ -152,6 +154,9 @@ namespace UPExciseLTE.Models
         public string BatchNo { get; set; } = "";
         public string Status { get; set; } = "";
         public int Type { get; set; } = 1;
+
+        public bool IsApproved { get; set; }
+
     }
     public class BottlingLineCL
     {
@@ -166,6 +171,9 @@ namespace UPExciseLTE.Models
         public string BottlingLineName { get; set; } = "";
         public string BottlingLineStatus { get; set; } = "A";
         public int Type { get; set; } = 1;
+
+        public bool IsApproved { get; set; }
+
     }
 
     public class BottelingPlanCL

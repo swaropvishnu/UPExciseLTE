@@ -101,12 +101,12 @@
 
                                                 if (dr.Status == "A")
                                                 {
-                                                    <td><button type="button" class="btn btn-danger" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','D','@dr.UnitId',@dr.IsApproved)">Deactive</button></td>
+                                                    <td><button type="button" class="btn btn-danger" onclick="updateReciverMasterStatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','D','@dr.UnitId')">Deactive</button></td>
 
                                                 }
                                                 else
                                                 {
-                                                    <td><button type="button" class="btn green" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId',@dr.IsApproved)">Active</button></td>
+                                                    <td><button type="button" class="btn green" onclick="updateReciverMasterStatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId')">Active</button></td>
 
                                                 }
                                             }
@@ -115,9 +115,8 @@
                                                 <td>
                                                     <button type="button" class="btn green" onclick="update('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername')">Edit</button>
 
-                                                    <button type="button" class="btn blue" onclick="updatestatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','@dr.Status','@dr.UnitId',true)">Approved</button>
+                                                    <button type="button" class="btn blue" onclick="updateReciverMasterStatus('@dr.ReciverID','@dr.ReciverCapacity','@dr.Recivername','A','@dr.UnitId')">Approve</button>
                                                 </td>
-
 
                                             }
 
@@ -192,8 +191,8 @@
             document.getElementById("txtreciver").focus();
         }
 
-        function updatestatus(ReciverID, ReciverCapacity, Recivername, status, UnitID, approved) {
 
+        function updateReciverMasterStatus(ReciverID, ReciverCapacity, Recivername, status, UnitID) {
             var x = confirm("Are you sure?");
             if (x) {
                 var Objform = {
@@ -202,9 +201,39 @@
                     "Recivername": Recivername,
                     "ReciverCapacity": ReciverCapacity,
                     "Status": status,
+                };
+                $.ajax({
+                    url: '/CL/UpdateReciverStatus',
+                    data: { Objform: Objform, __RequestVerificationToken: token },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        alert(data);
+                        location.reload();
+                    },
+
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        }
+
+        function updatestatus(ReciverID, ReciverCapacity, Recivername, status, UnitID, approved) {
+
+            var x = confirm("Are you sure?");
+            if (x)
+            {
+                var Objform = {
+                    "ReciverID": ReciverID,
+                    "UnitID": UnitID,
+                    "Recivername": Recivername,
+                    "ReciverCapacity": ReciverCapacity,
+                    "Status": status,
                     "sptype": '1',
                     "IsApproved": approved
-                }
+                };
                 $.ajax({
                     url: '/CL/InsertUpdateReciver',
                     data: { Objform: Objform, __RequestVerificationToken: token },
@@ -214,19 +243,21 @@
 
                         alert(data);
                         location.reload();
+                    },
+
+                    error: function (xhr) {
+                        alert(xhr.responseText);
                     }
                 });
-                return true;
-            }
-            else {
-            }
-            return false;
+               // return true;
+           }
+           
+           // return false;
 
         }
 
         function Reset() {
             document.getElementById("hfReciverID").value = "-1";
-
             document.getElementById("txtreciver").value = "";
             document.getElementById("txtcapacity").value = "0";
             $('#btnSubmit').html("Save");

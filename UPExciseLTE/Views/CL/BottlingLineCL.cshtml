@@ -8,7 +8,7 @@
     }
 }
 
-@using (Html.BeginForm("BottlingLineCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("BottlingLineCL", "CL", FormMethod.Post, new { @enctype = "multipart/form-data", id = "__AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="page-content-inner">
@@ -66,23 +66,33 @@
                                 {
                                     foreach (BottlingLineCL dr in (ViewBag.UnitTank as List<BottlingLineCL>))
                                     {
-                                        <tr>
-                                            <td>@dr.BottlingLineId</td>
-                                          
-                                            <td>@dr.BottlingLineName</td>
-                                            <td>@dr.LineType1</td>
-                                            <td>@dr.CapacityNoOfCasePerHour</td>
-                                            <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button></td>
+                                <tr>
+                                    <td>@dr.BottlingLineId</td>
 
-                                            @if (dr.BottlingLineStatus == "A")
-                                            {
-                                                <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UnitTankDetails('@dr.EncBottlingLineId','D')">Deactive</button></td>
-                                            }
-                                            else
-                                            {
-                                                <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','A')">Active</button></td>
-                                            }
-                                        </tr>
+                                    <td>@dr.BottlingLineName</td>
+                                    <td>@dr.LineType1</td>
+                                    <td>@dr.CapacityNoOfCasePerHour</td>
+
+                                    @if (dr.IsApproved)
+                                    {
+
+                                        if (dr.BottlingLineStatus == "A")
+                                        {
+                                            <td><button type="button" class="btn danger" style="background-color:crimson; color:white" onclick="UpdateBottlingLineStatus('@dr.EncBottlingLineId','D')">Deactive</button></td>
+                                        }
+                                        else
+                                        {
+                                            <td><button type="button" class="btn green" onclick="UpdateBottlingLineStatus('@dr.EncBottlingLineId','A')">Active</button></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td><button type="button" class="btn green" onclick="UnitTankDetails('@dr.EncBottlingLineId','E')">Edit</button>
+                                        <button type="button" class="btn blue" onclick="UpdateBottlingLineStatus('@dr.EncBottlingLineId','')">Approve</button></td>
+                                    }
+
+
+                                </tr>
                                     }
                                 }
                             </table>
@@ -94,6 +104,30 @@
     </div>
 }
 <script type="text/javascript">
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+
+    function UpdateBottlingLineStatus(UTId, Status) {
+        var x = confirm("Are you sure to update status ?");
+        if (x) {
+            $.ajax({
+                url: '/CL/UpdateBottlingLineCL',
+                data: { 'UTId': UTId, 'Status': Status, '__RequestVerificationToken': token },
+                datatype: "json",
+                type: "POST",
+                success: function (data) {
+                    alert(data);
+                    location.reload();
+                },
+                error: function (data) {
+                    alert("Error in Bottling Line Loading");
+                }
+            });
+        }
+        
+    }
+
     function UnitTankDetails(UTId, Status) {
         if (Status == 'E') {
             window.location.assign("../CL/BottlingLineCL?A=" + UTId)
@@ -102,7 +136,7 @@
         else {
             $.ajax({
                 url: '/CL/UpdateBottlingLineCL',
-                data: { 'UTId': UTId, 'Status': Status },
+                data: { 'UTId': UTId, 'Status': Status, 'isApproved': isApproved, 'capacity': capacity, 'type': type, '__RequestVerificationToken': token },
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
