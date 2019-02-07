@@ -132,11 +132,13 @@ namespace UPExciseLTE.Controllers
         {
              
             List<FL21BrandMapp> lstFL21BrandMapp = (Session["lstFL21BrandMapp"] as List<FL21BrandMapp>);
-            if (lstFL21BrandMapp.Find(x => x.BrandId == int.Parse(BrandId)) != null)
+            if (lstFL21BrandMapp!=null)
             {
+                if (lstFL21BrandMapp.Find(x => x.BrandId == int.Parse(BrandId)) != null)
+                {
 
+                }
             }
-
             if (lstFL21BrandMapp==null)
             {
                lstFL21BrandMapp = new List<FL21BrandMapp>();
